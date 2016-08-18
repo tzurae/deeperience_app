@@ -1,0 +1,35 @@
+{
+  "extends": "standard",
+  "installedESLint": true,
+  "env": {
+    "browser": true
+  },
+  "plugins": [
+    "standard",
+    "promise",
+    "react"
+  ],
+  "globals": {
+    "NProgress": true,
+    "firebase": true,
+    "__webpackIsomorphicTools__": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "semi": ["error", "never"],
+    "max-len": [2, { "code": 120, "ignoreComments": true, "ignoreUrls": true }],
+    "space-before-function-paren": [2, "never"],
+    "comma-dangle": [2, "always-multiline"],
+    "handle-callback-err": 1,
+    "no-multi-spaces": 0,
+    "operator-linebreak": [2, "after"],
+    "no-unused-vars": [1, { "vars": "all", "args": "none" }],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
+  }
+}
