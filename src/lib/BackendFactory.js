@@ -8,12 +8,12 @@
 'use strict'
 
 import CONFIG from './config'
-import Parse from './Parse'
 import Hapi from './Hapi'
+import Firebase from './Firebase'
 
 export default function BackendFactory(token = null) {
-  if (CONFIG.backend.parse) {
-    return new Parse(token)
+  if (CONFIG.backend.firebase) {
+    return new Firebase(token)
   } else if (CONFIG.backend.hapiLocal || CONFIG.backend.hapiRemote) {
     return new Hapi(token)
   }
