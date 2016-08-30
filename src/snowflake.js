@@ -3,7 +3,6 @@
  *  # snowflake
  *  Snowflake ![snowflake](https://cloud.githubusercontent.com/assets/1282364/11599365/1a1c39d2-9a8c-11e5-8819-bc1e48b30525.png)
  */
-
 /**
  * ## imports
  *
@@ -183,8 +182,7 @@ export default function native(platform) {
 
               <Scene key="InitialLoginForm"
                      component={Register}
-                     type="replace"
-              />
+                     type="replace"/>
 
               <Scene key="Login"
                      component={Login}
@@ -199,8 +197,7 @@ export default function native(platform) {
                      type="replace"/>
 
               <Scene key="Subview"
-                     component={Subview}
-              />
+                     component={Subview}/>
 
               <Scene key="Tabbar"
                      tabs={true}

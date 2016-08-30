@@ -39,7 +39,7 @@ I18n.translations = Translations
 var LoginForm = React.createClass({
   /**
    * ## LoginForm class
-   *
+   * * fromType: Login
    * * form: the properties to set into the UI form
    * * value: the values to set in the input fields
    * * onChange: function to call when user enters text

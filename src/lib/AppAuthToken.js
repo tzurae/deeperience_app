@@ -20,7 +20,7 @@ export default class AppAuthToken {
    * set the key from the config
    */
   constructor() {
-    this.SESSION_TOKEN_KEY = CONFIG.PARSE.SESSION_TOKEN_KEY
+    this.SESSION_TOKEN_KEY = ''
   }
 
   /**

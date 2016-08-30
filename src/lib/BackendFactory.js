@@ -13,7 +13,7 @@ import Firebase from './Firebase'
 
 export default function BackendFactory(token = null) {
   if (CONFIG.backend.firebase) {
-    return new Firebase(token)
+    return new Firebase()
   } else if (CONFIG.backend.hapiLocal || CONFIG.backend.hapiRemote) {
     return new Hapi(token)
   }

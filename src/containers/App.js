@@ -16,6 +16,12 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 /**
+ * A CLI and OS X app for inspecting your React JS and React Native apps.
+ */
+
+import R from 'reactotron-react-native'
+
+/**
  * Immutable Map
  */
 import {Map} from 'immutable'
@@ -44,6 +50,7 @@ from 'react-native'
  */
 import Header from '../components/Header'
 
+R.log('authActions');
 /**
  * ## Actions
  * 3 of our actions will be available as ```actions```
@@ -53,6 +60,7 @@ const actions = [
   deviceActions,
   globalActions,
 ]
+
 
 /**
  *  Save that state
