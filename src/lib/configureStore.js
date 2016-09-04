@@ -15,6 +15,14 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 
 /**
+ * ## Imports
+ *
+ * redux saga
+ */
+import sagas from './Sagas'
+import sagaMiddleware from 'redux-saga'
+
+/**
 * ## Reducer
 * The reducer contains the 4 reducers from
 * device, global, auth, profile
@@ -27,6 +35,7 @@ import reducer from '../reducers'
  */
 const createStoreWithMiddleware = applyMiddleware(
   thunk
+  // sagaMiddleware(sagas)
 )(createStore)
 
 /**

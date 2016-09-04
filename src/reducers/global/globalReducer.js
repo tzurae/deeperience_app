@@ -11,13 +11,9 @@
  * formValidation for setting the form's valid flag
  */
 const {
-  SET_SESSION_TOKEN,
-
   GET_PROFILE_SUCCESS,
   SIGNUP_SUCCESS,
   LOGIN_SUCCESS,
-  SESSION_TOKEN_SUCCESS,
-
   LOGOUT_SUCCESS,
 
   GET_STATE,
@@ -39,12 +35,6 @@ export default function globalReducer(state = initialState, action) {
 
   switch (action.type) {
     /**
-     * ### Save the sessionToken
-     */
-    case SET_SESSION_TOKEN:
-      return state.set('sessionToken', action.payload)
-
-    /**
      * ### Save the payload in the store
      *
      * This payload is the ```currentUser``` object returned by
@@ -56,18 +46,10 @@ export default function globalReducer(state = initialState, action) {
     case GET_PROFILE_SUCCESS:
       return state.set('currentUser', action.payload)
 
-    case SESSION_TOKEN_SUCCESS:
-      return state.set('currentUser', action.payload.sessionToken)
-
     /**
      * ### Clear currentUser
-     *
-     *
-     *
-     *
      */
     case LOGOUT_SUCCESS:
-
       return state.set('currentUser', null)
 
     /**
@@ -124,6 +106,5 @@ export default function globalReducer(state = initialState, action) {
       return next
 
   }
-
   return state
 }

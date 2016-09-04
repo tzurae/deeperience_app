@@ -1,12 +1,9 @@
 import keyMirror from 'key-mirror'
 
 export default keyMirror({
+
   SET_PLATFORM: null,
   SET_VERSION: null,
-
-  SESSION_TOKEN_REQUEST: null,
-  SESSION_TOKEN_SUCCESS: null,
-  SESSION_TOKEN_FAILURE: null,
 
   DELETE_TOKEN_REQUEST: null,
   DELETE_TOKEN_SUCCESS: null,
@@ -22,6 +19,7 @@ export default keyMirror({
   LOGIN_REQUEST: null,
   LOGIN_SUCCESS: null,
   LOGIN_FAILURE: null,
+  LOGIN_SOCIAL: null,
 
   LOGOUT_REQUEST: null,
   LOGOUT_SUCCESS: null,
@@ -29,8 +27,6 @@ export default keyMirror({
 
   LOGGED_IN: null,
   LOGGED_OUT: null,
-
-  SET_SESSION_TOKEN: null,
 
   RESET_PASSWORD_REQUEST: null,
   RESET_PASSWORD_SUCCESS: null,

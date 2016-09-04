@@ -11,22 +11,11 @@
  * The actions supported
  */
 const {
-  SET_SESSION_TOKEN,
   SET_STORE,
   SET_STATE,
   GET_STATE,
 } = require('../../lib/constants').default
 
-/**
- * ## set the sessionToken
- *
- */
-export function setSessionToken(sessionToken) {
-  return {
-    type: SET_SESSION_TOKEN,
-    payload: sessionToken,
-  }
-}
 /**
  * ## set the store
  *

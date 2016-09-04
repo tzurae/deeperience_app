@@ -50,7 +50,6 @@ from 'react-native'
  */
 import Header from '../components/Header'
 
-R.log('authActions');
 /**
  * ## Actions
  * 3 of our actions will be available as ```actions```
@@ -131,7 +130,7 @@ let App = React.createClass({
     // Use a timer so App screen is displayed
     this.setTimeout(
       () => {
-        this.props.actions.getSessionToken()
+        this.props.actions.initAuth()
       },
       2500
     )
@@ -140,14 +139,13 @@ let App = React.createClass({
   render() {
     return (
       <View style={ styles.container }>
-	<Header isFetching={this.props.auth.form.isFetching}
+        <Header isFetching={this.props.auth.form.isFetching}
                 showState={this.props.global.showState}
                 currentState={this.props.global.currentState}
                 onGetState={this.props.actions.getState}
                 onSetState={this.props.actions.setState}
-	/>
-
-	<Text style={ styles.summary }>Snowflake {I18n.t('App.version')}:  {this.props.deviceVersion}</Text>
+        />
+        <Text style={ styles.summary }>Snowflake {I18n.t('App.version')}:  {this.props.deviceVersion}</Text>
       </View>
     )
   },

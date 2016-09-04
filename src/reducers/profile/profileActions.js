@@ -22,11 +22,9 @@ const {
 } = require('../../lib/constants').default
 
 /**
- * BackendFactory - base class for server implementation
- * AppAuthToken for localStorage sessionToken access
+ * apiFactory - base class for server implementation
  */
-const BackendFactory = require('../../lib/BackendFactory').default
-const AppAuthToken = require('../../lib/AppAuthToken').default
+import apiFactory from '../../api/apiFactory'
 
 /**
  * ## retreiving profile actions
@@ -52,22 +50,22 @@ export function getProfileFailure(json) {
  * ## State action controls which form is displayed to the user
  * as in login, register, logout or reset password
  */
-export function getProfile(sessionToken) {
-  return dispatch => {
-    dispatch(getProfileRequest())
-    // store or get a sessionToken
-    return new AppAuthToken().getSessionToken(sessionToken)
-      .then((token) => {
-        return BackendFactory(token).getProfile()
-      })
-      .then((json) => {
-        dispatch(getProfileSuccess(json))
-      })
-      .catch((error) => {
-        dispatch(getProfileFailure(error))
-      })
-  }
-}
+// export function getProfile(sessionToken) {
+//   return dispatch => {
+//     dispatch(getProfileRequest())
+//     // store or get a sessionToken
+//     return new AppAuthToken().getSessionToken(sessionToken)
+//       .then((token) => {
+//         return BackendFactory(token).getProfile()
+//       })
+//       .then((json) => {
+//         dispatch(getProfileSuccess(json))
+//       })
+//       .catch((error) => {
+//         dispatch(getProfileFailure(error))
+//       })
+//   }
+// }
 /**
  * ## State actions
  * controls which form is displayed to the user
@@ -103,27 +101,27 @@ export function profileUpdateFailure(json) {
  * the data as now persisted on Parse.com
  *
  */
-export function updateProfile(userId, username, email, sessionToken) {
-  return dispatch => {
-    dispatch(profileUpdateRequest())
-    return new AppAuthToken().getSessionToken(sessionToken)
-      .then((token) => {
-        return BackendFactory(token).updateProfile(userId,
-          {
-            username: username,
-            email: email,
-          }
-        )
-      })
-      .then(() => {
-        dispatch(profileUpdateSuccess())
-        dispatch(getProfile())
-      })
-      .catch((error) => {
-        dispatch(profileUpdateFailure(error))
-      })
-  }
-}
+// export function updateProfile(userId, username, email, sessionToken) {
+//   return dispatch => {
+//     dispatch(profileUpdateRequest())
+//     return new AppAuthToken().getSessionToken(sessionToken)
+//       .then((token) => {
+//         return BackendFactory(token).updateProfile(userId,
+//           {
+//             username: username,
+//             email: email,
+//           }
+//         )
+//       })
+//       .then(() => {
+//         dispatch(profileUpdateSuccess())
+//         dispatch(getProfile())
+//       })
+//       .catch((error) => {
+//         dispatch(profileUpdateFailure(error))
+//       })
+//   }
+// }
 /**
  * ## onProfileFormFieldChange
  *

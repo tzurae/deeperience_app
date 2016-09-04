@@ -1,12 +1,3 @@
-/**
- * # authActions.js
- *
- * All the request actions have 3 variations, the request, a success
- * and a failure. They all follow the pattern that the request will
- * set the ```isFetching``` to true and the whether it's successful or
- * fails, setting it back to false.
- *
- */
 'use strict'
 
 /**
@@ -15,13 +6,6 @@
  * The actions supported
  */
 const {
-  SESSION_TOKEN_REQUEST,
-  SESSION_TOKEN_SUCCESS,
-  SESSION_TOKEN_FAILURE,
-
-  DELETE_TOKEN_REQUEST,
-  DELETE_TOKEN_SUCCESS,
-
   LOGOUT,
   REGISTER,
   LOGIN,
@@ -34,6 +18,7 @@ const {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  LOGIN_SOCIAL,
 
   ON_AUTH_FORM_FIELD_CHANGE,
   SIGNUP_REQUEST,
@@ -49,13 +34,37 @@ const {
 /**
  * Project requirements
  */
-const BackendFactory = require('../../lib/BackendFactory').default
+const apiFactory = require('../../api/apiFactory').default
 
 import {Actions} from 'react-native-router-flux'
 
-const  AppAuthToken = require('../../lib/AppAuthToken').default
-
 const  _ = require('underscore')
+
+
+/**
+ *  ## Initialize user auth when app start running
+ */
+
+export function initAuth() {
+  return dispatch => {
+    return new apiFactory().initAuth()
+      .then(
+        user => {
+          if(user) {
+            dispatch(loginSuccess(user.json))
+            Actions.Tabbar()
+          }
+          else {
+            Actions.InitialLoginForm()
+          }
+        })
+      .catch(
+        error => {
+          dispatch(loginFailure(error))
+        }
+      )
+  }
+}
 
 /**
  * ## State actions
@@ -106,40 +115,15 @@ export function logoutFailure(error) {
     payload: error,
   }
 }
-/**
- * ## Login
- * After dispatching the logoutRequest, get the sessionToken
- * and call Parse
- *
- * When the response from Parse is received and it's valid
- * change the state to register and finish the logout
- *
- * But if the call to Parse fails, like expired token or
- * no network connection, just send the failure
- *
- * And if you fail due to an invalid sessionToken, be sure
- * to delete it so the user can log in.
- *
- * How could there be an invalid sessionToken?  Maybe they
- * haven't used the app for a long time.  Or they used another
- * device and logged out there.
- */
 export function logout() {
   return dispatch => {
     dispatch(logoutRequest())
-    return new AppAuthToken().getSessionToken()
-
-      .then((token) => {
-        return BackendFactory(token).logout()
-      })
-
+        return new apiFactory().logout()
       .then(() => {
         dispatch(loginState())
         dispatch(logoutSuccess())
-        dispatch(deleteSessionToken())
         Actions.InitialLoginForm()
       })
-
       .catch((error) => {
         dispatch(loginState())
         dispatch(logoutFailure(error))
@@ -176,135 +160,32 @@ export function signupFailure(error) {
     payload: error,
   }
 }
-/**
- * ## SessionToken actions
- */
-export function sessionTokenRequest() {
-  return {
-    type: SESSION_TOKEN_REQUEST,
-  }
-}
-export function sessionTokenRequestSuccess(token) {
-  return {
-    type: SESSION_TOKEN_SUCCESS,
-    payload: token,
-  }
-}
-export function sessionTokenRequestFailure(error) {
-  return {
-    type: SESSION_TOKEN_FAILURE,
-    payload: _.isUndefined(error) ? null : error,
-  }
-}
 
-/**
- * ## DeleteToken actions
- */
-export function deleteTokenRequest() {
-  return {
-    type: DELETE_TOKEN_REQUEST,
-  }
-}
-export function deleteTokenRequestSuccess() {
-  return {
-    type: DELETE_TOKEN_SUCCESS,
-  }
-}
-
-/**
- * ## Delete session token
- *
- * Call the AppAuthToken deleteSessionToken
- */
-export function deleteSessionToken() {
-  return dispatch => {
-    dispatch(deleteTokenRequest())
-    return new  AppAuthToken().deleteSessionToken()
-      .then(() => {
-        dispatch(deleteTokenRequestSuccess())
-      })
-  }
-}
-/**
- * ## Token
- * If AppAuthToken has the sessionToken, the user is logged in
- * so set the state to logout.
- * Otherwise, the user will default to the login in screen.
- */
-export function getSessionToken() {
-  return dispatch => {
-    dispatch(sessionTokenRequest())
-    return new AppAuthToken().getSessionToken()
-
-      .then((token) => {
-        if (token) {
-          dispatch(sessionTokenRequestSuccess(token))
-          dispatch(logoutState())
-          Actions.Tabbar()
-        } else {
-          dispatch(sessionTokenRequestFailure())
-          Actions.InitialLoginForm()
-        }
-      })
-
-      .catch((error) => {
-        dispatch(sessionTokenRequestFailure(error))
-        dispatch(loginState())
-        Actions.InitialLoginForm()
-      })
-  }
-}
-
-/**
- * ## saveSessionToken
- * @param {Object} response - to return to keep the promise chain
- * @param {Object} json - object with sessionToken
- */
-export function saveSessionToken(json) {
-  return new AppAuthToken().storeSessionToken(json)
-}
 /**
  * ## signup
  * @param {string} username - name of user
  * @param {string} email - user's email
  * @param {string} password - user's password
- *
- * Call Parse.signup and if good, save the sessionToken,
- * set the state to logout and signal success
- *
- * Otherwise, dispatch the error so the user can see
  */
 export function signup(username, email, password) {
   return dispatch => {
     dispatch(signupRequest())
-    return  BackendFactory().signup({
-      username: username,
+    return new apiFactory().signup({
       email: email,
       password: password,
     })
-
       .then((json) => {
-        return saveSessionToken(
-          Object.assign({}, json,
-            {
-              username: username,
-              email: email,
-            })
-        )
-
-          .then(() => {
+        apiFactory().writeDataBase('/users/' + json.uid, {name:'Rae',nickanme:'John'})
             dispatch(signupSuccess(
-              Object.assign({}, json,
-                {
-                  username: username,
-                  email: email,
-                }
-              )
+              {
+                uid:json.uid,
+                name:json.displayName,
+                email:json.email,
+              }
             ))
             dispatch(logoutState())
             // navigate to Tabbar
             Actions.Tabbar()
-          })
       })
       .catch((error) => {
         dispatch(signupFailure(error))
@@ -312,8 +193,10 @@ export function signup(username, email, password) {
   }
 }
 
+
+
 /**
- * ## Login actions
+ * ### Normal Login Actions
  */
 export function loginRequest() {
   return {
@@ -334,40 +217,45 @@ export function loginFailure(error) {
     payload: error,
   }
 }
-/**
- * ## Login
- * @param {string} username - user's name
- * @param {string} password - user's password
- *
- * After calling Backend, if response is good, save the json
- * which is the currentUser which contains the sessionToken
- *
- * If successful, set the state to logout
- * otherwise, dispatch a failure
- */
-
 export function login(username,  password) {
+
   return dispatch => {
     dispatch(loginRequest())
-    return BackendFactory().login({
+    return apiFactory().login({
       username: username,
       password: password,
     })
 
       .then(function(json) {
-        return saveSessionToken(json)
-          .then(function() {
             dispatch(loginSuccess(json))
             // navigate to Tabbar
             Actions.Tabbar()
-            dispatch(logoutState())
+            // dispatch(logoutState())
           })
-      })
       .catch((error) => {
         dispatch(loginFailure(error))
       })
   }
 }
+
+/**
+ * ### Social Login Actions
+ */
+export function loginWithSocail(authProvider) {
+  return {
+    type: LOGIN_SOCIAL,
+    payload: {authProvider}
+  }
+}
+
+export function loginWithFacebook () {
+  return loginWithSocail(new firebase.auth.FacebookAuthProvider())
+}
+
+export function loginWithGoogle () {
+  return loginWithSocail(new firebase.auth.GoogleAuthProvider())
+}
+
 
 /**
  * ## ResetPassword actions
@@ -405,7 +293,7 @@ export function resetPasswordFailure(error) {
 export function resetPassword(email) {
   return dispatch => {
     dispatch(resetPasswordRequest())
-    return BackendFactory().resetPassword({
+    return apiFactory().resetPassword({
       email: email,
     })
       .then(() => {

@@ -18,12 +18,6 @@ const formValidation = require('./authFormValidation').default
  * ## Auth actions
  */
 const {
-  SESSION_TOKEN_REQUEST,
-  SESSION_TOKEN_SUCCESS,
-  SESSION_TOKEN_FAILURE,
-
-  DELETE_TOKEN_REQUEST,
-  DELETE_TOKEN_SUCCESS,
 
   LOGOUT,
   REGISTER,
@@ -64,7 +58,6 @@ export default function authReducer(state = initialState, action) {
      * ### Requests start
      * set the form to fetching and clear any errors
      */
-    case SESSION_TOKEN_REQUEST:
     case SIGNUP_REQUEST:
     case LOGOUT_REQUEST:
     case LOGIN_REQUEST:
@@ -124,8 +117,6 @@ export default function authReducer(state = initialState, action) {
      * ### Requests end, good or bad
      * Set the fetching flag so the forms will be enabled
      */
-    case SESSION_TOKEN_SUCCESS:
-    case SESSION_TOKEN_FAILURE:
     case SIGNUP_SUCCESS:
     case LOGIN_SUCCESS:
     case LOGOUT_SUCCESS:
@@ -168,11 +159,6 @@ export default function authReducer(state = initialState, action) {
 
       return next
 
-    case DELETE_TOKEN_REQUEST:
-    case DELETE_TOKEN_SUCCESS:
-        /**
-         * no state change, just an ability to track action requests...
-         */
       return state
 
   }

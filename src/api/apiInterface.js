@@ -1,10 +1,15 @@
-/**
- * Backend Interface
- */
-'use strict'
-require('regenerator/runtime')
+"use strict";
 
-export default class Backend {
+export default class apiInterface {
+
+  /**
+   * ### initAuth : call by starting app
+   * @param : none
+   * @return : object
+   */
+  initAuth() {}
+
+
   /**
    * ###  getProvder
    * @param provider: string, "facebook" or "google"
@@ -14,9 +19,9 @@ export default class Backend {
    * https://firebase.google.com/docs/reference/js/firebase.auth#googleauthprovider
    * https://firebase.google.com/docs/reference/js/firebase.auth.AuthProvider
    */
-  getProvider(provider){
+  getProvider(provider) {}
 
-  }
+
   /**
    * ### loginWithProvider
    *
@@ -25,55 +30,60 @@ export default class Backend {
    * @return user.json
    * Property and Method -> https://firebase.google.com/docs/reference/node/firebase.User
    */
-  async loginWithProvider(provider) {
+  loginWithProvider(provider) {}
 
-  }
+
   /**
    * ### signup
    *
    * @param user
    * {username: "barton", password: "Passw0rd!"}
-   * @return
-   *@returns user.json
+   * @returns user.json
    * Properties -> https://firebase.google.com/docs/reference/node/firebase.User
    */
-  async signup(user) {
+  signup(user) {}
 
-  }
- /**
+
+  /**
    * ### login
    * @param user
    *  {username: "barton", password: "Passw0rd!"}
    * @returns user.json
    * Properties -> https://firebase.google.com/docs/reference/node/firebase.User
    */
-  async login(user) {
+  login(user) {}
 
-  }
+
   /**
    * ### logout
    * returns firebase.Promise containing void
    */
-  async logout() {
+  logout() {}
 
-  }
+
   /**
    * ### resetPassword
    * @param newPassword:string
    * @returns object
    * if error:  {code: xxx, error: 'message'}
    */
-  async resetPassword(data) {
+  resetPassword(data) {}
 
-  }
+
   /**
    * ### updateProfile
    * @param updateData:object
    * property:https://firebase.google.com/docs/reference/node/firebase.User
    * @return user.json
    */
-  async updateProfile(updateData) {
-  }
+  updateProfile(updateData) {}
 
-};
 
+  /**
+   * ### writeDataBase
+   * @parms path: string , value: object
+   * @return promise
+   */
+  writeDataBase(path, value) {}
+
+}
