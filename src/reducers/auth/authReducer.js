@@ -62,7 +62,7 @@ export default function authReducer(state = initialState, action) {
     case LOGOUT_REQUEST:
     case LOGIN_REQUEST:
     case RESET_PASSWORD_REQUEST:
-      let nextState =  state.setIn(['form', 'isFetching'], true)
+      const nextState =  state.setIn(['form', 'isFetching'], true)
       .setIn(['form', 'error'], null)
       return nextState
 
@@ -105,8 +105,8 @@ export default function authReducer(state = initialState, action) {
      * the formValidation
      */
     case ON_AUTH_FORM_FIELD_CHANGE: {
-      const {field, value} = action.payload
-      let nextState =  state.setIn(['form', 'fields', field], value)
+      const { field, value } = action.payload
+      const nextState =  state.setIn(['form', 'fields', field], value)
           .setIn(['form', 'error'], null)
 
       return formValidation(
@@ -141,9 +141,9 @@ export default function authReducer(state = initialState, action) {
      * Set all the field values from the payload
      */
     case SET_STATE:
-      var form = JSON.parse(action.payload).auth.form
+      const form = JSON.parse(action.payload).auth.form
 
-      var next = state.setIn(['form', 'state'], form.state)
+      const next = state.setIn(['form', 'state'], form.state)
           .setIn(['form', 'disabled'], form.disabled)
           .setIn(['form', 'error'], form.error)
           .setIn(['form', 'isValid'], form.isValid)
@@ -158,9 +158,6 @@ export default function authReducer(state = initialState, action) {
           .setIn(['form', 'fields', 'passwordAgainHasError'], form.fields.passwordAgainHasError)
 
       return next
-
-      return state
-
   }
   /**
    * ## Default

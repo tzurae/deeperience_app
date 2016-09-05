@@ -4,39 +4,19 @@
  * Allow user to register
  */
 'use strict'
-/**
- * ## Imports
- *
- * Redux
- */
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
-/**
- * The actions we need
- */
-import * as authActions from '../reducers/auth/authActions'
-
-/**
- * Immutable
- */
-import {Map} from 'immutable'
-
-/**
- *   LoginRender
- */
-import LoginRender from '../components/LoginRender'
-
-/**
- * The necessary React
- */
+import * as authActions from '../../reducers/auth/authActions'
+import { Map } from 'immutable'
+import LoginRender from '../../components/LoginRender'
 import React from 'react'
+import I18n from '../../lib/i18n'
 
 const {
   LOGIN,
   REGISTER,
   FORGOT_PASSWORD,
-} = require('../lib/constants').default
+} = require('../../lib/constants').default
 
 /**
  * ## Redux boilerplate
@@ -68,14 +48,7 @@ function buttonPressHandler(signup, username, email, password) {
   signup(username, email, password)
 }
 
-/**
- * ### Translations
- */
-var I18n = require('react-native-i18n')
-import Translations from '../lib/Translations'
-I18n.translations = Translations
-
-let Register = React.createClass({
+class Register extends React.Component {
 
   render() {
     let loginButtonText = I18n.t('Register.register')
@@ -88,17 +61,17 @@ let Register = React.createClass({
 
     return (
       <LoginRender
-          formType={ REGISTER }
-          loginButtonText={ loginButtonText }
-          onButtonPress={ onButtonPress }
-          displayPasswordCheckbox ={ true }
-          leftMessageType={ FORGOT_PASSWORD }
-          rightMessageType={ LOGIN }
-          auth={ this.props.auth }
-          global={ this.props.global }
+          formType={REGISTER}
+          loginButtonText={loginButtonText}
+          onButtonPress={onButtonPress}
+          displayPasswordCheckbox ={true}
+          leftMessageType={FORGOT_PASSWORD}
+          rightMessageType={LOGIN}
+          auth={this.props.auth}
+          global={this.props.global}
       />
 
     )
-  },
-})
+  }
+}
 export default connect(mapStateToProps, mapDispatchToProps)(Register)

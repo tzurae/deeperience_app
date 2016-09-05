@@ -1,5 +1,7 @@
 {
-  "extends": "standard",
+  "extends": [
+    "standard"
+  ],
   "installedESLint": true,
   "env": {
     "browser": true
@@ -7,13 +9,9 @@
   "plugins": [
     "standard",
     "promise",
-    "react"
+    "react",
+    "import"
   ],
-  "globals": {
-    "NProgress": true,
-    "firebase": true,
-    "__webpackIsomorphicTools__": true
-  },
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
@@ -22,14 +20,61 @@
   },
   "rules": {
     "semi": ["error", "never"],
-    "max-len": [2, { "code": 120, "ignoreComments": true, "ignoreUrls": true }],
-    "space-before-function-paren": [2, "never"],
-    "comma-dangle": [2, "always-multiline"],
-    "handle-callback-err": 1,
-    "no-multi-spaces": 0,
-    "operator-linebreak": [2, "after"],
-    "no-unused-vars": [1, { "vars": "all", "args": "none" }],
+    "max-len": ["error", { "code": 120, "ignoreComments": true, "ignoreUrls": true }],
+    "space-before-function-paren": ["error", "never"],
+    "comma-dangle": ["error", "always-multiline"],
+    "handle-callback-err": "warn",
+    "no-multi-spaces": "off",
+    "operator-linebreak": ["error", "after"],
+    "no-var":"error",
+    "no-new-object":"error",
+    "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
+    "prefer-const": ["error", {}],
+    "object-shorthand": ["error", "always"],
+    "quote-props": ["error", "as-needed"],
+    "no-array-constructor": "error",
+    "no-useless-constructor": "error",
+    "array-callback-return": "error",
+    "prefer-template": "error",
+    "no-useless-escape": "error",
+    "func-style": ["error", "declaration"],
+    "wrap-iife": ["error", "outside"],
+    "prefer-rest-params":"error",
+    "no-new-func": "error",
+    "no-param-reassign": "error",
+    "prefer-spread": "error",
+    "arrow-spacing": "error",
+    "prefer-arrow-callback": "error",
+    "no-confusing-arrow": "error",
+    "no-dupe-class-members":"error",
+    "no-duplicate-imports": "error",
+    "no-iterator": "error",
+    "generator-star-spacing": ["error", {"before": false, "after": true}],
+    "dot-notation": "error",
+    "no-undef": "error",
+    "one-var": ["error", "never"],
+    "eqeqeq": "error",
+    "no-nested-ternary": "error",
+    "eol-last": "error",
+    "padded-blocks": ["error", "never"],
+    "array-bracket-spacing": ["error", "never"],
+    "object-curly-spacing": ["error", "always"],
+    "camelcase": ["error", {"properties": "always"}],
+    "new-cap": "error",
+    "import/prefer-default-export":"error",
+    "import/no-mutable-exports":"error",
+    "import/imports-first":"error",
+    "no-underscore-dangle": "error",
+    "jsx-quotes":"error",
     "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error"
+    "react/jsx-uses-vars": "error",
+    "react/prefer-es6-class": "error",
+    "react/jsx-closing-bracket-location":"error",
+    "react/jsx-curly-spacing":"error",
+    "react/no-string-refs":"error",
+    "react/jsx-wrap-multilines":"error",
+    "react/self-closing-comp":"error",
+    "react/require-render-return":"error",
+    "react/no-is-mounted":"error"
   }
 }

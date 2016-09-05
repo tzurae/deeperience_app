@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 export default class apiInterface {
 
@@ -8,7 +8,6 @@ export default class apiInterface {
    * @return : object
    */
   initAuth() {}
-
 
   /**
    * ###  getProvder
@@ -21,7 +20,6 @@ export default class apiInterface {
    */
   getProvider(provider) {}
 
-
   /**
    * ### loginWithProvider
    *
@@ -31,7 +29,6 @@ export default class apiInterface {
    * Property and Method -> https://firebase.google.com/docs/reference/node/firebase.User
    */
   loginWithProvider(provider) {}
-
 
   /**
    * ### signup
@@ -43,7 +40,6 @@ export default class apiInterface {
    */
   signup(user) {}
 
-
   /**
    * ### login
    * @param user
@@ -53,13 +49,11 @@ export default class apiInterface {
    */
   login(user) {}
 
-
   /**
    * ### logout
    * returns firebase.Promise containing void
    */
   logout() {}
-
 
   /**
    * ### resetPassword
@@ -69,7 +63,6 @@ export default class apiInterface {
    */
   resetPassword(data) {}
 
-
   /**
    * ### updateProfile
    * @param updateData:object
@@ -77,7 +70,6 @@ export default class apiInterface {
    * @return user.json
    */
   updateProfile(updateData) {}
-
 
   /**
    * ### writeDataBase

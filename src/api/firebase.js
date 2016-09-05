@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 import firebase from 'firebase'
 import CONFIG from './config'
@@ -9,11 +9,11 @@ const firebaseAuth = firebaseApp.auth()
 
 export default class Firebase extends  apiInterface {
   initAuth() {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
       const unsub = firebase.auth().onAuthStateChanged(
         user => {
-          unsub();
-          resolve(user);
+          unsub()
+          resolve(user)
         },
         error => reject(error)
       )
@@ -23,14 +23,12 @@ export default class Firebase extends  apiInterface {
     switch (provider) {
       case 'facebook':
         return new firebase.auth.FacebookAuthProvider()
-        break;
       case 'google':
         return new firebase.auth.GoogleAuthProvider()
-        break;
     }
   }
   loginWithProvider(provider) {
-    let providerId = this.getProvider(provider)
+    const providerId = this.getProvider(provider)
     return firebaseAuth.signInWithPopup(providerId)
   }
   signup(user) {
@@ -44,9 +42,9 @@ export default class Firebase extends  apiInterface {
   }
   updateProfile(updateData) {
     if (firebaseAuth.currentUser) {
-      let user = firebaseAuth.currentUser
+      const user = firebaseAuth.currentUser
       return user.updateProfile({
-        displayName: u.displayName,
+        displayName: user.displayName, // ????
         photoUrl: '',
         //...etc
       })

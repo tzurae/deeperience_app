@@ -1,5 +1,7 @@
 'use strict'
-
+import { Actions } from 'react-native-router-flux'
+import ApiFactory from '../../api/apiFactory'
+import Firebase from '../../api/firebase'
 /**
  * ## Imports
  *
@@ -32,29 +34,18 @@ const {
 } = require('../../lib/constants').default
 
 /**
- * Project requirements
- */
-const apiFactory = require('../../api/apiFactory').default
-
-import {Actions} from 'react-native-router-flux'
-
-const  _ = require('underscore')
-
-
-/**
  *  ## Initialize user auth when app start running
  */
 
 export function initAuth() {
   return dispatch => {
-    return new apiFactory().initAuth()
+    return new ApiFactory().initAuth()
       .then(
         user => {
-          if(user) {
+          if (user) {
             dispatch(loginSuccess(user.json))
             Actions.Tabbar()
-          }
-          else {
+          } else {
             Actions.InitialLoginForm()
           }
         })
@@ -118,7 +109,7 @@ export function logoutFailure(error) {
 export function logout() {
   return dispatch => {
     dispatch(logoutRequest())
-        return new apiFactory().logout()
+    return new ApiFactory().logout()
       .then(() => {
         dispatch(loginState())
         dispatch(logoutSuccess())
@@ -137,7 +128,7 @@ export function logout() {
 export function onAuthFormFieldChange(field, value) {
   return {
     type: ON_AUTH_FORM_FIELD_CHANGE,
-    payload: {field: field, value: value},
+    payload: { field, value },
   }
 }
 /**
@@ -170,30 +161,28 @@ export function signupFailure(error) {
 export function signup(username, email, password) {
   return dispatch => {
     dispatch(signupRequest())
-    return new apiFactory().signup({
-      email: email,
-      password: password,
+    return new ApiFactory().signup({
+      email,
+      password,
     })
       .then((json) => {
-        apiFactory().writeDataBase('/users/' + json.uid, {name:'Rae',nickanme:'John'})
-            dispatch(signupSuccess(
-              {
-                uid:json.uid,
-                name:json.displayName,
-                email:json.email,
-              }
+        ApiFactory().writeDataBase(`/users/${json.uid}`, { name: 'Rae', nickanme: 'John' })
+        dispatch(signupSuccess(
+          {
+            uid: json.uid,
+            name: json.displayName,
+            email: json.email,
+          }
             ))
-            dispatch(logoutState())
+        dispatch(logoutState())
             // navigate to Tabbar
-            Actions.Tabbar()
+        Actions.Tabbar()
       })
       .catch((error) => {
         dispatch(signupFailure(error))
       })
   }
 }
-
-
 
 /**
  * ### Normal Login Actions
@@ -218,20 +207,19 @@ export function loginFailure(error) {
   }
 }
 export function login(username,  password) {
-
   return dispatch => {
     dispatch(loginRequest())
-    return apiFactory().login({
-      username: username,
-      password: password,
+    return ApiFactory().login({
+      username,
+      password,
     })
 
-      .then(function(json) {
-            dispatch(loginSuccess(json))
+      .then(json => {
+        dispatch(loginSuccess(json))
             // navigate to Tabbar
-            Actions.Tabbar()
+        Actions.Tabbar()
             // dispatch(logoutState())
-          })
+      })
       .catch((error) => {
         dispatch(loginFailure(error))
       })
@@ -244,18 +232,17 @@ export function login(username,  password) {
 export function loginWithSocail(authProvider) {
   return {
     type: LOGIN_SOCIAL,
-    payload: {authProvider}
+    payload: { authProvider },
   }
 }
 
-export function loginWithFacebook () {
-  return loginWithSocail(new firebase.auth.FacebookAuthProvider())
+export function loginWithFacebook() {
+  return LoginWithSocail(new Firebase.getProvider('facebook'))
 }
 
-export function loginWithGoogle () {
-  return loginWithSocail(new firebase.auth.GoogleAuthProvider())
+export function loginWithGoogle() {
+  return LoginWithSocail(new Firebase.getProvider('google'))
 }
-
 
 /**
  * ## ResetPassword actions
@@ -293,8 +280,8 @@ export function resetPasswordFailure(error) {
 export function resetPassword(email) {
   return dispatch => {
     dispatch(resetPasswordRequest())
-    return apiFactory().resetPassword({
-      email: email,
+    return ApiFactory().resetPassword({
+      email,
     })
       .then(() => {
         dispatch(loginState())

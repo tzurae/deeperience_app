@@ -5,39 +5,20 @@
  *
  */
 'use strict'
-/**
- * ## Imports
- *
- * Redux
- */
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
-/**
- * The actions we need
- */
-import * as authActions from '../reducers/auth/authActions'
-
-/**
- * Immutable
- */
-import {Map} from 'immutable'
-
-/**
- *   LoginRender
- */
-import LoginRender from '../components/LoginRender'
-
-/**
- * The necessary React components
- */
+import * as authActions from '../../reducers/auth/authActions'
+import { Map } from 'immutable'
+import LoginRender from '../../components/LoginRender'
 import React from 'react'
+
+import I18n from '../../lib/i18n'
 
 const {
   LOGIN,
   REGISTER,
   FORGOT_PASSWORD,
-} = require('../lib/constants').default
+} = require('../../lib/constants').default
 
 /**
  * ## Redux boilerplate
@@ -69,14 +50,7 @@ function buttonPressHandler(login, username, password) {
   login(username, password)
 }
 
-/**
- * ### Translations
- */
-var I18n = require('react-native-i18n')
-import Translations from '../lib/Translations'
-I18n.translations = Translations
-
-let Login = React.createClass({
+class Login extends React.createClass {
 
   render() {
     let loginButtonText = I18n.t('Login.login')
@@ -88,17 +62,17 @@ let Login = React.createClass({
 
     return (
       <LoginRender
-        formType={ LOGIN }
-        loginButtonText={ loginButtonText }
-        onButtonPress={ onButtonPress }
-        displayPasswordCheckbox={ true }
-        leftMessageType={ REGISTER }
-        rightMessageType={ FORGOT_PASSWORD }
-        auth={ this.props.auth }
-        global={ this.props.global }
+        formType={LOGIN}
+        loginButtonText={loginButtonText}
+        onButtonPress={onButtonPress}
+        displayPasswordCheckbox={true}
+        leftMessageType={REGISTER}
+        rightMessageType={FORGOT_PASSWORD}
+        auth={this.props.auth}
+        global={this.props.global}
       />
     )
-  },
-})
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

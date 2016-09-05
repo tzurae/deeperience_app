@@ -7,49 +7,24 @@
  *
  */
 'use strict'
-/*
- * ## Imports
- *
- * Imports from redux
- */
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
-/**
- * A CLI and OS X app for inspecting your React JS and React Native apps.
- */
-
-import R from 'reactotron-react-native'
-
-/**
- * Immutable Map
- */
-import {Map} from 'immutable'
-
-/**
- * Project actions
- */
-import * as authActions from '../reducers/auth/authActions'
-import * as deviceActions from '../reducers/device/deviceActions'
-import * as globalActions from '../reducers/global/globalActions'
-
-/**
- * The components we need from ReactNative
- */
+import { Map } from 'immutable'
+import * as authActions from '../../reducers/auth/authActions'
+import * as deviceActions from '../../reducers/device/deviceActions'
+import * as globalActions from '../../reducers/global/globalActions'
 import React from 'react'
 import
 {
-  StyleSheet,
   View,
   Text,
 }
 from 'react-native'
-
-/**
- * The Header will display a Image and support Hot Loading
- */
-import Header from '../components/Header'
-
+import styles from './styles'
+import Header from '../../components/Header'
+import reactMixin from 'react-mixin'
+import TimerMixin from 'react-timer-mixin'
+import I18n from '../../lib/i18n'
 /**
  * ## Actions
  * 3 of our actions will be available as ```actions```
@@ -59,7 +34,6 @@ const actions = [
   deviceActions,
   globalActions,
 ]
-
 
 /**
  *  Save that state
@@ -77,7 +51,7 @@ function mapStateToProps(state) {
       showState: state.global.showState,
     },
   }
-};
+}
 
 /**
  * Bind all the functions from the ```actions``` and bind them with
@@ -95,33 +69,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-var styles = StyleSheet.create({
-  container: {
-    borderTopWidth: 2,
-    borderBottomWidth: 2,
-    marginTop: 80,
-    padding: 10,
-  },
-  summary: {
-    fontFamily: 'BodoniSvtyTwoITCTT-Book',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-})
-
-/**
- * ## App class
- */
-var reactMixin = require('react-mixin')
-import TimerMixin from 'react-timer-mixin'
-/**
- * ### Translations
- */
-var I18n = require('react-native-i18n')
-import Translations from '../lib/Translations'
-I18n.translations = Translations
-
-let App = React.createClass({
+class App extends React.Component {
   /**
    * See if there's a sessionToken from a previous login
    *
@@ -134,22 +82,23 @@ let App = React.createClass({
       },
       2500
     )
-  },
+  }
 
   render() {
     return (
-      <View style={ styles.container }>
+      <View style={styles.container}>
         <Header isFetching={this.props.auth.form.isFetching}
                 showState={this.props.global.showState}
                 currentState={this.props.global.currentState}
                 onGetState={this.props.actions.getState}
                 onSetState={this.props.actions.setState}
         />
-        <Text style={ styles.summary }>Snowflake {I18n.t('App.version')}:  {this.props.deviceVersion}</Text>
+
+        <Text style={styles.summary}>Snowflake {I18n.t('App.version')}:        {this.props.deviceVersion}</Text>
       </View>
     )
-  },
-})
+  }
+}
 // Since we're using ES6 classes, have to define the TimerMixin
 reactMixin(App.prototype, TimerMixin)
 /**

@@ -4,50 +4,23 @@
  *
  */
 'use strict'
-/*
- * ## Imports
- *
- * Imports from redux
- */
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
-/**
- * The actions we need
- */
-import * as authActions from '../reducers/auth/authActions'
-import * as globalActions from '../reducers/global/globalActions'
-
-/**
- * Immutable
- */
-import {Map} from 'immutable'
-
-/**
- * Router
- */
-import {Actions} from 'react-native-router-flux'
-
-/**
- * The Header will display a Image and support Hot Loading
- */
-import Header from '../components/Header'
-
-/**
- * The components needed from React
- */
-import React, {Component} from 'react'
+import * as authActions from '../../reducers/auth/authActions'
+import * as globalActions from '../../reducers/global/globalActions'
+import { Map } from 'immutable'
+import { Actions } from 'react-native-router-flux'
+import Header from '../../components/Header'
+import React, { Component } from 'react'
 import
 {
-  StyleSheet,
   View,
 }
 from 'react-native'
+import I18n from '../../lib/i18n'
 
-/**
- * The platform neutral button
- */
-const  Button = require('apsl-react-native-button')
+import styles from './styles'
+const Button = require('apsl-react-native-button')
 
 /**
  * Support for Hot reload
@@ -75,7 +48,7 @@ function mapStateToProps(state) {
       showState: state.global.showState,
     },
   }
-};
+}
 
 /*
  * Bind all the functions from the ```actions``` and bind them with
@@ -93,30 +66,6 @@ function mapDispatchToProps(dispatch) {
     dispatch,
   }
 }
-
-var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-  },
-  summary: {
-    fontFamily: 'BodoniSvtyTwoITCTT-Book',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  button: {
-    backgroundColor: '#FF3366',
-    borderColor: '#FF3366',
-    marginLeft: 10,
-    marginRight: 10,
-  },
-})
-/**
- * ### Translations
- */
-var I18n = require('react-native-i18n')
-import Translations from '../lib/Translations'
-I18n.translations = Translations
 
 /**
  * ## App class
@@ -140,14 +89,14 @@ class Main extends Component {
                   onGetState={this.props.actions.getState}
                   onSetState={this.props.actions.setState}
           />
-          <Button style={ styles.button } onPress={ this.handlePress.bind(this) }>
+          <Button style={styles.button} onPress={this.handlePress.bind(this)}>
             {I18n.t('Main.navigate')}
           </Button>
         </View>
       </View>
     )
   }
-};
+}
 
 /**
  * Connect the properties

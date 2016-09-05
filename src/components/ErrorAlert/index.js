@@ -7,6 +7,7 @@
  * The main purpose here is to determine if there is an error and then
  * plucking off the message depending on the shape of the error object.
  */
+
 'use strict'
 
 /**
@@ -14,15 +15,15 @@
 *
 */
 import SimpleAlert from 'react-native-simpledialog-android'
-import  _ from 'underscore'
+import _ from 'underscore'
 
-var ErrorAlert = class ErrorAlertClass {
+const ErrorAlert = class ErrorAlertClass {
   /**
    * ## ErrorAlert
    * setup to support testing
    */
   /**
-   * ### checkErro
+   * ### checkError
    * determine if there is an error and how deep it is.  Take the
    * deepest level as the message and display it
    */

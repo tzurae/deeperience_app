@@ -122,8 +122,8 @@ export default function profileReducer(state = initialState, action) {
      * and perform field and form validation
      */
     case ON_PROFILE_FORM_FIELD_CHANGE:
-      const {field, value} = action.payload
-      let nextState =  state.setIn(['form', 'fields', field], value)
+      const { field, value } = action.payload
+      const nextState =  state.setIn(['form', 'fields', field], value)
           .setIn(['form', 'error'], null)
 
       return formValidation(
@@ -138,8 +138,8 @@ export default function profileReducer(state = initialState, action) {
      *
      */
     case SET_STATE:
-      var profile  = JSON.parse(action.payload).profile.form
-      var next = state.setIn(['form', 'disabled'], profile.disabled)
+      const profile  = JSON.parse(action.payload).profile.form
+      const next = state.setIn(['form', 'disabled'], profile.disabled)
           .setIn(['form', 'error'], profile.error)
           .setIn(['form', 'isValid'], profile.isValid)
           .setIn(['form', 'isFetching'], profile.isFetching)

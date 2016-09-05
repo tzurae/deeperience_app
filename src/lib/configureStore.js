@@ -5,22 +5,8 @@
  *
  */
 'use strict'
-
-/**
- * ## Imports
- *
- * redux functions
- */
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-
-/**
- * ## Imports
- *
- * redux saga
- */
-import sagas from './Sagas'
-import sagaMiddleware from 'redux-saga'
 
 /**
 * ## Reducer

@@ -22,11 +22,6 @@ const {
 } = require('../../lib/constants').default
 
 /**
- * apiFactory - base class for server implementation
- */
-import apiFactory from '../../api/apiFactory'
-
-/**
  * ## retreiving profile actions
  */
 export function getProfileRequest() {
@@ -129,6 +124,6 @@ export function profileUpdateFailure(json) {
 export function onProfileFormFieldChange(field, value) {
   return {
     type: ON_PROFILE_FORM_FIELD_CHANGE,
-    payload: {field: field, value: value},
+    payload: { field, value },
   }
 }

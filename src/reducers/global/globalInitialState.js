@@ -12,7 +12,7 @@
 /**
  * ## Import
  */
-import {Record} from 'immutable'
+import { Record } from 'immutable'
 /**
  * ## InitialState
  *
@@ -26,7 +26,7 @@ import {Record} from 'immutable'
  *   * profile
  *
  */
-var InitialState = Record({
+const InitialState = Record({
   currentUser: null,
   showState: false,
   currentState: null,

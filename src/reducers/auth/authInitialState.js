@@ -12,7 +12,7 @@
 /**
  * ## Import
  */
-const {Record} = require('immutable')
+const { Record } = require('immutable')
 const {
   REGISTER,
 } = require('../../lib/constants').default
@@ -49,7 +49,7 @@ const Form = Record({
  * ## InitialState
  * The form is set
  */
-var InitialState = Record({
+const InitialState = Record({
   form: new Form(),
 })
 export default InitialState

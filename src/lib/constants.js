@@ -46,7 +46,7 @@ export default keyMirror({
   GET_STATE: null,
   SET_STORE: null,
 
-  //LoginForm.js
+  // LoginForm.js
   FORGOT_PASSWORD: null,
   LOGIN: null,
   REGISTER: null,

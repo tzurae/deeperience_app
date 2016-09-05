@@ -8,12 +8,7 @@
  */
 'use strict'
 
-/**
- * ## Imports
- *
- * React
- */
-import React, {PropTypes} from 'react'
+import React, { PropTypes } from 'react'
 import
 {
   View,
@@ -22,22 +17,14 @@ import
   TouchableWithoutFeedback,
 } from 'react-native'
 
- /**
-  * The vector icon
-  */
-var Icon = require('react-native-vector-icons/FontAwesome')
+let Icon = require('react-native-vector-icons/FontAwesome')
 
-var ItemCheckbox = React.createClass({
-  /**
-   * ## ItemCheckbox class
-   *
-   * set the propTypes
-   */
-  propTypes: {
+class ItemCheckbox extends React.Component {
+  static propTypes = {
     onCheck: PropTypes.func,
     onUncheck: PropTypes.func,
-    icon_check: PropTypes.string,
-    icon_open: PropTypes.string,
+    iconCheck: PropTypes.string,
+    iconOpen: PropTypes.string,
     size: PropTypes.number,
     backgroundColor: PropTypes.string,
     color: PropTypes.string,
@@ -46,42 +33,37 @@ var ItemCheckbox = React.createClass({
     style: PropTypes.func,
     text: PropTypes.string,
     disabled: PropTypes.bool,
-  },
-  /**
-   * ### getDefaultProps
-   * set the default values
-   */
-  getDefaultProps: function() {
-    return {
-      onCheck: null,
-      onUncheck: null,
-      icon_check: 'check-square',
-      icon_open: 'square-o',
-      size: 30,
-      backgroundColor: 'white',
-      color: 'grey',
-      iconSize: 'normal',
-      checked: false,
-      text: 'MISSING TEXT',
-      disabled: false,
-    }
-  },
+  }
+  static defaultProps = {
+    onCheck: null,
+    onUncheck: null,
+    iconCheck: 'check-square',
+    iconOpen: 'square-o',
+    size: 30,
+    backgroundColor: 'white',
+    color: 'grey',
+    iconSize: 'normal',
+    checked: false,
+    text: 'MISSING TEXT',
+    disabled: false,
+  }
   /**
    * ### getInitialState
    *
    * Set the box to be checked or not
    */
-  getInitialState: function() {
-    return {
+  constructor(props) {
+    super(props)
+    this.state = {
       checked: this.props.checked,
-      bg_color: this.props.backgroundColor,
+      bgColor: this.props.backgroundColor,
     }
-  },
+  }
   /**
    * ### _getCircleCheckSytel
    * merge the props styles w/ some defaults
    */
-  _getCircleCheckStyle: function() {
+  getCircleCheckStyle() {
     return {
       width: this.props.size,
       height: this.props.size,
@@ -93,17 +75,17 @@ var ItemCheckbox = React.createClass({
       alignItems: 'center',
       padding: 2,
     }
-  },
+  }
   /**
    * ### _completeProgress
    * If the checkbox is pressable, figure out what state it's in and
    * what the display should look like
    */
-  _completeProgress: function() {
+  completeProgress() {
     if (this.state.checked) {
       this.setState({
         checked: false,
-        bg_color: this.props.backgroundColor,
+        bgColor: this.props.backgroundColor,
       })
       if (this.props.onUncheck) {
         this.props.onUncheck()
@@ -111,35 +93,35 @@ var ItemCheckbox = React.createClass({
     } else {
       this.setState({
         checked: true,
-        bg_color: this.props.color,
+        bgColor: this.props.color,
       })
       if (this.props.onCheck) {
         this.props.onCheck()
       }
     }
-  },
+  }
   /**
    * ### componentDidMount
    * If there is a ```checked``` property, set the UI appropriately
    */
-  componentDidMount: function() {
+  componentDidMount() {
     if (this.props.checked) {
-      this._completeProgress()
+      this.completeProgress()
     }
-  },
+  }
   /**
    * ### render
    * Use Touchable with or without Feedback depending on
    * ```disabled```.
    * Set the ```iconName``` depending on if checked
    */
-  render: function() {
-    var iconName = this.props.icon_open
+  render() {
+    let iconName = this.props.iconOpen
     if (this.state.checked) {
-      iconName = this.props.icon_check
+      iconName = this.props.iconCheck
     }
     if (this.props.disabled) {
-      iconName = this.props.checked ? this.props.icon_check : this.props.icon_open
+      iconName = this.props.checked ? this.props.iconCheck : this.props.iconOpen
       return (
         <View style={this.props.style}>
           <TouchableWithoutFeedback>
@@ -160,7 +142,7 @@ var ItemCheckbox = React.createClass({
       return (
           <View style={this.props.style}>
             <TouchableHighlight
-                onPress={this._completeProgress}
+                onPress={this.completeProgress}
             >
               <View style={{
                 flexDirection: 'row',
@@ -176,7 +158,7 @@ var ItemCheckbox = React.createClass({
           </View>
         )
     }
-  },
-})
+  }
+}
 
-module.exports = ItemCheckbox
+export default ItemCheckbox

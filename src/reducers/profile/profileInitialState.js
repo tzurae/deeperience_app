@@ -10,7 +10,7 @@
  */
 'use strict'
 
-const  {Record} = require('immutable')
+const  { Record } = require('immutable')
 
 /**
  * ## Form
@@ -42,7 +42,7 @@ const Form = Record({
   })),
 })
 
-var InitialState = Record({
+const InitialState = Record({
   form: new Form(),
 })
 

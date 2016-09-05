@@ -41,32 +41,7 @@ import {
   Provider,
   // connect,
 } from 'react-redux'
-
-/**
- * ### configureStore
- *
- *  ```configureStore``` will connect the ```reducers```, the
- *
- */
 import configureStore from './lib/configureStore'
-
-/**
- * ### Translations
- */
-var I18n = require('react-native-i18n')
-
-// Support fallbacks so en-US & en-BR both use en
-I18n.fallbacks = true
-
-import Translations from './lib/Translations'
-I18n.translations = Translations
-
-/**
- * ### containers
- *
- * All the top level containers
- *
- */
 import App from './containers/App'
 import Login from './containers/Login'
 import Logout from './containers/Logout'
@@ -75,37 +50,21 @@ import ForgotPassword from './containers/ForgotPassword'
 import Profile from './containers/Profile'
 import Main from './containers/Main'
 import Subview from './containers/Subview'
-
-/**
- * ### icons
- *
- * Add icon support for use in Tabbar
- *
- */
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-/**
- * ## Actions
- *  The necessary actions for dispatching our bootstrap values
- */
-import {setPlatform, setVersion} from './reducers/device/deviceActions'
-import {setStore} from './reducers/global/globalActions'
+import { setPlatform, setVersion } from './reducers/device/deviceActions'
+import { setStore } from './reducers/global/globalActions'
 
-/**
- * ## States
- * Snowflake explicitly defines initial state
- *
- */
 import AuthInitialState from './reducers/auth/authInitialState'
 import DeviceInitialState from './reducers/device/deviceInitialState'
 import GlobalInitialState from './reducers/global/globalInitialState'
 import ProfileInitialState from './reducers/profile/profileInitialState'
 
-/**
- *  The version of the app but not  displayed yet
- */
 import pack from '../package'
-var VERSION = pack.version
+import I18n from './lib/i18n'
+// Support fallbacks so en-US & en-BR both use en
+I18n.fallbacks = true
+const VERSION = pack.version
 
 /**
  *
@@ -114,13 +73,13 @@ var VERSION = pack.version
  * @returns {Object} object with 4 keys
  */
 function getInitialState() {
-  const _initState = {
+  const initState = {
     auth: new AuthInitialState(),
     device: (new DeviceInitialState()).set('isMobile', true),
     global: (new GlobalInitialState()),
     profile: new ProfileInitialState(),
   }
-  return _initState
+  return initState
 }
 
 const styles = StyleSheet.create({
@@ -136,11 +95,11 @@ const styles = StyleSheet.create({
  */
 class TabIcon extends React.Component {
   render() {
-    var color = this.props.selected ? '#FF3366' : '#FFB3B3'
+    const color = this.props.selected ? '#FF3366' : '#FFB3B3'
     return (
-      <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', alignSelf: 'center'}}>
-        <Icon style={{color: color}} name={this.props.iconName} size={30}/>
-        <Text style={{color: color}}>{this.props.title}</Text>
+      <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', alignSelf: 'center' }}>
+        <Icon style={{ color }} name={this.props.iconName} size={30}/>
+        <Text style={{ color }}>{this.props.title}</Text>
       </View>
     )
   }
@@ -156,7 +115,7 @@ class TabIcon extends React.Component {
  */
 
 export default function native(platform) {
-  let Snowflake = React.createClass({
+  class Snowflake extends React.Component {
     render() {
       const store = configureStore(getInitialState())
 
@@ -171,46 +130,55 @@ export default function native(platform) {
       return (
         <Provider store={store}>
 
-          <Router sceneStyle={{backgroundColor: 'white'}}>
+          <Router sceneStyle={{ backgroundColor: 'white' }}>
             <Scene key="root"
-                   hideNavBar={true}>
+                   hideNavBar={true}
+            >
 
               <Scene key="App"
                      component={App}
                      type="replace"
-                     initial={true}/>
+                     initial={true}
+              />
 
               <Scene key="InitialLoginForm"
                      component={Register}
-                     type="replace"/>
+                     type="replace"
+              />
 
               <Scene key="Login"
                      component={Login}
-                     type="replace"/>
+                     type="replace"
+              />
 
               <Scene key="Register"
                      component={Register}
-                     type="replace"/>
+                     type="replace"
+              />
 
               <Scene key="ForgotPassword"
                      component={ForgotPassword}
-                     type="replace"/>
+                     type="replace"
+              />
 
               <Scene key="Subview"
-                     component={Subview}/>
+                     component={Subview}
+              />
 
               <Scene key="Tabbar"
                      tabs={true}
                      hideNavBar={true}
-                     tabBarStyle={ styles.tabBar }
-                     default="Main">
+                     tabBarStyle={styles.tabBar}
+                     default="Main"
+              >
 
                 <Scene key="Logout"
                        title={I18n.t('Snowflake.logout')}
                        icon={TabIcon}
                        iconName={"sign-out"}
                        hideNavBar={true}
-                       component={Logout}/>
+                       component={Logout}
+                />
 
                 <Scene key="Main"
                        title={I18n.t('Snowflake.main')}
@@ -218,21 +186,23 @@ export default function native(platform) {
                        icon={TabIcon}
                        hideNavBar={true}
                        component={Main}
-                       initial={true}/>
+                       initial={true}
+                />
 
                 <Scene key="Profile"
                        title={I18n.t('Snowflake.profile')}
                        icon={TabIcon}
                        iconName={"gear"}
                        hideNavBar={true}
-                       component={Profile}/>
+                       component={Profile}
+                />
               </Scene>
             </Scene>
           </Router>
         </Provider>
       )
-    },
-  })
+    }
+  }
   /**
    * registerComponent to the AppRegistery and off we go....
    */

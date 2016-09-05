@@ -5,68 +5,31 @@
  *
  */
 'use strict'
-/**
- * ## Imports
- *
- * Redux
- */
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
-/**
- * The actions we need
- */
-import * as authActions from '../reducers/auth/authActions'
-import * as globalActions from '../reducers/global/globalActions'
-
-/**
- * Immutable
- */
-import {Map} from 'immutable'
-
-/**
- * Router actions
- */
+import * as authActions from '../../reducers/auth/authActions'
+import * as globalActions from '../../reducers/global/globalActions'
+import { Map } from 'immutable'
 import { Actions } from 'react-native-router-flux'
-
-/**
- * The Header will display a Image and support Hot Loading
- */
-import Header from '../components/Header'
-/**
- * The ErrorAlert displays an alert for both ios & android
- */
-import ErrorAlert from '../components/ErrorAlert'
-/**
- * The FormButton will change it's text between the 4 states as necessary
- */
-import FormButton from '../components/FormButton'
-/**
- *  The LoginForm does the heavy lifting of displaying the fields for
- * textinput and displays the error messages
- */
-import LoginForm from '../components/LoginForm'
-/**
- * The itemCheckbox will toggle the display of the password fields
- */
-import ItemCheckbox from '../components/ItemCheckbox'
-
-/**
- * The necessary React components
- */
-import React, {Component} from 'react'
+import Header from '../Header'
+import ErrorAlert from '../ErrorAlert'
+import FormButton from '../FormButton'
+import LoginForm from '../LoginForm'
+import ItemCheckbox from '../ItemCheckbox'
+import React, { Component } from 'react'
 import
 {
-  StyleSheet,
   ScrollView,
   Text,
   TouchableHighlight,
   View,
 }
   from 'react-native'
+import I18n from '../../lib/i18n'
+import styles from './styles'
 
 import Dimensions from 'Dimensions'
-var {height, width} = Dimensions.get('window') // Screen dimensions in current orientation
+let { height, width } = Dimensions.get('window') // Screen dimensions in current orientation
 
 /**
  * The states were interested in
@@ -75,30 +38,7 @@ const {
   LOGIN,
   REGISTER,
   FORGOT_PASSWORD,
-} = require('../lib/constants').default
-
-/**
- * ## Styles
- */
-var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-  },
-  inputs: {
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  forgotContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-})
+} = require('../../lib/constants').default
 /**
  * ## Redux boilerplate
  */
@@ -118,12 +58,6 @@ function mapDispatchToProps(dispatch) {
     dispatch,
   }
 }
-/**
- * ### Translations
- */
-var I18n = require('react-native-i18n')
-import Translations from '../lib/Translations'
-I18n.translations = Translations
 
 class LoginRender extends Component {
   constructor(props) {
@@ -177,7 +111,7 @@ class LoginRender extends Component {
       this.props.actions.onAuthFormFieldChange('passwordAgain', value.passwordAgain)
     }
     this.setState(
-      {value}
+      { value }
     )
   }
   /**
@@ -186,32 +120,35 @@ class LoginRender extends Component {
    *  @param actions the action for the message type
    */
   getMessage(messageType, actions) {
-    let forgotPassword =
-      <TouchableHighlight
+    const forgotPassword =
+      (<TouchableHighlight
         onPress={() => {
           actions.forgotPasswordState()
           Actions.ForgotPassword()
-        }} >
+        }}
+       >
         <Text>{I18n.t('LoginRender.forgot_password')}</Text>
-      </TouchableHighlight>
+      </TouchableHighlight>)
 
-    let alreadyHaveAccount =
-      <TouchableHighlight
+    const alreadyHaveAccount =
+      (<TouchableHighlight
         onPress={() => {
           actions.loginState()
           Actions.Login()
-        }} >
+        }}
+       >
         <Text>{I18n.t('LoginRender.already_have_account')}</Text>
-      </TouchableHighlight>
+      </TouchableHighlight>)
 
-    let register =
-      <TouchableHighlight
+    const register =
+      (<TouchableHighlight
         onPress={() => {
           actions.registerState()
           Actions.Register()
-        }} >
+        }}
+       >
         <Text>{I18n.t('LoginRender.register')}</Text>
-      </TouchableHighlight>
+      </TouchableHighlight>)
 
     switch (messageType) {
       case FORGOT_PASSWORD:
@@ -228,18 +165,18 @@ class LoginRender extends Component {
    * Setup some default presentations and render
    */
   render() {
-    var formType = this.props.formType
-    var loginButtonText = this.props.loginButtonText
-    var onButtonPress = this.props.onButtonPress
-    var displayPasswordCheckbox = this.props.displayPasswordCheckbox
-    var leftMessageType = this.props.leftMessageType
-    var rightMessageType = this.props.rightMessageType
+    let formType = this.props.formType
+    let loginButtonText = this.props.loginButtonText
+    let onButtonPress = this.props.onButtonPress
+    const displayPasswordCheckbox = this.props.displayPasswordCheckbox
+    const leftMessageType = this.props.leftMessageType
+    const rightMessageType = this.props.rightMessageType
 
-    var passwordCheckbox = <Text/>
+    let passwordCheckbox = <Text/>
     let leftMessage = this.getMessage(leftMessageType, this.props.actions)
     let rightMessage = this.getMessage(rightMessageType, this.props.actions)
 
-    let self = this
+    const self = this
 
     // display the login / register / change password screens
     this.errorAlert.checkError(this.props.auth.form.error)
@@ -249,7 +186,7 @@ class LoginRender extends Component {
      */
     if (displayPasswordCheckbox) {
       passwordCheckbox =
-        <ItemCheckbox
+        (<ItemCheckbox
           text={I18n.t('LoginRender.show_password')}
           disabled={this.props.auth.form.isFetching}
           onCheck={() => {
@@ -258,7 +195,7 @@ class LoginRender extends Component {
           onUncheck={() => {
             this.props.actions.onAuthFormFieldChange('showPassword', false)
           }}
-        />
+         />)
     }
 
     /**

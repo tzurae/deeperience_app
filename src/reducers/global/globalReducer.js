@@ -4,6 +4,8 @@
  *
  */
 'use strict'
+import InitialState from './globalInitialState'
+const initialState = new InitialState()
 /**
  * ## Imports
  * The InitialState for auth
@@ -22,9 +24,6 @@ const {
 
 } = require('../../lib/constants').default
 
-import InitialState from './globalInitialState'
-
-const initialState = new InitialState()
 /**
  * ## globalReducer function
  * @param {Object} state - initialState
@@ -55,7 +54,7 @@ export default function globalReducer(state = initialState, action) {
     /**
      * ### sets the payload into the store
      *
-     * *Note* this is for support of Hot Loading - the payload is the
+     * Note* this is for support of Hot Loading - the payload is the
      * ```store``` itself.
      *
      */
@@ -72,19 +71,19 @@ export default function globalReducer(state = initialState, action) {
      * when trying to convert to JSON, it will be recursive and fail
      */
     case GET_STATE:
-      let _state = state.store.getState()
+      const tmpState = state.store.getState()
 
       if (action.payload) {
-        let newState = {}
-        newState['auth'] = _state.auth.toJS()
-        newState['device'] = _state.device.toJS()
-        newState['profile'] = _state.profile.toJS()
+        const newState = {}
+        newState.auth = tmpState.auth.toJS()
+        newState.device = tmpState.device.toJS()
+        newState.profile = tmpState.profile.toJS()
 
       // Make sure global doesn't have the previous currentState
         // let _noCurrentState =  _state.global.set('currentState',null);
         // let _noStore = _noCurrentState.set('store',null);
 
-        newState['global'] =  _state.global.set('currentState', null).set('store', null).toJS()
+        newState.global =  tmpState.global.set('currentState', null).set('store', null).toJS()
 
         return state.set('showState', action.payload)
         .set('currentState', newState)
@@ -99,8 +98,8 @@ export default function globalReducer(state = initialState, action) {
      *
      */
     case SET_STATE:
-      var global = JSON.parse(action.payload).global
-      var next = state.set('currentUser', global.currentUser)
+      const global = JSON.parse(action.payload).global
+      const next = state.set('currentUser', global.currentUser)
           .set('showState', false)
           .set('currentState', null)
       return next

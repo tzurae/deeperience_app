@@ -12,14 +12,14 @@
 /**
  * ## Import immutable record
  */
-import {Record} from 'immutable'
+import { Record } from 'immutable'
 
 /**
  * ## InitialState
  *
  * The fields we're concerned with
  */
-var InitialState = Record({
+const InitialState = Record({
   isMobile: false,
   platform: '',
   version: null,

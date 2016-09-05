@@ -7,49 +7,18 @@
  * ```App``` and ```Login```
  */
 'use strict'
-/**
-* ## Imports
-*
-* Redux
-*/
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
-/**
- * The actions we need
- */
-import * as profileActions from '../reducers/profile/profileActions'
-import * as globalActions from '../reducers/global/globalActions'
-
-/**
- * Immutable Mapn
- */
-import {Map} from 'immutable'
-
-/**
- * The ErrorAlert will display any and all errors
- */
-import ErrorAlert from '../components/ErrorAlert'
-/**
- * The FormButton will respond to the press
- */
-import FormButton from '../components/FormButton'
-/**
- * The Header will display a Image and support Hot Loading
- */
-import Header from '../components/Header'
-
-/**
- * The itemCheckbox will display the state of the email verified
- */
-import ItemCheckbox from '../components/ItemCheckbox'
-/**
- * The necessary React components
- */
-import React, {Component} from 'react'
+import * as profileActions from '../../reducers/profile/profileActions'
+import * as globalActions from '../../reducers/global/globalActions'
+import { Map } from 'immutable'
+import ErrorAlert from '../../components/ErrorAlert'
+import FormButton from '../../components/FormButton'
+import Header from '../../components/Header'
+import ItemCheckbox from '../../components/ItemCheckbox'
+import React, { Component } from 'react'
 import
 {
-  StyleSheet,
   View,
 }
 from 'react-native'
@@ -58,25 +27,10 @@ from 'react-native'
 * The form processing component
 */
 import t from 'tcomb-form-native'
+import I18n from '../../lib/i18n'
+import styles from './styles'
 
 let Form = t.form.Form
-
-/**
- * ## Styles
- */
-var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-    backgroundColor: 'transparent',
-  },
-  inputs: {
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-})
 
 /**
 * ## Redux boilerplate
@@ -108,12 +62,6 @@ function mapDispatchToProps(dispatch) {
     dispatch,
   }
 }
-/**
- * ### Translations
- */
-var I18n = require('react-native-i18n')
-import Translations from '../lib/Translations'
-I18n.translations = Translations
 
 class Profile extends Component {
   /**
@@ -144,7 +92,7 @@ class Profile extends Component {
     if (value.email !== '') {
       this.props.actions.onProfileFormFieldChange('email', value.email)
     }
-    this.setState({value})
+    this.setState({ value })
   }
   /**
    * ### componentWillReceiveProps
@@ -188,7 +136,7 @@ class Profile extends Component {
   render() {
     this.errorAlert.checkError(this.props.profile.form.error)
 
-    let self = this
+    const self = this
 
     let ProfileForm = t.struct({
       username: t.String,
@@ -224,7 +172,7 @@ class Profile extends Component {
      * user objectId which Parse.com requires
      */
     let profileButtonText = I18n.t('Profile.update')
-    let onButtonPress = () => {
+    const onButtonPress = () => {
       this.props.actions.updateProfile(
         this.props.profile.form.originalProfile.objectId,
         this.props.profile.form.fields.username,
@@ -236,10 +184,7 @@ class Profile extends Component {
      * mostly for support of Hot reloading. See the docs for Header
      * for more info.
      */
-    let verfiedText = I18n.t('Profile.verified') +
-                       ' (' +
-                       I18n.t('Profile.display') +
-                       ')'
+    let verfiedText = `${I18n.t('Profile.verified')} (${I18n.t('Profile.display')})`
     return (
       <View style={styles.container}>
         <Header isFetching={this.props.profile.form.isFetching}
@@ -250,7 +195,7 @@ class Profile extends Component {
         />
         <View style={styles.inputs}>
           <Form
-              ref="form"
+              ref={ref => { this.form = ref }}
               type={ProfileForm}
               options={options}
               value={this.state.formValues}
@@ -259,13 +204,14 @@ class Profile extends Component {
         <ItemCheckbox text={verfiedText}
                         disabled={true}
                         checked={this.props.profile.form.fields.emailVerified}
-          />
+        />
         </View>
 
         <FormButton
             isDisabled={!this.props.profile.form.isValid || this.props.profile.form.isFetching}
             onPress={onButtonPress.bind(self)}
-            buttonText={profileButtonText}/>
+            buttonText={profileButtonText}
+        />
 
       </View>
     )

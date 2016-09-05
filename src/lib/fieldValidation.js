@@ -19,9 +19,7 @@ import _ from 'underscore'
 /**
  * ### Translations
  */
-var I18n = require('react-native-i18n')
-import Translations from '../lib/Translations'
-I18n.translations = Translations
+import I18n from './i18n'
 
 /**
  * ## Email validation setup
@@ -73,7 +71,7 @@ const passwordAgainConstraints = {
  * @param {Object} action type & payload
  */
 export default function fieldValidation(state, action) {
-  const {field, value} = action.payload
+  const { field, value } = action.payload
 
   switch (field) {
     /**
@@ -81,7 +79,7 @@ export default function fieldValidation(state, action) {
      * set the form field error
      */
     case ('username'):
-      let validUsername  = _.isUndefined(validate({username: value},
+      const validUsername  = _.isUndefined(validate({ username: value },
                                                 usernameConstraints))
       if (validUsername) {
         return state.setIn(['form', 'fields', 'usernameHasError'],
@@ -98,7 +96,7 @@ export default function fieldValidation(state, action) {
      * set the form field error
      */
     case ('email'):
-      let validEmail  = _.isUndefined(validate({from: value},
+      const validEmail  = _.isUndefined(validate({ from: value },
                                              emailConstraints))
       if (validEmail) {
         return state.setIn(['form', 'fields', 'emailHasError'], false)
@@ -113,7 +111,7 @@ export default function fieldValidation(state, action) {
      * set the form field error
      */
     case ('password'):
-      let validPassword = _.isUndefined(validate({password: value},
+      const validPassword = _.isUndefined(validate({ password: value },
                                                passwordConstraints))
       if (validPassword) {
         return state.setIn(['form', 'fields', 'passwordHasError'],
@@ -131,8 +129,8 @@ export default function fieldValidation(state, action) {
      * set the form field error
      */
     case ('passwordAgain'):
-      var validPasswordAgain = _.isUndefined(validate({password: state.form.fields.password,
-                                confirmPassword: value}, passwordAgainConstraints))
+      const validPasswordAgain = _.isUndefined(validate({ password: state.form.fields.password,
+                                confirmPassword: value }, passwordAgainConstraints))
       if (validPasswordAgain) {
         return state.setIn(['form', 'fields', 'passwordAgainHasError'],
                          false)
