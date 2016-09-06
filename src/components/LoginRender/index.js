@@ -23,10 +23,12 @@ import
   Text,
   TouchableHighlight,
   View,
+  TabBarIOS
 }
   from 'react-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
+const Button = require('apsl-react-native-button')
 
 import Dimensions from 'Dimensions'
 let { height, width } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -70,6 +72,7 @@ class LoginRender extends Component {
         password: this.props.auth.form.fields.password,
         passwordAgain: this.props.auth.form.fields.passwordAgain,
       },
+      selectedTab: 'Social Login',
     }
   }
 
@@ -207,42 +210,66 @@ class LoginRender extends Component {
      */
 
     return (
-      <View style={styles.container}>
-        <ScrollView horizontal={false} width={width} height={height}>
-          <View>
-            <Header isFetching={this.props.auth.form.isFetching}
-                    showState={this.props.global.showState}
-                    currentState={this.props.global.currentState}
-                    onGetState={this.props.actions.getState}
-                    onSetState={this.props.actions.setState}
-            />
+      <TabBarIOS
+        unselectedTintColor="yellow"
+        tintColor="white"
+        barTintColor="darkslateblue">
+        <TabBarIOS.Item
+          title="Register"
+          selected={this.state.selectedTab === 'Register'}
+          onPress={() => { this.setState({ selectedTab: 'Register' })}}
+        >
+          <View style={styles.container}>
+            <ScrollView horizontal={false} width={width} height={height}>
+              <View>
+                <Header isFetching={this.props.auth.form.isFetching}
+                        showState={this.props.global.showState}
+                        currentState={this.props.global.currentState}
+                        onGetState={this.props.actions.getState}
+                        onSetState={this.props.actions.setState}
+                />
 
-            <View style={styles.inputs}>
-              <LoginForm
-                formType={formType}
-                form={this.props.auth.form}
-                value={this.state.value}
-                onChange={self.onChange.bind(self)}
-              />
-              {passwordCheckbox}
-            </View>
+                <View style={styles.inputs}>
+                  <LoginForm
+                    formType={formType}
+                    form={this.props.auth.form}
+                    value={this.state.value}
+                    onChange={self.onChange.bind(self)}
+                  />
+                  {passwordCheckbox}
+                </View>
 
-            <FormButton
-              isDisabled={!this.props.auth.form.isValid || this.props.auth.form.isFetching}
-              onPress={onButtonPress}
-              buttonText={loginButtonText}
-            />
+                <FormButton
+                  isDisabled={!this.props.auth.form.isValid || this.props.auth.form.isFetching}
+                  onPress={onButtonPress}
+                  buttonText={loginButtonText}
+                />
 
-            <View >
-              <View style={styles.forgotContainer}>
-                {leftMessage}
-                {rightMessage}
+                <View >
+                  <View style={styles.forgotContainer}>
+                    {leftMessage}
+                    {rightMessage}
+                  </View>
+                </View>
+
               </View>
-            </View>
-
+            </ScrollView>
           </View>
-        </ScrollView>
-      </View>
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title="Social Login"
+          selected={this.state.selectedTab === 'Social Login'}
+          onPress={()=>{ this.setState({ selectedTab:'Social Login'})}}
+        >
+          <View style={{flex:1,alignItems:'center'}}>
+            <ScrollView horizontal={false} width={width} height={height}>
+              <Button textStyle={{fontSize:18}}>
+                FACEBOOK FUCKING LOGIN
+              </Button>
+            </ScrollView>
+          </View>
+        </TabBarIOS.Item>
+      </TabBarIOS>
     )
   }
 }
