@@ -1,14 +1,6 @@
-/**
- * # profileActions.js
- *
- * The actions to support the users profile
- */
+// @flow
 'use strict'
-/**
- * ## Imports
- *
- * The actions for profile
- */
+import type { Action } from '../../lib/types'
 const {
   GET_PROFILE_REQUEST,
   GET_PROFILE_SUCCESS,
@@ -24,18 +16,18 @@ const {
 /**
  * ## retreiving profile actions
  */
-export function getProfileRequest() {
+export function getProfileRequest():Action {
   return {
     type: GET_PROFILE_REQUEST,
   }
 }
-export function getProfileSuccess(json) {
+export function getProfileSuccess(json:any):Action {
   return {
     type: GET_PROFILE_SUCCESS,
     payload: json,
   }
 }
-export function getProfileFailure(json) {
+export function getProfileFailure(json:any):Action {
   return {
     type: GET_PROFILE_FAILURE,
     payload: json,
@@ -66,17 +58,17 @@ export function getProfileFailure(json) {
  * controls which form is displayed to the user
  * as in login, register, logout or reset password
  */
-export function profileUpdateRequest() {
+export function profileUpdateRequest():Action {
   return {
     type: PROFILE_UPDATE_REQUEST,
   }
 }
-export function profileUpdateSuccess() {
+export function profileUpdateSuccess():Action {
   return {
     type: PROFILE_UPDATE_SUCCESS,
   }
 }
-export function profileUpdateFailure(json) {
+export function profileUpdateFailure(json:any):Action {
   return {
     type: PROFILE_UPDATE_FAILURE,
     payload: json,
@@ -121,7 +113,7 @@ export function profileUpdateFailure(json) {
  * ## onProfileFormFieldChange
  *
  */
-export function onProfileFormFieldChange(field, value) {
+export function onProfileFormFieldChange(field:string, value:string):Action {
   return {
     type: ON_PROFILE_FORM_FIELD_CHANGE,
     payload: { field, value },

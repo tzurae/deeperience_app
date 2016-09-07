@@ -1,17 +1,4 @@
 'use strict'
-/**
- *  # snowflake
- *  Snowflake ![snowflake](https://cloud.githubusercontent.com/assets/1282364/11599365/1a1c39d2-9a8c-11e5-8819-bc1e48b30525.png)
- */
-/**
- * ## imports
- *
- */
-/**
- * ### React
- *
- * Necessary components from ReactNative
- */
 import React from 'react'
 import {
   AppRegistry,
@@ -21,22 +8,11 @@ import {
   Text,
 } from 'react-native'
 
-/**
- * ### Router-Flux
- *
- * Necessary components from Router-Flux
- */
 import {
   Router,
   Scene,
   // TabBar,
 } from 'react-native-router-flux'
-
-/**
- * ### Redux
- *
- * ```Provider``` will tie the React-Native to the Redux store
- */
 import {
   Provider,
   // connect,
@@ -62,6 +38,7 @@ import ProfileInitialState from './reducers/profile/profileInitialState'
 
 import pack from '../package'
 import I18n from './lib/i18n'
+import R from 'reactotron-react-native'
 // Support fallbacks so en-US & en-BR both use en
 I18n.fallbacks = true
 const VERSION = pack.version
@@ -121,6 +98,7 @@ export default function native(platform) {
 
       // configureStore will combine reducers from snowflake and main application
       // it will then create the store based on aggregate state from all reducers
+      R.log(typeof platform)
       store.dispatch(setPlatform(platform))
       store.dispatch(setVersion(VERSION))
       store.dispatch(setStore(store))

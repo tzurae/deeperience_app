@@ -5,18 +5,16 @@
  *
  */
 'use strict'
+
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
-/**
- * The actions we need
- */
 import * as authActions from '../../reducers/auth/authActions'
 import * as globalActions from '../../reducers/global/globalActions'
 import { Map } from 'immutable'
 import Header from '../../components/Header'
 import FormButton from '../../components/FormButton'
 import React, { Component } from 'react'
+import R from 'reactotron-react-native'
 import I18n from '../../lib/i18n'
 import
 {
@@ -30,9 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 })
-/**
- * ## Redux boilerplate
- */
+
 const actions = [
   authActions,
   globalActions,
@@ -77,6 +73,7 @@ class Logout extends Component {
     const onButtonPress = () => {
       this.props.actions.logout()
     }
+    R.log(this.props.auth.form.isValid)
 
     return (
       <View style={styles.container}>

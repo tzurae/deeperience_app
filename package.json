@@ -20,7 +20,8 @@
   },
   "scripts": {
     "test": "jest",
-    "precommit": "npm run lint && jest",
+    "flow": "flow",
+    "precommit": "npm run lint && flow && jest",
     "start": "react-native start",
     "lint": "./node_modules/.bin/eslint --config=./.eslintrc.json ./src",
     "fix-lint": "/usr/local/bin/eslint --fix /Users/i314i/Downloads/snowflake/src",
@@ -69,6 +70,7 @@
     "eslint-plugin-promise": "^2.0.1",
     "eslint-plugin-react": "^6.1.2",
     "eslint-plugin-standard": "^2.0.0",
+    "flow-bin": "^0.32.0",
     "istanbul": "0.4.3",
     "jest": "14.0.0",
     "jest-react-native": "14.0.0",

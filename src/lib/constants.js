@@ -5,9 +5,6 @@ export default keyMirror({
   SET_PLATFORM: null,
   SET_VERSION: null,
 
-  DELETE_TOKEN_REQUEST: null,
-  DELETE_TOKEN_SUCCESS: null,
-
   ON_LOGIN_STATE_CHANGE: null,
   LOGOUT: null,
 

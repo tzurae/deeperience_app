@@ -7,12 +7,8 @@
  *
  */
 'use strict'
+import type { Action } from '../../lib/types'
 
-/**
- * ## Imports
- *
- * The actions supported
- */
 const {
   SET_PLATFORM,
   SET_VERSION,
@@ -22,7 +18,7 @@ const {
  * ## Set the platformState
  *
  */
-export function setPlatform(platform) {
+export function setPlatform(platform:string):Action {
   return {
     type: SET_PLATFORM,
     payload: platform,
@@ -32,7 +28,7 @@ export function setPlatform(platform) {
  * ## set the version
  *
  */
-export function setVersion(version) {
+export function setVersion(version:string):Action {
   return {
     type: SET_VERSION,
     payload: version,

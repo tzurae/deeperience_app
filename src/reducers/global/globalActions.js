@@ -4,12 +4,8 @@
  * Actions that are global in nature
  */
 'use strict'
+import type { Action } from '../../lib/types'
 
-/**
- * ## Imports
- *
- * The actions supported
- */
 const {
   SET_STORE,
   SET_STATE,
@@ -24,7 +20,7 @@ const {
  * this is here to support Hot Loading
  *
  */
-export function setStore(store) {
+export function setStore(store:any):Action {
   return {
     type: SET_STORE,
     payload: store,
@@ -34,7 +30,7 @@ export function setStore(store) {
  * ## set state
  *
  */
-export function setState(newState) {
+export function setState(newState:any):Action {
   return {
     type: SET_STATE,
     payload: newState,
@@ -44,7 +40,7 @@ export function setState(newState) {
  * ## getState
  *
  */
-export function getState(toggle) {
+export function getState(toggle:any):Action {
   return {
     type: GET_STATE,
     payload: toggle,

@@ -1,7 +1,13 @@
+// @flow
 'use strict'
 import { Actions } from 'react-native-router-flux'
 import ApiFactory from '../../api/apiFactory'
 import Firebase from '../../api/firebase'
+import type { ThunkAction, Action } from '../../lib/types'
+// import R from 'reactotron-react-native'
+
+import UserModel from '../../model/UserModel'
+
 /**
  * ## Imports
  *
@@ -37,7 +43,7 @@ const {
  *  ## Initialize user auth when app start running
  */
 
-export function initAuth() {
+export function initAuth():ThunkAction {
   return dispatch => {
     return new ApiFactory().initAuth()
       .then(
@@ -63,24 +69,24 @@ export function initAuth() {
  * as in login, register, logout or reset password
  */
 
-export function logoutState() {
+export function logoutState():Action {
   return {
     type: LOGOUT,
   }
 }
-export function registerState() {
+export function registerState():Action {
   return {
     type: REGISTER,
   }
 }
 
-export function loginState() {
+export function loginState():Action {
   return {
     type: LOGIN,
   }
 }
 
-export function forgotPasswordState() {
+export function forgotPasswordState():Action {
   return {
     type: FORGOT_PASSWORD,
   }
@@ -89,24 +95,24 @@ export function forgotPasswordState() {
 /**
  * ## Logout actions
  */
-export function logoutRequest() {
+export function logoutRequest():Action {
   return {
     type: LOGOUT_REQUEST,
   }
 }
 
-export function logoutSuccess() {
+export function logoutSuccess():Action {
   return {
     type: LOGOUT_SUCCESS,
   }
 }
-export function logoutFailure(error) {
+export function logoutFailure(error: any):Action { // TODO
   return {
     type: LOGOUT_FAILURE,
     payload: error,
   }
 }
-export function logout() {
+export function logout():ThunkAction {
   return dispatch => {
     dispatch(logoutRequest())
     return new ApiFactory().logout()
@@ -125,7 +131,7 @@ export function logout() {
  * ## onAuthFormFieldChange
  * Set the payload so the reducer can work on it
  */
-export function onAuthFormFieldChange(field, value) {
+export function onAuthFormFieldChange(field:string, value:string):Action {
   return {
     type: ON_AUTH_FORM_FIELD_CHANGE,
     payload: { field, value },
@@ -134,18 +140,18 @@ export function onAuthFormFieldChange(field, value) {
 /**
  * ## Signup actions
  */
-export function signupRequest() {
+export function signupRequest():Action {
   return {
     type: SIGNUP_REQUEST,
   }
 }
-export function signupSuccess(json) {
+export function signupSuccess(json:any):Action { // TODO
   return {
     type: SIGNUP_SUCCESS,
     payload: json,
   }
 }
-export function signupFailure(error) {
+export function signupFailure(error:any):Action { // TODO
   return {
     type: SIGNUP_FAILURE,
     payload: error,
@@ -158,7 +164,7 @@ export function signupFailure(error) {
  * @param {string} email - user's email
  * @param {string} password - user's password
  */
-export function signup(username, email, password) {
+export function signup(username:string, email:string, password:string):ThunkAction {
   return dispatch => {
     dispatch(signupRequest())
     return new ApiFactory().signup({
@@ -166,7 +172,12 @@ export function signup(username, email, password) {
       password,
     })
       .then((json) => {
-        ApiFactory().writeDataBase(`/users/${json.uid}`, { name: 'Rae', nickanme: 'John' })
+        // ApiFactory().writeDataBase(`/users/${json.uid}`, { name: 123, nickanme: 'John' })
+        const newUser = new UserModel(json.uid, {
+          name: 'rae',
+          nickname: null,
+        })
+        ApiFactory().writeDataBase(newUser.getPath(), newUser.getData())
         dispatch(signupSuccess(
           {
             uid: json.uid,
@@ -187,29 +198,29 @@ export function signup(username, email, password) {
 /**
  * ### Normal Login Actions
  */
-export function loginRequest() {
+export function loginRequest():Action {
   return {
     type: LOGIN_REQUEST,
   }
 }
 
-export function loginSuccess(json) {
+export function loginSuccess(json:any):Action { // TODO
   return {
     type: LOGIN_SUCCESS,
     payload: json,
   }
 }
 
-export function loginFailure(error) {
+export function loginFailure(error:any):Action { // TODO
   return {
     type: LOGIN_FAILURE,
     payload: error,
   }
 }
-export function login(username,  password) {
+export function login(username:string,  password:string):ThunkAction {
   return dispatch => {
     dispatch(loginRequest())
-    return ApiFactory().login({
+    return new ApiFactory().login({
       username,
       password,
     })
@@ -218,7 +229,7 @@ export function login(username,  password) {
         dispatch(loginSuccess(json))
             // navigate to Tabbar
         Actions.Tabbar()
-            // dispatch(logoutState())
+        dispatch(logoutState())
       })
       .catch((error) => {
         dispatch(loginFailure(error))
@@ -229,7 +240,7 @@ export function login(username,  password) {
 /**
  * ### Social Login Actions
  */
-export function loginWithSocail(authProvider) {
+export function loginWithSocial(authProvider:any):Action { // TODO
   return {
     type: LOGIN_SOCIAL,
     payload: { authProvider },
@@ -237,29 +248,29 @@ export function loginWithSocail(authProvider) {
 }
 
 export function loginWithFacebook() {
-  return LoginWithSocail(new Firebase.getProvider('facebook'))
+  return loginWithSocial(new Firebase().getProvider('facebook'))
 }
 
 export function loginWithGoogle() {
-  return LoginWithSocail(new Firebase.getProvider('google'))
+  return loginWithSocial(new Firebase().getProvider('google'))
 }
 
 /**
  * ## ResetPassword actions
  */
-export function resetPasswordRequest() {
+export function resetPasswordRequest():Action {
   return {
     type: RESET_PASSWORD_REQUEST,
   }
 }
 
-export function resetPasswordSuccess() {
+export function resetPasswordSuccess():Action {
   return {
     type: RESET_PASSWORD_SUCCESS,
   }
 }
 
-export function resetPasswordFailure(error) {
+export function resetPasswordFailure(error:any):Action { // TODO
   return {
     type: RESET_PASSWORD_FAILURE,
     payload: error,
@@ -277,10 +288,10 @@ export function resetPasswordFailure(error) {
  * With that enabled, an email can be sent w/ a
  * form for setting the new password.
  */
-export function resetPassword(email) {
+export function resetPassword(email:string):ThunkAction {
   return dispatch => {
     dispatch(resetPasswordRequest())
-    return ApiFactory().resetPassword({
+    return new ApiFactory().resetPassword({
       email,
     })
       .then(() => {

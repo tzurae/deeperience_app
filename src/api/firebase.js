@@ -7,7 +7,7 @@ import apiInterface from './apiInterface'
 const firebaseApp = firebase.initializeApp(CONFIG.FIREBASE)
 const firebaseAuth = firebaseApp.auth()
 
-export default class Firebase extends  apiInterface {
+export default class Firebase extends apiInterface {
   initAuth() {
     return new Promise((resolve, reject) => {
       const unsub = firebase.auth().onAuthStateChanged(
@@ -56,4 +56,5 @@ export default class Firebase extends  apiInterface {
   writeDataBase(reff, value) {
     return firebase.database().ref(reff).set(value)
   }
+
 }
