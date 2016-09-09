@@ -38,7 +38,7 @@ import ProfileInitialState from './reducers/profile/profileInitialState'
 
 import pack from '../package'
 import I18n from './lib/i18n'
-import R from 'reactotron-react-native'
+// import R from 'reactotron-react-native'
 // Support fallbacks so en-US & en-BR both use en
 I18n.fallbacks = true
 const VERSION = pack.version
@@ -92,13 +92,12 @@ class TabIcon extends React.Component {
  */
 
 export default function native(platform) {
-  class Snowflake extends React.Component {
+  class Deeperience extends React.Component {
     render() {
       const store = configureStore(getInitialState())
 
       // configureStore will combine reducers from snowflake and main application
       // it will then create the store based on aggregate state from all reducers
-      R.log(typeof platform)
       store.dispatch(setPlatform(platform))
       store.dispatch(setVersion(VERSION))
       store.dispatch(setStore(store))
@@ -107,7 +106,6 @@ export default function native(platform) {
       // note: See https://github.com/aksonov/react-native-router-flux/issues/948
       return (
         <Provider store={store}>
-
           <Router sceneStyle={{ backgroundColor: 'white' }}>
             <Scene key="root"
                    hideNavBar={true}
@@ -181,9 +179,5 @@ export default function native(platform) {
       )
     }
   }
-  /**
-   * registerComponent to the AppRegistery and off we go....
-   */
-
-  AppRegistry.registerComponent('snowflake', () => Snowflake)
+  AppRegistry.registerComponent('snowflake', () => Deeperience)
 }

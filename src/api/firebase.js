@@ -3,6 +3,7 @@
 import firebase from 'firebase'
 import CONFIG from './config'
 import apiInterface from './apiInterface'
+import R from 'reactotron-react-native'
 
 const firebaseApp = firebase.initializeApp(CONFIG.FIREBASE)
 const firebaseAuth = firebaseApp.auth()
@@ -31,11 +32,14 @@ export default class Firebase extends apiInterface {
     const providerId = this.getProvider(provider)
     return firebaseAuth.signInWithPopup(providerId)
   }
-  signup(user) {
-    return firebaseAuth.createUserWithEmailAndPassword(user.email, user.password)
+  signup({ email, password }) {
+    let firelog = firebaseAuth.createUserWithEmailAndPassword(email, password)
+    R.log(firelog)
+    return firelog
+    // return firebaseAuth.createUserWithEmailAndPassword(user.email, user.password)
   }
-  login(user) {
-    return firebaseAuth.signInWithEmailAndPassword(user.email, user.password)
+  login({ email, password }) {
+    return firebaseAuth.signInWithEmailAndPassword(email, password)
   }
   logout() {
     return firebaseAuth.signOut()
@@ -53,8 +57,10 @@ export default class Firebase extends apiInterface {
   resetPassword(newPassword) {
     return firebaseAuth.currentUser.updatePassword(newPassword)
   }
-  writeDataBase(reff, value) {
-    return firebase.database().ref(reff).set(value)
+  writeDataBase(path, value) {
+    return firebase.database().ref(path).set(value)
   }
-
+  updateDataBase(path, value) {
+    return firebase.database().ref(path).update(value)
+  }
 }

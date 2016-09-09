@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux'
 import ApiFactory from '../../api/apiFactory'
 import Firebase from '../../api/firebase'
 import type { ThunkAction, Action } from '../../lib/types'
-// import R from 'reactotron-react-native'
+import R from 'reactotron-react-native'
 
 import UserModel from '../../model/UserModel'
 
@@ -48,6 +48,8 @@ export function initAuth():ThunkAction {
     return new ApiFactory().initAuth()
       .then(
         user => {
+          R.log('initAuth')
+          R.log(user)
           if (user) {
             dispatch(loginSuccess(user.json))
             Actions.Tabbar()
@@ -166,18 +168,18 @@ export function signupFailure(error:any):Action { // TODO
  */
 export function signup(username:string, email:string, password:string):ThunkAction {
   return dispatch => {
+    R.log('fuck signup')
     dispatch(signupRequest())
     return new ApiFactory().signup({
       email,
       password,
     })
       .then((json) => {
-        // ApiFactory().writeDataBase(`/users/${json.uid}`, { name: 123, nickanme: 'John' })
         const newUser = new UserModel(json.uid, {
           name: 'rae',
           nickname: null,
         })
-        ApiFactory().writeDataBase(newUser.getPath(), newUser.getData())
+        new ApiFactory().writeDataBase(newUser.getPath(), newUser.getData())
         dispatch(signupSuccess(
           {
             uid: json.uid,
@@ -217,14 +219,13 @@ export function loginFailure(error:any):Action { // TODO
     payload: error,
   }
 }
-export function login(username:string,  password:string):ThunkAction {
+export function login(email:string,  password:string):ThunkAction {
   return dispatch => {
     dispatch(loginRequest())
     return new ApiFactory().login({
-      username,
+      email,
       password,
     })
-
       .then(json => {
         dispatch(loginSuccess(json))
             // navigate to Tabbar

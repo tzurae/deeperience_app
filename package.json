@@ -1,5 +1,5 @@
 {
-  "name": "snowflake",
+  "name": "deeperience",
   "version": "0.0.1",
   "private": true,
   "description": "deeperience app",
@@ -24,7 +24,7 @@
     "precommit": "npm run lint && flow && jest",
     "start": "react-native start",
     "lint": "./node_modules/.bin/eslint --config=./.eslintrc.json ./src",
-    "fix-lint": "/usr/local/bin/eslint --fix /Users/i314i/Downloads/snowflake/src",
+    "fix-lint": "/usr/local/bin/eslint --fix ./src",
     "test:watch": "npm run test -- --watch",
     "test-chrome": "node-debug --preload false --nodejs --harmony jest --runInBand",
     "docs": "./node_modules/docker/docker -w -i src/ -o ../snowflake-pages "

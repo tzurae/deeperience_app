@@ -14,8 +14,8 @@
  * Parse.com
  *
  */
-jest.mock('../../../lib/AppAuthToken');
-jest.mock('../../../lib/BackendFactory');
+jest.mock('../../../lib/__mocks__/AppAuthToken');
+jest.mock('../../../lib/__mocks__/BackendFactory');
 
 /**
  * ## Class under test

@@ -8,6 +8,8 @@
  */
 'use strict'
 
+import R from 'reactotron-react-native'
+
 /**
  * ## Imports
  * the actions being addressed
@@ -54,8 +56,13 @@ export default function formValidation(state) {
         state.form.fields.password !== '' &&
         !state.form.fields.usernameHasError &&
         !state.form.fields.passwordHasError) {
+        R.log('valid')
         return state.setIn(['form', 'isValid'], true)
       } else {
+        R.log('username ' + state.form.fields.username)
+        R.log('password ' + state.form.fields.password)
+        R.log('usernamehaserror ' + state.form.fields.usernameHasError)
+        R.log('passwordhaserror' + state.form.fields.passwordHasError)
         return state.setIn(['form', 'isValid'], false)
       }
     /**

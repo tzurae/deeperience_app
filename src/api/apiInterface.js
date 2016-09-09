@@ -78,4 +78,10 @@ export default class apiInterface {
    */
   writeDataBase(path, value) {}
 
+  /**
+   * ### writeDataBase
+   * @parms path: string , value: object
+   * @return promise
+   */
+  updateDataBase(path, value) {}
 }

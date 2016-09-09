@@ -14,8 +14,9 @@
  *
  * Need to mock router so the "keys" are available (see src/__mocks__)
  */
-jest.mock('../../../lib/AppAuthToken');
-jest.mock('../../../lib/BackendFactory');
+jest.mock('../../../lib/__mocks__/AppAuthToken');
+jest.mock('../../../lib/__mocks__/BackendFactory');
+jest.mock('../../../api/__mocks__/firebase');
 jest.mock('react-native-router-flux');
 
 /**

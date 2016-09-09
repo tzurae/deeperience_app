@@ -13,6 +13,7 @@
 const InitialState = require('./authInitialState').default
 const fieldValidation = require('../../lib/fieldValidation').default
 const formValidation = require('./authFormValidation').default
+import R from 'reactotron-react-native'
 
 /**
  * ## Auth actions
@@ -62,9 +63,8 @@ export default function authReducer(state = initialState, action) {
     case LOGOUT_REQUEST:
     case LOGIN_REQUEST:
     case RESET_PASSWORD_REQUEST:
-      const nextState =  state.setIn(['form', 'isFetching'], true)
+      return state.setIn(['form', 'isFetching'], true)
       .setIn(['form', 'error'], null)
-      return nextState
 
     /**
      * ### Logout state
@@ -142,7 +142,6 @@ export default function authReducer(state = initialState, action) {
      */
     case SET_STATE:
       const form = JSON.parse(action.payload).auth.form
-
       const next = state.setIn(['form', 'state'], form.state)
           .setIn(['form', 'disabled'], form.disabled)
           .setIn(['form', 'error'], form.error)

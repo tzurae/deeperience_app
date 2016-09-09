@@ -129,9 +129,9 @@ class LoginForm extends React.Component {
           username: t.String,
           password: t.String,
         })
-        options.fields.username = username
-        options.fields.username.placeholder = I18n.t('LoginForm.username')
-        options.fields.username.autoCapitalize = 'none'
+        options.fields.email = email
+        options.fields.email.placeholder = I18n.t('LoginForm.email')
+        options.fields.email.autoCapitalize = 'none'
         options.fields.password = password
         options.fields.password.placeholder = I18n.t('LoginForm.password')
         break
