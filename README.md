@@ -52,7 +52,6 @@ or
 - [Redux State Management](#redux-state-management)
 - [Hot Reloading](#hot-reloading)
 - [FAQ](#faq)
-- [Source documentation](http://bartonhammond.github.io/snowflake/snowflake.js.html)
 
 ----------
 

@@ -1,13 +1,13 @@
 'use strict'
 
 import firebase from 'firebase'
-import CONFIG from './config'
+import { auth as Config } from '../config'
 import apiInterface from './apiInterface'
 
-const firebaseApp = firebase.initializeApp(CONFIG.FIREBASE)
+const firebaseApp = firebase.initializeApp(Config.firebase)
 const firebaseAuth = firebaseApp.auth()
 
-export default class Firebase extends  apiInterface {
+export default class Firebase extends apiInterface {
   initAuth() {
     return new Promise((resolve, reject) => {
       const unsub = firebase.auth().onAuthStateChanged(
@@ -44,7 +44,7 @@ export default class Firebase extends  apiInterface {
     if (firebaseAuth.currentUser) {
       const user = firebaseAuth.currentUser
       return user.updateProfile({
-        displayName: user.displayName, // ????
+        displayName: user.displayName,
         photoUrl: '',
         //...etc
       })

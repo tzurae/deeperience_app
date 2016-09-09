@@ -1,10 +1,10 @@
 'use strict'
 
-import CONFIG from './config'
+import { cloudServiceSetting as Is} from '../config'
 import Firebase from './firebase'
 
 export default function apiFactory(token = null) {
-  if (CONFIG.backend.firebase) {
+  if (Is.firebase) {
     return new Firebase()
   }
 }

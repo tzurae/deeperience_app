@@ -31,5 +31,6 @@ const createStoreWithMiddleware = applyMiddleware(
  *
  */
 export default function configureStore(initialState) {
+  console.log('reducer is',reducer);
   return createStoreWithMiddleware(reducer, initialState)
 };
