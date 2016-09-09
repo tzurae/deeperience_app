@@ -1,6 +1,6 @@
 'use strict'
 
-import { cloudServiceSetting as Is} from '../config'
+import { cloudServiceSetting as Is } from '../config'
 import Firebase from './firebase'
 
 export default function apiFactory(token = null) {

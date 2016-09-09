@@ -33,7 +33,7 @@ export default class Firebase extends apiInterface {
     return firebaseAuth.signInWithPopup(providerId)
   }
   signup({ email, password }) {
-    let firelog = firebaseAuth.createUserWithEmailAndPassword(email, password)
+    const firelog = firebaseAuth.createUserWithEmailAndPassword(email, password)
     R.log(firelog)
     return firelog
     // return firebaseAuth.createUserWithEmailAndPassword(user.email, user.password)
