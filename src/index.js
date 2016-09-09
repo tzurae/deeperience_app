@@ -1,4 +1,17 @@
 'use strict'
+/**
+ *  # snowflake
+ *  Snowflake ![snowflake](https://cloud.githubusercontent.com/assets/1282364/11599365/1a1c39d2-9a8c-11e5-8819-bc1e48b30525.png)
+ */
+/**
+ * ## imports
+ *
+ */
+/**
+ * ### React
+ *
+ * Necessary components from ReactNative
+ */
 import React from 'react'
 import {
   AppRegistry,
@@ -8,11 +21,22 @@ import {
   Text,
 } from 'react-native'
 
+/**
+ * ### Router-Flux
+ *
+ * Necessary components from Router-Flux
+ */
 import {
   Router,
   Scene,
   // TabBar,
 } from 'react-native-router-flux'
+
+/**
+ * ### Redux
+ *
+ * ```Provider``` will tie the React-Native to the Redux store
+ */
 import {
   Provider,
   // connect,
@@ -38,7 +62,6 @@ import ProfileInitialState from './reducers/profile/profileInitialState'
 
 import pack from '../package'
 import I18n from './lib/i18n'
-// import R from 'reactotron-react-native'
 // Support fallbacks so en-US & en-BR both use en
 I18n.fallbacks = true
 const VERSION = pack.version
@@ -92,7 +115,7 @@ class TabIcon extends React.Component {
  */
 
 export default function native(platform) {
-  class Deeperience extends React.Component {
+  class Snowflake extends React.Component {
     render() {
       const store = configureStore(getInitialState())
 
@@ -106,6 +129,7 @@ export default function native(platform) {
       // note: See https://github.com/aksonov/react-native-router-flux/issues/948
       return (
         <Provider store={store}>
+
           <Router sceneStyle={{ backgroundColor: 'white' }}>
             <Scene key="root"
                    hideNavBar={true}
@@ -179,5 +203,9 @@ export default function native(platform) {
       )
     }
   }
-  AppRegistry.registerComponent('snowflake', () => Deeperience)
+  /**
+   * registerComponent to the AppRegistery and off we go....
+   */
+
+  AppRegistry.registerComponent('snowflake', () => Snowflake)
 }
