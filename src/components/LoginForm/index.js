@@ -126,7 +126,7 @@ class LoginForm extends React.Component {
        */
       case (LOGIN):
         loginForm = t.struct({
-          username: t.String,
+          email: t.String,
           password: t.String,
         })
         options.fields.email = email

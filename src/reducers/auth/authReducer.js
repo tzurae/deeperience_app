@@ -13,7 +13,6 @@
 const InitialState = require('./authInitialState').default
 const fieldValidation = require('../../lib/fieldValidation').default
 const formValidation = require('./authFormValidation').default
-import R from 'reactotron-react-native'
 
 /**
  * ## Auth actions

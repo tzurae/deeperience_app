@@ -4,7 +4,6 @@ import { Actions } from 'react-native-router-flux'
 import ApiFactory from '../../api/apiFactory'
 import Firebase from '../../api/firebase'
 import type { ThunkAction, Action } from '../../lib/types'
-import R from 'reactotron-react-native'
 
 import UserModel from '../../model/UserModel'
 
@@ -48,8 +47,6 @@ export function initAuth():ThunkAction {
     return new ApiFactory().initAuth()
       .then(
         user => {
-          R.log('initAuth')
-          R.log(user)
           if (user) {
             dispatch(loginSuccess(user.json))
             Actions.Tabbar()
@@ -168,7 +165,6 @@ export function signupFailure(error:any):Action { // TODO
  */
 export function signup(username:string, email:string, password:string):ThunkAction {
   return dispatch => {
-    R.log('fuck signup')
     dispatch(signupRequest())
     return new ApiFactory().signup({
       email,
@@ -185,8 +181,7 @@ export function signup(username:string, email:string, password:string):ThunkActi
             uid: json.uid,
             name: json.displayName,
             email: json.email,
-          }
-            ))
+          }))
         dispatch(logoutState())
             // navigate to Tabbar
         Actions.Tabbar()

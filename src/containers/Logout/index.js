@@ -14,7 +14,6 @@ import { Map } from 'immutable'
 import Header from '../../components/Header'
 import FormButton from '../../components/FormButton'
 import React, { Component } from 'react'
-import R from 'reactotron-react-native'
 import I18n from '../../lib/i18n'
 import
 {
@@ -68,12 +67,9 @@ class Logout extends Component {
    * Setup some default presentations and render
    */
   render() {
-    const self = this
-
     const onButtonPress = () => {
       this.props.actions.logout()
     }
-    R.log(this.props.auth.form.isValid)
 
     return (
       <View style={styles.container}>
@@ -85,9 +81,9 @@ class Logout extends Component {
                   onSetState={this.props.actions.setState}
           />
           <FormButton
-            // isDisabled={!this.props.auth.form.isValid || this.props.auth.form.isFetching}
+            isDisabled={!this.props.auth.form.isValid || this.props.auth.form.isFetching}
             isDisabled={this.props.auth.form.isFetching}
-            onPress={onButtonPress.bind(self)}
+            onPress={onButtonPress.bind(this)}
             buttonText={I18n.t('Snowflake.logout')}
           />
         </View>
