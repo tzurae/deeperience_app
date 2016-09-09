@@ -1,36 +1,39 @@
-/**
- * # configureStore.js
- *
- * A Redux boilerplate setup
- *
- */
 'use strict'
 import { createStore, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+import createLoggerMiddleware from 'redux-logger';
 import thunk from 'redux-thunk'
-
-/**
-* ## Reducer
-* The reducer contains the 4 reducers from
-* device, global, auth, profile
-*/
 import reducer from '../reducers'
 
-/**
- * ## creatStoreWithMiddleware
- * Like the name...
- */
-const createStoreWithMiddleware = applyMiddleware(
-  thunk
-  // sagaMiddleware(sagas)
-)(createStore)
+const injectMiddleware = services => ({ dispatch, getState }) => next => action =>
+  next(typeof action === 'function'
+    ? action({...services, dispatch, getState})
+    : action
+  )
 
-/**
- * ## configureStore
- * @param {Object} the state with for keys:
- * device, global, auth, profile
- *
- */
+const saga = createSagaMiddleware()
+
+
 export default function configureStore(initialState) {
-  console.log('reducer is',reducer);
-  return createStoreWithMiddleware(reducer, initialState)
+
+  const logger = createLoggerMiddleware({
+    collapsed: true,
+    stateTransformer: state => JSON.parse(JSON.stringify(state)),
+  })
+
+  const middlewares = [
+    saga,
+    thunk,
+    logger
+  ]
+
+  const store = createStore(
+    reducer,
+    initialState,
+    applyMiddleware(...middlewares)
+  )
+
+  store.runSaga = saga.run
+
+  return store
 };
