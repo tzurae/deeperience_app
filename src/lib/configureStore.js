@@ -1,4 +1,3 @@
-/* @flow */
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import createLoggerMiddleware from 'redux-logger'
@@ -19,13 +18,12 @@ const injectMiddleware = services => ({ dispatch, getState }) => next => action 
   )
 
 export default function configureStore(options: Options) {
-
   const {
     initialState,
     platformDeps = {},
   } = options
 
-  //------------------------middleware setting start-------------------------
+  // ------------------------middleware setting start-------------------------
 
   const saga = createSagaMiddleware()
 
@@ -43,9 +41,9 @@ export default function configureStore(options: Options) {
     storage,
     logger,
   ]
-  //------------------------middleware setting end-------------------------
+  // ------------------------middleware setting end-------------------------
 
-  const enhancer = compose(applyMiddleware(...middlewares),devTools({realtime:true}))
+  const enhancer = compose(applyMiddleware(...middlewares), devTools({ realtime: true }))
 
   const store = createStore(
     reducer,

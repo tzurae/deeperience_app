@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react'
 import {
   AppRegistry,
@@ -107,7 +106,7 @@ export default function native(platform) {
     render() {
       const store = configureStore({
         initialState: getInitialState(),
-        platformDeps: { createStorageEngine }
+        platformDeps: { createStorageEngine },
       })
       // configureStore will combine reducers from snowflake and main application
       // it will then create the store based on aggregate state from all reducers

@@ -37,7 +37,6 @@
     "array-callback-return": "error",
     "prefer-template": "error",
     "no-useless-escape": "error",
-    "func-style": ["error", "declaration"],
     "wrap-iife": ["error", "outside"],
     "prefer-rest-params":"error",
     "no-new-func": "error",

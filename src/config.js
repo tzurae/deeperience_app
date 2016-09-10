@@ -12,4 +12,4 @@ export const auth = {
   },
 }
 
-export const storage_key = 'Deeperience_react-native-storage'
+export const storageKey = 'Deeperience_react-native-storage'
