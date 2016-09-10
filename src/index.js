@@ -1,17 +1,4 @@
-'use strict'
-/**
- *  # snowflake
- *  Snowflake ![snowflake](https://cloud.githubusercontent.com/assets/1282364/11599365/1a1c39d2-9a8c-11e5-8819-bc1e48b30525.png)
- */
-/**
- * ## imports
- *
- */
-/**
- * ### React
- *
- * Necessary components from ReactNative
- */
+/* @flow */
 import React from 'react'
 import {
   AppRegistry,
@@ -51,6 +38,7 @@ import Profile from './containers/Profile'
 import Main from './containers/Main'
 import Subview from './containers/Subview'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import createStorageEngine from 'redux-storage-engine-reactnativeasyncstorage'
 
 import { setPlatform, setVersion } from './reducers/device/deviceActions'
 import { setStore } from './reducers/global/globalActions'
@@ -117,8 +105,10 @@ class TabIcon extends React.Component {
 export default function native(platform) {
   class Snowflake extends React.Component {
     render() {
-      const store = configureStore(getInitialState())
-
+      const store = configureStore({
+        initialState: getInitialState(),
+        platformDeps: { createStorageEngine }
+      })
       // configureStore will combine reducers from snowflake and main application
       // it will then create the store based on aggregate state from all reducers
       store.dispatch(setPlatform(platform))
@@ -138,12 +128,12 @@ export default function native(platform) {
               <Scene key="App"
                      component={App}
                      type="replace"
-                     initial={true}
               />
 
               <Scene key="InitialLoginForm"
                      component={Register}
                      type="replace"
+                     initial={true}
               />
 
               <Scene key="Login"
@@ -207,5 +197,5 @@ export default function native(platform) {
    * registerComponent to the AppRegistery and off we go....
    */
 
-  AppRegistry.registerComponent('snowflake', () => Snowflake)
+  AppRegistry.registerComponent('deeperience', () => Snowflake)
 }

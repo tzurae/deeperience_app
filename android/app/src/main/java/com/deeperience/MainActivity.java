@@ -1,6 +1,7 @@
-package com.snowflake;
+package com.deeperience;
 
 import com.facebook.react.ReactActivity;
+import com.burnweb.rnsimplealertdialog.RNSimpleAlertDialogPackage;
 
 public class MainActivity extends ReactActivity {
 
@@ -10,6 +11,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "snowflake";
+        return "deeperience";
     }
 }

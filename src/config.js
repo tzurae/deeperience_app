@@ -11,3 +11,5 @@ export const auth = {
     storageBucket: 'deeperience.appspot.com',
   },
 }
+
+export const storage_key = 'Deeperience_react-native-storage'

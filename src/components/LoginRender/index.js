@@ -17,6 +17,7 @@ import FormButton from '../FormButton'
 import LoginForm from '../LoginForm'
 import ItemCheckbox from '../ItemCheckbox'
 import React from 'react'
+import ScrollableTabView from 'react-native-scrollable-tab-view'
 import
 {
   ScrollView,
@@ -28,6 +29,8 @@ import
 import I18n from '../../lib/i18n'
 import styles from './styles'
 import Dimensions from 'Dimensions'
+import { FBLogin, FBLoginManager } from 'react-native-facebook-login'
+import R from 'reactotron-react-native'
 
 let { height, width } = Dimensions.get('window') // Screen dimensions in current orientation
 
@@ -56,6 +59,14 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(creators, dispatch),
     dispatch,
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    device: {
+      platform: state.device.platform,
+    },
   }
 }
 
@@ -199,6 +210,12 @@ class LoginRender extends React.Component {
          />)
     }
 
+    // https://github.com/magus/react-native-facebook-login/blob/master/android/README.md
+    const loginBehavior = {
+      ios: FBLoginManager.LoginBehaviors.Browser,
+      android: FBLoginManager.LoginBehaviors.Native,
+    }
+
     /**
      * The LoginForm is now defined with the required fields.  Just
      * surround it with the Header and the navigation messages
@@ -207,7 +224,8 @@ class LoginRender extends React.Component {
      * See the docs for Header for more info.
      */
     return (
-      <View style={styles.container}>
+    <ScrollableTabView>
+      <View style={styles.container} tabLabel="login">
         <ScrollView horizontal={false} width={width} height={height}>
           <View>
             <Header isFetching={this.props.auth.form.isFetching}
@@ -243,7 +261,23 @@ class LoginRender extends React.Component {
           </View>
         </ScrollView>
       </View>
+      <View style={styles.container} tabLabel="fblogin">
+        <ScrollView horizontal={false} width={width} height={height}>
+          <FBLogin
+            ref={(fbLogin) => { this.fbLogin = fbLogin }}
+            loginBehavior={loginBehavior[this.props.device.platform]}
+            permissions={['email', 'user_friends']}
+            onLogin={e => R.log(e)}
+            onLoginFound={e => R.log(e)}
+            onLoginNotFound={e => R.log(e)}
+            onLogout={e => R.log(e)}
+            onCancel={e => R.log(e)}
+            onPermissionsMissing={e => R.log(e)}
+          />
+        </ScrollView>
+      </View>
+    </ScrollableTabView>
     )
   }
 }
-export default connect(null, mapDispatchToProps)(LoginRender)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginRender)
