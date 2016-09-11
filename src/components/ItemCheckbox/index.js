@@ -17,7 +17,7 @@ import
   TouchableWithoutFeedback,
 } from 'react-native'
 
-let Icon = require('react-native-vector-icons/FontAwesome')
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 class ItemCheckbox extends React.Component {
   static propTypes = {

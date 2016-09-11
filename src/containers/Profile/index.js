@@ -30,7 +30,7 @@ import t from 'tcomb-form-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
 
-let Form = t.form.Form
+const Form = t.form.Form
 
 /**
 * ## Redux boilerplate
@@ -138,7 +138,7 @@ class Profile extends Component {
 
     const self = this
 
-    let ProfileForm = t.struct({
+    const ProfileForm = t.struct({
       username: t.String,
       email: t.String,
     })
@@ -146,7 +146,7 @@ class Profile extends Component {
      * Set up the field definitions.  If we're fetching, the fields
      * are disabled.
      */
-    let options = {
+    const options = {
       auto: 'placeholders',
       fields: {
         username: {
@@ -171,7 +171,7 @@ class Profile extends Component {
      * ```currrentUser``` object as it contains the sessionToken and
      * user objectId which Parse.com requires
      */
-    let profileButtonText = I18n.t('Profile.update')
+    const profileButtonText = I18n.t('Profile.update')
     const onButtonPress = () => {
       this.props.actions.updateProfile(
         this.props.profile.form.originalProfile.objectId,
@@ -184,7 +184,7 @@ class Profile extends Component {
      * mostly for support of Hot reloading. See the docs for Header
      * for more info.
      */
-    let verfiedText = `${I18n.t('Profile.verified')} (${I18n.t('Profile.display')})`
+    const verfiedText = `${I18n.t('Profile.verified')} (${I18n.t('Profile.display')})`
     return (
       <View style={styles.container}>
         <Header isFetching={this.props.profile.form.isFetching}

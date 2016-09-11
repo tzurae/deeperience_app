@@ -2,5 +2,4 @@
 /src/__tests__/**
 /src/**/__mocks__/**
 /src/__mocks__/**
-/src/**/styles.js
 /src/lib/i18n/*.js

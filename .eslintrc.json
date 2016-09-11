@@ -29,6 +29,7 @@
     "no-var":"error",
     "no-new-object":"error",
     "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
+    "new-parens": "error",
     "prefer-const": ["error", {}],
     "object-shorthand": ["error", "always"],
     "quote-props": ["error", "as-needed"],

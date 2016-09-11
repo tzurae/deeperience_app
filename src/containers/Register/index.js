@@ -51,8 +51,8 @@ function buttonPressHandler(signup, username, email, password) {
 class Register extends React.Component {
 
   render() {
-    let loginButtonText = I18n.t('Register.register')
-    let onButtonPress = buttonPressHandler.bind(null,
+    const loginButtonText = I18n.t('Register.register')
+    const onButtonPress = buttonPressHandler.bind(null,
       this.props.actions.signup,
       this.props.auth.form.fields.username,
       this.props.auth.form.fields.email,

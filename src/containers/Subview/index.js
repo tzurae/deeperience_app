@@ -67,11 +67,11 @@ function mapDispatchToProps(dispatch) {
 class Subview extends React.Component {
 
   render() {
-    let titleConfig = {
+    const titleConfig = {
       title: I18n.t('Subview.subview'),
     }
 
-    let leftButtonConfig = {
+    const leftButtonConfig = {
       title: I18n.t('Subview.back'),
       handler: Actions.pop,
     }
