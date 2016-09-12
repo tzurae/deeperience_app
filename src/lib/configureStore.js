@@ -3,6 +3,7 @@ import createSagaMiddleware from 'redux-saga'
 import createLoggerMiddleware from 'redux-logger'
 import createStorageMiddleware from './configureStorage'
 import devTools from 'remote-redux-devtools'
+import Immutable from 'immutable'
 import thunk from 'redux-thunk'
 import reducer from '../reducers'
 
@@ -16,6 +17,9 @@ const injectMiddleware = services => ({ dispatch, getState }) => next => action 
     action({ ...services, dispatch, getState }) :
     action
   )
+
+const installDevTools = require('immutable-devtools')
+installDevTools(Immutable)
 
 export default function configureStore(options: Options) {
   const {

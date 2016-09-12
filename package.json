@@ -79,6 +79,7 @@
     "eslint-plugin-react": "^6.1.2",
     "eslint-plugin-standard": "^2.0.0",
     "flow-bin": "^0.32.0",
+    "immutable-devtools": "0.0.7",
     "istanbul": "0.4.3",
     "jest": "14.0.0",
     "jest-react-native": "14.0.0",
