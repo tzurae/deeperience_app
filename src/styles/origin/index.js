@@ -1,11 +1,11 @@
 export default {
   font: {
-    title: null,
-    tab: null,
-    common: null,
+    small: 12,
+    medium: 16,
+    big: 20,
   },
   color: {
-
+    main: 'orange',
   },
   button: {
 

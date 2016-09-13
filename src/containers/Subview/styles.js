@@ -1,6 +1,6 @@
-const React = require('react-native')
-const { StyleSheet } = React
-module.exports = StyleSheet.create({
+import { StyleSheet } from 'react-native'
+
+export default (StyleSheet.create({
   container: {
     borderTopWidth: 2,
     borderBottomWidth: 2,
@@ -15,4 +15,4 @@ module.exports = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-})
+}))

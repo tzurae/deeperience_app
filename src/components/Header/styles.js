@@ -1,6 +1,6 @@
-const React = require('react-native')
-const { StyleSheet } = React
-module.exports = StyleSheet.create({
+import { StyleSheet } from 'react-native'
+
+export default (StyleSheet.create({
   container: {
     flexDirection: 'column',
     flex: 1,
@@ -16,4 +16,4 @@ module.exports = StyleSheet.create({
     height: 100,
     width: 100,
   },
-})
+}))
