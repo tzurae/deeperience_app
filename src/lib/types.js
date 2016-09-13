@@ -37,7 +37,13 @@ export type Action =
 
     { type: 'FORGOT_PASSWORD'} |
     { type: 'LOGIN'} |
-    { type: 'REGISTER'}
+    { type: 'REGISTER'} |
+
+    { type: 'GET_ALL_TRIP'} |
+    { type: 'GET_TRIP_BY_CLASS'} |
+    { type: 'GET_TRIP_CONTENT', payload:{tripId: string}} |
+    { type: 'GET_TRIP_CONTENT_SUCCESS', payload: any} |
+    { type: 'GET_TRIP_CONTENT_FAILURE', payload: any}
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;
 export type GetState = () => Object;

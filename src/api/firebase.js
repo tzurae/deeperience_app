@@ -59,4 +59,7 @@ export default class Firebase extends apiInterface {
   updateDataBase(path, value) {
     return firebase.database().ref(path).update(value)
   }
+  readDataBaseOnce(path) {
+    return firebase.database().ref(path).once('value')
+  }
 }
