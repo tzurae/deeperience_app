@@ -32,7 +32,7 @@ import Dimensions from 'Dimensions'
 import { FBLogin, FBLoginManager } from 'react-native-facebook-login'
 import R from 'reactotron-react-native'
 
-let { height, width } = Dimensions.get('window') // Screen dimensions in current orientation
+const { height, width } = Dimensions.get('window') // Screen dimensions in current orientation
 
 /**
  * The states were interested in
@@ -177,16 +177,16 @@ class LoginRender extends React.Component {
    * Setup some default presentations and render
    */
   render() {
-    let formType = this.props.formType
-    let loginButtonText = this.props.loginButtonText
-    let onButtonPress = this.props.onButtonPress
+    const formType = this.props.formType
+    const loginButtonText = this.props.loginButtonText
+    const onButtonPress = this.props.onButtonPress
     const displayPasswordCheckbox = this.props.displayPasswordCheckbox
     const leftMessageType = this.props.leftMessageType
     const rightMessageType = this.props.rightMessageType
 
     let passwordCheckbox = <Text/>
-    let leftMessage = this.getMessage(leftMessageType, this.props.actions)
-    let rightMessage = this.getMessage(rightMessageType, this.props.actions)
+    const leftMessage = this.getMessage(leftMessageType, this.props.actions)
+    const rightMessage = this.getMessage(rightMessageType, this.props.actions)
 
     const self = this
 

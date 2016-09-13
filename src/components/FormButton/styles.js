@@ -1,12 +1,12 @@
-var React = require('react-native');
-var { StyleSheet } = React;
+const React = require('react-native')
+const { StyleSheet } = React
 module.exports = StyleSheet.create({
-    "signin": {
-        "marginLeft": 10,
-        "marginRight": 10
-    },
-    "button": {
-        "backgroundColor": "#FF3366",
-        "borderColor": "#FF3366"
-    }
-});
+  signin: {
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  button: {
+    backgroundColor: '#FF3366',
+    borderColor: '#FF3366',
+  },
+})

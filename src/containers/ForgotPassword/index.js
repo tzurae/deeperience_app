@@ -50,8 +50,8 @@ function buttonPressHandler(resetPassword, email) {
 class ForgotPassword extends React.Component {
 
   render() {
-    let loginButtonText = I18n.t('ForgotPassword.reset_password')
-    let onButtonPress = buttonPressHandler.bind(null,
+    const loginButtonText = I18n.t('ForgotPassword.reset_password')
+    const onButtonPress = buttonPressHandler.bind(null,
       this.props.actions.resetPassword,
       this.props.auth.form.fields.email
     )

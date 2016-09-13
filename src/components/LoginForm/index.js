@@ -20,7 +20,7 @@ import t from 'tcomb-form-native'
 
 import I18n from '../../lib/i18n'
 
-let Form = t.form.Form
+const Form = t.form.Form
 /**
  * States of login display
  */
@@ -54,7 +54,7 @@ class LoginForm extends React.Component {
   render() {
     const formType = this.props.formType
 
-    let options = {
+    const options = {
       fields: {
       },
     }
