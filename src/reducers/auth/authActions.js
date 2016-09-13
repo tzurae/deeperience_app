@@ -7,11 +7,6 @@ import type { ThunkAction, Action } from '../../lib/types'
 
 import UserModel from '../../model/UserModel'
 
-/**
- * ## Imports
- *
- * The actions supported
- */
 const {
   LOGOUT,
   REGISTER,
@@ -172,7 +167,7 @@ export function signup(username:string, email:string, password:string):ThunkActi
     })
       .then((json) => {
         const newUser = new UserModel(json.uid, {
-          name: 'rae',
+          name: username,
           nickname: null,
         })
         new ApiFactory().writeDataBase(newUser.getPath(), newUser.getData())

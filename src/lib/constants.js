@@ -48,4 +48,9 @@ export default keyMirror({
   LOGIN: null,
   REGISTER: null,
 
+  GET_ALL_TRIP: null,
+  GET_TRIP_BY_CLASS: null,
+  GET_TRIP_CONTENT: null,
+  GET_TRIP_CONTENT_SUCCESS: null,
+  GET_TRIP_CONTENT_FAILURE: null,
 })
