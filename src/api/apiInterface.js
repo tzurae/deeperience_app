@@ -90,5 +90,5 @@ export default class apiInterface {
    * @parms path: string
    * @return promise
    */
-  readDataBase(path) {}
+  readDataBaseOnce(path) {}
 }
