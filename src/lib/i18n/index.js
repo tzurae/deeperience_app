@@ -6,7 +6,7 @@ import I18n from 'react-native-i18n'
 
 I18n.translations = {
   en, es, fr,
-  'zh-TW':zhTw,
+  'zh-TW': zhTw,
 }
 
 export default I18n
