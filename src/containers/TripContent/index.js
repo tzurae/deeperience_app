@@ -51,16 +51,41 @@ function mapDispatchToProps(dispatch) {
 
 class TripContent extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.props.actions.getTripContentById('-KRU7JacRSqhywPrZ2sR')
+  }
+
   render() {
     return (
       <TabBar>
-        <ScrollView horizontal={false} width={width} tabLabel={I18n.t('TripTab.Introduction')}>
+        <ScrollView
+          horizontal={false}
+          width={width}
+          tabLabel={I18n.t('TripTab.Introduction')}
+        >
+
         </ScrollView>
-        <ScrollView horizontal={false} width={width} tabLabel={I18n.t('TripTab.Route')}>
+
+        <ScrollView
+          horizontal={false}
+          width={width}
+          tabLabel={I18n.t('TripTab.Route')}
+        >
         </ScrollView>
-        <ScrollView horizontal={false} width={width} tabLabel={I18n.t('TripTab.Comment')}>
+
+        <ScrollView
+          horizontal={false}
+          width={width}
+          tabLabel={I18n.t('TripTab.Comment')}
+        >
         </ScrollView>
-        <ScrollView horizontal={false} width={width} tabLabel={I18n.t('TripTab.Guide')}>
+
+        <ScrollView
+          horizontal={false}
+          width={width}
+          tabLabel={I18n.t('TripTab.Guide')}
+        >
         </ScrollView>
       </TabBar>
     )

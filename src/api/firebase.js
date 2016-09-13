@@ -19,6 +19,7 @@ export default class Firebase extends apiInterface {
       )
     })
   }
+
   getProvider(provider) {
     switch (provider) {
       case 'facebook':
@@ -27,19 +28,24 @@ export default class Firebase extends apiInterface {
         return new firebase.auth.GoogleAuthProvider()
     }
   }
+
   loginWithProvider(provider) {
     const providerId = this.getProvider(provider)
     return firebaseAuth.signInWithPopup(providerId)
   }
+
   signup({ email, password }) {
     return firebaseAuth.createUserWithEmailAndPassword(email, password)
   }
+
   login({ email, password }) {
     return firebaseAuth.signInWithEmailAndPassword(email, password)
   }
+
   logout() {
     return firebaseAuth.signOut()
   }
+
   updateProfile(updateData) {
     if (firebaseAuth.currentUser) {
       const user = firebaseAuth.currentUser
@@ -50,15 +56,19 @@ export default class Firebase extends apiInterface {
       })
     }
   }
+
   resetPassword(newPassword) {
     return firebaseAuth.currentUser.updatePassword(newPassword)
   }
+
   writeDataBase(path, value) {
     return firebase.database().ref(path).set(value)
   }
+
   updateDataBase(path, value) {
     return firebase.database().ref(path).update(value)
   }
+
   readDataBaseOnce(path) {
     return firebase.database().ref(path).once('value')
   }

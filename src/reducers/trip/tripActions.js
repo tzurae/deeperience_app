@@ -29,12 +29,14 @@ export function getTripContent():Action {
     type: GET_TRIP_CONTENT,
   }
 }
+
 export function getTripContentSuccess(res:any):Action {
   return {
     type: GET_TRIP_CONTENT_SUCCESS,
     payload: res,
   }
 }
+
 export function getTripContentFailure(res:any):Action {
   return {
     type: GET_TRIP_CONTENT_FAILURE,
@@ -47,7 +49,7 @@ export function getTripContentById(tripId:string):ThunkAction {
     dispatch(getTripContent())
     return new ApiFactory().readDataBaseOnce(`/trips/${tripId}`)
       .then(res => {
-        dispatch(getTripContentSuccess(res))
+        dispatch(getTripContentSuccess(res.val()))
       })
       .catch((error) => {
         dispatch(getTripContentFailure(error))

@@ -42,6 +42,7 @@ import AuthInitialState from './reducers/auth/authInitialState'
 import DeviceInitialState from './reducers/device/deviceInitialState'
 import GlobalInitialState from './reducers/global/globalInitialState'
 import ProfileInitialState from './reducers/profile/profileInitialState'
+import TripInitialState from './reducers/trip/tripInitialState'
 
 import pack from '../package'
 import I18n from './lib/i18n'
@@ -59,8 +60,9 @@ function getInitialState() {
   const initState = {
     auth: new AuthInitialState(),
     device: (new DeviceInitialState()).set('isMobile', true),
-    global: (new GlobalInitialState()),
+    global: new GlobalInitialState(),
     profile: new ProfileInitialState(),
+    trip: new TripInitialState(),
   }
   return initState
 }
