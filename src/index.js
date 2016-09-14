@@ -51,6 +51,7 @@ import pack from '../package'
 import I18n from './lib/i18n'
 // Support fallbacks so en-US & en-BR both use en
 I18n.fallbacks = true
+I18n.locale = 'tc'
 const VERSION = pack.version
 
 /**
@@ -71,7 +72,9 @@ function getInitialState() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    height: 70,
+    height: 65,
+    borderTopWidth: 2,
+    borderTopColor: 'darkgray',
   },
 })
 
@@ -85,7 +88,7 @@ class TabIcon extends React.Component {
     const color = this.props.selected ? '#FF3366' : '#FFB3B3'
     return (
       <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', alignSelf: 'center' }}>
-        <Icon style={{ color }} name={this.props.iconName} size={30}/>
+        <Icon style={{ color }} name={this.props.iconName} size={25}/>
         <Text style={{ color }}>{this.props.title}</Text>
       </View>
     )
@@ -128,11 +131,9 @@ export default function native(platform) {
                      component={App}
                      type="replace"
               />
-
               <Scene key="InitialLoginForm"
                      component={Register}
                      type="replace"
-                     initial={true}
               />
 
               <Scene key="Login"
@@ -159,27 +160,25 @@ export default function native(platform) {
                      hideNavBar={true}
                      tabBarStyle={styles.tabBar}
                      default="Main"
+                     initial
               >
-
-                <Scene key="Logout"
-                       title={I18n.t('Snowflake.logout')}
-                       icon={TabIcon}
-                       iconName={"sign-out"}
-                       hideNavBar={true}
-                       component={Logout}
-                />
-
                 <Scene key="Main"
-                       title={I18n.t('Snowflake.main')}
-                       iconName={"home"}
+                       title={I18n.t('Nav.planList')}
+                       iconName={"list-ul"}
                        icon={TabIcon}
                        hideNavBar={true}
                        component={Main}
                        initial={true}
                 />
-
+                <Scene key="Logout"
+                       title={I18n.t('Nav.favoriteGuide')}
+                       icon={TabIcon}
+                       iconName={"users"}
+                       hideNavBar={true}
+                       component={Logout}
+                />
                 <Scene key="Profile"
-                       title={I18n.t('Snowflake.profile')}
+                       title={I18n.t('Nav.setting')}
                        icon={TabIcon}
                        iconName={"gear"}
                        hideNavBar={true}

@@ -11,10 +11,10 @@ import * as authActions from '../../reducers/auth/authActions'
 import * as globalActions from '../../reducers/global/globalActions'
 import { Map } from 'immutable'
 import { Actions } from 'react-native-router-flux'
-import Header from '../Header'
 import ErrorAlert from '../ErrorAlert'
 import FormButton from '../FormButton'
 import LoginForm from '../LoginForm'
+import Header from '../Header'
 import ItemCheckbox from '../ItemCheckbox'
 import React from 'react'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
@@ -224,17 +224,12 @@ class LoginRender extends React.Component {
      * See the docs for Header for more info.
      */
     return (
+      <View style={styles.container}>
+        <Header Header_Text={REGISTER}/>
     <ScrollableTabView>
       <View style={styles.container} tabLabel="login">
         <ScrollView horizontal={false} width={width} height={height}>
           <View>
-            <Header isFetching={this.props.auth.form.isFetching}
-                    showState={this.props.global.showState}
-                    currentState={this.props.global.currentState}
-                    onGetState={this.props.actions.getState}
-                    onSetState={this.props.actions.setState}
-            />
-
             <View style={styles.inputs}>
               <LoginForm
                 formType={formType}
@@ -277,6 +272,7 @@ class LoginRender extends React.Component {
         </ScrollView>
       </View>
     </ScrollableTabView>
+        </View>
     )
   }
 }

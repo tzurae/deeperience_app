@@ -11,7 +11,6 @@ import { connect } from 'react-redux'
 import * as authActions from '../../reducers/auth/authActions'
 import * as globalActions from '../../reducers/global/globalActions'
 import { Map } from 'immutable'
-import Header from '../../components/Header'
 import FormButton from '../../components/FormButton'
 import React, { Component } from 'react'
 import I18n from '../../lib/i18n'
@@ -74,12 +73,6 @@ class Logout extends Component {
     return (
       <View style={styles.container}>
         <View>
-          <Header isFetching={this.props.auth.form.isFetching}
-                  showState={this.props.global.showState}
-                  currentState={this.props.global.currentState}
-                  onGetState={this.props.actions.getState}
-                  onSetState={this.props.actions.setState}
-          />
           <FormButton
             isDisabled={!this.props.auth.form.isValid || this.props.auth.form.isFetching}
             onPress={onButtonPress.bind(this)}

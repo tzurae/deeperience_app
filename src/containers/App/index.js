@@ -17,14 +17,12 @@ import React from 'react'
 import
 {
   View,
-  Text,
+  Image,
 }
 from 'react-native'
 import styles from './styles'
-import Header from '../../components/Header'
 import reactMixin from 'react-mixin'
 import TimerMixin from 'react-timer-mixin'
-import I18n from '../../lib/i18n'
 /**
  * ## Actions
  * 3 of our actions will be available as ```actions```
@@ -70,31 +68,19 @@ function mapDispatchToProps(dispatch) {
 }
 
 class App extends React.Component {
-  /**
-   * See if there's a sessionToken from a previous login
-   *
-   */
   componentDidMount() {
     // Use a timer so App screen is displayed
     this.setTimeout(
       () => {
         this.props.actions.initAuth()
       },
-      2500
+      1500
     )
   }
-
   render() {
     return (
       <View style={styles.container}>
-        <Header isFetching={this.props.auth.form.isFetching}
-                showState={this.props.global.showState}
-                currentState={this.props.global.currentState}
-                onGetState={this.props.actions.getState}
-                onSetState={this.props.actions.setState}
-        />
-
-        <Text style={styles.summary}>Snowflake {I18n.t('App.version')}:        {this.props.deviceVersion}</Text>
+        <Image style={styles.mark} source={require('../../images/dpLogo.png')} />
       </View>
     )
   }

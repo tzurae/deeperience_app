@@ -14,7 +14,6 @@ import * as globalActions from '../../reducers/global/globalActions'
 import { Map } from 'immutable'
 import ErrorAlert from '../../components/ErrorAlert'
 import FormButton from '../../components/FormButton'
-import Header from '../../components/Header'
 import ItemCheckbox from '../../components/ItemCheckbox'
 import React, { Component } from 'react'
 import
@@ -187,12 +186,6 @@ class Profile extends Component {
     const verfiedText = `${I18n.t('Profile.verified')} (${I18n.t('Profile.display')})`
     return (
       <View style={styles.container}>
-        <Header isFetching={this.props.profile.form.isFetching}
-                showState={this.props.global.showState}
-                currentState={this.props.global.currentState}
-                onGetState={this.props.actions.getState}
-                onSetState={this.props.actions.setState}
-        />
         <View style={styles.inputs}>
           <Form
               ref={ref => { this.form = ref }}

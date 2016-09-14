@@ -10,17 +10,17 @@ import * as authActions from '../../reducers/auth/authActions'
 import * as globalActions from '../../reducers/global/globalActions'
 import { Map } from 'immutable'
 import { Actions } from 'react-native-router-flux'
-import Header from '../../components/Header'
 import React, { Component } from 'react'
+import Header from '../../components/Header'
+import ScrollableTabView from 'react-native-scrollable-tab-view'
+import ThumbnailPlan from '../../components/ThumbnailPlan'
 import
 {
   View,
 }
 from 'react-native'
 import I18n from '../../lib/i18n'
-
 import styles from './styles'
-const Button = require('apsl-react-native-button')
 
 /**
  * Support for Hot reload
@@ -72,6 +72,17 @@ function mapDispatchToProps(dispatch) {
  */
 class Main extends Component {
 
+  state = {
+    title: '城隍廟小吃大公開',
+    dayInfo: '一日遊',
+    guide: '邱比特',
+    startNumber: 8.7,
+    watchNumber: 87,
+    numOfPurchase: 870,
+    cost: 2800,
+    unit: 'TWD',
+  }
+
   handlePress() {
     Actions.Subview({
       title: 'Subview',
@@ -82,17 +93,26 @@ class Main extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View>
-          <Header isFetching={this.props.auth.form.isFetching}
-                  showState={this.props.global.showState}
-                  currentState={this.props.global.currentState}
-                  onGetState={this.props.actions.getState}
-                  onSetState={this.props.actions.setState}
-          />
-          <Button style={styles.button} onPress={this.handlePress.bind(this)}>
-            {I18n.t('Main.navigate')}
-          </Button>
-        </View>
+        <Header Header_Text={I18n.t('Nav.planList')}/>
+        <ScrollableTabView
+          tabBarUnderlineStyle={{backgroundColor: '#F78B6D'}}
+          tabBarActiveTextColor="#F78B6D"
+        >
+          <View style={styles.nav} tabLabel={I18n.t('Nav.recommendation')}>
+            <ThumbnailPlan
+              title = {this.state.title}
+              dayInfo = {this.state.dayInfo}
+              guide = {this.state.guide}
+              startNumber = {this.state.startNumber}
+              watchNumber = {this.state.watchNumber}
+              numOfPurchase = {this.state.numOfPurchase}
+              cost = {this.state.cost}
+              unit = {this.state.unit}
+            />
+          </View>
+          <View style={styles.nav} tabLabel={I18n.t('Nav.purchased')}>
+          </View>
+        </ScrollableTabView>
       </View>
     )
   }

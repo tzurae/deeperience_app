@@ -11,10 +11,11 @@ export default {
     "subview": "Subview",
     "back": "Espalda",
   },
-  "Snowflake": {
-    "logout": "Cerrar sesión",
-    "main": "Principal",
-    "profile": "Perfil",
+  "Nav": {
+    "planList": "Plan List",
+    "favoriteGuide": "Favorite Guide",
+    "filter": "Filter",
+    "setting": "Setting",
   },
   "Main": {
     "navigate": "Navegue hasta subview",
