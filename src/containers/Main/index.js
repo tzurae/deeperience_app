@@ -1,9 +1,4 @@
-/**
- * # Main.js
- *  This is the main app screen
- *
- */
-'use strict'
+/* @flow */
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as authActions from '../../reducers/auth/authActions'
@@ -76,7 +71,7 @@ class Main extends Component {
     title: '城隍廟小吃大公開',
     dayInfo: '一日遊',
     guide: '邱比特',
-    startNumber: 8.7,
+    starNumber: 87,
     watchNumber: 87,
     numOfPurchase: 870,
     cost: 2800,
@@ -103,7 +98,7 @@ class Main extends Component {
               title = {this.state.title}
               dayInfo = {this.state.dayInfo}
               guide = {this.state.guide}
-              startNumber = {this.state.startNumber}
+              starNumber = {this.state.starNumber}
               watchNumber = {this.state.watchNumber}
               numOfPurchase = {this.state.numOfPurchase}
               cost = {this.state.cost}
