@@ -10,19 +10,18 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Map } from 'immutable'
-import * as tripActions from '../../reducers/trip/tripActions'
-import * as globalActions from '../../reducers/global/globalActions'
+import * as tripActions from '../../../reducers/trip/tripActions'
 import React from 'react'
 import { ScrollView } from 'react-native'
-import I18n from '../../lib/i18n'
-import TabBar from '../../components/TabBar'
+import I18n from '../../../lib/i18n'
+import TabBar from '../../../components/TabBar'
+import TripContentRoute from '../TripContentRoute'
 
 import Dimensions from 'Dimensions'
 const { width } = Dimensions.get('window') // Screen dimensions in current orientation
 
 const actions = [
   tripActions,
-  globalActions,
 ]
 
 /**
@@ -64,7 +63,6 @@ class TripContent extends React.Component {
           width={width}
           tabLabel={I18n.t('TripTab.Introduction')}
         >
-
         </ScrollView>
 
         <ScrollView

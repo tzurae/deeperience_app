@@ -31,7 +31,8 @@ import ForgotPassword from './containers/ForgotPassword'
 import Profile from './containers/Profile'
 import Main from './containers/Main'
 import Subview from './containers/Subview'
-import TripContent from './containers/TripContent'
+import TripContent from './containers/Trip/TripContent'
+
 import Icon from 'react-native-vector-icons/FontAwesome'
 import createStorageEngine from 'redux-storage-engine-reactnativeasyncstorage'
 

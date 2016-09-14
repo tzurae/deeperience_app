@@ -53,4 +53,8 @@ export default keyMirror({
   GET_TRIP_CONTENT: null,
   GET_TRIP_CONTENT_SUCCESS: null,
   GET_TRIP_CONTENT_FAILURE: null,
+
+  GET_ALL_SITE_CONTENT_SUCCESS: null,
+  GET_ALL_SITE_CONTENT_FAILURE: null,
+
 })
