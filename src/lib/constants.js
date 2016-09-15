@@ -57,4 +57,5 @@ export default keyMirror({
   GET_ALL_SITE_CONTENT_SUCCESS: null,
   GET_ALL_SITE_CONTENT_FAILURE: null,
 
+  SET_SITE_POSITION: null,
 })

@@ -29,10 +29,6 @@ const actions = [
  */
 function mapStateToProps(state) {
   return {
-    global: {
-      currentState: state.global.currentState,
-      showState: state.global.showState,
-    },
   }
 }
 
@@ -63,6 +59,7 @@ class TripContent extends React.Component {
           width={width}
           tabLabel={I18n.t('TripTab.Introduction')}
         >
+          <TripContentRoute></TripContentRoute>
         </ScrollView>
 
         <ScrollView

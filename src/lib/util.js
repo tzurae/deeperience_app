@@ -1,5 +1,15 @@
 'use strict'
 
+/*
+  for promise iteration
+  condition: function , when to stop iterating
+  action: function, do promise stuff, like fetching data
+  index: number, the iteration index
+  sucCallback: function, when everything is all done
+  errCallback: function, error callback
+  data: initial data and data to add and later dispatch or something
+
+ */
 export function promiseFor(condition, action, index, sucCallback, errCallback, data) {
   const promiseForInner = (condition, action, index) => {
     if (!condition(index)) {

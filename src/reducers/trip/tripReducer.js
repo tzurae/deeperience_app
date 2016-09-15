@@ -16,6 +16,8 @@ const {
   GET_ALL_SITE_CONTENT_SUCCESS,
   GET_ALL_SITE_CONTENT_FAILURE,
 
+  SET_SITE_POSITION,
+
   SET_STATE,
 } = require('../../lib/constants').default
 
@@ -32,11 +34,11 @@ export default function tripReducer(state = initialState, action) {
       return state
 
     case GET_TRIP_CONTENT_SUCCESS:
-      const { guideId, name, routes, startSite } = action.payload
+      const { guideId, name, routes, startSites } = action.payload
       return state.setIn(['tripContent', 'guideId'], guideId)
                   .setIn(['tripContent', 'name'], name)
                   .setIn(['tripContent', 'routes'], routes)
-                  .setIn(['tripContent', 'startSite'], startSite)
+                  .setIn(['tripContent', 'startSite'], startSites)
 
     case GET_TRIP_CONTENT_FAILURE:
       return state.setIn(['isFetching'], false)
@@ -48,12 +50,15 @@ export default function tripReducer(state = initialState, action) {
     case GET_ALL_SITE_CONTENT_SUCCESS:
       const { data } = action.payload
 
-      return state.setIn(['isFetching'], false)
-                  .setIn(['tripContent', 'allSites'], data)
+      return state.setIn(['tripContent', 'allSites'], data)
 
     case GET_ALL_SITE_CONTENT_FAILURE:
       return state.setIn(['isFetching'], false)
                   .setIn(['error'], action.payload)
+
+    case SET_SITE_POSITION:
+      return state.setIn(['isFetching'], false)
+                  .setIn(['tripContent', 'sitePosition'], action.payload)
 
     case SET_STATE:
       return state

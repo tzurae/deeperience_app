@@ -9,6 +9,7 @@ const InitialState = Record({
     routes: null,
     allSites: null,
     startSite: null,
+    sitePosition: null,
   }))(),
   isFetching: false,
   error: null,

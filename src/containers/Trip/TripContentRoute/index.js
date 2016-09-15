@@ -13,6 +13,8 @@ import { Map } from 'immutable'
 import React from 'react'
 import tripActions from '../../../reducers/trip/tripActions'
 
+import { View } from 'react-native'
+
 import Dimensions from 'Dimensions'
 const { width } = Dimensions.get('window') // Screen dimensions in current orientation
 
@@ -28,7 +30,7 @@ function mapStateToProps(state) {
     trip: {
       name: state.trip.tripContent.name,
       routes: state.trip.tripContent.routes,
-      suideId: state.trip.tripContent.guideId,
+      guideId: state.trip.tripContent.guideId,
       startSite: state.trip.tripContent.startSite,
       allSites: state.trip.tripContent.allSites,
     },
@@ -47,11 +49,10 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-class TripContent extends React.Component {
+class TripContentRoute extends React.Component {
 
   constructor(props) {
     super(props)
-    this.props.actions.getTripContentById('-KRU7JacRSqhywPrZ2sR')
   }
 
   render() {
@@ -60,4 +61,4 @@ class TripContent extends React.Component {
     )
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(TripContent)
+export default connect(mapStateToProps, mapDispatchToProps)(TripContentRoute)

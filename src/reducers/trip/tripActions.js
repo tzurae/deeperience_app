@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux'
 import ApiFactory from '../../api/apiFactory'
 import type { ThunkAction, Action } from '../../lib/types'
 import { promiseFor } from '../../lib/util'
+import { calculateLayer } from './tripHelper'
 
 const {
   GET_ALL_TRIP,
@@ -13,6 +14,7 @@ const {
   GET_TRIP_CONTENT_FAILURE,
   GET_ALL_SITE_CONTENT_SUCCESS,
   GET_ALL_SITE_CONTENT_FAILURE,
+  SET_SITE_POSITION,
 } = require('../../lib/constants').default
 
 export function getAllTrip():Action {
@@ -61,6 +63,13 @@ export function getAllSiteContentFailure(res:any):Action {
   }
 }
 
+export function setSitePosition(res:any):Action {
+  return {
+    type: SET_SITE_POSITION,
+    payload: res,
+  }
+}
+
 export function getTripContentById(tripId:string):ThunkAction {
   return dispatch => {
     dispatch(getTripContent())
@@ -68,22 +77,29 @@ export function getTripContentById(tripId:string):ThunkAction {
     return new ApiFactory().readDataBaseOnce(`/trips/${tripId}`)
       .then(res => {
         dispatch(getTripContentSuccess(res.val()))
-        const allSites = res.val().allSites
+        const allSitesKey = res.val().allSites
+        const allSites = {}
 
         promiseFor(
-          (index) => { return index < allSites.length },
+          (index) => { return index < allSitesKey.length },
           (index, payload) => {
             return new ApiFactory()
-                        .readDataBaseOnce(`/site/${allSites[index]}`)
+                        .readDataBaseOnce(`/site/${allSitesKey[index]}`)
                         .then((res) => {
-                          payload[allSites[index]] = res.val()
+                          payload[allSitesKey[index]] = res.val()
                         })
           },
           0,
           (data) => { dispatch(getAllSiteContentSuccess(data)) },
           (err) => { dispatch(getAllSiteContentFailure(err)) },
-          {},
+          allSites
         )
+
+        const { guideId, name, routes, startSites } = res.val()
+        return { allSites, guideId, name, routes, startSites }
+      })
+      .then(({ allSites, routes, startSites }) => {
+        dispatch(setSitePosition(calculateLayer(routes, startSites, allSites)))
       })
       .catch((error) => {
         dispatch(getTripContentFailure(error))
