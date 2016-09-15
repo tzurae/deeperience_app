@@ -1,6 +1,5 @@
 // @flow
 'use strict'
-import { Actions } from 'react-native-router-flux'
 import ApiFactory from '../../api/apiFactory'
 import type { ThunkAction, Action } from '../../lib/types'
 import { promiseFor } from '../../lib/util'

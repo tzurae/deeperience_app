@@ -59,29 +59,26 @@ class TripContent extends React.Component {
           width={width}
           tabLabel={I18n.t('TripTab.Introduction')}
         >
-          <TripContentRoute></TripContentRoute>
+          <TripContentRoute/>
         </ScrollView>
 
         <ScrollView
           horizontal={false}
           width={width}
           tabLabel={I18n.t('TripTab.Route')}
-        >
-        </ScrollView>
+        />
 
         <ScrollView
           horizontal={false}
           width={width}
           tabLabel={I18n.t('TripTab.Comment')}
-        >
-        </ScrollView>
+        />
 
         <ScrollView
           horizontal={false}
           width={width}
           tabLabel={I18n.t('TripTab.Guide')}
-        >
-        </ScrollView>
+        />
       </TabBar>
     )
   }

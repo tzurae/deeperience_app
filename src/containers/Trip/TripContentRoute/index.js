@@ -17,8 +17,8 @@ import { View } from 'react-native'
 
 import styles from './styles'
 
-import Dimensions from 'Dimensions'
-const { width } = Dimensions.get('window') // Screen dimensions in current orientation
+// import Dimensions from 'Dimensions'
+// const { width } = Dimensions.get('window') // Screen dimensions in current orientation
 
 const actions = [
   tripActions,
@@ -53,15 +53,9 @@ function mapDispatchToProps(dispatch) {
 
 class TripContentRoute extends React.Component {
 
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
-      <View style={styles.container}>
-
-      </View>
+      <View style={styles.container}/>
     )
   }
 }

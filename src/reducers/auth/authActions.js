@@ -5,8 +5,6 @@ import ApiFactory from '../../api/apiFactory'
 import Firebase from '../../api/firebase'
 import type { ThunkAction, Action } from '../../lib/types'
 
-import UserModel from '../../model/UserModel'
-
 const {
   LOGOUT,
   REGISTER,
@@ -196,7 +194,7 @@ export function signup(username:string, email:string, password:string):Action {
       username,
       email,
       password,
-    }
+    },
   }
 }
 

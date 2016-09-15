@@ -7,7 +7,6 @@ import { Map } from 'immutable'
 import { Actions } from 'react-native-router-flux'
 import React, { Component } from 'react'
 import Header from '../../components/Header'
-import ScrollableTabView from 'react-native-scrollable-tab-view'
 import ThumbnailPlan from '../../components/ThumbnailPlan'
 import
 {
@@ -103,8 +102,7 @@ class Main extends Component {
               unit = {this.state.unit}
             />
           </View>
-          <View style={styles.nav} tabLabel={I18n.t('Nav.purchased')}>
-          </View>
+          <View style={styles.nav} tabLabel={I18n.t('Nav.purchased')}/>
         </TabBar>
       </View>
     )

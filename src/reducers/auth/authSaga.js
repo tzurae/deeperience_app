@@ -7,9 +7,8 @@ import apiFactory from '../../api/apiFactory'
  */
 
 function* watchSignUp() {
-  while(true) {
-    let { payload } = yield take(authActions.signup)
-
+  while (true) {
+    const { payload } = yield take(authActions.signup)
   }
 }
 

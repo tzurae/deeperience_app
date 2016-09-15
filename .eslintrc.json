@@ -61,7 +61,6 @@
     "object-curly-spacing": ["error", "always"],
     "camelcase": ["error", {"properties": "always"}],
     "new-cap": "error",
-    "import/prefer-default-export":"error",
     "import/no-mutable-exports":"error",
     "import/imports-first":"error",
     "no-underscore-dangle": "error",
