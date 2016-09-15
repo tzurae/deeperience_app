@@ -256,7 +256,7 @@ class LoginRender extends React.Component {
           </View>
         </ScrollView>
       </View>
-      <View style={styles.container} tabLabel="fblogin">
+      <View tabLabel="fblogin">
         <ScrollView horizontal={false} width={width} height={height}>
           <FBLogin
             ref={(fbLogin) => { this.fbLogin = fbLogin }}

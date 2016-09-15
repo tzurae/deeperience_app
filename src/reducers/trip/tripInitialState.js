@@ -2,15 +2,16 @@
 
 const { Record } = require('immutable')
 
-const Form = Record({
-
-})
-
-/**
- * ## InitialState
- * The form is set
- */
 const InitialState = Record({
-  form: new Form(),
+  tripContent: new (Record({
+    guideId: '',
+    name: '',
+    routes: null,
+    allSites: null,
+    startSite: null,
+    sitePosition: null,
+  }))(),
+  isFetching: false,
+  error: null,
 })
 export default InitialState

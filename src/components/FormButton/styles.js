@@ -1,6 +1,6 @@
-const React = require('react-native')
-const { StyleSheet } = React
-module.exports = StyleSheet.create({
+import { StyleSheet } from 'react-native'
+
+export default (StyleSheet.create({
   signin: {
     marginLeft: 10,
     marginRight: 10,
@@ -9,4 +9,4 @@ module.exports = StyleSheet.create({
     backgroundColor: '#FF3366',
     borderColor: '#FF3366',
   },
-})
+}))

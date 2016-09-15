@@ -16,6 +16,7 @@ import
 from 'react-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
+import TabBar from '../../components/TabBar'
 
 /**
  * Support for Hot reload
@@ -89,10 +90,7 @@ class Main extends Component {
     return (
       <View style={styles.container}>
         <Header Header_Text={I18n.t('Nav.planList')}/>
-        <ScrollableTabView
-          tabBarUnderlineStyle={{backgroundColor: '#F78B6D'}}
-          tabBarActiveTextColor="#F78B6D"
-        >
+        <TabBar>
           <View style={styles.nav} tabLabel={I18n.t('Nav.recommendation')}>
             <ThumbnailPlan
               title = {this.state.title}
@@ -107,7 +105,7 @@ class Main extends Component {
           </View>
           <View style={styles.nav} tabLabel={I18n.t('Nav.purchased')}>
           </View>
-        </ScrollableTabView>
+        </TabBar>
       </View>
     )
   }

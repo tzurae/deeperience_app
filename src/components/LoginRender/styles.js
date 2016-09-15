@@ -1,38 +1,19 @@
-const React = require('react-native')
-const { StyleSheet } = React
-module.exports = StyleSheet.create({
-  outerView: {
-    alignSelf: 'stretch',
-    flex: 1,
-    backgroundColor: 'black',
-  },
-  stageRow: {
-    flex: 1,
+import { StyleSheet } from 'react-native'
+
+export default (StyleSheet.create({
+  container: {
     height: 100,
-    alignSelf: 'stretch',
-    flexDirection: 'row',
-    marginLeft: 15,
-    marginRight: 15,
+    backgroundColor: 'black',
+    alignItems: 'stretch',
   },
-  stageRowConStyle: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  siteView: {
-    width: 75,
-    height: 75,
-    borderWidth: 2,
-    borderStyle: 'solid',
+  tabView: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: 'rgba(255,0,0,0.01)',
     borderColor: 'orange',
-    marginLeft: 15,
-    marginRight: 15,
   },
-  siteViewConStyle: {
-    alignItems: 'center',
+  scrollable: {
+    borderColor: 'orange',
+    padding: 0,
   },
-  siteViewText: {
-    fontSize: 30,
-    textAlign: 'center',
-    color: 'black',
-  },
-})
+}))

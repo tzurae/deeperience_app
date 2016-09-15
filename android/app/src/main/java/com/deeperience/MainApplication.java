@@ -13,11 +13,8 @@ import com.magus.fblogin.FacebookLoginPackage;
 import java.util.Arrays;
 import java.util.List;
 
-// Add this line:
 import com.oblador.vectoricons.VectorIconsPackage;
-// Add this line:
 import com.burnweb.rnsimplealertdialog.RNSimpleAlertDialogPackage;
-// Add this line:
 import com.i18n.reactnativei18n.ReactNativeI18n;
 
 public class MainApplication extends Application implements ReactApplication {

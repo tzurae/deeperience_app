@@ -1,10 +1,9 @@
-const React = require('react-native')
-const { StyleSheet } = React
-module.exports = StyleSheet.create({
+import { StyleSheet } from 'react-native'
+
+export default (StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
     backgroundColor: '#F78B6D',
   },
   Text: {
@@ -14,4 +13,4 @@ module.exports = StyleSheet.create({
     color: '#ffffff',
     fontWeight: 'bold',
   },
-})
+}))

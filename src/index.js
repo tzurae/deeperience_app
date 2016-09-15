@@ -18,11 +18,6 @@ import {
   // TabBar,
 } from 'react-native-router-flux'
 
-/**
- * ### Redux
- *
- * ```Provider``` will tie the React-Native to the Redux store
- */
 import {
   Provider,
   // connect,
@@ -36,6 +31,8 @@ import ForgotPassword from './containers/ForgotPassword'
 import Profile from './containers/Profile'
 import Main from './containers/Main'
 import Subview from './containers/Subview'
+import TripContent from './containers/Trip/TripContent'
+
 import Icon from 'react-native-vector-icons/FontAwesome'
 import createStorageEngine from 'redux-storage-engine-reactnativeasyncstorage'
 
@@ -46,12 +43,13 @@ import AuthInitialState from './reducers/auth/authInitialState'
 import DeviceInitialState from './reducers/device/deviceInitialState'
 import GlobalInitialState from './reducers/global/globalInitialState'
 import ProfileInitialState from './reducers/profile/profileInitialState'
+import TripInitialState from './reducers/trip/tripInitialState'
 
 import pack from '../package'
 import I18n from './lib/i18n'
 // Support fallbacks so en-US & en-BR both use en
 I18n.fallbacks = true
-I18n.locale = 'tc'
+I18n.locale = 'zh-TW'
 const VERSION = pack.version
 
 /**
@@ -64,8 +62,9 @@ function getInitialState() {
   const initState = {
     auth: new AuthInitialState(),
     device: (new DeviceInitialState()).set('isMobile', true),
-    global: (new GlobalInitialState()),
+    global: new GlobalInitialState(),
     profile: new ProfileInitialState(),
+    trip: new TripInitialState(),
   }
   return initState
 }
@@ -105,7 +104,7 @@ class TabIcon extends React.Component {
  */
 
 export default function native(platform) {
-  class Snowflake extends React.Component {
+  class Deeperience extends React.Component {
     render() {
       const store = configureStore({
         initialState: getInitialState(),
@@ -185,6 +184,10 @@ export default function native(platform) {
                        component={Profile}
                 />
               </Scene>
+              <Scene key="TripContent"
+                     component={TripContent}
+                     // initial={true}
+              />
             </Scene>
           </Router>
         </Provider>
@@ -195,5 +198,5 @@ export default function native(platform) {
    * registerComponent to the AppRegistery and off we go....
    */
 
-  AppRegistry.registerComponent('deeperience', () => Snowflake)
+  AppRegistry.registerComponent('deeperience', () => Deeperience)
 }
