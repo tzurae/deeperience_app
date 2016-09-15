@@ -15,6 +15,8 @@ import tripActions from '../../../reducers/trip/tripActions'
 
 import { View } from 'react-native'
 
+import styles from './styles'
+
 import Dimensions from 'Dimensions'
 const { width } = Dimensions.get('window') // Screen dimensions in current orientation
 
@@ -57,7 +59,9 @@ class TripContentRoute extends React.Component {
 
   render() {
     return (
-      <View></View>
+      <View style={styles.container}>
+
+      </View>
     )
   }
 }
