@@ -23,6 +23,8 @@ const {
   LOGIN_SOCIAL,
 
   ON_AUTH_FORM_FIELD_CHANGE,
+
+  SIGNUP_START,
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
@@ -158,32 +160,43 @@ export function signupFailure(error:any):Action { // TODO
  * @param {string} email - user's email
  * @param {string} password - user's password
  */
-export function signup(username:string, email:string, password:string):ThunkAction {
-  return dispatch => {
-    dispatch(signupRequest())
-    return new ApiFactory().signup({
+// export function signup(username:string, email:string, password:string):ThunkAction {
+//   return dispatch => {
+//     dispatch(signupRequest())
+//     return new ApiFactory().signup({
+//       email,
+//       password,
+//     })
+//       .then((json) => {
+//         const newUser = new UserModel(json.uid, {
+//           name: username,
+//           nickname: null,
+//         })
+//         new ApiFactory().writeDataBase(newUser.getPath(), newUser.getData())
+//         dispatch(signupSuccess(
+//           {
+//             uid: json.uid,
+//             name: json.displayName,
+//             email: json.email,
+//           }))
+//         dispatch(logoutState())
+//             // navigate to Tabbar
+//         Actions.Tabbar()
+//       })
+//       .catch((error) => {
+//         dispatch(signupFailure(error))
+//       })
+//   }
+// }
+
+export function signup(username:string, email:string, password:string):Action {
+  return {
+    type: SIGNUP_START,
+    payload: {
+      username,
       email,
       password,
-    })
-      .then((json) => {
-        const newUser = new UserModel(json.uid, {
-          name: username,
-          nickname: null,
-        })
-        new ApiFactory().writeDataBase(newUser.getPath(), newUser.getData())
-        dispatch(signupSuccess(
-          {
-            uid: json.uid,
-            name: json.displayName,
-            email: json.email,
-          }))
-        dispatch(logoutState())
-            // navigate to Tabbar
-        Actions.Tabbar()
-      })
-      .catch((error) => {
-        dispatch(signupFailure(error))
-      })
+    }
   }
 }
 

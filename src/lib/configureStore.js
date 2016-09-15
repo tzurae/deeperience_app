@@ -6,6 +6,7 @@ import devTools from 'remote-redux-devtools'
 import Immutable from 'immutable'
 import thunk from 'redux-thunk'
 import reducer from '../reducers'
+import rootSagas from './rootSagas'
 
 type Options = {
   initialState: Object,
@@ -55,7 +56,7 @@ export default function configureStore(options: Options) {
     enhancer
   )
 
-  store.runSaga = saga.run
+  store.runSaga = saga.run(rootSagas)
   devTools.updateStore(store)
 
   return store

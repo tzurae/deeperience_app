@@ -9,6 +9,7 @@ export default keyMirror({
   LOGOUT: null,
 
   ON_AUTH_FORM_FIELD_CHANGE: null,
+  SIGNUP_START: null,
   SIGNUP_REQUEST: null,
   SIGNUP_SUCCESS: null,
   SIGNUP_FAILURE: null,
