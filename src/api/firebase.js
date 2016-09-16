@@ -31,7 +31,7 @@ export default class Firebase extends apiInterface {
     const providerId = this.getProvider(provider)
     return firebaseAuth.signInWithPopup(providerId)
   }
-  signup({ email, password }) {
+  signup(email, password) {
     return firebaseAuth.createUserWithEmailAndPassword(email, password)
   }
   login({ email, password }) {

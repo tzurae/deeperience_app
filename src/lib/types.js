@@ -43,7 +43,9 @@ export type Action =
     { type: 'GET_TRIP_BY_CLASS'} |
     { type: 'GET_TRIP_CONTENT', payload:{tripId: string}} |
     { type: 'GET_TRIP_CONTENT_SUCCESS', payload: any} |
-    { type: 'GET_TRIP_CONTENT_FAILURE', payload: any}
+    { type: 'GET_TRIP_CONTENT_FAILURE', payload: any} |
+    { type: 'SIGNUP_START', payload: {username: string, email: string, password: string}} |
+    { type: 'INIT_AUTH' }
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;
 export type GetState = () => Object;

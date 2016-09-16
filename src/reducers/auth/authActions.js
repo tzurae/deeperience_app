@@ -8,6 +8,8 @@ import type { ThunkAction, Action } from '../../lib/types'
 import UserModel from '../../model/UserModel'
 
 const {
+
+  INIT_AUTH,
   LOGOUT,
   REGISTER,
   LOGIN,
@@ -35,30 +37,11 @@ const {
 
 } = require('../../lib/constants').default
 
-/**
- *  ## Initialize user auth when app start running
- */
-
-export function initAuth():ThunkAction {
-  return dispatch => {
-    return new ApiFactory().initAuth()
-      .then(
-        user => {
-          if (user) {
-            dispatch(loginSuccess(user.json))
-            Actions.Tabbar()
-          } else {
-            Actions.InitialLoginForm()
-          }
-        })
-      .catch(
-        error => {
-          dispatch(loginFailure(error))
-        }
-      )
+export function initAuth():Action {
+  return {
+    type: INIT_AUTH,
   }
 }
-
 /**
  * ## State actions
  * controls which form is displayed to the user
@@ -154,44 +137,9 @@ export function signupFailure(error:any):Action { // TODO
   }
 }
 
-/**
- * ## signup
- * @param {string} username - name of user
- * @param {string} email - user's email
- * @param {string} password - user's password
- */
-// export function signup(username:string, email:string, password:string):ThunkAction {
-//   return dispatch => {
-//     dispatch(signupRequest())
-//     return new ApiFactory().signup({
-//       email,
-//       password,
-//     })
-//       .then((json) => {
-//         const newUser = new UserModel(json.uid, {
-//           name: username,
-//           nickname: null,
-//         })
-//         new ApiFactory().writeDataBase(newUser.getPath(), newUser.getData())
-//         dispatch(signupSuccess(
-//           {
-//             uid: json.uid,
-//             name: json.displayName,
-//             email: json.email,
-//           }))
-//         dispatch(logoutState())
-//             // navigate to Tabbar
-//         Actions.Tabbar()
-//       })
-//       .catch((error) => {
-//         dispatch(signupFailure(error))
-//       })
-//   }
-// }
-
 export function signup(username:string, email:string, password:string):Action {
   return {
-    type: SIGNUP_START,
+    type: SIGNUP_START, // redux-saga actions
     payload: {
       username,
       email,

@@ -5,6 +5,7 @@ export default {
     "filter": "篩選行程",
     "setting": "個人化",
     "recommendation": "推薦",
-    "purchased": "已購買"
+    "purchased": "已購買",
+    "logout": "登出",
   },
 }

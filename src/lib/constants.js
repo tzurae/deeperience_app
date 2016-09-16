@@ -6,19 +6,22 @@ export default keyMirror({
   SET_VERSION: null,
 
   ON_LOGIN_STATE_CHANGE: null,
-  LOGOUT: null,
-
   ON_AUTH_FORM_FIELD_CHANGE: null,
+
+  INIT_AUTH: null,
+
   SIGNUP_START: null,
   SIGNUP_REQUEST: null,
   SIGNUP_SUCCESS: null,
   SIGNUP_FAILURE: null,
 
+  LOGIN: null,
   LOGIN_REQUEST: null,
   LOGIN_SUCCESS: null,
   LOGIN_FAILURE: null,
   LOGIN_SOCIAL: null,
 
+  LOGOUT: null,
   LOGOUT_REQUEST: null,
   LOGOUT_SUCCESS: null,
   LOGOUT_FAILURE: null,
@@ -46,7 +49,6 @@ export default keyMirror({
 
   // LoginForm.js
   FORGOT_PASSWORD: null,
-  LOGIN: null,
   REGISTER: null,
 
   GET_ALL_TRIP: null,
