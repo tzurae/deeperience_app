@@ -167,7 +167,6 @@ export default function native(platform) {
                        icon={TabIcon}
                        hideNavBar={true}
                        component={Main}
-                       initial={true}
                 />
                 <Scene key="Logout"
                        title={I18n.t('Nav.favoriteGuide')}
@@ -186,7 +185,7 @@ export default function native(platform) {
               </Scene>
               <Scene key="TripContent"
                      component={TripContent}
-                     // initial={true}
+                     initial={true}
               />
             </Scene>
           </Router>

@@ -11,17 +11,19 @@
 
  */
 export function promiseFor(condition, action, index, sucCallback, errCallback, data) {
-  const promiseForInner = (condition, action, index) => {
+  const promiseForInner = (condition, action, index, data) => {
     if (!condition(index)) {
-      sucCallback({ data })
+      sucCallback(data)
     } else {
       return action(index, data)
-        .then(promiseForInner(condition,
-          action,
-          index + 1)
-        )
+        .then((data) => {
+          promiseForInner(condition,
+            action,
+            index + 1,
+            data)
+        })
         .catch((err) => errCallback(err))
     }
   }
-  return promiseForInner(condition, action, index)
+  return promiseForInner(condition, action, index, data)
 }

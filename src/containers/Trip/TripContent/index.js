@@ -12,10 +12,12 @@ import { connect } from 'react-redux'
 import { Map } from 'immutable'
 import * as tripActions from '../../../reducers/trip/tripActions'
 import React from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import I18n from '../../../lib/i18n'
 import TabBar from '../../../components/TabBar'
+import Header from '../../../components/Header'
 import TripContentRoute from '../TripContentRoute'
+import styles from './styles'
 
 import Dimensions from 'Dimensions'
 const { width } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -53,33 +55,36 @@ class TripContent extends React.Component {
 
   render() {
     return (
-      <TabBar>
-        <ScrollView
-          horizontal={false}
-          width={width}
-          tabLabel={I18n.t('TripTab.Introduction')}
-        >
-          <TripContentRoute/>
-        </ScrollView>
+      <View style={styles.container}>
+        <Header Header_Text={I18n.t('Nav.tripContent')}/>
+        <TabBar>
+          <ScrollView
+            horizontal={false}
+            width={width}
+            tabLabel={I18n.t('TripTab.Introduction')}
+          >
+            <TripContentRoute/>
+          </ScrollView>
 
-        <ScrollView
-          horizontal={false}
-          width={width}
-          tabLabel={I18n.t('TripTab.Route')}
-        />
+          <ScrollView
+            horizontal={false}
+            width={width}
+            tabLabel={I18n.t('TripTab.Route')}
+          />
 
-        <ScrollView
-          horizontal={false}
-          width={width}
-          tabLabel={I18n.t('TripTab.Comment')}
-        />
+          <ScrollView
+            horizontal={false}
+            width={width}
+            tabLabel={I18n.t('TripTab.Comment')}
+          />
 
-        <ScrollView
-          horizontal={false}
-          width={width}
-          tabLabel={I18n.t('TripTab.Guide')}
-        />
-      </TabBar>
+          <ScrollView
+            horizontal={false}
+            width={width}
+            tabLabel={I18n.t('TripTab.Guide')}
+          />
+        </TabBar>
+      </View>
     )
   }
 }

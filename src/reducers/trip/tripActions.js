@@ -11,9 +11,8 @@ const {
   GET_TRIP_CONTENT,
   GET_TRIP_CONTENT_SUCCESS,
   GET_TRIP_CONTENT_FAILURE,
-  GET_ALL_SITE_CONTENT_SUCCESS,
-  GET_ALL_SITE_CONTENT_FAILURE,
-  SET_SITE_POSITION,
+  SET_SITE_CONTENT_SUCCESS,
+  SET_SITE_CONTENT_FAILURE,
 } = require('../../lib/constants').default
 
 export function getAllTrip():Action {
@@ -48,23 +47,16 @@ export function getTripContentFailure(res:any):Action {
   }
 }
 
-export function getAllSiteContentSuccess(res:any):Action {
+export function setSiteContentSuccess(res:any):Action {
   return {
-    type: GET_ALL_SITE_CONTENT_SUCCESS,
+    type: SET_SITE_CONTENT_SUCCESS,
     payload: res,
   }
 }
 
-export function getAllSiteContentFailure(res:any):Action {
+export function setSiteContentFailure(res:any):Action {
   return {
-    type: GET_ALL_SITE_CONTENT_FAILURE,
-    payload: res,
-  }
-}
-
-export function setSitePosition(res:any):Action {
-  return {
-    type: SET_SITE_POSITION,
+    type: SET_SITE_CONTENT_FAILURE,
     payload: res,
   }
 }
@@ -77,6 +69,7 @@ export function getTripContentById(tripId:string):ThunkAction {
       .then(res => {
         dispatch(getTripContentSuccess(res.val()))
         const allSitesKey = res.val().allSites
+        const { routes, startSites } = res.val()
         const allSites = {}
 
         promiseFor(
@@ -86,19 +79,18 @@ export function getTripContentById(tripId:string):ThunkAction {
                         .readDataBaseOnce(`/site/${allSitesKey[index]}`)
                         .then((res) => {
                           payload[allSitesKey[index]] = res.val()
+                          return payload
                         })
           },
           0,
-          (data) => { dispatch(getAllSiteContentSuccess(data)) },
-          (err) => { dispatch(getAllSiteContentFailure(err)) },
+          (allSites) => {
+            const sitePosition = calculateLayer(routes, startSites, allSites)
+            dispatch(setSiteContentSuccess({ sitePosition }))
+          }
+          ,
+          (err) => { dispatch(setSiteContentFailure(err)) },
           allSites
         )
-
-        const { guideId, name, routes, startSites } = res.val()
-        return { allSites, guideId, name, routes, startSites }
-      })
-      .then(({ allSites, routes, startSites }) => {
-        dispatch(setSitePosition(calculateLayer(routes, startSites, allSites)))
       })
       .catch((error) => {
         dispatch(getTripContentFailure(error))

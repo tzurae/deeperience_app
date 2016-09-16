@@ -59,7 +59,9 @@ export default {
     "filter": "篩選行程",
     "setting": "個人化",
     "recommendation": "推薦",
-    "purchased": "已購買"
+    "purchased": "已購買",
+    "tripContent": "行程介紹",
+
   },
   "TripTab": {
     "Introduction": "簡  介",

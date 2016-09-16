@@ -2,8 +2,8 @@
 import _ from 'underscore'
 
 export function calculateLayer(routes, startSites, allSites) {
-  const allPosition = []
-  const sitePosition = []
+  const allPosition = [] // first step
+  const sitePosition = [] // second step
   startSites.forEach((startSite) => {  // can have many days
     // frontQueue: {depart: {hour,minute,day}, from, xpos, ypos}
     // dailyPosition: {depart: {hour,minute,day}, from, xpos, ypos}
@@ -50,8 +50,11 @@ export function calculateLayer(routes, startSites, allSites) {
       if (sitePosition[day][value.ypos] === undefined) {
         sitePosition[day][value.ypos] = []
       }
+      const siteId = key.substr(8)
+
       sitePosition[day][value.ypos][value.xpos] = {
-        day, hour, minute, siteId: key.substr(8),
+        day, hour, minute, siteId,
+        content: allSites[siteId],
       }
     })
   })
