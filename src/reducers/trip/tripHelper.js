@@ -13,7 +13,7 @@ export function calculateLayer(routes, startSites, allSites) {
     const frontQueue = [{ ...startSite, xpos: 0, ypos: 0 }]
     const dailyPos = {}
     const dailyRoutes = []
-    const layerArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] // get node of each layer
+    const layerArray = [0, -1, -1, -1, -1, -1, -1, -1, -1, -1] // get node of each layer
 
     sitePosition.push([])
     dailyPos[getStartId(startSite)] = { xpos: 0, ypos: 0 }
@@ -23,7 +23,7 @@ export function calculateLayer(routes, startSites, allSites) {
       const filterRoutes = routes.filter((route) => siteEqual(route, frontQueue[0]))
       filterRoutes.forEach((filterRoute) => {
         const destString = getDestId(filterRoute)
-        const xpos = layerArray[ypos]
+        const xpos = layerArray[ypos] + 1
         if (dailyPos[destString] === undefined) {
           dailyPos[destString] = { xpos, ypos }
 
@@ -35,20 +35,25 @@ export function calculateLayer(routes, startSites, allSites) {
           if (ypos > oldyPos) {
             dailyPos[destString] = { xpos, ypos }
             layerArray[ypos]++
+            layerArray[oldyPos]--
           }
         }
       })
       frontQueue.shift()
     }
+
+    // get all routes for rendering
     routes.filter(route => route.depart.day === dayIndex)
-          .forEach(route => {
-            dailyRoutes.push({
-              ...route,
-              posFrom: dailyPos[getStartId(route)],
-              posTo: dailyPos[getDestId(route)],
-            })
-          })
-    newRoutes.push(dailyRoutes)
+      .forEach(route => {
+        dailyRoutes.push({
+          ...route,
+          posFrom: dailyPos[getStartId(route)],
+          posTo: dailyPos[getDestId(route)],
+        })
+      })
+    const ylayer = layerArray.filter(layer => layer > -1)
+                              .map(length => length + 1)
+    newRoutes.push({ ylayer, dailyRoutes })
     allPosition.push(dailyPos)
   })
 
@@ -94,9 +99,9 @@ function getStartId({ depart, from }) {
 
 function siteEqual(site1, site2) {
   return site1.from === site2.from &&
-        site1.depart.day === site2.depart.day &&
-        site1.depart.hour === site2.depart.hour &&
-        site1.depart.minute === site2.depart.minute
+    site1.depart.day === site2.depart.day &&
+    site1.depart.hour === site2.depart.hour &&
+    site1.depart.minute === site2.depart.minute
 }
 
 function formatNumber(n) {

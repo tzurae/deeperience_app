@@ -14,6 +14,7 @@ import React from 'react'
 import tripActions from '../../../reducers/trip/tripActions'
 import { View, Text } from 'react-native'
 import styles from './styles'
+import Svg, { Line } from 'react-native-svg'
 
 import Dimensions from 'Dimensions'
 const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -53,18 +54,37 @@ function mapDispatchToProps(dispatch) {
 class TripContentRoute extends React.Component {
   render() {
     return (
-      <View style={styles.container, { height: height + 100 }}>
-        {
-          this.props.trip.sitePosition.map(
-            (day) => day.map((ylayer, yindex) => ylayer.map((site, xindex) => (
-              <SiteButton
-                top={yindex * 100 + 50}
-                left={(xindex + 1) / (ylayer.length + 1) * width - 14}
-              >
-                {site.content.name}
-              </SiteButton>
-            ))))
-        }
+      <View>
+        <View style={styles.container, { height: height + 100 }}>
+          {
+            this.props.trip.sitePosition.map(
+              (day) => day.map((ylayer, yindex) => ylayer.map((site, xindex) => (
+                <SiteButton
+                  top={yindex * 100 + 50}
+                  left={(xindex + 1) / (ylayer.length + 1) * width - 14}
+                >
+                  {site.content.name}
+                </SiteButton>
+              ))))
+          }
+        <Svg
+          height={height}
+          width={width}
+        >
+          {
+            this.props.trip.routes.map(day => day.dailyRoutes.map(route => (
+              <Line
+                x1={(route.posFrom.xpos + 1) / (day.ylayer[route.posFrom.ypos] + 1) * width}
+                y1={route.posFrom.ypos * 100 + 64}
+                x2={(route.posTo.xpos + 1) / (day.ylayer[route.posTo.ypos] + 1) * width}
+                y2={route.posTo.ypos * 100 + 64}
+                stroke="red"
+                strokeWidth="2"
+              />
+            )))
+          }
+        </Svg>
+        </View>
       </View>
     )
   }
