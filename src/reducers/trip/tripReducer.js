@@ -32,10 +32,9 @@ export default function tripReducer(state = initialState, action) {
       return state
 
     case GET_TRIP_CONTENT_SUCCESS:
-      const { guideId, name, routes, startSites } = action.payload
+      const { guideId, name, startSites } = action.payload
       return state.setIn(['tripContent', 'guideId'], guideId)
                   .setIn(['tripContent', 'name'], name)
-                  .setIn(['tripContent', 'routes'], routes)
                   .setIn(['tripContent', 'startSites'], startSites)
 
     case GET_TRIP_CONTENT_FAILURE:
@@ -46,9 +45,10 @@ export default function tripReducer(state = initialState, action) {
       return state.setIn(['isFetching'], true)
 
     case SET_SITE_CONTENT_SUCCESS:
-      const { sitePosition } = action.payload
+      const { routes, sitePosition } = action.payload
 
       return state.setIn(['tripContent', 'sitePosition'], sitePosition)
+                  .setIn(['tripContent', 'routes'], routes)
                   .setIn(['isFetching'], false)
 
     case SET_SITE_CONTENT_FAILURE:

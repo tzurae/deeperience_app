@@ -64,6 +64,7 @@
     "import/no-mutable-exports":"error",
     "import/imports-first":"error",
     "no-underscore-dangle": "error",
+    "no-sequences":"off",
     "jsx-quotes":"error",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",

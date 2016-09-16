@@ -4,17 +4,19 @@ import _ from 'underscore'
 export function calculateLayer(routes, startSites, allSites) {
   const allPosition = [] // first step
   const sitePosition = [] // second step
-  startSites.forEach((startSite) => {  // can have many days
+  const newRoutes = []
+  startSites.forEach((startSite, dayIndex) => {  // can have many days
     // frontQueue: {depart: {hour,minute,day}, from, xpos, ypos}
     // dailyPosition: {depart: {hour,minute,day}, from, xpos, ypos}
     // compare each root from with top of the queue, if match, we then compare the
     // destination with the site in the set
     const frontQueue = [{ ...startSite, xpos: 0, ypos: 0 }]
     const dailyPos = {}
+    const dailyRoutes = []
     const layerArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] // get node of each layer
 
     sitePosition.push([])
-    dailyPos[getSiteId(startSite)] = { xpos: 0, ypos: 0 }
+    dailyPos[getStartId(startSite)] = { xpos: 0, ypos: 0 }
 
     while (frontQueue.length !== 0) {
       const ypos = frontQueue[0].ypos + 1
@@ -26,6 +28,7 @@ export function calculateLayer(routes, startSites, allSites) {
           dailyPos[destString] = { xpos, ypos }
 
           frontQueue.push(destToStart({ ...filterRoute, xpos, ypos }))
+
           layerArray[ypos]++
         } else {
           const oldyPos = dailyPos[destString].ypos
@@ -37,6 +40,15 @@ export function calculateLayer(routes, startSites, allSites) {
       })
       frontQueue.shift()
     }
+    routes.filter(route => route.depart.day === dayIndex)
+          .forEach(route => {
+            dailyRoutes.push({
+              ...route,
+              posFrom: dailyPos[getStartId(route)],
+              posTo: dailyPos[getDestId(route)],
+            })
+          })
+    newRoutes.push(dailyRoutes)
     allPosition.push(dailyPos)
   })
 
@@ -59,11 +71,11 @@ export function calculateLayer(routes, startSites, allSites) {
     })
   })
 
-  return sitePosition
+  return { newRoutes, sitePosition }
 }
 
 function getDestId(dest) {
-  return getSiteId(destToStart(dest))
+  return getStartId(destToStart(dest))
 }
 // change destination to depart
 function destToStart({ nextStopDepart, to, xpos, ypos }) {
@@ -75,7 +87,7 @@ function destToStart({ nextStopDepart, to, xpos, ypos }) {
   }
 }
 
-function getSiteId({ depart, from }) {
+function getStartId({ depart, from }) {
   const { day, hour, minute } = depart
   return `${formatNumber(day)}-${formatNumber(hour)}-${formatNumber(minute)}${from}`
 }

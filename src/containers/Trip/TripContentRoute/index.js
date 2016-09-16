@@ -16,7 +16,7 @@ import { View, Text } from 'react-native'
 import styles from './styles'
 
 import Dimensions from 'Dimensions'
-const { width } = Dimensions.get('window') // Screen dimensions in current orientation
+const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
 
 const actions = [
   tripActions,
@@ -53,7 +53,7 @@ function mapDispatchToProps(dispatch) {
 class TripContentRoute extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.container, { height: height + 100 }}>
         {
           this.props.trip.sitePosition.map(
             (day) => day.map((ylayer, yindex) => ylayer.map((site, xindex) => (
@@ -75,11 +75,14 @@ class SiteButton extends React.Component {
     return (
       <View style={{ position: 'absolute',
                     top: this.props.top,
-                    left: this.props.left }}>
+                    left: this.props.left - 36,
+                    width: 100,
+                    height: 50,
+                    alignItems: 'center' }}>
         <View style={styles.site}/>
         <View style={styles.siteShadow}/>
         <View style={styles.siteBackground}/>
-        <Text>{this.props.children}</Text>
+        <Text style={styles.siteName}>{this.props.children}</Text>
       </View>
       )
   }

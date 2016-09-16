@@ -70,7 +70,6 @@ export function getTripContentById(tripId:string):ThunkAction {
         dispatch(getTripContentSuccess(res.val()))
         const allSitesKey = res.val().allSites
         const { routes, startSites } = res.val()
-        const allSites = {}
 
         promiseFor(
           (index) => { return index < allSitesKey.length },
@@ -84,12 +83,12 @@ export function getTripContentById(tripId:string):ThunkAction {
           },
           0,
           (allSites) => {
-            const sitePosition = calculateLayer(routes, startSites, allSites)
-            dispatch(setSiteContentSuccess({ sitePosition }))
+            const { newRoutes, sitePosition } = calculateLayer(routes, startSites, allSites)
+            dispatch(setSiteContentSuccess({ sitePosition, routes: newRoutes }))
           }
           ,
           (err) => { dispatch(setSiteContentFailure(err)) },
-          allSites
+          {}
         )
       })
       .catch((error) => {
