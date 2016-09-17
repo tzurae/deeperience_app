@@ -45,7 +45,9 @@ export type Action =
     { type: 'GET_TRIP_CONTENT_SUCCESS', payload: any} |
     { type: 'GET_TRIP_CONTENT_FAILURE', payload: any} |
     { type: 'SET_SITE_CONTENT_SUCCESS', payload: any} |
-    { type: 'SET_SITE_CONTENT_FAILURE', payload: any}
+    { type: 'SET_SITE_CONTENT_FAILURE', payload: any} |
+
+    { type: 'SET_DISPLAY_INFO', payload: any}
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;
 export type GetState = () => Object;

@@ -1,10 +1,8 @@
 'use strict'
 import _ from 'underscore'
 
-export function calculateLayer(routes, startSites, allSites) {
-  const allPosition = [] // first step
-  const sitePosition = [] // second step
-  const newRoutes = []
+export function calculateTripInfo(routes, startSites, allSites) {
+  const allInfo = [] // array by day
   startSites.forEach((startSite, dayIndex) => {  // can have many days
     // frontQueue: {depart: {hour,minute,day}, from, xpos, ypos}
     // dailyPosition: {depart: {hour,minute,day}, from, xpos, ypos}
@@ -15,7 +13,6 @@ export function calculateLayer(routes, startSites, allSites) {
     const dailyRoutes = []
     const layerArray = [0, -1, -1, -1, -1, -1, -1, -1, -1, -1] // get node of each layer
 
-    sitePosition.push([])
     dailyPos[getStartId(startSite)] = { xpos: 0, ypos: 0 }
 
     while (frontQueue.length !== 0) {
@@ -51,32 +48,30 @@ export function calculateLayer(routes, startSites, allSites) {
           posTo: dailyPos[getDestId(route)],
         })
       })
+
     const ylayer = layerArray.filter(layer => layer > -1)
                               .map(length => length + 1)
-    newRoutes.push({ ylayer, dailyRoutes })
-    allPosition.push(dailyPos)
-  })
 
-  let hour
-  let minute
-  allPosition.forEach((dayPos, day) => {
-    _.each(dayPos, (value, key) => { // key: dd-hh-mm-siteID
-      hour = Number(key.substr(3, 2))
-      minute = Number(key.substr(6, 2))
-
-      if (sitePosition[day][value.ypos] === undefined) {
-        sitePosition[day][value.ypos] = []
-      }
-      const siteId = key.substr(8)
-
-      sitePosition[day][value.ypos][value.xpos] = {
-        day, hour, minute, siteId,
+    // reshape dailyPos
+    const sites = []
+    let siteId
+    _.each(dailyPos, (value, key) => {
+      siteId = key.substr(8)
+      sites.push({
+        pos: { xpos: value.xpos, ypos: value.ypos },
+        active: false,
+        hour: Number(key.substr(3, 2)),
+        minute: Number(key.substr(6, 2)),
+        day: Number(key.substr(0, 2)),
+        siteId,
         content: allSites[siteId],
-      }
+        siteKey: key,
+      })
     })
+    allInfo.push({ ylayer, sites, routes: dailyRoutes })
   })
 
-  return { newRoutes, sitePosition }
+  return allInfo
 }
 
 function getDestId(dest) {

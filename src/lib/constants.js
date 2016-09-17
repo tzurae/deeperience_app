@@ -57,4 +57,6 @@ export default keyMirror({
 
   SET_SITE_CONTENT_SUCCESS: null,
   SET_SITE_CONTENT_FAILURE: null,
+
+  SET_DISPLAY_INFO: null,
 })

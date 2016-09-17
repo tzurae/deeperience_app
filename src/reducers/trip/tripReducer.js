@@ -10,12 +10,14 @@ import InitialState from './tripInitialState'
 const {
   GET_ALL_TRIP,
   GET_TRIP_BY_CLASS,
+
   GET_TRIP_CONTENT,
   GET_TRIP_CONTENT_SUCCESS,
   GET_TRIP_CONTENT_FAILURE,
   SET_SITE_CONTENT_SUCCESS,
   SET_SITE_CONTENT_FAILURE,
 
+  SET_DISPLAY_INFO,
   SET_STATE,
 } = require('../../lib/constants').default
 
@@ -45,16 +47,14 @@ export default function tripReducer(state = initialState, action) {
       return state.setIn(['isFetching'], true)
 
     case SET_SITE_CONTENT_SUCCESS:
-      const { routes, sitePosition } = action.payload
-
-      return state.setIn(['tripContent', 'sitePosition'], sitePosition)
-                  .setIn(['tripContent', 'routes'], routes)
+      return state.setIn(['tripContent', 'tripInfo'], action.payload)
                   .setIn(['isFetching'], false)
 
     case SET_SITE_CONTENT_FAILURE:
       return state.setIn(['isFetching'], false)
                   .setIn(['error'], action.payload)
 
+    case SET_DISPLAY_INFO:
     case SET_STATE:
       return state
   }

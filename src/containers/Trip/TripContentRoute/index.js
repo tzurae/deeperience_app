@@ -1,10 +1,6 @@
 /**
- * # app.js
- *  Display startup screen and
- *  getSessionTokenAtStartup which will navigate upon completion
- *
- *
- *
+ * # TripContentRoute.js
+ *  Display route of tripcontent
  */
 'use strict'
 import { bindActionCreators } from 'redux'
@@ -12,9 +8,11 @@ import { connect } from 'react-redux'
 import { Map } from 'immutable'
 import React from 'react'
 import tripActions from '../../../reducers/trip/tripActions'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import styles from './styles'
+import MainStyle from '../../../styles'
 import Svg, { Line } from 'react-native-svg'
+import SiteButton from '../../../components/Trip/SiteButton'
 
 import Dimensions from 'Dimensions'
 const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -23,17 +21,13 @@ const actions = [
   tripActions,
 ]
 
-/**
- *  Save that state
- */
 function mapStateToProps(state) {
   return {
     trip: {
       name: state.trip.tripContent.name,
-      routes: state.trip.tripContent.routes,
       guideId: state.trip.tripContent.guideId,
       startSites: state.trip.tripContent.startSites,
-      sitePosition: state.trip.tripContent.sitePosition,
+      tripInfo: state.trip.tripContent.tripInfo,
       isFetching: state.trip.isFetching,
     },
   }
@@ -53,58 +47,52 @@ function mapDispatchToProps(dispatch) {
 
 class TripContentRoute extends React.Component {
   render() {
+    const { btnBigRadius } = MainStyle.TripSiteButton
+
     return (
       <View>
-        <View style={styles.container, { height: height + 100 }}>
-          {
-            this.props.trip.sitePosition.map(
-              (day) => day.map((ylayer, yindex) => ylayer.map((site, xindex) => (
+        {this.props.trip.tripInfo.map((dailyTrip, dIndex) => (
+          <View
+            style={styles.container, { height: height + 100 }}
+            key = {`TripDay${dIndex}`}
+          >
+            {
+              dailyTrip.sites.map(site => (
                 <SiteButton
-                  top={yindex * 100 + 50}
-                  left={(xindex + 1) / (ylayer.length + 1) * width - 14}
+                  top = {site.pos.ypos * 100 + 50}
+                  left = {(site.pos.xpos + 1) / (dailyTrip.ylayer[site.pos.ypos] + 1) * width - btnBigRadius}
+                  siteInfo = {site}
+                  key = {site.siteKey}
                 >
                   {site.content.name}
                 </SiteButton>
-              ))))
-          }
-        <Svg
-          height={height}
-          width={width}
-        >
-          {
-            this.props.trip.routes.map(day => day.dailyRoutes.map(route => (
-              <Line
-                x1={(route.posFrom.xpos + 1) / (day.ylayer[route.posFrom.ypos] + 1) * width}
-                y1={route.posFrom.ypos * 100 + 64}
-                x2={(route.posTo.xpos + 1) / (day.ylayer[route.posTo.ypos] + 1) * width}
-                y2={route.posTo.ypos * 100 + 64}
-                stroke="red"
-                strokeWidth="2"
-              />
-            )))
-          }
-        </Svg>
-        </View>
+              ))
+            }
+          <Svg
+            height={height}
+            width={width}
+          >
+            {
+              dailyTrip.routes.map(route => (
+                <Line
+                  x1={(route.posFrom.xpos + 1) / (dailyTrip.ylayer[route.posFrom.ypos] + 1) * width}
+                  y1={route.posFrom.ypos * 100 + 50 + btnBigRadius}
+                  x2={(route.posTo.xpos + 1) / (dailyTrip.ylayer[route.posTo.ypos] + 1) * width}
+                  y2={route.posTo.ypos * 100 + 50 + btnBigRadius}
+                  stroke={MainStyle.color.main}
+                  strokeWidth="2"
+                  key = {`(${route.posFrom.xpos},${route.posFrom.ypos})-(${route.posTo.xpos},${route.posTo.ypos})`}
+                />
+              ))
+            }
+          </Svg>
+          </View>
+
+        ))
+        }
       </View>
     )
   }
 }
 
-class SiteButton extends React.Component {
-  render() {
-    return (
-      <View style={{ position: 'absolute',
-                    top: this.props.top,
-                    left: this.props.left - 36,
-                    width: 100,
-                    height: 50,
-                    alignItems: 'center' }}>
-        <View style={styles.site}/>
-        <View style={styles.siteShadow}/>
-        <View style={styles.siteBackground}/>
-        <Text style={styles.siteName}>{this.props.children}</Text>
-      </View>
-      )
-  }
-}
 export default connect(mapStateToProps, mapDispatchToProps)(TripContentRoute)

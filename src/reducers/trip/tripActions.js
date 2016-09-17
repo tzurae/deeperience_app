@@ -3,7 +3,7 @@
 import ApiFactory from '../../api/apiFactory'
 import type { ThunkAction, Action } from '../../lib/types'
 import { promiseFor } from '../../lib/util'
-import { calculateLayer } from './tripHelper'
+import { calculateTripInfo } from './tripHelper'
 
 const {
   GET_ALL_TRIP,
@@ -13,6 +13,8 @@ const {
   GET_TRIP_CONTENT_FAILURE,
   SET_SITE_CONTENT_SUCCESS,
   SET_SITE_CONTENT_FAILURE,
+
+  SET_DISPLAY_INFO,
 } = require('../../lib/constants').default
 
 export function getAllTrip():Action {
@@ -83,8 +85,11 @@ export function getTripContentById(tripId:string):ThunkAction {
           },
           0,
           (allSites) => {
-            const { newRoutes, sitePosition } = calculateLayer(routes, startSites, allSites)
-            dispatch(setSiteContentSuccess({ sitePosition, routes: newRoutes }))
+            dispatch(
+              setSiteContentSuccess(
+                calculateTripInfo(routes, startSites, allSites)
+              )
+            )
           }
           ,
           (err) => { dispatch(setSiteContentFailure(err)) },
@@ -96,3 +101,11 @@ export function getTripContentById(tripId:string):ThunkAction {
       })
   }
 }
+
+export function setDisplayInfo(res:any):Action {
+  return {
+    type: SET_DISPLAY_INFO,
+    payload: res,
+  }
+}
+
