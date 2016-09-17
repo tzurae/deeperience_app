@@ -6,7 +6,7 @@ import React from 'react'
 import styles from './styles'
 import Button from 'react-native-button'
 import { View, Text } from 'react-native'
-import tripActions from '../../../reducers/trip/tripActions'
+import * as tripActions from '../../../reducers/trip/tripActions'
 
 const actions = [
   tripActions,
@@ -14,9 +14,9 @@ const actions = [
 
 function mapDispatchToProps(dispatch) {
   const creators = Map()
-    .merge(...actions)
-    .filter(value => typeof value === 'function')
-    .toObject()
+            .merge(...actions)
+            .filter(value => typeof value === 'function')
+            .toObject()
 
   return {
     actions: bindActionCreators(creators, dispatch),
@@ -25,6 +25,25 @@ function mapDispatchToProps(dispatch) {
 }
 
 class SiteButton extends React.Component {
+  onPress() {
+    console.log(this.props)
+    const { name, introduction } = this.props.siteInfo.content
+    this.props.dispatch(
+      this.props.actions.setDisplayInfo({
+        title: name, introduction,
+      })
+    )
+    this.props.dispatch(this.props.actions.deactivateSiteBtn({
+      day: this.props.siteInfo.day,
+    }))
+    this.props.dispatch(
+      this.props.actions.activateSiteBtn({
+        day: this.props.siteInfo.day,
+        order: this.props.order,
+      })
+    )
+  }
+
   render() {
     return (
       <View style={{
@@ -35,9 +54,19 @@ class SiteButton extends React.Component {
         top: this.props.top,
         left: this.props.left - 50 + 14,
       }}>
-        <View style={styles.site}/>
+        <View
+          style={[styles.site, (() => {
+            if (this.props.active) return styles.siteActive
+            else return styles.siteDeactive
+          })()]}
+        />
         <View style={styles.siteShadow}/>
-        <View style={styles.siteBackground}/>
+        <View
+          style={[styles.siteBackground, (() => {
+            if (this.props.active) return styles.siteBackgroundActive
+            else return styles.siteBackgroundDeactive
+          })()]}
+        />
         <Text style={styles.siteName}>{this.props.children}</Text>
         <Button
           containerStyle={{
@@ -48,7 +77,9 @@ class SiteButton extends React.Component {
             position: 'absolute',
             top: 0,
             left: 36,
+            zIndex: 10,
           }}
+          onPress={() => this.onPress()}
         />
       </View>
     )

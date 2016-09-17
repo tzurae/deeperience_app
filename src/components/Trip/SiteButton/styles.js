@@ -9,13 +9,18 @@ const { btnRadius,
 export default (StyleSheet.create({
   site: {
     borderRadius: btnRadius,
-    backgroundColor: MainStyle.color.main,
     width: btnDiameter,
     height: btnDiameter,
     position: 'absolute',
     top: btnRadius,
     left: 50 - btnRadius,
     zIndex: 3,
+  },
+  siteActive: {
+    backgroundColor: 'blue',
+  },
+  siteDeactive: {
+    backgroundColor: MainStyle.color.main,
   },
   siteShadow: {
     borderRadius: btnRadius,
@@ -30,13 +35,18 @@ export default (StyleSheet.create({
   },
   siteBackground: {
     borderRadius: btnBigRadius,
-    backgroundColor: MainStyle.color.main,
     opacity: 0.5,
     zIndex: 1,
     width: btnBigDiameter,
     height: btnBigDiameter,
     position: 'absolute',
     left: 50 - btnBigRadius,
+  },
+  siteBackgroundActive: {
+    backgroundColor: 'blue',
+  },
+  siteBackgroundDeactive: {
+    backgroundColor: MainStyle.color.main,
   },
   siteName: {
     position: 'relative',

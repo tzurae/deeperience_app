@@ -1,7 +1,7 @@
 export default {
   font: {
     small: 12,
-    medium: 16,
+    medium: 14,
     big: 20,
   },
   color: {

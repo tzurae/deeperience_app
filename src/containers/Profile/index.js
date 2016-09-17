@@ -31,9 +31,6 @@ import styles from './styles'
 
 const Form = t.form.Form
 
-/**
-* ## Redux boilerplate
-*/
 const actions = [
   profileActions,
   globalActions,

@@ -9,6 +9,12 @@ const InitialState = Record({
     startSites: [],
     tripInfo: [],
   }))(),
+  displayInfo: new (Record({
+    display: false,
+    displayDay: 0,
+    displayInfoTitle: '',
+    displayInfoIntroduction: '',
+  }))(),
   isFetching: false,
   error: null,
 })

@@ -71,6 +71,7 @@ export function calculateTripInfo(routes, startSites, allSites) {
     allInfo.push({ ylayer, sites, routes: dailyRoutes })
   })
 
+  console.log(allInfo)
   return allInfo
 }
 

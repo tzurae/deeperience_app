@@ -1,4 +1,3 @@
-/* @flow */
 import {
   Text,
   TouchableHighlight,
@@ -9,7 +8,7 @@ import React, { Component, PropTypes } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 class ThumbnailPlan extends Component {
-  propTypes: {
+  static propTypes = {
     title: PropTypes.string,
     dayInfo: PropTypes.string,
     guide: PropTypes.string,

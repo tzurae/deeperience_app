@@ -59,4 +59,8 @@ export default keyMirror({
   SET_SITE_CONTENT_FAILURE: null,
 
   SET_DISPLAY_INFO: null,
+  CLOSE_DISPLAY_INFO: null,
+
+  ACTIVATE_SITE_BTN: null,
+  DEACTIVATE_SITE_BTN: null,
 })

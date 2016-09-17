@@ -15,6 +15,10 @@ const {
   SET_SITE_CONTENT_FAILURE,
 
   SET_DISPLAY_INFO,
+  CLOSE_DISPLAY_INFO,
+
+  ACTIVATE_SITE_BTN,
+  DEACTIVATE_SITE_BTN,
 } = require('../../lib/constants').default
 
 export function getAllTrip():Action {
@@ -101,11 +105,32 @@ export function getTripContentById(tripId:string):ThunkAction {
       })
   }
 }
-
-export function setDisplayInfo(res:any):Action {
+export function activateSiteBtn(res: any):Action {
   return {
-    type: SET_DISPLAY_INFO,
+    type: ACTIVATE_SITE_BTN,
     payload: res,
   }
 }
 
+export function deactivateSiteBtn(res: any):Action {
+  return {
+    type: DEACTIVATE_SITE_BTN,
+    payload: res,
+  }
+}
+
+export function setDisplayInfo(res: any):Action {
+  return {
+    type: SET_DISPLAY_INFO,
+    payload: {
+      title: res.title,
+      introduction: res.introduction,
+    },
+  }
+}
+
+export function closeDisplayInfo():Action {
+  return {
+    type: CLOSE_DISPLAY_INFO,
+  }
+}

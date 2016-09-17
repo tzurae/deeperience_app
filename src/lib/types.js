@@ -47,7 +47,8 @@ export type Action =
     { type: 'SET_SITE_CONTENT_SUCCESS', payload: any} |
     { type: 'SET_SITE_CONTENT_FAILURE', payload: any} |
 
-    { type: 'SET_DISPLAY_INFO', payload: any}
+    { type: 'SET_DISPLAY_INFO', payload: {title:string, introduction:string} } |
+    { type: 'CLOSE_DISPLAY_INFO' }
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;
 export type GetState = () => Object;
