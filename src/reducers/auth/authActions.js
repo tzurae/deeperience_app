@@ -85,7 +85,7 @@ export function logoutSuccess():Action {
     type: LOGOUT_SUCCESS,
   }
 }
-export function logoutFailure(error: any):Action { // TODO
+export function logoutFailure(error: any):Action {
   return {
     type: LOGOUT_FAILURE,
     payload: error,
@@ -116,13 +116,13 @@ export function signupRequest():Action {
     type: SIGNUP_REQUEST,
   }
 }
-export function signupSuccess(json:any):Action { // TODO
+export function signupSuccess(json:any):Action {
   return {
     type: SIGNUP_SUCCESS,
     payload: json,
   }
 }
-export function signupFailure(error:any):Action { // TODO
+export function signupFailure(error:any):Action {
   return {
     type: SIGNUP_FAILURE,
     payload: error,
