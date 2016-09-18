@@ -15,7 +15,7 @@ const {
 
 const api = new apiFactory()
 
-function *signUp(payload) {
+export function *signUp(payload) {
   try {
     yield put(authActions.signupRequest())
     // user is a promise backed from firebase
@@ -108,14 +108,14 @@ function *resetPassword(payload) {
  * Watchers
  */
 
-function* watchSignUp() {
+export function* watchSignUp() {
   while(true) {
     let { payload } = yield take(SIGNUP_START)
     yield fork(signUp, payload)
   }
 }
 
-function* watchInitAuth() {
+export function* watchInitAuth() {
   while(true) {
     yield take(INIT_AUTH)
     yield fork(initAuth)
@@ -136,7 +136,7 @@ function* watchLogin() {
   }
 }
 
-function *watchResetPassword() {
+function* watchResetPassword() {
   while(true) {
     let { payload } = yield take(RESET_PASSWORD_START)
     yield fork(resetPassword, payload)
