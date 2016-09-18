@@ -63,4 +63,7 @@ export default keyMirror({
 
   ACTIVATE_SITE_BTN: null,
   DEACTIVATE_SITE_BTN: null,
+
+  SET_NOW_POSITION: null,
+  SET_MAP_INFO: null,
 })

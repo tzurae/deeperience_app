@@ -51,5 +51,6 @@ export default (StyleSheet.create({
   siteName: {
     position: 'relative',
     top: 30,
+    zIndex: 1000,
   },
 }))

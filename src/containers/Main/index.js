@@ -88,7 +88,10 @@ class Main extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header Header_Text={I18n.t('Nav.planList')}/>
+        <Header
+          headerText={I18n.t('Nav.planList')}
+          back={false}
+        />
         <TabBar>
           <View style={styles.nav} tabLabel={I18n.t('Nav.recommendation')}>
             <ThumbnailPlan

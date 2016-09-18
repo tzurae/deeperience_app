@@ -53,7 +53,7 @@ export default (StyleSheet.create({
   },
   displayInfo: {
     position: 'absolute',
-    bottom: -2,
+    bottom: 0,
     zIndex: 200,
     backgroundColor: '#ffffff',
     borderColor: '#dddddd',
@@ -85,7 +85,7 @@ export default (StyleSheet.create({
   },
   mapBtn: {
     color: 'white',
-    fontSize: MainStyle.font.medium + 2,
+    fontSize: MainStyle.font.medium,
   },
   mapBtnContainer: {
     backgroundColor: MainStyle.color.main,

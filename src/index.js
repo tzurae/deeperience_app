@@ -32,6 +32,7 @@ import Profile from './containers/Profile'
 import Main from './containers/Main'
 import Subview from './containers/Subview'
 import TripContent from './containers/Trip/TripContent'
+import SiteContent from './containers/Trip/SiteContent'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 import createStorageEngine from 'redux-storage-engine-reactnativeasyncstorage'
@@ -186,6 +187,9 @@ export default function native(platform) {
               <Scene key="TripContent"
                      component={TripContent}
                      initial={true}
+              />
+              <Scene key="SiteContent"
+                     component={SiteContent}
               />
             </Scene>
           </Router>

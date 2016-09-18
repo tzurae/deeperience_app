@@ -3,6 +3,7 @@ import _ from 'underscore'
 
 export function calculateTripInfo(routes, startSites, allSites) {
   const allInfo = [] // array by day
+  const siteStatus = [] // site active or not
   startSites.forEach((startSite, dayIndex) => {  // can have many days
     // frontQueue: {depart: {hour,minute,day}, from, xpos, ypos}
     // dailyPosition: {depart: {hour,minute,day}, from, xpos, ypos}
@@ -54,12 +55,13 @@ export function calculateTripInfo(routes, startSites, allSites) {
 
     // reshape dailyPos
     const sites = []
+    const status = []
     let siteId
     _.each(dailyPos, (value, key) => {
       siteId = key.substr(8)
+      status.push(0) // 0 deactive 1 active
       sites.push({
         pos: { xpos: value.xpos, ypos: value.ypos },
-        active: false,
         hour: Number(key.substr(3, 2)),
         minute: Number(key.substr(6, 2)),
         day: Number(key.substr(0, 2)),
@@ -68,11 +70,13 @@ export function calculateTripInfo(routes, startSites, allSites) {
         siteKey: key,
       })
     })
+    siteStatus.push(status)
     allInfo.push({ ylayer, sites, routes: dailyRoutes })
   })
 
   console.log(allInfo)
-  return allInfo
+  console.log(siteStatus)
+  return { allInfo, siteStatus }
 }
 
 function getDestId(dest) {
@@ -102,4 +106,45 @@ function siteEqual(site1, site2) {
 
 function formatNumber(n) {
   return n > 9 ? `${n}` : `0${n}`
+}
+
+// http://wptrafficanalyzer.in/blog/route-between-two-locations-with-waypoints-in-google-map-android-api-v2/
+// https://developers.google.com/maps/documentation/utilities/polylinealgorithm?hl=zh-tw
+// https://developers.google.com/maps/documentation/utilities/polylineutility?hl=zh-tw
+
+export function convertPolyline(polyline) {
+  const poly = []
+  let index = 0
+  let lat = 0
+  let lng = 0
+  const len = polyline.length
+
+  while (index < len) {
+    let tmp
+    let shift = 0
+    let result = 0
+    do {
+      tmp = polyline.charCodeAt(index++) - 63
+      result |= (tmp & 0x1f) << shift
+      shift += 5
+    } while (tmp >= 0x20)
+    const dlat = ((result & 1) !== 0 ? ~(result >> 1) : (result >> 1))
+    lat += dlat
+
+    shift = 0
+    result = 0
+    do {
+      tmp = polyline.charCodeAt(index++) - 63
+      result |= (tmp & 0x1f) << shift
+      shift += 5
+    } while (tmp >= 0x20)
+    const dlng = ((result & 1) !== 0 ? ~(result >> 1) : (result >> 1))
+    lng += dlng
+
+    poly.push({
+      latitude: lat / 100000,
+      longitude: lng / 100000,
+    })
+  }
+  return poly
 }

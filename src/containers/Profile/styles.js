@@ -1,11 +1,8 @@
 import { StyleSheet } from 'react-native'
+import Mainstyle from '../../styles'
 
 export default (StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-    backgroundColor: 'transparent',
-  },
+  container: Mainstyle.container,
   inputs: {
     marginTop: 10,
     marginBottom: 10,

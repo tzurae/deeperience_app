@@ -9,7 +9,7 @@ export default (StyleSheet.create({
     justifyContent: 'center',
   },
   tabBar: {
-    height: 35,
+    height: 40,
     flexDirection: 'row',
     justifyContent: 'space-around',
     borderWidth: 1,

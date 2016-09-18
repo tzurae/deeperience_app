@@ -26,16 +26,13 @@ function mapDispatchToProps(dispatch) {
 
 class SiteButton extends React.Component {
   onPress() {
-    console.log(this.props)
     const { name, introduction } = this.props.siteInfo.content
     this.props.dispatch(
       this.props.actions.setDisplayInfo({
         title: name, introduction,
       })
     )
-    this.props.dispatch(this.props.actions.deactivateSiteBtn({
-      day: this.props.siteInfo.day,
-    }))
+    this.props.dispatch(this.props.actions.deactivateSiteBtn())
     this.props.dispatch(
       this.props.actions.activateSiteBtn({
         day: this.props.siteInfo.day,
@@ -56,15 +53,23 @@ class SiteButton extends React.Component {
       }}>
         <View
           style={[styles.site, (() => {
-            if (this.props.active) return styles.siteActive
-            else return styles.siteDeactive
+            switch (this.props.status) {
+              case 0:
+                return styles.siteDeactive
+              case 1:
+                return styles.siteActive
+            }
           })()]}
         />
         <View style={styles.siteShadow}/>
         <View
           style={[styles.siteBackground, (() => {
-            if (this.props.active) return styles.siteBackgroundActive
-            else return styles.siteBackgroundDeactive
+            switch (this.props.status) {
+              case 0:
+                return styles.siteBackgroundDeactive
+              case 1:
+                return styles.siteBackgroundActive
+            }
           })()]}
         />
         <Text style={styles.siteName}>{this.props.children}</Text>

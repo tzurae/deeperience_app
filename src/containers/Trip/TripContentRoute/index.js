@@ -31,6 +31,7 @@ function mapStateToProps(state) {
       guideId: state.trip.tripContent.guideId,
       startSites: state.trip.tripContent.startSites,
       tripInfo: state.trip.tripContent.tripInfo,
+      siteStatus: state.trip.tripContent.siteStatus,
       isFetching: state.trip.isFetching,
       displayDay: state.trip.displayInfo.displayDay,
       displayInfoOrNot: state.trip.displayInfo.display,
@@ -53,11 +54,14 @@ function mapDispatchToProps(dispatch) {
 }
 
 class TripContentRoute extends React.Component {
+  goToMap() {
+
+  }
   render() {
     const { btnBigRadius } = MainStyle.TripSiteButton
 
     return (
-      <View style={[styles.container, { height: height - 100, width }]}>
+      <View style={[styles.container, { height: height - 114, width }]}>
         <TabBar>
           {this.props.trip.tripInfo.map((dailyTrip, dIndex) => (
               <ScrollView
@@ -73,7 +77,7 @@ class TripContentRoute extends React.Component {
                       left = {(site.pos.xpos + 1) / (dailyTrip.ylayer[site.pos.ypos] + 1) * width - btnBigRadius}
                       siteInfo = {site}
                       order = {siteOrder}
-                      active = {site.active}
+                      status = {this.props.trip.siteStatus[dIndex][siteOrder]}
                       key = {site.siteKey}
                     >
                       {site.content.name}
@@ -111,9 +115,7 @@ class TripContentRoute extends React.Component {
                     style={styles.closeIcon}
                     onPress={() => {
                       this.props.dispatch(this.props.actions.closeDisplayInfo())
-                      this.props.dispatch(this.props.actions.deactivateSiteBtn({
-                        day: this.props.trip.displayDay,
-                      }))
+                      this.props.dispatch(this.props.actions.deactivateSiteBtn())
                     }}
                   >
                     <Icon
@@ -138,7 +140,7 @@ class TripContentRoute extends React.Component {
                       <Button
                         containerStyle={styles.mapBtnContainer}
                         style={styles.mapBtn}
-                        onPress={() => this.props.dispatch(this.props.actions.closeDisplayInfo())}
+                        onPress={() => this.goToMap()}
                       >
                         {'導  覽'}
                       </Button>

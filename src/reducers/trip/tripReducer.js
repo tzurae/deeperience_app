@@ -23,13 +23,15 @@ const {
 
   ACTIVATE_SITE_BTN,
   DEACTIVATE_SITE_BTN,
+
+  SET_NOW_POSITION,
 } = require('../../lib/constants').default
 
 const initialState = new InitialState()
 
 export default function tripReducer(state = initialState, action) {
   if (!(state instanceof InitialState)) return initialState.mergeDeep(state)
-  let tripInfo
+  let siteStatus
   switch (action.type) {
     case GET_ALL_TRIP:
       return state
@@ -51,7 +53,8 @@ export default function tripReducer(state = initialState, action) {
       return state.setIn(['isFetching'], true)
 
     case SET_SITE_CONTENT_SUCCESS:
-      return state.setIn(['tripContent', 'tripInfo'], action.payload)
+      return state.setIn(['tripContent', 'tripInfo'], action.payload.allInfo)
+                  .setIn(['tripContent', 'siteStatus'], action.payload.siteStatus)
                   .setIn(['isFetching'], false)
 
     case SET_SITE_CONTENT_FAILURE:
@@ -68,15 +71,22 @@ export default function tripReducer(state = initialState, action) {
       return state.setIn(['displayInfo', 'display'], false)
 
     case ACTIVATE_SITE_BTN:
-      tripInfo = state.getIn(['tripContent', 'tripInfo'])
-      tripInfo[action.payload.day].sites[action.payload.order].active = true
-      return state.setIn(['tripContent', 'tripInfo'], tripInfo)
+      siteStatus = state.getIn(['tripContent', 'siteStatus'])
+      siteStatus[action.payload.day][action.payload.order] = 1
+      console.log(action.payload.order)
+      return state.setIn(['tripContent', 'siteStatus'], siteStatus)
+                  .setIn(['displayInfo', 'displayWhich'], action.payload.order)
+
     case DEACTIVATE_SITE_BTN:
-      tripInfo = state.getIn(['tripContent', 'tripInfo'])
-      tripInfo[action.payload.day].sites.forEach(site => {
-        site.active = false
-      })
-      return state.setIn(['tripContent', 'tripInfo'], tripInfo)
+      siteStatus = state.getIn(['tripContent', 'siteStatus'])
+      const displayDay = state.getIn(['displayInfo', 'displayDay'])
+      const displayWhich = state.getIn(['displayInfo', 'displayWhich'])
+      console.log(displayDay)
+      console.log(displayWhich)
+      siteStatus[displayDay][displayWhich] = 0
+      return state.setIn(['tripContent', 'siteStatus'], siteStatus)
+
+    case SET_NOW_POSITION:
     case SET_STATE:
       return state
   }

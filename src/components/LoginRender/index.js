@@ -225,7 +225,7 @@ class LoginRender extends React.Component {
      */
     return (
       <View style={styles.container}>
-        <Header Header_Text={REGISTER}/>
+        <Header headerText={REGISTER}/>
     <ScrollableTabView>
       <View style={styles.container} tabLabel="login">
         <ScrollView horizontal={false} width={width} height={height}>

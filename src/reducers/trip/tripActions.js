@@ -19,6 +19,9 @@ const {
 
   ACTIVATE_SITE_BTN,
   DEACTIVATE_SITE_BTN,
+
+  SET_NOW_POSITION,
+  SET_MAP_INFO,
 } = require('../../lib/constants').default
 
 export function getAllTrip():Action {
@@ -112,10 +115,9 @@ export function activateSiteBtn(res: any):Action {
   }
 }
 
-export function deactivateSiteBtn(res: any):Action {
+export function deactivateSiteBtn():Action {
   return {
     type: DEACTIVATE_SITE_BTN,
-    payload: res,
   }
 }
 
@@ -132,5 +134,31 @@ export function setDisplayInfo(res: any):Action {
 export function closeDisplayInfo():Action {
   return {
     type: CLOSE_DISPLAY_INFO,
+  }
+}
+
+export function setNowPosition(res:any):Action {
+  return {
+    type: SET_NOW_POSITION,
+    payload: res,
+  }
+}
+
+export function getNowPosition():ThunkAction {
+  return dispatch => {
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude, heading } = position.coords
+      dispatch(setNowPosition({ position: { latitude, longitude }, heading }))
+    },
+      error => {},
+      { enableHighAccuracy: true, maximumAge: 0 }
+    )
+  }
+}
+
+export function setMapInfo(res : any):Action {
+  return {
+    type: SET_MAP_INFO,
+    payload: res,
   }
 }

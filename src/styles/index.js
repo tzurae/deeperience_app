@@ -1,3 +1,9 @@
 import style from './origin'
 
-export default style
+export default {
+  ...style,
+  container: {
+    flexDirection: 'column',
+    flex: 1,
+  },
+}

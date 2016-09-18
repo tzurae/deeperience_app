@@ -1,10 +1,8 @@
 import { StyleSheet } from 'react-native'
+import Mainstyle from '../../styles'
 
 export default (StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-  },
+  container: Mainstyle.container,
   summary: {
     fontFamily: 'BodoniSvtyTwoITCTT-Book',
     fontSize: 18,

@@ -134,6 +134,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-simpledialog-android')
     compile project(':react-native-svg')
 
     compile fileTree(dir: "libs", include: ["*.jar"])
@@ -141,9 +142,9 @@ dependencies {
     compile "com.facebook.react:react-native:+"  // From node_modules
 
     compile project(':react-native-vector-icons')
-    compile project(':RNSimpleAlertDialogModule')
     compile project(':react-native-i18n')
     compile project(':react-native-facebook-login')
+    compile "com.airbnb.android:react-native-maps:0.7.1"
 }
 
 // Run this once to be able to run the application with BUCK

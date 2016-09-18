@@ -1,10 +1,6 @@
 /**
- * # app.js
- *  Display startup screen and
- *  getSessionTokenAtStartup which will navigate upon completion
- *
- *
- *
+ * # TripContent.js
+ * Display tripContent
  */
 'use strict'
 import { bindActionCreators } from 'redux'
@@ -53,10 +49,17 @@ class TripContent extends React.Component {
     this.props.actions.getTripContentById('-KRU7JacRSqhywPrZ2sR')
   }
 
+  onReturn() {
+
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Header Header_Text={I18n.t('Nav.tripContent')}/>
+        <Header
+          headerText={I18n.t('Nav.tripContent')}
+          onReturn={() => this.onReturn()}
+        />
         <TabBar>
           <View
             horizontal={false}
