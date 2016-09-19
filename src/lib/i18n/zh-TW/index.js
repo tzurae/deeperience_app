@@ -64,9 +64,14 @@ export default {
 
   },
   "TripTab": {
-    "Introduction": "簡  介",
-    "Route": "行  程",
-    "Comment": "評  論",
-    "Guide": "嚮  導",
+    "introduction": "簡  介",
+    "route": "行  程",
+    "comment": "評  論",
+    "guide": "嚮  導",
   },
+  "TripContent": {
+    "introduction": "簡介",
+    "transportation": "大眾運輸",
+    "audioGuide":"導  覽"
+  }
 }

@@ -4,9 +4,16 @@ import MainStyle from '../../../styles'
 export default (StyleSheet.create({
   container: MainStyle.container,
   mapContainer: {
-    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: 'black',
+  },
+  map: {
+    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   titleContainer: {
     paddingTop: 0,

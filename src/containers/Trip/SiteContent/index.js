@@ -14,6 +14,9 @@ import Header from '../../../components/Header'
 import styles from './styles'
 import MapView from 'react-native-maps'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import { Actions } from 'react-native-router-flux'
+import { auth } from '../../../config'
+import { convertPolyline } from '../../../reducers/trip/tripHelper'
 
 import Dimensions from 'Dimensions'
 const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -37,11 +40,13 @@ function mapStateToProps(state) {
       subTitle: state.trip.mapInfo.subTitle,
       content: state.trip.mapInfo.content,
       pos: state.trip.mapInfo.pos,
+      nowPos: state.trip.mapInfo.nowPos,
       heading: state.trip.mapInfo.heading,
       markers: state.trip.mapInfo.markers,
       polyline: state.trip.mapInfo.polyline,
       audioLength: state.trip.mapInfo.audioLength,
       distance: state.trip.mapInfo.distance,
+      address: state.trip.mapInfo.address,
     },
   }
 }
@@ -60,8 +65,25 @@ function mapDispatchToProps(dispatch) {
 
 class SiteContent extends React.Component {
 
-  onMarkerPress(marker) {
-
+  onMarkerPress({ name, introduction, address }) {
+    console.log(address)
+    fetch('https://maps.googleapis.com/maps/api/directions/json?' +
+      `origin=${this.props.trip.nowPos.lat},${this.props.trip.nowPos.lng}` +
+      `&destination=${address}` +
+      '&region=tw' +
+      '&mode=walking' +
+      '&language=zh-TW' +
+      `&key=${auth.firebase.apiKey}`)
+      .then(res => res.json())
+      .then(res => {
+        const polyline = convertPolyline(res.routes[0].overview_polyline.points)
+        this.props.dispatch(this.props.actions.setMapDirection({
+          polyline,
+          name,
+          introduction,
+          address,
+        }))
+      })
   }
 
   onPausePress() {
@@ -73,46 +95,8 @@ class SiteContent extends React.Component {
   }
 
   onReturn() {
-
+    Actions.pop()
   }
-
-  // <View style ={styles.mapContainer}>
-  //   <MapView
-  //     style={styles.map}
-  //     initialRegion={{
-  //       latitude: this.props.trip.pos.lat,
-  //       longitude: this.props.trip.pos.lng,
-  //       latitudeDelta: 0.01,
-  //       longitudeDelta: 0.01,
-  //     }}
-  //     rotateEnabled={true}
-  //     showsUserLocation={true}
-  //     showsMyLocationButton={true}
-  //   >
-  //     {this.props.trip.markers.map(marker => (
-  //       <MapView.Marker
-  //         coordinate={marker.coordinate}
-  //         onPress={() => this.onMarkerPress(marker)}
-  //         key={marker.title}
-  //       />
-  //     ))}
-  //     <MapView.Polyline
-  //       coordinates = {this.props.trip.polyline}
-  //       strokeWidth = {5}
-  //       lineCap = {'round'}
-  //       strokeColor = {'#00B3FD'}
-  //       icons = {[{
-  //         icon: {
-  //           path: 'M 0,-1 0,1',
-  //           strokeOpacity: 1,
-  //           scale: 4,
-  //         },
-  //         offset: '0',
-  //         repeat: '20px',
-  //       }]}
-  //     />
-  //   </MapView>
-  // </View>
 
   render() {
     return (
@@ -156,6 +140,45 @@ class SiteContent extends React.Component {
           </TouchableHighlight>
         </View>
         <View style={[styles.mapContainer, { height: 250, width }]}>
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: this.props.trip.pos.lat,
+              longitude: this.props.trip.pos.lng,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            }}
+            rotateEnabled={true}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+          >
+            {this.props.trip.markers.map(marker => {
+              const { lat, lng } = marker.position
+              return (
+                <MapView.Marker
+                  coordinate={{ latitude: lat, longitude: lng }}
+                  onPress={() => this.onMarkerPress(marker)}
+                  title={marker.name}
+                  key={marker.name}
+                />
+              )
+            })}
+            <MapView.Polyline
+              coordinates = {this.props.trip.polyline}
+              strokeWidth = {5}
+              lineCap = {'round'}
+              strokeColor = {'#00B3FD'}
+              icons = {[{
+                icon: {
+                  path: 'M 0,-1 0,1',
+                  strokeOpacity: 1,
+                  scale: 4,
+                },
+                offset: '0',
+                repeat: '20px',
+              }]}
+            />
+          </MapView>
         </View>
         <View style={styles.siteContentContainer}>
           <Text style={styles.subTitle}>{this.props.trip.subTitle}</Text>

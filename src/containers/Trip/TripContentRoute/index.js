@@ -16,6 +16,8 @@ import SiteButton from '../../../components/Trip/SiteButton'
 import TabBar from '../../../components/TabBar'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Button from 'react-native-button'
+import I18n from '../../../lib/i18n'
+import { Actions } from 'react-native-router-flux'
 
 import Dimensions from 'Dimensions'
 const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -34,6 +36,7 @@ function mapStateToProps(state) {
       siteStatus: state.trip.tripContent.siteStatus,
       isFetching: state.trip.isFetching,
       displayDay: state.trip.displayInfo.displayDay,
+      displayWhich: state.trip.displayInfo.displayWhich,
       displayInfoOrNot: state.trip.displayInfo.display,
       displayInfoTitle: state.trip.displayInfo.displayInfoTitle,
       displayInfoIntroduction: state.trip.displayInfo.displayInfoIntroduction,
@@ -55,7 +58,12 @@ function mapDispatchToProps(dispatch) {
 
 class TripContentRoute extends React.Component {
   goToMap() {
-
+    this.props.dispatch(
+      this.props.actions.setMapInfo(
+        this.props.trip.tripInfo[this.props.trip.displayDay].sites[this.props.trip.displayWhich]
+      )
+    )
+    Actions.SiteContent()
   }
   render() {
     const { btnBigRadius } = MainStyle.TripSiteButton
@@ -117,6 +125,7 @@ class TripContentRoute extends React.Component {
                       this.props.dispatch(this.props.actions.closeDisplayInfo())
                       this.props.dispatch(this.props.actions.deactivateSiteBtn())
                     }}
+                    underlayColor="white"
                   >
                     <Icon
                       name="close"
@@ -128,7 +137,7 @@ class TripContentRoute extends React.Component {
                     tabBarPosition={'bottom'}
                   >
                     <View
-                      tabLabel={'簡介'}
+                      tabLabel={I18n.t('TripContent.introduction')}
                       style={styles.displayInfoCard}
                     >
                       <Text style={styles.displayInfoTitle}>
@@ -142,11 +151,11 @@ class TripContentRoute extends React.Component {
                         style={styles.mapBtn}
                         onPress={() => this.goToMap()}
                       >
-                        {'導  覽'}
+                        {I18n.t('TripContent.audioGuide')}
                       </Button>
                     </View>
                     <View
-                      tabLabel={'大眾運輸'}
+                      tabLabel={I18n.t('TripContent.transportation')}
                       style={styles.displayInfoCard}
                     >
                       <Text style={styles.displayInfoTitle}>

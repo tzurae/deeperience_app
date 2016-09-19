@@ -25,6 +25,8 @@ const {
   DEACTIVATE_SITE_BTN,
 
   SET_NOW_POSITION,
+  SET_MAP_INFO,
+  SET_MAP_DIRECTION,
 } = require('../../lib/constants').default
 
 const initialState = new InitialState()
@@ -73,7 +75,6 @@ export default function tripReducer(state = initialState, action) {
     case ACTIVATE_SITE_BTN:
       siteStatus = state.getIn(['tripContent', 'siteStatus'])
       siteStatus[action.payload.day][action.payload.order] = 1
-      console.log(action.payload.order)
       return state.setIn(['tripContent', 'siteStatus'], siteStatus)
                   .setIn(['displayInfo', 'displayWhich'], action.payload.order)
 
@@ -81,12 +82,29 @@ export default function tripReducer(state = initialState, action) {
       siteStatus = state.getIn(['tripContent', 'siteStatus'])
       const displayDay = state.getIn(['displayInfo', 'displayDay'])
       const displayWhich = state.getIn(['displayInfo', 'displayWhich'])
-      console.log(displayDay)
-      console.log(displayWhich)
       siteStatus[displayDay][displayWhich] = 0
       return state.setIn(['tripContent', 'siteStatus'], siteStatus)
 
     case SET_NOW_POSITION:
+      return state
+
+    case SET_MAP_INFO:
+      return state.setIn(['mapInfo', 'headerText'], action.payload.content.name)
+                  .setIn(['mapInfo', 'mainTitle'], action.payload.content.name)
+                  .setIn(['mapInfo', 'subTitle'], action.payload.content.mapSite[0].name)
+                  .setIn(['mapInfo', 'content'], action.payload.content.mapSite[0].introduction)
+                  .setIn(['mapInfo', 'pos'], action.payload.content.mapSite[0].position)
+                  .setIn(['mapInfo', 'markers'], action.payload.content.mapSite)
+                  .setIn(['mapInfo', 'address'], action.payload.content.mapSite[0].address)
+
+    case SET_MAP_DIRECTION:
+      return state.setIn(['mapInfo', 'mainTitle'], action.payload.name)
+                  .setIn(['mapInfo', 'subTitle'], action.payload.name)
+                  .setIn(['mapInfo', 'content'], action.payload.introduction)
+                  .setIn(['mapInfo', 'address'], action.payload.address)
+                  .setIn(['mapInfo', 'polyline'], action.payload.polyline)
+
+
     case SET_STATE:
       return state
   }

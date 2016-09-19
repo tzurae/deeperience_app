@@ -53,7 +53,8 @@ export type Action =
     { type: 'CLOSE_DISPLAY_INFO' } |
 
     { type: 'SET_NOW_POSITION', payload: any} |
-    { type: 'SET_MAP_INFO', payload: any}
+    { type: 'SET_MAP_INFO', payload: any} |
+    { type: 'SET_MAP_DIRECTION', payload: any}
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;
 export type GetState = () => Object;

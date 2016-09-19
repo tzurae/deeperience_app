@@ -22,6 +22,7 @@ const {
 
   SET_NOW_POSITION,
   SET_MAP_INFO,
+  SET_MAP_DIRECTION,
 } = require('../../lib/constants').default
 
 export function getAllTrip():Action {
@@ -159,6 +160,13 @@ export function getNowPosition():ThunkAction {
 export function setMapInfo(res : any):Action {
   return {
     type: SET_MAP_INFO,
+    payload: res,
+  }
+}
+
+export function setMapDirection(res : any):Action {
+  return {
+    type: SET_MAP_DIRECTION,
     payload: res,
   }
 }

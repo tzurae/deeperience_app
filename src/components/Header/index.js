@@ -8,6 +8,7 @@ import
   TouchableHighlight,
 } from 'react-native'
 import styles from './styles'
+import MainStyle from '../../styles'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 class Header extends React.Component {
@@ -29,6 +30,7 @@ class Header extends React.Component {
                 <TouchableHighlight
                   style={styles.backIcon}
                   onPress={() => this.props.onReturn()}
+                  underlayColor={MainStyle.color.main}
                 >
                   <Icon
                     name={"chevron-left"}

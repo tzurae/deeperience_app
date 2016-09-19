@@ -10,9 +10,6 @@ export const auth = {
     databaseURL: 'https://deeperience.firebaseio.com',
     storageBucket: 'deeperience.appspot.com',
   },
-  googleMap: {
-    browserKey: 'AIzaSyBdc-6Urhw1leelMPjWrLRCYeWTKJZQLQc',
-  },
 }
 
 export const storageKey = 'Deeperience_react-native-storage'

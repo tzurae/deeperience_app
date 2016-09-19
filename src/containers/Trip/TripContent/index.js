@@ -64,7 +64,7 @@ class TripContent extends React.Component {
           <View
             horizontal={false}
             width={width}
-            tabLabel={I18n.t('TripTab.Introduction')}
+            tabLabel={I18n.t('TripTab.introduction')}
           >
             <TripContentRoute/>
           </View>
@@ -72,19 +72,19 @@ class TripContent extends React.Component {
           <ScrollView
             horizontal={false}
             width={width}
-            tabLabel={I18n.t('TripTab.Route')}
+            tabLabel={I18n.t('TripTab.route')}
           />
 
           <ScrollView
             horizontal={false}
             width={width}
-            tabLabel={I18n.t('TripTab.Comment')}
+            tabLabel={I18n.t('TripTab.comment')}
           />
 
           <ScrollView
             horizontal={false}
             width={width}
-            tabLabel={I18n.t('TripTab.Guide')}
+            tabLabel={I18n.t('TripTab.guide')}
           />
         </TabBar>
       </View>
