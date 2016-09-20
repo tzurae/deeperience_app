@@ -104,7 +104,6 @@ export default function tripReducer(state = initialState, action) {
                   .setIn(['mapInfo', 'address'], action.payload.address)
                   .setIn(['mapInfo', 'polyline'], action.payload.polyline)
 
-
     case SET_STATE:
       return state
   }
