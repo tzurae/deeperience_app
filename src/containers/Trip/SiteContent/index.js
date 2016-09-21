@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { Actions } from 'react-native-router-flux'
 import { auth } from '../../../config'
 import { convertPolyline } from '../../../reducers/trip/tripHelper'
+import Sound from 'react-native-sound'
 
 import Dimensions from 'Dimensions'
 const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -65,6 +66,12 @@ function mapDispatchToProps(dispatch) {
 
 class SiteContent extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.audioPlayer = new Sound('deeperience/asdasd.aac', Sound.DOCUMENT, (error) => {
+      console.log(error)
+    })
+  }
   onMarkerPress({ name, introduction, address }) {
     console.log(address)
     fetch('https://maps.googleapis.com/maps/api/directions/json?' +
@@ -87,11 +94,15 @@ class SiteContent extends React.Component {
   }
 
   onPausePress() {
-    
+    this.audioPlayer.pause((success) => {
+      console.log(success)
+    })
   }
 
   onPlayPress() {
-
+    this.audioPlayer.play((success) => {
+      console.log(success)
+    })
   }
 
   onReturn() {
