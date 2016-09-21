@@ -87,7 +87,7 @@ class SiteContent extends React.Component {
   }
 
   onPausePress() {
-
+    
   }
 
   onPlayPress() {

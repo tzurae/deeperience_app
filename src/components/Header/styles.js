@@ -6,12 +6,10 @@ export default (StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F78B6D',
-    padding: 5,
+    padding: 7,
   },
   textStyle: {
     fontSize: MainStyle.font.big,
-    lineHeight: 30,
-    marginBottom: 10,
     color: '#ffffff',
     fontWeight: 'bold',
   },

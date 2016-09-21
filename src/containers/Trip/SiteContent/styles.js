@@ -22,7 +22,7 @@ export default (StyleSheet.create({
     paddingRight: 20,
   },
   mainTitle: {
-    fontSize: MainStyle.font.large,
+    fontSize: MainStyle.font.big,
     color: 'black',
     fontWeight: 'bold',
   },

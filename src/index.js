@@ -186,10 +186,10 @@ export default function native(platform) {
               </Scene>
               <Scene key="TripContent"
                      component={TripContent}
-                     initial={true}
               />
               <Scene key="SiteContent"
                      component={SiteContent}
+                     initial={true}
               />
             </Scene>
           </Router>
