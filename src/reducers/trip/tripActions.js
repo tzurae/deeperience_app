@@ -145,14 +145,15 @@ export function setNowPosition(res:any):Action {
   }
 }
 
-export function getNowPosition():ThunkAction {
+export function getNowPosition(resolve: any):ThunkAction {
   return dispatch => {
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude, heading } = position.coords
-      dispatch(setNowPosition({ position: { latitude, longitude }, heading }))
+      dispatch(setNowPosition({ position: { lat: latitude, lng: longitude }, heading }))
+      resolve()
     },
-      error => {},
-      { enableHighAccuracy: true, maximumAge: 0 }
+      error => console.log(error),
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
     )
   }
 }

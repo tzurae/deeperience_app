@@ -22,7 +22,7 @@ export default (StyleSheet.create({
     paddingRight: 20,
   },
   mainTitle: {
-    fontSize: MainStyle.font.large,
+    fontSize: MainStyle.font.big,
     color: 'black',
     fontWeight: 'bold',
   },
@@ -65,10 +65,10 @@ export default (StyleSheet.create({
     fontSize: MainStyle.font.medium,
   },
   distance: {
-    fontSize: 36,
+    fontSize: 28,
     color: MainStyle.color.main,
     position: 'absolute',
-    top: 0,
+    top: 5,
     right: 20,
   },
 }))

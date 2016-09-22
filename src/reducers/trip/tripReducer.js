@@ -86,7 +86,7 @@ export default function tripReducer(state = initialState, action) {
       return state.setIn(['tripContent', 'siteStatus'], siteStatus)
 
     case SET_NOW_POSITION:
-      return state
+      return state.setIn(['mapInfo', 'nowPos'], action.payload.position)
 
     case SET_MAP_INFO:
       return state.setIn(['mapInfo', 'headerText'], action.payload.content.name)
@@ -103,6 +103,7 @@ export default function tripReducer(state = initialState, action) {
                   .setIn(['mapInfo', 'content'], action.payload.introduction)
                   .setIn(['mapInfo', 'address'], action.payload.address)
                   .setIn(['mapInfo', 'polyline'], action.payload.polyline)
+                  .setIn(['mapInfo', 'distance'], action.payload.distance)
 
     case SET_STATE:
       return state

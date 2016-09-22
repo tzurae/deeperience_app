@@ -66,24 +66,30 @@ function mapDispatchToProps(dispatch) {
 class SiteContent extends React.Component {
 
   onMarkerPress({ name, introduction, address }) {
-    console.log(address)
-    fetch('https://maps.googleapis.com/maps/api/directions/json?' +
-      `origin=${this.props.trip.nowPos.lat},${this.props.trip.nowPos.lng}` +
-      `&destination=${address}` +
-      '&region=tw' +
-      '&mode=walking' +
-      '&language=zh-TW' +
-      `&key=${auth.firebase.apiKey}`)
-      .then(res => res.json())
-      .then(res => {
-        const polyline = convertPolyline(res.routes[0].overview_polyline.points)
-        this.props.dispatch(this.props.actions.setMapDirection({
-          polyline,
-          name,
-          introduction,
-          address,
-        }))
-      })
+    return new Promise((resolve) => {
+      this.props.actions.getNowPosition(resolve)
+    }).then(() => {
+      fetch('https://maps.googleapis.com/maps/api/directions/json?' +
+        `origin=${this.props.trip.nowPos.lat},${this.props.trip.nowPos.lng}` +
+        `&destination=${address}` +
+        '&region=tw' +
+        '&mode=walking' +
+        '&language=zh-TW' +
+        `&key=${auth.firebase.apiKey}`)
+        .then(res => res.json())
+        .then(res => {
+          console.log(res)
+          const distance = res.routes[0].legs[0].distance.text
+          const polyline = convertPolyline(res.routes[0].overview_polyline.points)
+          this.props.dispatch(this.props.actions.setMapDirection({
+            polyline,
+            name,
+            introduction,
+            address,
+            distance,
+          }))
+        })
+    }).catch(error => console.log(error))
   }
 
   onPausePress() {
@@ -113,7 +119,7 @@ class SiteContent extends React.Component {
           <TouchableHighlight
             style={[styles.audioButton, {
               position: 'absolute',
-              top: 16,
+              top: 14,
               right: 80,
             }]}
             onPress={() => this.onPlayPress()}
@@ -127,7 +133,7 @@ class SiteContent extends React.Component {
           <TouchableHighlight
             style={[styles.audioButton, {
               position: 'absolute',
-              top: 16,
+              top: 14,
               right: 20,
             }]}
             onPress={() => this.onPausePress()}

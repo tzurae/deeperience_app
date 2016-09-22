@@ -27,8 +27,8 @@ const InitialState = Record({
       lng: 0,
     },
     nowPos: {
-      lat: 24.7859146,
-      lng: 120.996735,
+      lat: 0,
+      lng: 0,
     },
     heading: 0,
     markers: [],
