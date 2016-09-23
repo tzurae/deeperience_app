@@ -1,5 +1,5 @@
 /* @flow */
-import { call, fork, put, take } from 'redux-saga/effects'
+import { call, fork, take, put } from 'redux-saga/effects'
 import * as authActions from '../../reducers/auth/authActions'
 import apiFactory from '../../api/apiFactory'
 import UserModel from '../../model/UserModel'
@@ -21,38 +21,36 @@ export function *signUp(payload) {
     // user is a promise backed from firebase
     const user = yield call([api, api.signup], payload.email, payload.password)
     // newUser will be written in database
-    const newUser = yield new UserModel(user.uid,{
+    const newUser =  yield new UserModel(user.uid,{
       email: user.email,
       displayName: user.displayName,
     })
     yield call([api, api.writeDataBase], newUser.getPath(), newUser.getData())
-    yield put(authActions.signupSuccess({
-      uid: user.uid,
-      dispalyName: user.displayName,
-      email: user.email,
-    }))
+    yield put(authActions.signupSuccess({uid:user.uid}))
     yield put(authActions.logoutState())
-    yield Actions.Tabbar()
+    Actions.Tabbar()
   }
   catch(error) {
     yield put(authActions.signupFailure(error))
   }
 }
 
-function *initAuth() {
+export function *initAuth() {
   try {
     const user = yield call([api, api.initAuth])
     if(user) {
+
       yield put(authActions.loginSuccess({
         uid: user.uid,
-        dispalyName: user.displayName,
+        displayName: user.displayName,
         email: user.email,
       }))
       yield put(authActions.logoutState())
-      yield Actions.Tabbar()
+      Actions.Tabbar()
     }
     else {
-      yield Actions.InitialLoginForm()
+      yield(put(authActions.loginState()))
+      Actions.InitialLoginForm()
     }
   }
   catch(error) {
@@ -60,13 +58,13 @@ function *initAuth() {
   }
 }
 
-function *logout() {
+export function *logout() {
   try {
     yield put(authActions.logoutRequest())
     yield call([api, api.logout])
     yield put(authActions.loginState())
     yield put(authActions.logoutSuccess())
-    yield Actions.InitialLoginForm()
+    Actions.InitialLoginForm()
   }
   catch(error) {
     yield put(authActions.loginState())
@@ -74,30 +72,30 @@ function *logout() {
   }
 }
 
-function *login(payload) {
+export function *login(payload) {
   try {
     yield put(authActions.loginRequest())
     const user = yield call([api, api.login],payload.email,payload.password)
     yield put(authActions.loginSuccess({
       uid: user.uid,
-      dispalyName: user.displayName,
+      displayName: user.displayName,
       email: user.email,
     }))
     yield put(authActions.logoutState())
-    yield Actions.Tabbar()
+    Actions.Tabbar()
   }
   catch(error) {
     yield put(authActions.loginFailure())
   }
 }
 
-function *resetPassword(payload) {
+export function *resetPassword(payload) {
   try {
     yield put(authActions.resetPasswordRequest())
     yield call([api, api.resetPassword],payload.email)
     yield put(authActions.loginState())
     yield put(authActions.resetPasswordSuccess())
-    yield Actions.Login()
+    Actions.Login()
   }
   catch(error) {
     yield put(authActions.resetPasswordFailure())
@@ -122,23 +120,23 @@ export function* watchInitAuth() {
   }
 }
 
-function* watchLogout() {
+export function* watchLogout() {
   while(true) {
     yield take(LOGOUT_START)
     yield fork(logout)
   }
 }
 
-function* watchLogin() {
+export function* watchLogin() {
   while(true) {
-    let { payload } = yield take(LOGIN_START)
+    let payload  = yield take(LOGIN_START)
     yield fork(login, payload)
   }
 }
 
-function* watchResetPassword() {
+export function* watchResetPassword() {
   while(true) {
-    let { payload } = yield take(RESET_PASSWORD_START)
+    let payload = yield take(RESET_PASSWORD_START)
     yield fork(resetPassword, payload)
   }
 }

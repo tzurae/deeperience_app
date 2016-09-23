@@ -116,10 +116,10 @@ export function signupRequest():Action {
     type: SIGNUP_REQUEST,
   }
 }
-export function signupSuccess(json:any):Action {
+export function signupSuccess(user:any):Action {
   return {
     type: SIGNUP_SUCCESS,
-    payload: json,
+    payload: user,
   }
 }
 export function signupFailure(error:any):Action {
