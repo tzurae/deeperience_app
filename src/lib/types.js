@@ -54,7 +54,10 @@ export type Action =
 
     { type: 'SET_NOW_POSITION', payload: any} |
     { type: 'SET_MAP_INFO', payload: any} |
-    { type: 'SET_MAP_DIRECTION', payload: any}
+    { type: 'SET_MAP_DIRECTION', payload: any} |
+
+    { type: 'SET_AUDIO_DURATION', payload: number} |
+    { type: 'SET_AUDIO_POSITION', payload: number}
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;
 export type GetState = () => Object;

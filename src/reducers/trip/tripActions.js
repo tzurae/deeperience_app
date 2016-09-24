@@ -23,6 +23,9 @@ const {
   SET_NOW_POSITION,
   SET_MAP_INFO,
   SET_MAP_DIRECTION,
+
+  SET_AUDIO_DURATION,
+  SET_AUDIO_POSITION,
 } = require('../../lib/constants').default
 
 export function getAllTrip():Action {
@@ -167,6 +170,20 @@ export function setMapInfo(res : any):Action {
 export function setMapDirection(res : any):Action {
   return {
     type: SET_MAP_DIRECTION,
+    payload: res,
+  }
+}
+
+export function setAudioDuration(res : number):Action {
+  return {
+    type: SET_AUDIO_DURATION,
+    payload: res,
+  }
+}
+
+export function setAudioPosition(res : number):Action {
+  return {
+    type: SET_AUDIO_POSITION,
     payload: res,
   }
 }

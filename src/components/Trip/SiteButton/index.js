@@ -2,7 +2,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Map } from 'immutable'
-import React from 'react'
+import React, { PropTypes } from 'react'
 import styles from './styles'
 import Button from 'react-native-button'
 import { View, Text } from 'react-native'
@@ -25,20 +25,40 @@ function mapDispatchToProps(dispatch) {
 }
 
 class SiteButton extends React.Component {
+
+  static propTypes = {
+    status: PropTypes.number,
+    top: PropTypes.number,
+    left: PropTypes.number,
+    order: PropTypes.number,
+  }
+  static defaultProps = {
+    status: 0,
+    top: 0,
+    left: 0,
+    order: 0,
+  }
+
   onPress() {
-    const { name, introduction } = this.props.siteInfo.content
-    this.props.dispatch(
-      this.props.actions.setDisplayInfo({
-        title: name, introduction,
-      })
-    )
-    this.props.dispatch(this.props.actions.deactivateSiteBtn())
-    this.props.dispatch(
-      this.props.actions.activateSiteBtn({
-        day: this.props.siteInfo.day,
-        order: this.props.order,
-      })
-    )
+    new Promise(() => {
+
+    }).then(() => {
+      const { name, introduction } = this.props.siteInfo.content
+      this.props.dispatch(
+        this.props.actions.setDisplayInfo({
+          title: name, introduction,
+        })
+      )
+      this.props.dispatch(this.props.actions.deactivateSiteBtn())
+      this.props.dispatch(
+        this.props.actions.activateSiteBtn({
+          day: this.props.siteInfo.day,
+          order: this.props.order,
+        })
+      )
+    }).catch(err => {
+      console.log(err)
+    })
   }
 
   render() {

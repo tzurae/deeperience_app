@@ -16,8 +16,9 @@ import MapView from 'react-native-maps'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Actions } from 'react-native-router-flux'
 import { auth } from '../../../config'
-import { convertPolyline } from '../../../reducers/trip/tripHelper'
-import Sound from 'react-native-sound'
+import { convertPolyline, convertSecondToTime } from '../../../reducers/trip/tripHelper'
+import { Player } from 'react-native-audio-toolkit'
+import Slider from 'react-native-slider'
 
 import Dimensions from 'Dimensions'
 const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -45,9 +46,10 @@ function mapStateToProps(state) {
       heading: state.trip.mapInfo.heading,
       markers: state.trip.mapInfo.markers,
       polyline: state.trip.mapInfo.polyline,
-      audioLength: state.trip.mapInfo.audioLength,
+      audioDuration: state.trip.mapInfo.audioDuration,
       distance: state.trip.mapInfo.distance,
       address: state.trip.mapInfo.address,
+      audioPosition: state.trip.mapInfo.audioPosition,
     },
   }
 }
@@ -68,12 +70,30 @@ class SiteContent extends React.Component {
 
   constructor(props) {
     super(props)
-    this.audioPlayer = new Sound('deeperience/asdasd.aac', Sound.DOCUMENT, (error) => {
-      console.log(error)
+    this.audioPlayer = new Player('https://firebasestorage.googleapis.com/v0/b/deeperience.appspot.com/o/audio%2F%E7%B6%A0%E9%8B%BC%E7%90%B4.mp3?alt=media&token=e3a187d0-abfe-422f-a8e9-bdaf7df27fb4', {
+      autoDestroy: false,
+    })
+    this.audioPlayer.prepare(err => {
+      if (err === null) {
+        this.props.dispatch(
+          this.props.actions.setAudioDuration(
+            this.audioPlayer.duration
+          )
+        )
+      } else {
+        console.log(err)
+      }
+    })
+    // this.audioPlayer.looping = true
+    this.timerId = null
+    this.audioPlayer.on('ended', () => {
+      this.props.dispatch(
+        this.props.actions.setAudioPosition(0)
+      )
+      this.onPausePress()
     })
   }
   onMarkerPress({ name, introduction, address }) {
-    console.log(address)
     fetch('https://maps.googleapis.com/maps/api/directions/json?' +
       `origin=${this.props.trip.nowPos.lat},${this.props.trip.nowPos.lng}` +
       `&destination=${address}` +
@@ -95,19 +115,37 @@ class SiteContent extends React.Component {
 
   onPausePress() {
     this.audioPlayer.pause((success) => {
-      console.log(success)
+      if (success === null) {
+        clearInterval(this.timerId)
+      }
     })
   }
 
   onPlayPress() {
     this.audioPlayer.play((success) => {
-      console.log(success)
+      clearInterval(this.timerId)
+      this.timerId = setInterval(() => {
+        this.props.dispatch(
+          this.props.actions.setAudioPosition(
+            this.audioPlayer.currentTime
+          )
+        )
+      }, 250)
+    })
+  }
+
+  audioPlay(percent) {
+    this.audioPlayer.seek(percent * this.props.trip.audioDuration, () => {
+      this.onPlayPress()
     })
   }
 
   onReturn() {
     Actions.pop()
   }
+// <View style={styles.audioLengthContainer}>
+// <Text style={styles.audioLength}>{convertSecondToTime(this.props.trip.audioDuration)}</Text>
+// </View>
 
   render() {
     return (
@@ -117,38 +155,55 @@ class SiteContent extends React.Component {
           onReturn = {() => this.onReturn()}
         />
         <View style={styles.titleContainer}>
-          <Text style={styles.mainTitle}>{this.props.trip.mainTitle}</Text>
-          <View style={styles.audioLengthContainer}>
-            <Text style={styles.audioLength}>{this.props.trip.audioLength}</Text>
+          <View style={{ height: 50, flex: 1, padding: 5, justifyContent: 'center' }}>
+            <Text style={styles.mainTitle}>{this.props.trip.mainTitle}</Text>
+            <TouchableHighlight
+              style={[styles.audioButton, {
+                position: 'absolute',
+                top: 10,
+                right: 45,
+              }]}
+              onPress={() => this.onPlayPress()}
+            >
+              <Icon
+                name={'play'}
+                size={16}
+                color={'white'}
+              />
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={[styles.audioButton, {
+                position: 'absolute',
+                top: 10,
+                right: 0,
+              }]}
+              onPress={() => this.onPausePress()}
+            >
+              <Icon
+                name={'pause'}
+                size={16}
+                color={'white'}
+              />
+            </TouchableHighlight>
           </View>
-          <TouchableHighlight
-            style={[styles.audioButton, {
-              position: 'absolute',
-              top: 16,
-              right: 80,
-            }]}
-            onPress={() => this.onPlayPress()}
-          >
-            <Icon
-              name={'play'}
-              size={20}
-              color={'white'}
+          <View>
+            <Slider
+              style={{ width: width - 120 }}
+              value={this.props.trip.audioPosition / this.props.trip.audioDuration}
+              onSlidingStart={() => clearInterval(this.timerId)}
+              onSlidingComplete={(value) => this.audioPlay(value)}
             />
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={[styles.audioButton, {
+            <Text style={{
               position: 'absolute',
-              top: 16,
-              right: 20,
-            }]}
-            onPress={() => this.onPausePress()}
-          >
-            <Icon
-              name={'pause'}
-              size={20}
-              color={'white'}
-            />
-          </TouchableHighlight>
+              top: 8,
+              right: 0,
+            }}>
+              {`${convertSecondToTime(this.props.trip.audioPosition)}` +
+                '/' +
+                `${convertSecondToTime(this.props.trip.audioDuration)}`
+              }
+            </Text>
+          </View>
         </View>
         <View style={[styles.mapContainer, { height: 250, width }]}>
           <MapView

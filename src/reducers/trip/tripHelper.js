@@ -148,3 +148,8 @@ export function convertPolyline(polyline) {
   }
   return poly
 }
+
+export function convertSecondToTime(ms) {
+  const second = Math.floor(ms / 1000)
+  return `${Math.floor(second / 60)}:${formatNumber(second % 60)}`
+}

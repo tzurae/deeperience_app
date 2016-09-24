@@ -17,7 +17,7 @@ export default (StyleSheet.create({
   },
   titleContainer: {
     paddingTop: 0,
-    paddingBottom: 10,
+    paddingBottom: 0,
     paddingLeft: 20,
     paddingRight: 20,
   },
@@ -41,10 +41,10 @@ export default (StyleSheet.create({
     color: MainStyle.color.main,
   },
   audioButton: {
-    height: 44,
-    width: 44,
+    height: 36,
+    width: 36,
     backgroundColor: MainStyle.color.main,
-    borderRadius: 22,
+    borderRadius: 18,
     zIndex: 20,
     justifyContent: 'center',
     alignItems: 'center',

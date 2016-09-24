@@ -13,6 +13,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.magus.fblogin.FacebookLoginPackage;
 import com.horcrux.svg.RNSvgPackage;
 import com.zmxv.RNSound.RNSoundPackage;
+import com.futurice.rctaudiotoolkit.AudioPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +40,8 @@ public class MainApplication extends Application implements ReactApplication {
                                          new ReactNativeI18n(),
                                          new FacebookLoginPackage(),
                                          new RNSvgPackage(),
-                                         new RNSoundPackage()
+                                         new RNSoundPackage(),
+                                         new AudioPackage()
                                          );
     }
   };

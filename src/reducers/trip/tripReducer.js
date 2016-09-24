@@ -27,6 +27,8 @@ const {
   SET_NOW_POSITION,
   SET_MAP_INFO,
   SET_MAP_DIRECTION,
+  SET_AUDIO_DURATION,
+  SET_AUDIO_POSITION,
 } = require('../../lib/constants').default
 
 const initialState = new InitialState()
@@ -103,6 +105,12 @@ export default function tripReducer(state = initialState, action) {
                   .setIn(['mapInfo', 'content'], action.payload.introduction)
                   .setIn(['mapInfo', 'address'], action.payload.address)
                   .setIn(['mapInfo', 'polyline'], action.payload.polyline)
+
+    case SET_AUDIO_DURATION:
+      return state.setIn(['mapInfo', 'audioDuration'], action.payload)
+
+    case SET_AUDIO_POSITION:
+      return state.setIn(['mapInfo', 'audioPosition'], action.payload)
 
     case SET_STATE:
       return state

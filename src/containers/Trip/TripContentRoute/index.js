@@ -67,7 +67,6 @@ class TripContentRoute extends React.Component {
   }
   render() {
     const { btnBigRadius } = MainStyle.TripSiteButton
-
     return (
       <View style={[styles.container, { height: height - 114, width }]}>
         <TabBar>

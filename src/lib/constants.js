@@ -67,4 +67,7 @@ export default keyMirror({
   SET_NOW_POSITION: null,
   SET_MAP_INFO: null,
   SET_MAP_DIRECTION: null,
+
+  SET_AUDIO_DURATION: null,
+  SET_AUDIO_POSITION: null,
 })
