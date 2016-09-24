@@ -8,16 +8,14 @@ import { connect } from 'react-redux'
 import { Map } from 'immutable'
 import React from 'react'
 import * as tripActions from '../../../reducers/trip/tripActions'
-import { View, ScrollView, Text, TouchableHighlight } from 'react-native'
+import { View, ScrollView, Text } from 'react-native'
 import styles from './styles'
 import MainStyle from '../../../styles'
 import Svg, { Line } from 'react-native-svg'
 import SiteButton from '../../../components/Trip/SiteButton'
 import TabBar from '../../../components/TabBar'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import Button from 'react-native-button'
-import I18n from '../../../lib/i18n'
 import { Actions } from 'react-native-router-flux'
+import TouchableIcon from '../../../components/TouchableIcon'
 
 import Dimensions from 'Dimensions'
 const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -37,9 +35,17 @@ function mapStateToProps(state) {
       isFetching: state.trip.isFetching,
       displayDay: state.trip.displayInfo.displayDay,
       displayWhich: state.trip.displayInfo.displayWhich,
+      displayWhichCard: state.trip.displayInfo.displayWhichCard,
       displayInfoOrNot: state.trip.displayInfo.display,
       displayInfoTitle: state.trip.displayInfo.displayInfoTitle,
       displayInfoIntroduction: state.trip.displayInfo.displayInfoIntroduction,
+      transit: {
+        departureTime: state.trip.displayInfo.transit.departureTime,
+        arrivalTime: state.trip.displayInfo.transit.arrivalTime,
+        duration: state.trip.displayInfo.transit.duration,
+        steps: state.trip.displayInfo.transit.steps,
+        fare: state.trip.displayInfo.transit.fare,
+      },
     },
   }
 }
@@ -65,6 +71,19 @@ class TripContentRoute extends React.Component {
     )
     Actions.SiteContent()
   }
+  switchDisplayInfoTab(tab) {
+    if (tab === 0) {
+      this.props.dispatch(this.props.actions.switchDisplayInfoCard(0))
+    } else if (tab === 1) { // public transportation
+      this.props.dispatch(this.props.actions.switchDisplayInfoCard(1))
+      this.props.actions.getDisplayInfoDirection(
+        0, // transit
+        this.props.trip.tripInfo[this.props.trip.displayDay]
+          .sites[this.props.trip.displayWhich]
+          .content.mapSite[0].position
+      )
+    }
+  }
   render() {
     const { btnBigRadius } = MainStyle.TripSiteButton
     return (
@@ -73,7 +92,7 @@ class TripContentRoute extends React.Component {
           {this.props.trip.tripInfo.map((dailyTrip, dIndex) => (
               <ScrollView
                 style={{ backgroundColor: '#eaeaea' }}
-                tabLabel={`第${dIndex + 1}天`}
+                tabLabel={`DAY ${dIndex + 1}`}
                 horizontal={false}
                 key={`TripDay${dIndex}`}
               >
@@ -118,53 +137,117 @@ class TripContentRoute extends React.Component {
             if (this.props.trip.displayInfoOrNot) {
               return (
                 <View style={[styles.container, styles.displayInfo, { height: 200, width }]}>
-                  <TouchableHighlight
-                    style={styles.closeIcon}
-                    onPress={() => {
-                      this.props.dispatch(this.props.actions.closeDisplayInfo())
-                      this.props.dispatch(this.props.actions.deactivateSiteBtn())
-                    }}
-                    underlayColor="white"
-                  >
-                    <Icon
+                  <View style={styles.infoContainer}>
+                    {
+                      (() => {
+                        switch (this.props.trip.displayWhichCard) {
+                          case 0:
+                            return (
+                              <ScrollView style={styles.displayInfoCard}>
+                                <Text style={styles.displayInfoTitle}>
+                                  {this.props.trip.displayInfoTitle}
+                                </Text>
+                                <Text style={styles.displayInfoIntroduction}>
+                                  {this.props.trip.displayInfoIntroduction}
+                                </Text>
+                              </ScrollView>
+                            )
+                          case 1:
+                            return (
+                              <ScrollView style={styles.displayInfoCard}>
+                                <Text style={styles.displayInfoTitle}>大眾運輸</Text>
+                                {
+                                  this.props.trip.transit.steps.map((step, index) => {
+                                    if (step.travel_mode === 'WALKING') {
+                                      return (
+                                        <View
+                                          key = {step.polyline.points}
+                                        >
+                                          <Text>{`${index + 1}. ${step.html_instructions.replace(/(<([^>]+)>)/ig, '')}`}</Text>
+                                          {
+                                            step.steps.map((smallStep, n) => {
+                                              if (smallStep.html_instructions !== undefined) {
+                                                return (
+                                                  <Text key = {smallStep.polyline.points}>
+                                                    {`        ${String.fromCharCode(97 + n)}. ${smallStep.html_instructions.replace(/(<([^>]+)>)/ig, '')}`}
+                                                  </Text>
+                                                )
+                                              } else {
+                                                return (<Text/>)
+                                              }
+                                            })
+                                          }
+                                        </View>
+                                      )
+                                    } else if (step.travel_mode === 'TRANSIT') {
+                                      const shortName = step.transit_details.line.short_name
+                                      const vehicle = step.transit_details.line.vehicle.name
+                                      const departureStop = step.transit_details.departure_stop.name
+                                      const arrivalStop = step.transit_details.arrival_stop.name
+                                      const departureTime = step.transit_details.departure_time.text
+                                      const arrivalTime = step.transit_details.arrival_time.text
+                                      return (
+                                        <View
+                                          key = {step.polyline.points}
+                                        >
+                                          <Text>
+                                            {`${index + 1}. ${shortName} ${vehicle} ${departureStop}~${arrivalStop} ${departureTime}/${arrivalTime}`}
+                                          </Text>
+                                        </View>
+                                      )
+                                    } else {
+                                      return (<Text/>)
+                                    }
+                                  })
+                                }
+                              </ScrollView>
+                            )
+                        }
+                      })()
+                    }
+                  </View>
+                  <View style={styles.iconContainer}>
+                    <TouchableIcon
+                      style={styles.sideIcon}
+                      onPress={() => {
+                        this.props.dispatch(this.props.actions.closeDisplayInfo())
+                        this.props.dispatch(this.props.actions.deactivateSiteBtn())
+                      }}
                       name="close"
                       size={20}
                       color="#999"
                     />
-                  </TouchableHighlight>
-                  <TabBar
-                    tabBarPosition={'bottom'}
-                  >
-                    <View
-                      tabLabel={I18n.t('TripContent.introduction')}
-                      style={styles.displayInfoCard}
-                    >
-                      <Text style={styles.displayInfoTitle}>
-                        {this.props.trip.displayInfoTitle}
-                      </Text>
-                      <Text style={styles.displayInfoIntroduction}>
-                        {this.props.trip.displayInfoIntroduction}
-                      </Text>
-                      <Button
-                        containerStyle={styles.mapBtnContainer}
-                        style={styles.mapBtn}
-                        onPress={() => this.goToMap()}
-                      >
-                        {I18n.t('TripContent.audioGuide')}
-                      </Button>
-                    </View>
-                    <View
-                      tabLabel={I18n.t('TripContent.transportation')}
-                      style={styles.displayInfoCard}
-                    >
-                      <Text style={styles.displayInfoTitle}>
-                        南寮漁港
-                      </Text>
-                      <Text style={styles.displayInfoIntroduction}>
-                        這邊可以看海這邊可以看海這邊可以看海這邊可以看海這邊可以看海這邊可以看海這邊可以看海這邊可以看海這邊可以看海這邊可以看海這邊可以看海
-                      </Text>
-                    </View>
-                  </TabBar>
+                    <TouchableIcon
+                      style={styles.sideIcon}
+                      onPress={() => this.goToMap()}
+                      name="map-o"
+                      size={18}
+                      color="#999"
+                    />
+                    <TouchableIcon
+                      style={styles.sideIcon}
+                      onPress={() => this.switchDisplayInfoTab(0)}
+                      name="info"
+                      size={20}
+                      color="#999"
+                      active={this.props.trip.displayWhichCard === 0}
+                    />
+                    <TouchableIcon
+                      style={styles.sideIcon}
+                      onPress={() => this.switchDisplayInfoTab(1)}
+                      name="subway"
+                      size={20}
+                      color="#999"
+                      active={this.props.trip.displayWhichCard === 1}
+                    />
+                    <TouchableIcon
+                      style={styles.sideIcon}
+                      onPress={() => {}}
+                      name="arrows-alt"
+                      size={20}
+                      color="#999"
+                    />
+                  </View>
                 </View>
               )
             }

@@ -65,10 +65,10 @@ export default (StyleSheet.create({
     fontSize: MainStyle.font.medium,
   },
   distance: {
-    fontSize: 36,
+    fontSize: 28,
     color: MainStyle.color.main,
     position: 'absolute',
-    top: 0,
+    top: 5,
     right: 20,
   },
 }))

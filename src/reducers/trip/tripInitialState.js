@@ -16,7 +16,14 @@ const InitialState = Record({
     displayWhich: 0,
     displayInfoTitle: '',
     displayInfoIntroduction: '',
-    // displayTransportation: '',
+    displayWhichCard: 0,
+    transit: new (Record({
+      departureTime: '',
+      arrivalTime: '',
+      duration: '',
+      steps: [],
+      fare: '',
+    }))(),
   }))(),
   mapInfo: new (Record({
     headerText: '123',
@@ -26,10 +33,6 @@ const InitialState = Record({
     pos: {
       lat: 0,
       lng: 0,
-    },
-    nowPos: {
-      lat: 24.7859146,
-      lng: 120.996735,
     },
     heading: 0,
     markers: [],

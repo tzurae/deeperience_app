@@ -24,11 +24,17 @@ const {
   ACTIVATE_SITE_BTN,
   DEACTIVATE_SITE_BTN,
 
-  SET_NOW_POSITION,
   SET_MAP_INFO,
   SET_MAP_DIRECTION,
+  SET_MAP_DIRECTION_ERROR,
+
   SET_AUDIO_DURATION,
   SET_AUDIO_POSITION,
+
+  SET_DISPLAY_INFO_TRANSIT,
+  GET_DISPLAY_INFO_DIRECTION_ERROR,
+
+  SWITCH_DISPLAY_INFO_CARD,
 } = require('../../lib/constants').default
 
 const initialState = new InitialState()
@@ -87,9 +93,6 @@ export default function tripReducer(state = initialState, action) {
       siteStatus[displayDay][displayWhich] = 0
       return state.setIn(['tripContent', 'siteStatus'], siteStatus)
 
-    case SET_NOW_POSITION:
-      return state
-
     case SET_MAP_INFO:
       return state.setIn(['mapInfo', 'headerText'], action.payload.content.name)
                   .setIn(['mapInfo', 'mainTitle'], action.payload.content.name)
@@ -105,12 +108,35 @@ export default function tripReducer(state = initialState, action) {
                   .setIn(['mapInfo', 'content'], action.payload.introduction)
                   .setIn(['mapInfo', 'address'], action.payload.address)
                   .setIn(['mapInfo', 'polyline'], action.payload.polyline)
+                  .setIn(['mapInfo', 'distance'], action.payload.distance)
 
     case SET_AUDIO_DURATION:
       return state.setIn(['mapInfo', 'audioDuration'], action.payload)
 
     case SET_AUDIO_POSITION:
       return state.setIn(['mapInfo', 'audioPosition'], action.payload)
+
+    case SET_DISPLAY_INFO_TRANSIT:
+      const {
+        departureTime,
+        arrivalTime,
+        duration,
+        steps,
+        fare,
+      } = action.payload
+      console.log(action.payload)
+      return state.setIn(['displayInfo', 'transit', 'departureTime'], departureTime)
+                  .setIn(['displayInfo', 'transit', 'arrivalTime'], arrivalTime)
+                  .setIn(['displayInfo', 'transit', 'duration'], duration)
+                  .setIn(['displayInfo', 'transit', 'steps'], steps)
+                  .setIn(['displayInfo', 'transit', 'fare'], fare)
+
+    case SET_MAP_DIRECTION_ERROR:
+    case GET_DISPLAY_INFO_DIRECTION_ERROR:
+      return state.setIn(['error'], action.payload)
+
+    case SWITCH_DISPLAY_INFO_CARD:
+      return state.setIn(['displayInfo', 'displayWhichCard'], action.payload)
 
     case SET_STATE:
       return state

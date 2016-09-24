@@ -40,25 +40,20 @@ class SiteButton extends React.Component {
   }
 
   onPress() {
-    new Promise(() => {
-
-    }).then(() => {
-      const { name, introduction } = this.props.siteInfo.content
-      this.props.dispatch(
-        this.props.actions.setDisplayInfo({
-          title: name, introduction,
-        })
-      )
-      this.props.dispatch(this.props.actions.deactivateSiteBtn())
-      this.props.dispatch(
-        this.props.actions.activateSiteBtn({
-          day: this.props.siteInfo.day,
-          order: this.props.order,
-        })
-      )
-    }).catch(err => {
-      console.log(err)
-    })
+    const { name, introduction } = this.props.siteInfo.content
+    this.props.dispatch(
+      this.props.actions.setDisplayInfo({
+        title: name, introduction,
+      })
+    )
+    this.props.dispatch(this.props.actions.deactivateSiteBtn())
+    this.props.dispatch(
+      this.props.actions.activateSiteBtn({
+        day: this.props.siteInfo.day,
+        order: this.props.order,
+      })
+    )
+    this.props.dispatch(this.props.actions.switchDisplayInfoCard(0))
   }
 
   render() {

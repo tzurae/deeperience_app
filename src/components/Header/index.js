@@ -5,11 +5,10 @@ import
 {
   Text,
   View,
-  TouchableHighlight,
 } from 'react-native'
 import styles from './styles'
 import MainStyle from '../../styles'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import TouchableIcon from '../TouchableIcon'
 
 class Header extends React.Component {
 
@@ -23,25 +22,20 @@ class Header extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {
-          (() => {
-            if (this.props.back) {
-              return (
-                <TouchableHighlight
-                  style={styles.backIcon}
-                  onPress={() => this.props.onReturn()}
-                  underlayColor={MainStyle.color.main}
-                >
-                  <Icon
-                    name={"chevron-left"}
-                    size={30}
-                    color={"white"}
-                  />
-                </TouchableHighlight>
+        {(() => {
+          if (this.props.back) {
+            return (
+              <TouchableIcon
+                style={styles.backIcon}
+                onPress={() => this.props.onReturn()}
+                underlayColor={MainStyle.color.main}
+                name={"chevron-left"}
+                size={30}
+                color={"white"}
+              />
               )
-            }
-          })()
-        }
+          }
+        })()}
         <Text style={styles.textStyle}>{this.props.headerText}</Text>
       </View>
     )

@@ -8,28 +8,23 @@ import { connect } from 'react-redux'
 import { Map } from 'immutable'
 import * as tripActions from '../../../reducers/trip/tripActions'
 import React from 'react'
-import { ScrollView, View, Text, TouchableHighlight } from 'react-native'
-import I18n from '../../../lib/i18n'
+import { View, Text } from 'react-native'
 import Header from '../../../components/Header'
 import styles from './styles'
 import MapView from 'react-native-maps'
-import Icon from 'react-native-vector-icons/FontAwesome'
 import { Actions } from 'react-native-router-flux'
-import { auth } from '../../../config'
-import { convertPolyline, convertSecondToTime } from '../../../reducers/trip/tripHelper'
+import { convertSecondToTime } from '../../../reducers/trip/tripHelper'
 import { Player } from 'react-native-audio-toolkit'
 import Slider from 'react-native-slider'
+import TouchableIcon from '../../../components/TouchableIcon'
 
 import Dimensions from 'Dimensions'
-const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
+const { width } = Dimensions.get('window') // Screen dimensions in current orientation
 
 const actions = [
   tripActions,
 ]
 
-/**
- *  Save that state
- */
 function mapStateToProps(state) {
   return {
     trip: {
@@ -42,7 +37,6 @@ function mapStateToProps(state) {
       subTitle: state.trip.mapInfo.subTitle,
       content: state.trip.mapInfo.content,
       pos: state.trip.mapInfo.pos,
-      nowPos: state.trip.mapInfo.nowPos,
       heading: state.trip.mapInfo.heading,
       markers: state.trip.mapInfo.markers,
       polyline: state.trip.mapInfo.polyline,
@@ -84,7 +78,6 @@ class SiteContent extends React.Component {
         console.log(err)
       }
     })
-    // this.audioPlayer.looping = true
     this.timerId = null
     this.audioPlayer.on('ended', () => {
       this.props.dispatch(
@@ -94,23 +87,7 @@ class SiteContent extends React.Component {
     })
   }
   onMarkerPress({ name, introduction, address }) {
-    fetch('https://maps.googleapis.com/maps/api/directions/json?' +
-      `origin=${this.props.trip.nowPos.lat},${this.props.trip.nowPos.lng}` +
-      `&destination=${address}` +
-      '&region=tw' +
-      '&mode=walking' +
-      '&language=zh-TW' +
-      `&key=${auth.firebase.apiKey}`)
-      .then(res => res.json())
-      .then(res => {
-        const polyline = convertPolyline(res.routes[0].overview_polyline.points)
-        this.props.dispatch(this.props.actions.setMapDirection({
-          polyline,
-          name,
-          introduction,
-          address,
-        }))
-      })
+    return this.props.actions.getMapInfoDirection({ name, introduction, address })
   }
 
   onPausePress() {
@@ -143,9 +120,6 @@ class SiteContent extends React.Component {
   onReturn() {
     Actions.pop()
   }
-// <View style={styles.audioLengthContainer}>
-// <Text style={styles.audioLength}>{convertSecondToTime(this.props.trip.audioDuration)}</Text>
-// </View>
 
   render() {
     return (
@@ -157,34 +131,28 @@ class SiteContent extends React.Component {
         <View style={styles.titleContainer}>
           <View style={{ height: 50, flex: 1, padding: 5, justifyContent: 'center' }}>
             <Text style={styles.mainTitle}>{this.props.trip.mainTitle}</Text>
-            <TouchableHighlight
+            <TouchableIcon
               style={[styles.audioButton, {
                 position: 'absolute',
                 top: 10,
-                right: 45,
+                right: 35,
               }]}
               onPress={() => this.onPlayPress()}
-            >
-              <Icon
-                name={'play'}
-                size={16}
-                color={'white'}
-              />
-            </TouchableHighlight>
-            <TouchableHighlight
+              name={'play'}
+              size={16}
+              color={'white'}
+            />
+            <TouchableIcon
               style={[styles.audioButton, {
                 position: 'absolute',
                 top: 10,
-                right: 0,
+                right: -10,
               }]}
               onPress={() => this.onPausePress()}
-            >
-              <Icon
-                name={'pause'}
-                size={16}
-                color={'white'}
-              />
-            </TouchableHighlight>
+              name={'pause'}
+              size={16}
+              color={'white'}
+            />
           </View>
           <View>
             <Slider

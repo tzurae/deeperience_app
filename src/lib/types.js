@@ -52,12 +52,17 @@ export type Action =
     { type: 'SET_DISPLAY_INFO', payload: {title:string, introduction:string} } |
     { type: 'CLOSE_DISPLAY_INFO' } |
 
-    { type: 'SET_NOW_POSITION', payload: any} |
     { type: 'SET_MAP_INFO', payload: any} |
     { type: 'SET_MAP_DIRECTION', payload: any} |
+    { type: 'SET_MAP_DIRECTION_ERROR', payload: any} |
 
     { type: 'SET_AUDIO_DURATION', payload: number} |
-    { type: 'SET_AUDIO_POSITION', payload: number}
+    { type: 'SET_AUDIO_POSITION', payload: number} |
+
+    { type: 'SET_DISPLAY_INFO_TRANSIT', payload: any} |
+    { type: 'GET_DISPLAY_INFO_DIRECTION_ERROR', payload: any} |
+
+    { type: 'SWITCH_DISPLAY_INFO_CARD', payload: number}
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;
 export type GetState = () => Object;
