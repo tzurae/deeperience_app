@@ -16,6 +16,8 @@ import SiteButton from '../../../components/Trip/SiteButton'
 import TabBar from '../../../components/TabBar'
 import { Actions } from 'react-native-router-flux'
 import TouchableIcon from '../../../components/TouchableIcon'
+import Loading from '../../../components/Loading'
+import I18n from '../../../lib/i18n'
 
 import Dimensions from 'Dimensions'
 const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -45,6 +47,8 @@ function mapStateToProps(state) {
         duration: state.trip.displayInfo.transit.duration,
         steps: state.trip.displayInfo.transit.steps,
         fare: state.trip.displayInfo.transit.fare,
+        fetched: state.trip.displayInfo.transit.fetched,
+        isFetching: state.trip.displayInfo.transit.isFetching,
       },
     },
   }
@@ -76,40 +80,46 @@ class TripContentRoute extends React.Component {
       this.props.dispatch(this.props.actions.switchDisplayInfoCard(0))
     } else if (tab === 1) { // public transportation
       this.props.dispatch(this.props.actions.switchDisplayInfoCard(1))
-      this.props.actions.getDisplayInfoDirection(
-        0, // transit
-        this.props.trip.tripInfo[this.props.trip.displayDay]
-          .sites[this.props.trip.displayWhich]
-          .content.mapSite[0].position
-      )
+      if (this.props.trip.transit.fetched === false) {
+        this.props.actions.getDisplayInfoDirection(
+          0, // transit
+          this.props.trip.tripInfo[this.props.trip.displayDay]
+            .sites[this.props.trip.displayWhich]
+            .content.mapSite[0].position
+        )
+      }
     }
   }
   render() {
     const { btnBigRadius } = MainStyle.TripSiteButton
     return (
-      <View style={[styles.container, { height: height - 114, width }]}>
+      <View style={[styles.container, { height: height - 112, width }]}>
+        <Loading
+          visible={this.props.trip.isFetching}
+          text={I18n.t('TripContent.fetchingData')}
+        />
         <TabBar>
           {this.props.trip.tripInfo.map((dailyTrip, dIndex) => (
-              <ScrollView
-                style={{ backgroundColor: '#eaeaea' }}
-                tabLabel={`DAY ${dIndex + 1}`}
-                horizontal={false}
-                key={`TripDay${dIndex}`}
-              >
-                {
-                  dailyTrip.sites.map((site, siteOrder) => (
-                    <SiteButton
-                      top = {site.pos.ypos * 100 + 50}
-                      left = {(site.pos.xpos + 1) / (dailyTrip.ylayer[site.pos.ypos] + 1) * width - btnBigRadius}
-                      siteInfo = {site}
-                      order = {siteOrder}
-                      status = {this.props.trip.siteStatus[dIndex][siteOrder]}
-                      key = {site.siteKey}
-                    >
-                      {site.content.name}
-                    </SiteButton>
-                  ))
-                }
+            <ScrollView
+              style={{ backgroundColor: '#eaeaea' }}
+              tabLabel={`DAY ${dIndex + 1}`}
+              horizontal={false}
+              key={`TripDay${dIndex}`}
+            >
+              {
+                dailyTrip.sites.map((site, siteOrder) => (
+                  <SiteButton
+                    top = {site.pos.ypos * 100 + 50}
+                    left = {(site.pos.xpos + 1) / (dailyTrip.ylayer[site.pos.ypos] + 1) * width - btnBigRadius}
+                    siteInfo = {site}
+                    order = {siteOrder}
+                    status = {this.props.trip.siteStatus[dIndex][siteOrder]}
+                    key = {site.siteKey}
+                  >
+                    {site.content.name}
+                  </SiteButton>
+                ))
+              }
               <Svg
                 height={dailyTrip.ylayer.length * 100 + 250} // the extra 250 is to make the ScrollView even higher
                 width={width}
@@ -128,7 +138,7 @@ class TripContentRoute extends React.Component {
                   ))
                 }
               </Svg>
-              </ScrollView>
+            </ScrollView>
           ))
           }
         </TabBar>
@@ -138,6 +148,10 @@ class TripContentRoute extends React.Component {
               return (
                 <View style={[styles.container, styles.displayInfo, { height: 200, width }]}>
                   <View style={styles.infoContainer}>
+                    <Loading
+                      visible={this.props.trip.transit.isFetching}
+                      text={I18n.t('TripContent.fetchingTransitData')}
+                    />
                     {
                       (() => {
                         switch (this.props.trip.displayWhichCard) {
@@ -154,29 +168,48 @@ class TripContentRoute extends React.Component {
                             )
                           case 1:
                             return (
-                              <ScrollView style={styles.displayInfoCard}>
-                                <Text style={styles.displayInfoTitle}>大眾運輸</Text>
+                              <ScrollView style={[styles.displayInfoCard, { paddingLeft: 0, paddingRight: 0 }]}>
+                                <View style={{ paddingLeft: 15, paddingRight: 10 }}>
+                                  <Text style={styles.displayInfoTitle}>
+                                    大眾運輸
+                                  </Text>
+                                </View>
+                                {(() => {
+                                  if (this.props.trip.transit.steps.length === 0) {
+                                    return (
+                                      <View style={styles.transitWhite}>
+                                        <Text style={styles.transitInstruction}>
+                                          {I18n.t('TripContent.noRoute')}
+                                        </Text>
+                                      </View>
+                                    )
+                                  }
+                                })()}
                                 {
                                   this.props.trip.transit.steps.map((step, index) => {
+                                    let styleBackground
+                                    if (index % 2 === 0) styleBackground = styles.transitGray
+                                    else styleBackground = styles.transitWhite
                                     if (step.travel_mode === 'WALKING') {
                                       return (
                                         <View
-                                          key = {step.polyline.points}
+                                          style={styleBackground}
+                                          key = {`route_${step.polyline.points}`}
                                         >
-                                          <Text>{`${index + 1}. ${step.html_instructions.replace(/(<([^>]+)>)/ig, '')}`}</Text>
-                                          {
-                                            step.steps.map((smallStep, n) => {
-                                              if (smallStep.html_instructions !== undefined) {
-                                                return (
-                                                  <Text key = {smallStep.polyline.points}>
-                                                    {`        ${String.fromCharCode(97 + n)}. ${smallStep.html_instructions.replace(/(<([^>]+)>)/ig, '')}`}
-                                                  </Text>
-                                                )
-                                              } else {
-                                                return (<Text/>)
-                                              }
-                                            })
-                                          }
+                                          <Text style={styles.transitListNumber}>
+                                            {`${index + 1}.`}
+                                          </Text>
+                                          <Text style={[{ flex: 3 }, styles.transitInstruction]}>
+                                            {`${step.html_instructions.replace(/(<([^>]+)>)/ig, '')}`}
+                                          </Text>
+                                          <View style={{ flex: 1 }}>
+                                            <Text style={[{ flex: 1 }, styles.transitDuration]}>
+                                              {step.duration.text}
+                                            </Text>
+                                            <Text style={[{ flex: 1 }, styles.transitDistance]}>
+                                              {step.distance.text}
+                                            </Text>
+                                          </View>
                                         </View>
                                       )
                                     } else if (step.travel_mode === 'TRANSIT') {
@@ -188,16 +221,52 @@ class TripContentRoute extends React.Component {
                                       const arrivalTime = step.transit_details.arrival_time.text
                                       return (
                                         <View
-                                          key = {step.polyline.points}
+                                          style={styleBackground}
+                                          key = {`route_${step.polyline.points}`}
                                         >
-                                          <Text>
-                                            {`${index + 1}. ${shortName} ${vehicle} ${departureStop}~${arrivalStop} ${departureTime}/${arrivalTime}`}
+                                          <Text style={styles.transitListNumber}>
+                                            {`${index + 1}.`}
                                           </Text>
+                                          <View style={{ width: 45 }}>
+                                            <Text style={styles.transitHelpWord}>
+                                              {`${I18n.t('TripContent.ride')}`}
+                                            </Text>
+                                            <Text style={styles.transitHelpWord}>
+                                              {`${I18n.t('TripContent.from')}`}
+                                            </Text>
+                                            <Text style={styles.transitHelpWord}>
+                                              {`${I18n.t('TripContent.to')}`}
+                                            </Text>
+                                          </View>
+                                          <View style={{ flex: 1, flexDirection: 'column' }}>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                              <Text style={styles.transitInstruction}>
+                                                {`${shortName} ${vehicle}`}
+                                              </Text>
+                                              <Text style={styles.transitTimeInterval}>
+                                                {`${departureTime}~${arrivalTime}`}
+                                              </Text>
+                                            </View>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                              <Text style={styles.transitInstruction}>
+                                                {`${departureStop}`}
+                                              </Text>
+                                              <Text style={styles.transitDuration}>
+                                                {step.duration.text}
+                                              </Text>
+                                            </View>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                              <Text style={styles.transitInstruction}>
+                                                {`${arrivalStop}`}
+                                              </Text>
+                                              <Text style={styles.transitDistance}>
+                                                {step.distance.text}
+                                              </Text>
+                                            </View>
+                                          </View>
                                         </View>
                                       )
-                                    } else {
-                                      return (<Text/>)
-                                    }
+                                    } else return (<Text/>)
                                   })
                                 }
                               </ScrollView>

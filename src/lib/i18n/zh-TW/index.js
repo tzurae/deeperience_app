@@ -70,8 +70,12 @@ export default {
     "guide": "嚮  導",
   },
   "TripContent": {
-    "introduction": "簡介",
-    "transportation": "大眾運輸",
-    "audioGuide":"導  覽"
+    "fetchingData": "讀取詳細行程⋯⋯",
+    "fetchingTransitData": "讀取資料中⋯⋯",
+    "noRoute": "對不起，查無方法到達目的地",
+    "noFareData": "無資料",
+    "ride": "搭乘",
+    "from": "從",
+    "to": "到",
   }
 }

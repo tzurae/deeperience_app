@@ -23,6 +23,8 @@ const InitialState = Record({
       duration: '',
       steps: [],
       fare: '',
+      fetched: false,
+      isFetching: false,
     }))(),
   }))(),
   mapInfo: new (Record({
@@ -41,6 +43,7 @@ const InitialState = Record({
     distance: '0 m',
     address: '',
     audioPosition: 0,
+    isFetching: false,
   }))(),
   isFetching: false,
   error: null,

@@ -5,6 +5,7 @@ import type { ThunkAction, Action } from '../../lib/types'
 import { promiseFor } from '../../lib/util'
 import { calculateTripInfo, convertPolyline } from './tripHelper'
 import { auth } from '../../config'
+import I18n from '../../lib/i18n'
 
 const {
   GET_ALL_TRIP,
@@ -27,9 +28,11 @@ const {
 
   SET_AUDIO_DURATION,
   SET_AUDIO_POSITION,
+  RESET_AUDIO,
 
   SET_DISPLAY_INFO_TRANSIT,
-  GET_DISPLAY_INFO_DIRECTION_ERROR,
+  SET_DISPLAY_INFO_TRANSIT_SUCCESS,
+  SET_DISPLAY_INFO_TRANSIT_FAILURE,
 
   SWITCH_DISPLAY_INFO_CARD,
 } = require('../../lib/constants').default
@@ -147,31 +150,53 @@ export function closeDisplayInfo():Action {
   }
 }
 
-export function getDisplayInfoDirectionError(err: any):Action {
+export function setDisplayInfoTransit():Action {
   return {
-    type: GET_DISPLAY_INFO_DIRECTION_ERROR,
-    payload: err,
+    type: SET_DISPLAY_INFO_TRANSIT,
+  }
+}
+
+export function setDisplayInfoTransitSuccess(res:any):Action {
+  return {
+    type: SET_DISPLAY_INFO_TRANSIT_SUCCESS,
+    payload: res,
+  }
+}
+
+export function setDisplayInfoTransitFailure(res:any):Action {
+  return {
+    type: SET_DISPLAY_INFO_TRANSIT_FAILURE,
+    payload: res,
   }
 }
 
 export function getDisplayInfoDirection(mode: number, position: any):ThunkAction {
   return dispatch => {
+    dispatch(setDisplayInfoTransit())
+    let modeStr = 'transit'
+    let startCallback = setDisplayInfoTransit
+    let successCallback = setDisplayInfoTransitSuccess
+    let errorCallback = setDisplayInfoTransitFailure
+    switch (mode) {
+      case 0:
+        modeStr = 'transit'
+        startCallback = setDisplayInfoTransit
+        successCallback = setDisplayInfoTransitSuccess
+        errorCallback = setDisplayInfoTransitFailure
+        break
+      case 1:
+        modeStr = 'driving'
+        break
+      case 2:
+        modeStr = 'walking'
+        break
+      case 3:
+        modeStr = 'bicycling'
+        break
+    }
+    dispatch(startCallback())
+
     return getNowPosition().then(({ lat, lng }) => {
-      let modeStr = 'transit'
-      switch (mode) {
-        case 0:
-          modeStr = 'transit'
-          break
-        case 1:
-          modeStr = 'driving'
-          break
-        case 2:
-          modeStr = 'walking'
-          break
-        case 3:
-          modeStr = 'bicycling'
-          break
-      }
       return fetch('https://maps.googleapis.com/maps/api/directions/json?' +
         `origin=${lat},${lng}` +
         `&destination=${position.lat},${position.lng}` +
@@ -181,12 +206,28 @@ export function getDisplayInfoDirection(mode: number, position: any):ThunkAction
         `&key=${auth.firebase.apiKey}`)
     }).then(res => res.json()).then(res => {
       if (mode === 0) {
-        const departureTime = res.routes[0].legs[0].departure_time.text
-        const arrivalTime = res.routes[0].legs[0].arrival_time.text
-        const duration = res.routes[0].legs[0].duration.text
-        const steps = res.routes[0].legs[0].steps
-        const fare = res.routes[0].fare.text
-        dispatch(setDisplayInfoTransit({
+        let departureTime
+        let arrivalTime
+        let duration
+        let steps
+        let fare
+
+        if (res.routes.length === 0) {
+          departureTime = ''
+          arrivalTime = ''
+          duration = ''
+          steps = []
+          fare = ''
+        } else {
+          departureTime = res.routes[0].legs[0].departure_time.text
+          arrivalTime = res.routes[0].legs[0].arrival_time.text
+          duration = res.routes[0].legs[0].duration.text
+          steps = res.routes[0].legs[0].steps
+          if (res.routes[0].fare === undefined) fare = I18n.t('TripContent.noFareData')
+          else fare = res.routes[0].fare.text
+        }
+
+        dispatch(successCallback({
           departureTime,
           arrivalTime,
           duration,
@@ -194,7 +235,7 @@ export function getDisplayInfoDirection(mode: number, position: any):ThunkAction
           fare,
         }))
       }
-    }).catch(err => console.log(err))
+    }).catch(err => dispatch(errorCallback(err)))
   }
 }
 
@@ -223,14 +264,7 @@ export function getMapInfoDirection(res :any):ThunkAction {
   }
 }
 
-export function setDisplayInfoTransit(res:any):Action {
-  return {
-    type: SET_DISPLAY_INFO_TRANSIT,
-    payload: res,
-  }
-}
-
-export function getNowPosition():Promise {
+export function getNowPosition():Promise<Action> {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords
@@ -270,11 +304,29 @@ export function setAudioDuration(res : number):Action {
   }
 }
 
+export function setAudioDurationWrapper(res : number):ThunkAction {
+  return dispatch => dispatch(setAudioDuration(res))
+}
+
 export function setAudioPosition(res : number):Action {
   return {
     type: SET_AUDIO_POSITION,
     payload: res,
   }
+}
+
+export function resetAudio():Action {
+  return {
+    type: RESET_AUDIO,
+  }
+}
+
+export function resetAudioWrapper():ThunkAction {
+  return dispatch => dispatch(resetAudio())
+}
+
+export function setAudioPositionWrapper(res : number):ThunkAction {
+  return dispatch => dispatch(setAudioPosition(res))
 }
 
 export function switchDisplayInfoCard(which : number):Action {

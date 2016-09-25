@@ -58,9 +58,11 @@ export type Action =
 
     { type: 'SET_AUDIO_DURATION', payload: number} |
     { type: 'SET_AUDIO_POSITION', payload: number} |
+    { type: 'RESET_AUDIO' } |
 
-    { type: 'SET_DISPLAY_INFO_TRANSIT', payload: any} |
-    { type: 'GET_DISPLAY_INFO_DIRECTION_ERROR', payload: any} |
+    { type: 'SET_DISPLAY_INFO_TRANSIT'} |
+    { type: 'SET_DISPLAY_INFO_TRANSIT_SUCCESS', payload: any} |
+    { type: 'SET_DISPLAY_INFO_TRANSIT_FAILURE', payload: any} |
 
     { type: 'SWITCH_DISPLAY_INFO_CARD', payload: number}
 

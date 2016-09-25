@@ -71,4 +71,10 @@ export default (StyleSheet.create({
     top: 5,
     right: 20,
   },
+  audioThumb: {
+    backgroundColor: MainStyle.color.main,
+  },
+  audioTrack: {
+    backgroundColor: '#d0d0d0',
+  },
 }))

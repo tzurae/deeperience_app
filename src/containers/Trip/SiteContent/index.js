@@ -17,6 +17,7 @@ import { convertSecondToTime } from '../../../reducers/trip/tripHelper'
 import { Player } from 'react-native-audio-toolkit'
 import Slider from 'react-native-slider'
 import TouchableIcon from '../../../components/TouchableIcon'
+import MainStyle from '../../../styles'
 
 import Dimensions from 'Dimensions'
 const { width } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -68,21 +69,12 @@ class SiteContent extends React.Component {
       autoDestroy: false,
     })
     this.audioPlayer.prepare(err => {
-      if (err === null) {
-        this.props.dispatch(
-          this.props.actions.setAudioDuration(
-            this.audioPlayer.duration
-          )
-        )
-      } else {
-        console.log(err)
-      }
+      if (err === null) this.props.actions.setAudioDurationWrapper(this.audioPlayer.duration)
+      else console.log(err)
     })
     this.timerId = null
     this.audioPlayer.on('ended', () => {
-      this.props.dispatch(
-        this.props.actions.setAudioPosition(0)
-      )
+      this.props.actions.setAudioPositionWrapper(0)
       this.onPausePress()
     })
   }
@@ -92,9 +84,7 @@ class SiteContent extends React.Component {
 
   onPausePress() {
     this.audioPlayer.pause((success) => {
-      if (success === null) {
-        clearInterval(this.timerId)
-      }
+      if (success === null) clearInterval(this.timerId)
     })
   }
 
@@ -102,11 +92,7 @@ class SiteContent extends React.Component {
     this.audioPlayer.play((success) => {
       clearInterval(this.timerId)
       this.timerId = setInterval(() => {
-        this.props.dispatch(
-          this.props.actions.setAudioPosition(
-            this.audioPlayer.currentTime
-          )
-        )
+        this.props.actions.setAudioPositionWrapper(this.audioPlayer.currentTime)
       }, 250)
     })
   }
@@ -118,7 +104,11 @@ class SiteContent extends React.Component {
   }
 
   onReturn() {
-    Actions.pop()
+    clearInterval(this.timerId)
+    this.audioPlayer.destroy((success) => {
+      this.props.actions.resetAudioWrapper()
+      Actions.pop()
+    })
   }
 
   render() {
@@ -160,6 +150,9 @@ class SiteContent extends React.Component {
               value={this.props.trip.audioPosition / this.props.trip.audioDuration}
               onSlidingStart={() => clearInterval(this.timerId)}
               onSlidingComplete={(value) => this.audioPlay(value)}
+              thumbStyle={styles.audioThumb}
+              trackStyle={styles.audioTrack}
+              minimumTrackTintColor={MainStyle.color.main}
             />
             <Text style={{
               position: 'absolute',
