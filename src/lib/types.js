@@ -53,18 +53,20 @@ export type Action =
     { type: 'CLOSE_DISPLAY_INFO' } |
 
     { type: 'SET_MAP_INFO', payload: any} |
+    { type: 'SET_MAP_INFO_SUCCESS' } |
+    { type: 'SET_MAP_INFO_FAILURE', payload: any} |
     { type: 'SET_MAP_DIRECTION', payload: any} |
     { type: 'SET_MAP_DIRECTION_ERROR', payload: any} |
 
-    { type: 'SET_AUDIO_DURATION', payload: number} |
-    { type: 'SET_AUDIO_POSITION', payload: number} |
+    { type: 'SET_AUDIO', payload: number} |
     { type: 'RESET_AUDIO' } |
 
     { type: 'SET_DISPLAY_INFO_TRANSIT'} |
     { type: 'SET_DISPLAY_INFO_TRANSIT_SUCCESS', payload: any} |
     { type: 'SET_DISPLAY_INFO_TRANSIT_FAILURE', payload: any} |
 
-    { type: 'SWITCH_DISPLAY_INFO_CARD', payload: number}
+    { type: 'SWITCH_DISPLAY_INFO_CARD', payload: number} |
+    { type: 'PRESS_MARKER_FAILURE', payload: any }
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;
 export type GetState = () => Object;

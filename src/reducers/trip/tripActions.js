@@ -23,11 +23,12 @@ const {
   DEACTIVATE_SITE_BTN,
 
   SET_MAP_INFO,
+  SET_MAP_INFO_SUCCESS,
+  SET_MAP_INFO_FAILURE,
   SET_MAP_DIRECTION,
   SET_MAP_DIRECTION_ERROR,
 
-  SET_AUDIO_DURATION,
-  SET_AUDIO_POSITION,
+  SET_AUDIO,
   RESET_AUDIO,
 
   SET_DISPLAY_INFO_TRANSIT,
@@ -35,6 +36,7 @@ const {
   SET_DISPLAY_INFO_TRANSIT_FAILURE,
 
   SWITCH_DISPLAY_INFO_CARD,
+  PRESS_MARKER_FAILURE,
 } = require('../../lib/constants').default
 
 export function getAllTrip():Action {
@@ -239,18 +241,18 @@ export function getDisplayInfoDirection(mode: number, position: any):ThunkAction
   }
 }
 
-export function getMapInfoDirection(res :any):ThunkAction {
+export function getMapInfoDirection(outres :any):ThunkAction {
   return dispatch => {
     return getNowPosition().then(({ lat, lng }) => {
       return fetch('https://maps.googleapis.com/maps/api/directions/json?' +
         `origin=${lat},${lng}` +
-        `&destination=${res.address}` +
+        `&destination=${outres.address}` +
         '&region=tw' +
         '&mode=walking' +
         '&language=zh-TW' +
         `&key=${auth.firebase.apiKey}`)
     }).then(res => res.json()).then(res => {
-      const { name, introduction, address } = res
+      const { name, introduction, address } = outres
       const distance = res.routes[0].legs[0].distance.text
       const polyline = convertPolyline(res.routes[0].overview_polyline.points)
       dispatch(setMapDirection({
@@ -283,6 +285,32 @@ export function setMapInfo(res : any):Action {
   }
 }
 
+export function setMapInfoWrapper(res: any):ThunkAction {
+  return dispatch => dispatch(setMapInfo(res))
+}
+
+export function setMapInfoSuccess(res : any):Action {
+  return {
+    type: SET_MAP_INFO_SUCCESS,
+    payload: res,
+  }
+}
+
+export function setMapInfoSuccessWrapper(res: any):ThunkAction {
+  return dispatch => dispatch(setMapInfoSuccess(res))
+}
+
+export function setMapInfoFailure(res : any):Action {
+  return {
+    type: SET_MAP_INFO_FAILURE,
+    payload: res,
+  }
+}
+
+export function setMapInfoFailureWrapper(res: any):ThunkAction {
+  return dispatch => dispatch(setMapInfoFailure(res))
+}
+
 export function setMapDirection(res : any):Action {
   return {
     type: SET_MAP_DIRECTION,
@@ -297,22 +325,15 @@ export function setMapDirectionError(res : any):Action {
   }
 }
 
-export function setAudioDuration(res : number):Action {
+export function setAudio(res : any):Action {
   return {
-    type: SET_AUDIO_DURATION,
+    type: SET_AUDIO,
     payload: res,
   }
 }
 
-export function setAudioDurationWrapper(res : number):ThunkAction {
-  return dispatch => dispatch(setAudioDuration(res))
-}
-
-export function setAudioPosition(res : number):Action {
-  return {
-    type: SET_AUDIO_POSITION,
-    payload: res,
-  }
+export function setAudioWrapper(res: any):ThunkAction {
+  return dispatch => dispatch(setAudio(res))
 }
 
 export function resetAudio():Action {
@@ -325,13 +346,20 @@ export function resetAudioWrapper():ThunkAction {
   return dispatch => dispatch(resetAudio())
 }
 
-export function setAudioPositionWrapper(res : number):ThunkAction {
-  return dispatch => dispatch(setAudioPosition(res))
-}
-
 export function switchDisplayInfoCard(which : number):Action {
   return {
     type: SWITCH_DISPLAY_INFO_CARD,
     payload: which,
   }
+}
+
+export function pressMarkerFailure(res: any):Action {
+  return {
+    type: PRESS_MARKER_FAILURE,
+    payload: res,
+  }
+}
+
+export function pressMarkerFailureWrapper(res: any):ThunkAction {
+  return dispatch => dispatch(pressMarkerFailure(res))
 }

@@ -65,11 +65,12 @@ export default keyMirror({
   DEACTIVATE_SITE_BTN: null,
 
   SET_MAP_INFO: null,
+  SET_MAP_INFO_SUCCESS: null,
+  SET_MAP_INFO_FAILURE: null,
   SET_MAP_DIRECTION: null,
   SET_MAP_DIRECTION_ERROR: null,
 
-  SET_AUDIO_DURATION: null,
-  SET_AUDIO_POSITION: null,
+  SET_AUDIO: null,
   RESET_AUDIO: null,
 
   SET_DISPLAY_INFO_TRANSIT: null,
@@ -77,4 +78,6 @@ export default keyMirror({
   SET_DISPLAY_INFO_TRANSIT_FAILURE: null,
 
   SWITCH_DISPLAY_INFO_CARD: null,
+
+  PRESS_MARKER_FAILURE: null,
 })

@@ -45,6 +45,7 @@ function mapStateToProps(state) {
       distance: state.trip.mapInfo.distance,
       address: state.trip.mapInfo.address,
       audioPosition: state.trip.mapInfo.audioPosition,
+      audioURL: state.trip.mapInfo.audioURL,
     },
   }
 }
@@ -65,21 +66,42 @@ class SiteContent extends React.Component {
 
   constructor(props) {
     super(props)
-    this.audioPlayer = new Player('https://firebasestorage.googleapis.com/v0/b/deeperience.appspot.com/o/audio%2F%E7%B6%A0%E9%8B%BC%E7%90%B4.mp3?alt=media&token=e3a187d0-abfe-422f-a8e9-bdaf7df27fb4', {
-      autoDestroy: false,
-    })
-    this.audioPlayer.prepare(err => {
-      if (err === null) this.props.actions.setAudioDurationWrapper(this.audioPlayer.duration)
-      else console.log(err)
-    })
-    this.timerId = null
-    this.audioPlayer.on('ended', () => {
-      this.props.actions.setAudioPositionWrapper(0)
-      this.onPausePress()
+    this.prepareAudio().then(res => {
+      this.props.actions.setAudioWrapper(res)
+    }).then(() => this.props.actions.setMapInfoSuccessWrapper())
+      .catch(err => this.props.actions.setMapInfoFailureWrapper(err))
+  }
+
+  prepareAudio() {
+    return new Promise((resolve, reject) => {
+      this.audioPlayer = new Player(this.props.trip.audioURL, { autoDestroy: false })
+      this.timerId = null
+      this.audioPlayer.on('ended', () => {
+        clearInterval(this.timerId)
+        this.props.actions.setAudioWrapper({ audioPosition: 0 })
+      })
+      this.audioPlayer.prepare(err => {
+        if (err === null) resolve({ audioDuration: this.audioPlayer.duration })
+        else reject(err)
+      })
     })
   }
-  onMarkerPress({ name, introduction, address }) {
-    return this.props.actions.getMapInfoDirection({ name, introduction, address })
+
+  onMarkerPress({ name, introduction, address, audioURL }) {
+    new Promise((resolve) => {
+      this.props.actions.getMapInfoDirection({ name, introduction, address })
+      resolve()
+    }).then(() => new Promise((resolve) => {
+      this.props.actions.setAudioWrapper({
+        audioURL,
+        audioPosition: 0,
+      })
+      resolve()
+    }))
+      .then(() => this.prepareAudio())
+      .then((res) => {
+        this.props.actions.setAudioWrapper(res)
+      }).catch(err => this.props.actions.pressMarkerFailureWrapper(err))
   }
 
   onPausePress() {
@@ -92,7 +114,7 @@ class SiteContent extends React.Component {
     this.audioPlayer.play((success) => {
       clearInterval(this.timerId)
       this.timerId = setInterval(() => {
-        this.props.actions.setAudioPositionWrapper(this.audioPlayer.currentTime)
+        this.props.actions.setAudioWrapper({ audioPosition: this.audioPlayer.currentTime })
       }, 250)
     })
   }
@@ -106,7 +128,6 @@ class SiteContent extends React.Component {
   onReturn() {
     clearInterval(this.timerId)
     this.audioPlayer.destroy((success) => {
-      this.props.actions.resetAudioWrapper()
       Actions.pop()
     })
   }

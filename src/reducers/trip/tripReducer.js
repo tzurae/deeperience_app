@@ -25,11 +25,12 @@ const {
   DEACTIVATE_SITE_BTN,
 
   SET_MAP_INFO,
+  SET_MAP_INFO_SUCCESS,
+  SET_MAP_INFO_FAILURE,
   SET_MAP_DIRECTION,
   SET_MAP_DIRECTION_ERROR,
 
-  SET_AUDIO_DURATION,
-  SET_AUDIO_POSITION,
+  SET_AUDIO,
   RESET_AUDIO,
 
   SET_DISPLAY_INFO_TRANSIT,
@@ -37,6 +38,8 @@ const {
   SET_DISPLAY_INFO_TRANSIT_FAILURE,
 
   SWITCH_DISPLAY_INFO_CARD,
+
+  PRESS_MARKER_FAILURE,
 } = require('../../lib/constants').default
 
 const initialState = new InitialState()
@@ -104,6 +107,14 @@ export default function tripReducer(state = initialState, action) {
                   .setIn(['mapInfo', 'pos'], action.payload.content.mapSite[0].position)
                   .setIn(['mapInfo', 'markers'], action.payload.content.mapSite)
                   .setIn(['mapInfo', 'address'], action.payload.content.mapSite[0].address)
+                  .setIn(['mapInfo', 'isFetching'], true)
+
+    case SET_MAP_INFO_SUCCESS:
+      return state.setIn(['mapInfo', 'isFetching'], false)
+
+    case SET_MAP_INFO_FAILURE:
+      return state.setIn(['mapInfo', 'isFetching'], false)
+                  .setIn(['error'], action.payload)
 
     case SET_MAP_DIRECTION:
       return state.setIn(['mapInfo', 'mainTitle'], action.payload.name)
@@ -113,14 +124,18 @@ export default function tripReducer(state = initialState, action) {
                   .setIn(['mapInfo', 'polyline'], action.payload.polyline)
                   .setIn(['mapInfo', 'distance'], action.payload.distance)
 
-    case SET_AUDIO_DURATION:
-      return state.setIn(['mapInfo', 'audioDuration'], action.payload)
-
-    case SET_AUDIO_POSITION:
-      return state.setIn(['mapInfo', 'audioPosition'], action.payload)
+    case SET_AUDIO:
+      let newState = state
+      const { audioURL, audioDuration, audioPosition } = action.payload
+      if (audioURL !== undefined) newState = newState.setIn(['mapInfo', 'audioURL'], audioURL)
+      if (audioDuration !== undefined) newState = newState.setIn(['mapInfo', 'audioDuration'], audioDuration)
+      if (audioPosition !== undefined) newState = newState.setIn(['mapInfo', 'audioPosition'], audioPosition)
+      return newState
 
     case RESET_AUDIO:
-      return state.setIn(['mapInfo', 'audioPosition'], 0)
+      // return state
+      return state.setIn(['mapInfo', 'audioURL'], '')
+                  .setIn(['mapInfo', 'audioPosition'], 0)
                   .setIn(['mapInfo', 'audioDuration'], 0)
 
     case SET_DISPLAY_INFO_TRANSIT:
@@ -134,7 +149,6 @@ export default function tripReducer(state = initialState, action) {
         steps,
         fare,
       } = action.payload
-      console.log(action.payload)
       return state.setIn(['displayInfo', 'transit', 'departureTime'], departureTime)
                   .setIn(['displayInfo', 'transit', 'arrivalTime'], arrivalTime)
                   .setIn(['displayInfo', 'transit', 'duration'], duration)
@@ -152,6 +166,9 @@ export default function tripReducer(state = initialState, action) {
 
     case SWITCH_DISPLAY_INFO_CARD:
       return state.setIn(['displayInfo', 'displayWhichCard'], action.payload)
+
+    case PRESS_MARKER_FAILURE:
+      return state.setIn(['error'], action.payload)
 
     case SET_STATE:
       return state

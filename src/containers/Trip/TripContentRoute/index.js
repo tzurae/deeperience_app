@@ -41,6 +41,9 @@ function mapStateToProps(state) {
       displayInfoOrNot: state.trip.displayInfo.display,
       displayInfoTitle: state.trip.displayInfo.displayInfoTitle,
       displayInfoIntroduction: state.trip.displayInfo.displayInfoIntroduction,
+      mapInfo: {
+        isFetching: state.trip.mapInfo.isFetching,
+      },
       transit: {
         departureTime: state.trip.displayInfo.transit.departureTime,
         arrivalTime: state.trip.displayInfo.transit.arrivalTime,
@@ -67,14 +70,22 @@ function mapDispatchToProps(dispatch) {
 }
 
 class TripContentRoute extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.props.actions.getTripContentById('-KRU7JacRSqhywPrZ2sR')
+  }
+
   goToMap() {
-    this.props.dispatch(
-      this.props.actions.setMapInfo(
-        this.props.trip.tripInfo[this.props.trip.displayDay].sites[this.props.trip.displayWhich]
-      )
-    )
+    const dispatchSite = this.props.trip.tripInfo[this.props.trip.displayDay].sites[this.props.trip.displayWhich]
+    this.props.actions.setMapInfoWrapper(dispatchSite)
+    this.props.actions.setAudioWrapper({
+      audioURL: dispatchSite.content.mapSite[0].audioURL,
+      audioPosition: 0,
+    })
     Actions.SiteContent()
   }
+
   switchDisplayInfoTab(tab) {
     if (tab === 0) {
       this.props.dispatch(this.props.actions.switchDisplayInfoCard(0))
@@ -90,6 +101,7 @@ class TripContentRoute extends React.Component {
       }
     }
   }
+
   render() {
     const { btnBigRadius } = MainStyle.TripSiteButton
     return (

@@ -44,11 +44,6 @@ function mapDispatchToProps(dispatch) {
 
 class TripContent extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.props.actions.getTripContentById('-KRU7JacRSqhywPrZ2sR')
-  }
-
   onReturn() {
 
   }
