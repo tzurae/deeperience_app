@@ -50,13 +50,18 @@ export default keyMirror({
   REGISTER: null,
 
   GET_ALL_TRIP: null,
+  GET_ALL_TRIP_SUCCESS: null,
+  GET_ALL_TRIP_FAILURE: null,
   GET_TRIP_BY_CLASS: null,
+
   GET_TRIP_CONTENT: null,
   GET_TRIP_CONTENT_SUCCESS: null,
   GET_TRIP_CONTENT_FAILURE: null,
 
   SET_SITE_CONTENT_SUCCESS: null,
   SET_SITE_CONTENT_FAILURE: null,
+
+  SET_SITE_STATUS: null,
 
   SET_DISPLAY_INFO: null,
   CLOSE_DISPLAY_INFO: null,

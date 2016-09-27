@@ -3,12 +3,17 @@
 const { Record } = require('immutable')
 
 const InitialState = Record({
+  main: new (Record({
+    tripContent: [],
+    isFetching: false,
+  }))(),
   tripContent: new (Record({
     guideId: '',
     name: '',
     startSites: [],
     tripInfo: [],
     siteStatus: [],
+    isFetching: false,
   }))(),
   displayInfo: new (Record({
     display: false,

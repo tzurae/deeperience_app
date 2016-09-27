@@ -14,9 +14,7 @@ export default (StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
-  nav: {
-    height: 125,
-    margin: 10,
-    borderRadius: 10,
+  innerView: {
+    flex: 1,
   },
 }))

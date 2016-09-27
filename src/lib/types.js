@@ -40,12 +40,16 @@ export type Action =
     { type: 'REGISTER'} |
 
     { type: 'GET_ALL_TRIP'} |
+    { type: 'GET_ALL_TRIP_SUCCESS', payload: any} |
+    { type: 'GET_ALL_TRIP_FAILURE', payload: any} |
     { type: 'GET_TRIP_BY_CLASS'} |
     { type: 'GET_TRIP_CONTENT', payload:{tripId: string}} |
     { type: 'GET_TRIP_CONTENT_SUCCESS', payload: any} |
     { type: 'GET_TRIP_CONTENT_FAILURE', payload: any} |
     { type: 'SET_SITE_CONTENT_SUCCESS', payload: any} |
     { type: 'SET_SITE_CONTENT_FAILURE', payload: any} |
+
+    { type: 'SET_SITE_STATUS', payload: any} |
 
     { type: 'ACTIVATE_SITE_BUTTON', payload: any} |
     { type: 'DEACTIVATE_SITE_BUTTON' } |

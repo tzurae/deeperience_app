@@ -3,34 +3,23 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as authActions from '../../reducers/auth/authActions'
 import * as globalActions from '../../reducers/global/globalActions'
+import * as tripActions from '../../reducers/trip/tripActions'
 import { Map } from 'immutable'
 import { Actions } from 'react-native-router-flux'
 import React, { Component } from 'react'
 import Header from '../../components/Header'
 import ThumbnailPlan from '../../components/ThumbnailPlan'
-import
-{
-  View,
-}
-from 'react-native'
+import { View } from 'react-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
 import TabBar from '../../components/TabBar'
 
-/**
- * Support for Hot reload
- *
- */
 const actions = [
   authActions,
   globalActions,
+  tripActions,
 ]
 
-/**
- *  Instead of including all app states via ...state
- *  One could explicitly enumerate only those which Main.js will depend on.
- *
- */
 function mapStateToProps(state) {
   return {
     auth: {
@@ -42,14 +31,13 @@ function mapStateToProps(state) {
       currentState: state.global.currentState,
       showState: state.global.showState,
     },
+    trip: {
+      mainIsFetching: state.trip.main.isFetching,
+      mainContent: state.trip.main.tripContent,
+    },
   }
 }
 
-/*
- * Bind all the functions from the ```actions``` and bind them with
- * ```dispatch```
-
- */
 function mapDispatchToProps(dispatch) {
   const creators = Map()
           .merge(...actions)
@@ -62,20 +50,11 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-/**
- * ## App class
- */
 class Main extends Component {
 
-  state = {
-    title: '城隍廟小吃大公開',
-    dayInfo: '一日遊',
-    guide: '邱比特',
-    starNumber: 87,
-    watchNumber: 87,
-    numOfPurchase: 870,
-    cost: 2800,
-    unit: 'TWD',
+  constructor(props) {
+    super(props)
+    this.props.actions.getAllTripWrapper()
   }
 
   handlePress() {
@@ -93,26 +72,39 @@ class Main extends Component {
           back={false}
         />
         <TabBar>
-          <View style={styles.nav} tabLabel={I18n.t('Nav.recommendation')}>
-            <ThumbnailPlan
-              title = {this.state.title}
-              dayInfo = {this.state.dayInfo}
-              guide = {this.state.guide}
-              starNumber = {this.state.starNumber}
-              watchNumber = {this.state.watchNumber}
-              numOfPurchase = {this.state.numOfPurchase}
-              cost = {this.state.cost}
-              unit = {this.state.unit}
-            />
+          <View
+            style={styles.innerView}
+            tabLabel={I18n.t('Nav.recommendation')}
+          >
+            {
+              this.props.trip.mainContent.map(trip => {
+                return (
+                  <ThumbnailPlan
+                    backgroundImage = {trip.backgroundPic}
+                    avatar = {trip.guideInfo.avatar}
+                    title = {trip.name}
+                    dayInfo = {trip.dayInfo}
+                    guideName = {trip.guideInfo.name}
+                    starNum = {trip.star}
+                    seenNum = {trip.seen}
+                    purchaseNum = {trip.purchase}
+                    price = {trip.price}
+                    unit = {'TWD'}
+                    tags = {trip.tags}
+                    key = {trip.tripKey}
+                  />
+                )
+              })
+            }
           </View>
-          <View style={styles.nav} tabLabel={I18n.t('Nav.purchased')}/>
+          <View
+            style={styles.innerView}
+            tabLabel={I18n.t('Nav.purchased')}
+          />
         </TabBar>
       </View>
     )
   }
 }
 
-/**
- * Connect the properties
- */
 export default connect(mapStateToProps, mapDispatchToProps)(Main)

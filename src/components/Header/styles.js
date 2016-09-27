@@ -7,6 +7,7 @@ export default (StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F78B6D',
     padding: 7,
+    flexDirection: 'row',
   },
   textStyle: {
     fontSize: MainStyle.font.big,
@@ -14,8 +15,8 @@ export default (StyleSheet.create({
     fontWeight: 'bold',
   },
   backIcon: {
+    alignSelf: 'flex-start',
     position: 'absolute',
     left: 10,
-    top: 10,
   },
 }))

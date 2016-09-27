@@ -53,7 +53,7 @@ export default (StyleSheet.create({
   },
   displayInfo: {
     position: 'absolute',
-    bottom: -3,
+    bottom: 0,
     zIndex: 200,
     backgroundColor: '#ffffff',
     borderColor: '#dddddd',

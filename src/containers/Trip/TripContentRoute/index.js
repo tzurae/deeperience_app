@@ -18,9 +18,14 @@ import { Actions } from 'react-native-router-flux'
 import TouchableIcon from '../../../components/TouchableIcon'
 import Loading from '../../../components/Loading'
 import I18n from '../../../lib/i18n'
+import * as storage from 'redux-storage'
+import createStorageEngine from 'redux-storage-engine-reactnativeasyncstorage'
+import { storageKey } from '../../../config'
 
 import Dimensions from 'Dimensions'
 const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
+
+const engine = createStorageEngine(storageKey)
 
 const actions = [
   tripActions,
@@ -34,7 +39,7 @@ function mapStateToProps(state) {
       startSites: state.trip.tripContent.startSites,
       tripInfo: state.trip.tripContent.tripInfo,
       siteStatus: state.trip.tripContent.siteStatus,
-      isFetching: state.trip.isFetching,
+      isFetching: state.trip.tripContent.isFetching,
       displayDay: state.trip.displayInfo.displayDay,
       displayWhich: state.trip.displayInfo.displayWhich,
       displayWhichCard: state.trip.displayInfo.displayWhichCard,
@@ -73,7 +78,8 @@ class TripContentRoute extends React.Component {
 
   constructor(props) {
     super(props)
-    this.props.actions.getTripContentById('-KRU7JacRSqhywPrZ2sR')
+    // this.props.actions.getTripContentById('-KRU7JacRSqhywPrZ2sR')
+    // this.props.actions.getTripContentTest('-KRU7JacRSqhywPrZ2sR')
   }
 
   goToMap() {
@@ -102,10 +108,19 @@ class TripContentRoute extends React.Component {
     }
   }
 
+  testLoad() {
+    const { store } = this.context
+    const load = storage.createLoader(engine)
+    load(store).then(state => {
+      this.props.dispatch(this.props.actions.setSiteStatus())
+    })
+  }
+
   render() {
     const { btnBigRadius } = MainStyle.TripSiteButton
+    // this.testLoad()
     return (
-      <View style={[styles.container, { height: height - 112, width }]}>
+      <View style={[styles.container, { height: height - 110, width }]}>
         <Loading
           visible={this.props.trip.isFetching}
           text={I18n.t('TripContent.fetchingData')}
@@ -337,6 +352,10 @@ class TripContentRoute extends React.Component {
       </View>
     )
   }
+}
+
+TripContentRoute.contextTypes = {
+  store: React.PropTypes.object,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripContentRoute)

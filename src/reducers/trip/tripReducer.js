@@ -9,6 +9,8 @@ import InitialState from './tripInitialState'
 
 const {
   GET_ALL_TRIP,
+  GET_ALL_TRIP_SUCCESS,
+  GET_ALL_TRIP_FAILURE,
   GET_TRIP_BY_CLASS,
 
   GET_TRIP_CONTENT,
@@ -16,6 +18,8 @@ const {
   GET_TRIP_CONTENT_FAILURE,
   SET_SITE_CONTENT_SUCCESS,
   SET_SITE_CONTENT_FAILURE,
+
+  SET_SITE_STATUS,
 
   SET_DISPLAY_INFO,
   SET_STATE,
@@ -49,7 +53,15 @@ export default function tripReducer(state = initialState, action) {
   let siteStatus
   switch (action.type) {
     case GET_ALL_TRIP:
-      return state
+      return state.setIn(['main', 'isFetching'], true)
+
+    case GET_ALL_TRIP_SUCCESS:
+      return state.setIn(['main', 'isFetching'], false)
+                  .setIn(['main', 'tripContent'], action.payload)
+
+    case GET_ALL_TRIP_FAILURE:
+      return state.setIn(['main', 'isFetching'], false)
+                  .setIn(['error'], action.payload)
 
     case GET_TRIP_BY_CLASS:
       return state
@@ -61,20 +73,23 @@ export default function tripReducer(state = initialState, action) {
                   .setIn(['tripContent', 'startSites'], startSites)
 
     case GET_TRIP_CONTENT_FAILURE:
-      return state.setIn(['isFetching'], false)
+      return state.setIn(['tripContent', 'isFetching'], false)
                   .setIn(['error'], action.payload)
 
     case GET_TRIP_CONTENT:
-      return state.setIn(['isFetching'], true)
+      return state.setIn(['tripContent', 'isFetching'], true)
 
     case SET_SITE_CONTENT_SUCCESS:
       return state.setIn(['tripContent', 'tripInfo'], action.payload.allInfo)
                   .setIn(['tripContent', 'siteStatus'], action.payload.siteStatus)
-                  .setIn(['isFetching'], false)
+                  .setIn(['tripContent', 'isFetching'], false)
 
     case SET_SITE_CONTENT_FAILURE:
-      return state.setIn(['isFetching'], false)
+      return state.setIn(['tripContent', 'isFetching'], false)
                   .setIn(['error'], action.payload)
+
+    case SET_SITE_STATUS:
+      return state.setIn(['tripContent', 'siteStatus'], action.payload.siteStatus)
 
     case SET_DISPLAY_INFO:
       const { title, introduction } = action.payload

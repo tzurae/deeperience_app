@@ -57,7 +57,7 @@ export default (StyleSheet.create({
     paddingRight: 20,
   },
   subTitle: {
-    fontSize: MainStyle.font.large,
+    fontSize: MainStyle.font.big,
     color: 'black',
     fontWeight: 'bold',
   },
@@ -65,10 +65,10 @@ export default (StyleSheet.create({
     fontSize: MainStyle.font.medium,
   },
   distance: {
-    fontSize: 28,
+    fontSize: MainStyle.font.big + 2,
     color: MainStyle.color.main,
     position: 'absolute',
-    top: 5,
+    top: 8,
     right: 20,
   },
   audioThumb: {

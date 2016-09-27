@@ -2,19 +2,23 @@
 'use strict'
 import ApiFactory from '../../api/apiFactory'
 import type { ThunkAction, Action } from '../../lib/types'
-import { promiseFor } from '../../lib/util'
 import { calculateTripInfo, convertPolyline } from './tripHelper'
 import { auth } from '../../config'
 import I18n from '../../lib/i18n'
+import _ from 'underscore'
 
 const {
   GET_ALL_TRIP,
+  GET_ALL_TRIP_SUCCESS,
+  GET_ALL_TRIP_FAILURE,
   GET_TRIP_BY_CLASS,
   GET_TRIP_CONTENT,
   GET_TRIP_CONTENT_SUCCESS,
   GET_TRIP_CONTENT_FAILURE,
   SET_SITE_CONTENT_SUCCESS,
   SET_SITE_CONTENT_FAILURE,
+
+  SET_SITE_STATUS,
 
   SET_DISPLAY_INFO,
   CLOSE_DISPLAY_INFO,
@@ -42,6 +46,58 @@ const {
 export function getAllTrip():Action {
   return {
     type: GET_ALL_TRIP,
+  }
+}
+
+export function getAllTripSuccess(res: any):Action {
+  return {
+    type: GET_ALL_TRIP_SUCCESS,
+    payload: res,
+  }
+}
+
+export function getAllTripFailure(res: any):Action {
+  return {
+    type: GET_ALL_TRIP_FAILURE,
+    payload: res,
+  }
+}
+
+export function getAllTripWrapper():ThunkAction {
+  return dispatch => {
+    dispatch(getAllTrip())
+
+    return new ApiFactory().readDataBaseOnce('/trips/')
+      .then(res => res.val())
+      .then(res => {
+        const allTrip = []
+        _.each(res, (value, key) => {
+          allTrip.push({ ...value, tripKey: key })
+        })
+        return allTrip
+      })
+      .then(res => {
+        const allTrip = []
+        const tripGuide = res.map((trip) => {
+          return new ApiFactory()
+            .readDataBaseOnce(`/users/${trip.guideId}`)
+            .then(res => res.val())
+        })
+
+        return Promise.all(tripGuide).then(guides => {
+          res.forEach((trip, index) => {
+            allTrip.push({
+              ...trip,
+              guideInfo: guides[index],
+            })
+          })
+          return allTrip
+        }).then(res => {
+          console.log(res)
+          dispatch(getAllTripSuccess(res))
+        })
+      })
+      .catch(err => getAllTripFailure(err))
   }
 }
 
@@ -85,6 +141,48 @@ export function setSiteContentFailure(res:any):Action {
   }
 }
 
+export function setSiteStatus(res:any):Action {
+  return {
+    type: SET_SITE_STATUS,
+    payload: res,
+  }
+}
+
+export function getTripContentTest(tripId:string):ThunkAction {
+  return dispatch => {
+    dispatch(getTripContent())
+
+    return new ApiFactory().readDataBaseOnce(`/trips/${tripId}`)
+      .then(res => {
+        dispatch(getTripContentSuccess(res.val()))
+        const allSitesKey = res.val().allSites
+        const { routes, startSites } = res.val()
+        const promiseAllSite = allSitesKey.map((key) => {
+          return new ApiFactory()
+                      .readDataBaseOnce(`/site/${key}`)
+                      .then(res => res.val())
+        })
+
+        return Promise.all(promiseAllSite).then(sites => {
+          const allSites = {}
+          sites.forEach((site, index) => {
+            allSites[allSitesKey[index]] = site
+          })
+          return allSites
+        }).then(allSites => {
+          dispatch(
+            setSiteContentSuccess(
+              calculateTripInfo(routes, startSites, allSites)
+            )
+          )
+        })
+      })
+      .catch((error) => {
+        dispatch(getTripContentFailure(error))
+      })
+  }
+}
+
 export function getTripContentById(tripId:string):ThunkAction {
   return dispatch => {
     dispatch(getTripContent())
@@ -94,29 +192,25 @@ export function getTripContentById(tripId:string):ThunkAction {
         dispatch(getTripContentSuccess(res.val()))
         const allSitesKey = res.val().allSites
         const { routes, startSites } = res.val()
+        const promiseAllSite = allSitesKey.map((key) => {
+          return new ApiFactory()
+            .readDataBaseOnce(`/site/${key}`)
+            .then(res => res.val())
+        })
 
-        promiseFor(
-          (index) => { return index < allSitesKey.length },
-          (index, payload) => {
-            return new ApiFactory()
-                        .readDataBaseOnce(`/site/${allSitesKey[index]}`)
-                        .then((res) => {
-                          payload[allSitesKey[index]] = res.val()
-                          return payload
-                        })
-          },
-          0,
-          (allSites) => {
-            dispatch(
-              setSiteContentSuccess(
-                calculateTripInfo(routes, startSites, allSites)
-              )
+        return Promise.all(promiseAllSite).then(sites => {
+          const allSites = {}
+          sites.forEach((site, index) => {
+            allSites[allSitesKey[index]] = site
+          })
+          return allSites
+        }).then(allSites => {
+          dispatch(
+            setSiteContentSuccess(
+              calculateTripInfo(routes, startSites, allSites)
             )
-          }
-          ,
-          (err) => { dispatch(setSiteContentFailure(err)) },
-          {}
-        )
+          )
+        })
       })
       .catch((error) => {
         dispatch(getTripContentFailure(error))
@@ -363,3 +457,4 @@ export function pressMarkerFailure(res: any):Action {
 export function pressMarkerFailureWrapper(res: any):ThunkAction {
   return dispatch => dispatch(pressMarkerFailure(res))
 }
+

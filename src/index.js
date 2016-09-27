@@ -28,7 +28,7 @@ import Login from './containers/Login'
 import Logout from './containers/Logout'
 import Register from './containers/Register'
 import ForgotPassword from './containers/ForgotPassword'
-import Profile from './containers/Profile'
+// import Profile from './containers/Profile'
 import Main from './containers/Main'
 import Subview from './containers/Subview'
 import TripContent from './containers/Trip/TripContent'
@@ -168,6 +168,7 @@ export default function native(platform) {
                        icon={TabIcon}
                        hideNavBar={true}
                        component={Main}
+                       initial={true}
                 />
                 <Scene key="Logout"
                        title={I18n.t('Nav.favoriteGuide')}
@@ -176,17 +177,9 @@ export default function native(platform) {
                        hideNavBar={true}
                        component={Logout}
                 />
-                <Scene key="Profile"
-                       title={I18n.t('Nav.setting')}
-                       icon={TabIcon}
-                       iconName={"gear"}
-                       hideNavBar={true}
-                       component={Profile}
-                />
               </Scene>
               <Scene key="TripContent"
                      component={TripContent}
-                     initial={true}
               />
               <Scene key="SiteContent"
                      component={SiteContent}
@@ -197,9 +190,17 @@ export default function native(platform) {
       )
     }
   }
-  /**
-   * registerComponent to the AppRegistery and off we go....
-   */
+  // <Scene key="Profile"
+  //        title={I18n.t('Nav.setting')}
+  //        icon={TabIcon}
+  //        iconName={"gear"}
+  //        hideNavBar={true}
+  //        component={Profile}
+  // />
+
+  Deeperience.childContextTypes = {
+    store: React.PropTypes.object,
+  }
 
   AppRegistry.registerComponent('deeperience', () => Deeperience)
 }
