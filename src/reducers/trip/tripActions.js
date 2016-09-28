@@ -312,32 +312,28 @@ export function getDisplayInfoDirection(mode: number, position: any):ThunkAction
         `&key=${auth.firebase.apiKey}`)
     }).then(res => res.json()).then(res => {
       if (mode === 0) {
-        let departureTime
-        let arrivalTime
-        let duration
-        let steps
-        let fare
+        let departureTime = ''
+        let arrivalTime = ''
+        let durationText = ''
+        let stepsArr = []
+        let fare = ''
+        console.log(res)
 
-        if (res.routes.length === 0) {
-          departureTime = ''
-          arrivalTime = ''
-          duration = ''
-          steps = []
-          fare = ''
-        } else {
-          departureTime = res.routes[0].legs[0].departure_time.text
-          arrivalTime = res.routes[0].legs[0].arrival_time.text
-          duration = res.routes[0].legs[0].duration.text
-          steps = res.routes[0].legs[0].steps
-          if (res.routes[0].fare === undefined) fare = I18n.t('TripContent.noFareData')
-          else fare = res.routes[0].fare.text
+        if (res.routes.length !== 0) { // has route
+          const { departure_time, arrival_time, duration, steps } = res.routes[0].legs[0]
+          if (departure_time) departureTime = departure_time.text
+          if (arrival_time) arrivalTime = arrival_time.text
+          if (duration) durationText = duration.text
+          stepsArr = steps
+          if (res.routes[0].fare) fare = res.routes[0].fare.text
+          else fare = I18n.t('TripContent.noFareData')
         }
 
         dispatch(successCallback({
           departureTime,
           arrivalTime,
-          duration,
-          steps,
+          duration: durationText,
+          steps: stepsArr,
           fare,
         }))
       }
@@ -357,15 +353,25 @@ export function getMapInfoDirection(outres :any):ThunkAction {
         `&key=${auth.firebase.apiKey}`)
     }).then(res => res.json()).then(res => {
       const { name, introduction, address } = outres
-      const distance = res.routes[0].legs[0].distance.text
-      const polyline = convertPolyline(res.routes[0].overview_polyline.points)
-      dispatch(setMapDirection({
-        polyline,
-        name,
-        introduction,
-        address,
-        distance,
-      }))
+      if (res.routes.length === 0) { // no route
+        dispatch(setMapDirection({
+          polyline: [],
+          name,
+          introduction,
+          address,
+          distance: I18n.t('TripAction.noRoute'),
+        }))
+      } else {
+        const distance = res.routes[0].legs[0].distance.text
+        const polyline = convertPolyline(res.routes[0].overview_polyline.points)
+        dispatch(setMapDirection({
+          polyline,
+          name,
+          introduction,
+          address,
+          distance,
+        }))
+      }
     }).catch(err => dispatch(setMapDirectionError(err)))
   }
 }
@@ -393,10 +399,9 @@ export function setMapInfoWrapper(res: any):ThunkAction {
   return dispatch => dispatch(setMapInfo(res))
 }
 
-export function setMapInfoSuccess(res : any):Action {
+export function setMapInfoSuccess():Action {
   return {
     type: SET_MAP_INFO_SUCCESS,
-    payload: res,
   }
 }
 

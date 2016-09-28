@@ -8,7 +8,6 @@ import {
 import styles from './styles'
 import React, { Component, PropTypes } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { Actions } from 'react-native-router-flux'
 
 class ThumbnailPlan extends Component {
   static propTypes = {
@@ -45,10 +44,7 @@ class ThumbnailPlan extends Component {
               style={styles.backgroundImage}
             />
             <View style={styles.titleView}>
-              <Text
-                numberOfLines={2}
-                style={styles.titleOut}
-              >
+              <Text numberOfLines={2}>
                 <Text style={styles.title}>{this.props.title}</Text>
               </Text>
             </View>
@@ -68,7 +64,7 @@ class ThumbnailPlan extends Component {
               </Text>
             </View>
             <Text style={styles.price}>
-              {`${this.props.unit}${this.props.price}`}
+              {`${this.props.unit} ${this.props.price}`}
             </Text>
           </View>
         </TouchableHighlight>

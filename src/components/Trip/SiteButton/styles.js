@@ -1,12 +1,12 @@
-import { StyleSheet } from 'react-native'
 import MainStyle from '../../../styles'
+import StyleSheet from '../../../styles/StyleSheet'
 
 const { btnRadius,
         btnBigRadius,
         btnDiameter,
         btnBigDiameter } = MainStyle.TripSiteButton
 
-export default (StyleSheet.create({
+export default StyleSheet.create({
   site: {
     borderRadius: btnRadius,
     width: btnDiameter,
@@ -50,7 +50,8 @@ export default (StyleSheet.create({
   },
   siteName: {
     position: 'relative',
-    top: 30,
+    backgroundColor: '#eaeaea',
     zIndex: 1000,
+    top: 35,
   },
-}))
+})

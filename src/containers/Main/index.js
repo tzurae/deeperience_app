@@ -83,7 +83,7 @@ class Main extends Component {
                     backgroundImage={trip.backgroundPic}
                     avatar={trip.guideInfo.avatar}
                     title={trip.name}
-                    dyInfo={trip.dayInfo}
+                    dayInfo={trip.dayInfo}
                     guideName={trip.guideInfo.name}
                     starNum={trip.star}
                     seenNum={trip.seen}

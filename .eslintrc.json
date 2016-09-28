@@ -59,7 +59,7 @@
     "padded-blocks": ["error", "never"],
     "array-bracket-spacing": ["error", "never"],
     "object-curly-spacing": ["error", "always"],
-    "camelcase": ["error", {"properties": "always"}],
+    "camelcase": ["off", {"properties": "always"}],
     "new-cap": "error",
     "import/no-mutable-exports":"error",
     "import/imports-first":"error",

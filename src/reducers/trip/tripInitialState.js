@@ -47,7 +47,7 @@ const InitialState = Record({
     polyline: [],
     distance: '0 m',
     address: '',
-    audioDuration: 0,
+    audioDuration: 1,
     audioPosition: 0,
     audioURL: '',
     isFetching: false,

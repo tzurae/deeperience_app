@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { Map } from 'immutable'
 import React from 'react'
 import * as tripActions from '../../../reducers/trip/tripActions'
-import { View, ScrollView, Text } from 'react-native'
+import { View, ScrollView, Text, Platform } from 'react-native'
 import styles from './styles'
 import MainStyle from '../../../styles'
 import Svg, { Line } from 'react-native-svg'
@@ -119,7 +119,9 @@ class TripContentRoute extends React.Component {
     const { btnBigRadius } = MainStyle.TripSiteButton
     // this.testLoad()
     return (
-      <View style={[styles.container, { height: height - 110, width }]}>
+      <View style={[
+        styles.container,
+        { height: Platform.OS === 'ios' ? height - 80 : height - 110, width }]}>
         <Loading
           visible={this.props.trip.isFetching}
           text={I18n.t('TripContent.fetchingData')}
@@ -132,20 +134,6 @@ class TripContentRoute extends React.Component {
               horizontal={false}
               key={`TripDay${dIndex}`}
             >
-              {
-                dailyTrip.sites.map((site, siteOrder) => (
-                  <SiteButton
-                    top = {site.pos.ypos * 100 + 50}
-                    left = {(site.pos.xpos + 1) / (dailyTrip.ylayer[site.pos.ypos] + 1) * width - btnBigRadius}
-                    siteInfo = {site}
-                    order = {siteOrder}
-                    status = {this.props.trip.siteStatus[dIndex][siteOrder]}
-                    key = {site.siteKey}
-                  >
-                    {site.content.name}
-                  </SiteButton>
-                ))
-              }
               <Svg
                 height={dailyTrip.ylayer.length * 100 + 250} // the extra 250 is to make the ScrollView even higher
                 width={width}
@@ -164,6 +152,20 @@ class TripContentRoute extends React.Component {
                   ))
                 }
               </Svg>
+              {
+                dailyTrip.sites.map((site, siteOrder) => (
+                  <SiteButton
+                    top = {site.pos.ypos * 100 + 50}
+                    left = {(site.pos.xpos + 1) / (dailyTrip.ylayer[site.pos.ypos] + 1) * width - btnBigRadius}
+                    siteInfo = {site}
+                    order = {siteOrder}
+                    status = {this.props.trip.siteStatus[dIndex][siteOrder]}
+                    key = {site.siteKey}
+                  >
+                    {site.content.name}
+                  </SiteButton>
+                ))
+              }
             </ScrollView>
           ))
           }
@@ -225,7 +227,7 @@ class TripContentRoute extends React.Component {
                                           <Text style={styles.transitListNumber}>
                                             {`${index + 1}.`}
                                           </Text>
-                                          <Text style={[{ flex: 3 }, styles.transitInstruction]}>
+                                          <Text style={[{ flex: 3 }, styles.walkInstruction]}>
                                             {`${step.html_instructions.replace(/(<([^>]+)>)/ig, '')}`}
                                           </Text>
                                           <View style={{ flex: 1 }}>
@@ -266,7 +268,10 @@ class TripContentRoute extends React.Component {
                                           </View>
                                           <View style={{ flex: 1, flexDirection: 'column' }}>
                                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                              <Text style={styles.transitInstruction}>
+                                              <Text
+                                                numberOfLines={1}
+                                                style={styles.transitInstruction}
+                                              >
                                                 {`${shortName} ${vehicle}`}
                                               </Text>
                                               <Text style={styles.transitTimeInterval}>
@@ -274,7 +279,10 @@ class TripContentRoute extends React.Component {
                                               </Text>
                                             </View>
                                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                              <Text style={styles.transitInstruction}>
+                                              <Text
+                                                numberOfLines={1}
+                                                style={styles.transitInstruction}
+                                              >
                                                 {`${departureStop}`}
                                               </Text>
                                               <Text style={styles.transitDuration}>
@@ -282,7 +290,10 @@ class TripContentRoute extends React.Component {
                                               </Text>
                                             </View>
                                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                              <Text style={styles.transitInstruction}>
+                                              <Text
+                                                numberOfLines={1}
+                                                style={styles.transitInstruction}
+                                              >
                                                 {`${arrivalStop}`}
                                               </Text>
                                               <Text style={styles.transitDistance}>

@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native'
 import MainStyle from '../../../styles'
+import StyleSheet from '../../../styles/StyleSheet'
 
 const btnDiameter = 14
 const btnBigDiameter = 28
 
-export default (StyleSheet.create({
+export default StyleSheet.create({
   container: {
     alignItems: 'stretch',
     flex: 1,
@@ -77,11 +77,18 @@ export default (StyleSheet.create({
     flex: 1,
     paddingLeft: 15,
     paddingRight: 10,
+    ios: {
+      paddingTop: 5,
+      paddingBottom: 5,
+    },
   },
   displayInfoTitle: {
     fontSize: MainStyle.font.big,
     color: 'black',
     fontWeight: 'bold',
+    ios: {
+      marginBottom: 10,
+    },
   },
   displayInfoIntroduction: {
     fontSize: MainStyle.font.medium,
@@ -110,9 +117,26 @@ export default (StyleSheet.create({
     bottom: 18,
     right: 15,
   },
+  walkInstruction: {
+    fontSize: MainStyle.font.medium,
+    ios: {
+      lineHeight: 15,
+    },
+    android: {
+      lineHeight: 25,
+    },
+  },
   transitInstruction: {
     fontSize: MainStyle.font.medium,
-    lineHeight: 25,
+    maxWidth: 160,
+    position: 'relative',
+    top: 5,
+    ios: {
+      lineHeight: 15,
+    },
+    android: {
+      lineHeight: 25,
+    },
   },
   transitListNumber: {
     fontSize: MainStyle.font.medium,
@@ -162,4 +186,4 @@ export default (StyleSheet.create({
     paddingLeft: 15,
     backgroundColor: 'white',
   },
-}))
+})

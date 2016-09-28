@@ -66,6 +66,7 @@ class SiteContent extends React.Component {
 
   componentWillMount() {
     this.prepareAudio().then(res => {
+      console.log(res)
       this.props.actions.setAudioWrapper(res)
     }).then(() => this.props.actions.setMapInfoSuccessWrapper())
       .catch(err => this.props.actions.setMapInfoFailureWrapper(err))
@@ -73,15 +74,18 @@ class SiteContent extends React.Component {
 
   prepareAudio() {
     return new Promise((resolve, reject) => {
-      this.audioPlayer = new Player(this.props.trip.audioURL, { autoDestroy: false })
+      this.audioPlayer =
+        new Player(this.props.trip.audioURL,
+          { autoDestroy: false }
+        ).prepare(err => {
+          if (err === null) resolve({ audioDuration: this.audioPlayer.duration })
+          else reject(err)
+        })
+
       this.timerId = null
       this.audioPlayer.on('ended', () => {
         clearInterval(this.timerId)
         this.props.actions.setAudioWrapper({ audioPosition: 0 })
-      })
-      this.audioPlayer.prepare(err => {
-        if (err === null) resolve({ audioDuration: this.audioPlayer.duration })
-        else reject(err)
       })
     })
   }
@@ -112,8 +116,13 @@ class SiteContent extends React.Component {
   onPlayPress() {
     this.audioPlayer.play((success) => {
       clearInterval(this.timerId)
+      this.props.actions.setAudioWrapper({
+        audioDuration: Math.floor(this.audioPlayer.duration),
+      })
       this.timerId = setInterval(() => {
-        this.props.actions.setAudioWrapper({ audioPosition: this.audioPlayer.currentTime })
+        this.props.actions.setAudioWrapper({
+          audioPosition: this.audioPlayer.currentTime,
+        })
       }, 250)
     })
   }
@@ -204,7 +213,8 @@ class SiteContent extends React.Component {
               return (
                 <MapView.Marker
                   coordinate={{ latitude: lat, longitude: lng }}
-                  onPress={() => this.onMarkerPress(marker)}
+                  onPress={() => this.onMarkerPress(marker)} // for Android
+                  onSelect={() => this.onMarkerPress(marker)} // for IOS
                   title={marker.name}
                   key={marker.name}
                 />

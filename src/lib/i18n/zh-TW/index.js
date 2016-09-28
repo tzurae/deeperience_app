@@ -77,5 +77,8 @@ export default {
     "ride": "搭乘",
     "from": "從",
     "to": "到",
+  },
+  "TripAction": {
+    "noRoute": "-- m",
   }
 }

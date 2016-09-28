@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native'
 import MainStyle from '../../../styles'
+import StyleSheet from '../../../styles/StyleSheet'
 
-export default (StyleSheet.create({
+export default StyleSheet.create({
   container: MainStyle.container,
   mapContainer: {
     alignItems: 'center',
@@ -51,15 +51,24 @@ export default (StyleSheet.create({
   },
   siteContentContainer: {
     flex: 1,
-    paddingTop: 10,
-    paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
+    ios: {
+      paddingTop: 15,
+      paddingBottom: 15,
+    },
+    android: {
+      paddingTop: 10,
+      paddingBottom: 10,
+    },
   },
   subTitle: {
     fontSize: MainStyle.font.big,
     color: 'black',
     fontWeight: 'bold',
+    ios: {
+      marginBottom: 10,
+    },
   },
   content: {
     fontSize: MainStyle.font.medium,
@@ -68,8 +77,13 @@ export default (StyleSheet.create({
     fontSize: MainStyle.font.big + 2,
     color: MainStyle.color.main,
     position: 'absolute',
-    top: 8,
     right: 20,
+    ios: {
+      top: 10,
+    },
+    android: {
+      top: 8,
+    },
   },
   audioThumb: {
     backgroundColor: MainStyle.color.main,
@@ -77,4 +91,4 @@ export default (StyleSheet.create({
   audioTrack: {
     backgroundColor: '#d0d0d0',
   },
-}))
+})

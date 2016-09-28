@@ -150,6 +150,7 @@ export function convertPolyline(polyline) {
 }
 
 export function convertSecondToTime(ms) {
+  if (ms === -1) return '0:00'
   const second = Math.floor(ms / 1000)
   return `${Math.floor(second / 60)}:${formatNumber(second % 60)}`
 }

@@ -147,9 +147,9 @@ export default function tripReducer(state = initialState, action) {
     case SET_AUDIO:
       let newState = state
       const { audioURL, audioDuration, audioPosition } = action.payload
-      if (audioURL !== undefined) newState = newState.setIn(['mapInfo', 'audioURL'], audioURL)
-      if (audioDuration !== undefined) newState = newState.setIn(['mapInfo', 'audioDuration'], audioDuration)
-      if (audioPosition !== undefined) newState = newState.setIn(['mapInfo', 'audioPosition'], audioPosition)
+      if (audioURL) newState = newState.setIn(['mapInfo', 'audioURL'], audioURL)
+      if (audioDuration && audioDuration !== -1) newState = newState.setIn(['mapInfo', 'audioDuration'], audioDuration)
+      if (audioPosition) newState = newState.setIn(['mapInfo', 'audioPosition'], audioPosition)
       return newState
 
     case RESET_AUDIO:
