@@ -8,6 +8,7 @@ const InitialState = Record({
     isFetching: false,
   }))(),
   tripContent: new (Record({
+    tripKey: '',
     guideId: '',
     name: '',
     startSites: [],

@@ -57,11 +57,11 @@ class Main extends Component {
     this.props.actions.getAllTripWrapper()
   }
 
-  handlePress() {
-    Actions.Subview({
-      title: 'Subview',
-      // you can add additional props to be passed to Subview here...
-    })
+  onTripPress(key) {
+    this.props.dispatch(
+      this.props.actions.setTripKey(key)
+    )
+    Actions.TripContent()
   }
 
   render() {
@@ -80,18 +80,19 @@ class Main extends Component {
               this.props.trip.mainContent.map(trip => {
                 return (
                   <ThumbnailPlan
-                    backgroundImage = {trip.backgroundPic}
-                    avatar = {trip.guideInfo.avatar}
-                    title = {trip.name}
-                    dayInfo = {trip.dayInfo}
-                    guideName = {trip.guideInfo.name}
-                    starNum = {trip.star}
-                    seenNum = {trip.seen}
-                    purchaseNum = {trip.purchase}
-                    price = {trip.price}
-                    unit = {'TWD'}
-                    tags = {trip.tags}
-                    key = {trip.tripKey}
+                    backgroundImage={trip.backgroundPic}
+                    avatar={trip.guideInfo.avatar}
+                    title={trip.name}
+                    dyInfo={trip.dayInfo}
+                    guideName={trip.guideInfo.name}
+                    starNum={trip.star}
+                    seenNum={trip.seen}
+                    purchaseNum={trip.purchase}
+                    price={trip.price}
+                    unit={'TWD'}
+                    tags={trip.tags}
+                    key={trip.tripKey}
+                    onPress={() => this.onTripPress(trip.tripKey)}
                   />
                 )
               })

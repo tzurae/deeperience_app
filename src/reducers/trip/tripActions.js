@@ -12,6 +12,9 @@ const {
   GET_ALL_TRIP_SUCCESS,
   GET_ALL_TRIP_FAILURE,
   GET_TRIP_BY_CLASS,
+
+  SET_TRIP_KEY,
+
   GET_TRIP_CONTENT,
   GET_TRIP_CONTENT_SUCCESS,
   GET_TRIP_CONTENT_FAILURE,
@@ -123,6 +126,13 @@ export function getTripContentSuccess(res:any):Action {
 export function getTripContentFailure(res:any):Action {
   return {
     type: GET_TRIP_CONTENT_FAILURE,
+    payload: res,
+  }
+}
+
+export function setTripKey(res:any):Action {
+  return {
+    type: SET_TRIP_KEY,
     payload: res,
   }
 }

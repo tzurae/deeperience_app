@@ -34,6 +34,7 @@ const actions = [
 function mapStateToProps(state) {
   return {
     trip: {
+      tripKey: state.trip.tripContent.tripKey,
       name: state.trip.tripContent.name,
       guideId: state.trip.tripContent.guideId,
       startSites: state.trip.tripContent.startSites,
@@ -76,10 +77,8 @@ function mapDispatchToProps(dispatch) {
 
 class TripContentRoute extends React.Component {
 
-  constructor(props) {
-    super(props)
-    // this.props.actions.getTripContentById('-KRU7JacRSqhywPrZ2sR')
-    // this.props.actions.getTripContentTest('-KRU7JacRSqhywPrZ2sR')
+  componentWillMount() {
+    this.props.actions.getTripContentById(this.props.trip.tripKey)
   }
 
   goToMap() {

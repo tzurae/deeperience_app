@@ -14,6 +14,7 @@ import TabBar from '../../../components/TabBar'
 import Header from '../../../components/Header'
 import TripContentRoute from '../TripContentRoute'
 import styles from './styles'
+import { Actions } from 'react-native-router-flux'
 
 import Dimensions from 'Dimensions'
 const { width } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -22,9 +23,6 @@ const actions = [
   tripActions,
 ]
 
-/**
- *  Save that state
- */
 function mapStateToProps(state) {
   return {
   }
@@ -45,7 +43,7 @@ function mapDispatchToProps(dispatch) {
 class TripContent extends React.Component {
 
   onReturn() {
-
+    Actions.pop()
   }
 
   render() {

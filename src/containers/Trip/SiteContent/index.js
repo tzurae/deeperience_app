@@ -64,8 +64,7 @@ function mapDispatchToProps(dispatch) {
 
 class SiteContent extends React.Component {
 
-  constructor(props) {
-    super(props)
+  componentWillMount() {
     this.prepareAudio().then(res => {
       this.props.actions.setAudioWrapper(res)
     }).then(() => this.props.actions.setMapInfoSuccessWrapper())

@@ -13,6 +13,8 @@ const {
   GET_ALL_TRIP_FAILURE,
   GET_TRIP_BY_CLASS,
 
+  SET_TRIP_KEY,
+
   GET_TRIP_CONTENT,
   GET_TRIP_CONTENT_SUCCESS,
   GET_TRIP_CONTENT_FAILURE,
@@ -65,6 +67,9 @@ export default function tripReducer(state = initialState, action) {
 
     case GET_TRIP_BY_CLASS:
       return state
+
+    case SET_TRIP_KEY:
+      return state.setIn(['tripContent', 'tripKey'], action.payload)
 
     case GET_TRIP_CONTENT_SUCCESS:
       const { guideId, name, startSites } = action.payload

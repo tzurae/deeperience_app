@@ -8,6 +8,7 @@ import {
 import styles from './styles'
 import React, { Component, PropTypes } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import { Actions } from 'react-native-router-flux'
 
 class ThumbnailPlan extends Component {
   static propTypes = {
@@ -32,11 +33,12 @@ class ThumbnailPlan extends Component {
     unit: 'TWD',
     tags: ['', ''],
   }
-
   render() {
     return (
-      <TouchableHighlight>
-        <View>
+      <View>
+        <TouchableHighlight
+          onPress={() => this.props.onPress()}
+        >
           <View style={styles.tripView}>
             <Image
               source={{ uri: this.props.backgroundImage }}
@@ -69,39 +71,39 @@ class ThumbnailPlan extends Component {
               {`${this.props.unit}${this.props.price}`}
             </Text>
           </View>
-          <View style={styles.tripOverView}>
-            <Text style={styles.guideName}>
-              {this.props.guideName}
+        </TouchableHighlight>
+        <View style={styles.tripOverView}>
+          <Text style={styles.guideName}>
+            {this.props.guideName}
+          </Text>
+          <View style={styles.statView}>
+            <Icon
+              name="star"
+              size={15}
+              style={[styles.statIcon, { color: '#FFE600' }]}
+            />
+            <Text style={styles.statText}>
+              {this.props.starNum}
             </Text>
-            <View style={styles.statView}>
-              <Icon
-                name="star"
-                size={15}
-                style={[styles.statIcon, { color: '#FFE600' }]}
-              />
-              <Text style={styles.statText}>
-                {this.props.starNum}
-              </Text>
-              <Icon
-                name="eye"
-                size={15}
-                style={[styles.statIcon, { color: '#FF00FF' }]}
-              />
-              <Text style={styles.statText}>
-                {this.props.seenNum}
-              </Text>
-              <Icon
-                name="shopping-cart"
-                size={15}
-                style={[styles.statIcon, { color: '#FF8000' }]}
-              />
-              <Text style={styles.statText}>
-                {this.props.purchaseNum}
-              </Text>
-            </View>
+            <Icon
+              name="eye"
+              size={15}
+              style={[styles.statIcon, { color: '#FF00FF' }]}
+            />
+            <Text style={styles.statText}>
+              {this.props.seenNum}
+            </Text>
+            <Icon
+              name="shopping-cart"
+              size={15}
+              style={[styles.statIcon, { color: '#FF8000' }]}
+            />
+            <Text style={styles.statText}>
+              {this.props.purchaseNum}
+            </Text>
           </View>
         </View>
-      </TouchableHighlight>
+      </View>
     )
   }
 }

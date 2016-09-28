@@ -54,6 +54,8 @@ export default keyMirror({
   GET_ALL_TRIP_FAILURE: null,
   GET_TRIP_BY_CLASS: null,
 
+  SET_TRIP_KEY: null,
+
   GET_TRIP_CONTENT: null,
   GET_TRIP_CONTENT_SUCCESS: null,
   GET_TRIP_CONTENT_FAILURE: null,
