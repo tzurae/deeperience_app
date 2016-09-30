@@ -71,6 +71,9 @@ export type Action =
     { type: 'SET_DISPLAY_INFO_TRANSIT' } |
     { type: 'SET_DISPLAY_INFO_TRANSIT_SUCCESS', payload: any } |
     { type: 'SET_DISPLAY_INFO_TRANSIT_FAILURE', payload: any } |
+    { type: 'TOGGLE_DISPLAY_INFO' } |
+
+    { type: 'TOGGLE_MAP_MODE' } |
 
     { type: 'SWITCH_DISPLAY_INFO_CARD', payload: number } |
     { type: 'PRESS_MARKER_FAILURE', payload: any }

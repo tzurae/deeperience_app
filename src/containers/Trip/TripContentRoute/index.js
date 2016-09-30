@@ -47,6 +47,7 @@ function mapStateToProps(state) {
       displayInfoOrNot: state.trip.displayInfo.display,
       displayInfoTitle: state.trip.displayInfo.displayInfoTitle,
       displayInfoIntroduction: state.trip.displayInfo.displayInfoIntroduction,
+      displayInfoMode: state.trip.displayInfo.displayMode,
       mapInfo: {
         isFetching: state.trip.mapInfo.isFetching,
       },
@@ -174,7 +175,15 @@ class TripContentRoute extends React.Component {
           (() => {
             if (this.props.trip.displayInfoOrNot) {
               return (
-                <View style={[styles.container, styles.displayInfo, { height: 200, width }]}>
+                <View style={[
+                  styles.container,
+                  styles.displayInfo,
+                  this.props.trip.displayInfoMode ?
+                  (Platform.OS === 'ios' ?
+                    { height: height - 80, width } :
+                    { height: height - 100, width }) :
+                  { height: 200, width }
+                ]}>
                   <View style={styles.infoContainer}>
                     <Loading
                       visible={this.props.trip.transit.isFetching}
@@ -348,8 +357,8 @@ class TripContentRoute extends React.Component {
                     />
                     <TouchableIcon
                       style={styles.sideIcon}
-                      onPress={() => {}}
-                      name="arrows-alt"
+                      onPress={() => this.props.actions.toggleDisplayInfoWrapper()}
+                      name={this.props.trip.displayInfoMode ? 'angle-double-down' : 'angle-double-up'}
                       size={20}
                       color="#999"
                     />

@@ -42,6 +42,9 @@ const {
   SET_DISPLAY_INFO_TRANSIT,
   SET_DISPLAY_INFO_TRANSIT_SUCCESS,
   SET_DISPLAY_INFO_TRANSIT_FAILURE,
+  TOGGLE_DISPLAY_INFO,
+
+  TOGGLE_MAP_MODE,
 
   SWITCH_DISPLAY_INFO_CARD,
 
@@ -53,6 +56,7 @@ const initialState = new InitialState()
 export default function tripReducer(state = initialState, action) {
   if (!(state instanceof InitialState)) return initialState.mergeDeep(state)
   let siteStatus
+  let nowState
   switch (action.type) {
     case GET_ALL_TRIP:
       return state.setIn(['main', 'isFetching'], true)
@@ -104,6 +108,7 @@ export default function tripReducer(state = initialState, action) {
 
     case CLOSE_DISPLAY_INFO:
       return state.setIn(['displayInfo', 'display'], false)
+                  .setIn(['displayInfo', 'displayMode'], false)
 
     case ACTIVATE_SITE_BTN:
       siteStatus = state.getIn(['tripContent', 'siteStatus'])
@@ -148,15 +153,14 @@ export default function tripReducer(state = initialState, action) {
       let newState = state
       const { audioURL, audioDuration, audioPosition } = action.payload
       if (audioURL) newState = newState.setIn(['mapInfo', 'audioURL'], audioURL)
-      if (audioDuration && audioDuration !== -1) newState = newState.setIn(['mapInfo', 'audioDuration'], audioDuration)
+      if (audioDuration && audioDuration > 0) newState = newState.setIn(['mapInfo', 'audioDuration'], audioDuration)
       if (audioPosition) newState = newState.setIn(['mapInfo', 'audioPosition'], audioPosition)
       return newState
 
     case RESET_AUDIO:
-      // return state
       return state.setIn(['mapInfo', 'audioURL'], '')
                   .setIn(['mapInfo', 'audioPosition'], 0)
-                  .setIn(['mapInfo', 'audioDuration'], 0)
+                  .setIn(['mapInfo', 'audioDuration'], 1)
 
     case SET_DISPLAY_INFO_TRANSIT:
       return state.setIn(['displayInfo', 'transit', 'isFetching'], true)
@@ -180,6 +184,14 @@ export default function tripReducer(state = initialState, action) {
     case SET_DISPLAY_INFO_TRANSIT_FAILURE:
       return state.setIn(['displayInfo', 'transit', 'isFetching'], false)
                   .setIn(['error'], action.payload)
+
+    case TOGGLE_DISPLAY_INFO:
+      nowState = state.getIn(['displayInfo', 'displayMode'])
+      return state.setIn(['displayInfo', 'displayMode'], !nowState)
+
+    case TOGGLE_MAP_MODE:
+      nowState = state.getIn(['mapInfo', 'displayMode'])
+      return state.setIn(['mapInfo', 'displayMode'], !nowState)
 
     case SET_MAP_DIRECTION_ERROR:
       return state.setIn(['error'], action.payload)

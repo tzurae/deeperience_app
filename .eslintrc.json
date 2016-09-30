@@ -54,7 +54,7 @@
     "no-undef": "error",
     "one-var": ["error", "never"],
     "eqeqeq": "error",
-    "no-nested-ternary": "error",
+    "no-nested-ternary": "off",
     "eol-last": "error",
     "padded-blocks": ["error", "never"],
     "array-bracket-spacing": ["error", "never"],

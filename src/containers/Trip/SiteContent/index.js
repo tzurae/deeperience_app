@@ -46,6 +46,7 @@ function mapStateToProps(state) {
       address: state.trip.mapInfo.address,
       audioPosition: state.trip.mapInfo.audioPosition,
       audioURL: state.trip.mapInfo.audioURL,
+      mapDisplayMode: state.trip.mapInfo.displayMode,
     },
   }
 }
@@ -116,7 +117,7 @@ class SiteContent extends React.Component {
   onPlayPress() {
     this.audioPlayer.play((success) => {
       clearInterval(this.timerId)
-      this.props.actions.setAudioWrapper({
+      this.props.actions.setAudioWrapper({ // for ios
         audioDuration: Math.floor(this.audioPlayer.duration),
       })
       this.timerId = setInterval(() => {
@@ -136,6 +137,7 @@ class SiteContent extends React.Component {
   onReturn() {
     clearInterval(this.timerId)
     this.audioPlayer.destroy((success) => {
+      this.props.actions.resetAudioWrapper()
       Actions.pop()
     })
   }
@@ -195,7 +197,19 @@ class SiteContent extends React.Component {
             </Text>
           </View>
         </View>
-        <View style={[styles.mapContainer, { height: 250, width }]}>
+        <View style={[
+          styles.mapContainer,
+          this.props.trip.mapDisplayMode ?
+          styles.mapDisplayModeTrue : { height: 250, width }
+        ]}>
+          <TouchableIcon
+            style={styles.expandMapIcon}
+            underlayColor="#ccc"
+            onPress={() => this.props.actions.toggleMapModeWrapper()}
+            name={this.props.trip.mapDisplayMode ? 'compress' : 'expand'}
+            size={18}
+            color={'black'}
+          />
           <MapView
             style={styles.map}
             initialRegion={{

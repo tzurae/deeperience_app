@@ -23,6 +23,7 @@ const InitialState = Record({
     displayInfoTitle: '',
     displayInfoIntroduction: '',
     displayWhichCard: 0,
+    displayMode: false, // false: half, true: whole mode
     transit: new (Record({
       departureTime: '',
       arrivalTime: '',
@@ -51,6 +52,7 @@ const InitialState = Record({
     audioPosition: 0,
     audioURL: '',
     isFetching: false,
+    displayMode: false, // false: half, true: whole mode
   }))(),
   isFetching: false,
   error: null,

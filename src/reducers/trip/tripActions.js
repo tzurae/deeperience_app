@@ -41,6 +41,9 @@ const {
   SET_DISPLAY_INFO_TRANSIT,
   SET_DISPLAY_INFO_TRANSIT_SUCCESS,
   SET_DISPLAY_INFO_TRANSIT_FAILURE,
+  TOGGLE_DISPLAY_INFO,
+
+  TOGGLE_MAP_MODE,
 
   SWITCH_DISPLAY_INFO_CARD,
   PRESS_MARKER_FAILURE,
@@ -469,7 +472,26 @@ export function pressMarkerFailure(res: any):Action {
   }
 }
 
-export function pressMarkerFailureWrapper(res: any):ThunkAction {
+export function pressmarkerfailurewrapper(res: any):ThunkAction {
   return dispatch => dispatch(pressMarkerFailure(res))
 }
 
+export function toggleDisplayInfo():Action {
+  return {
+    type: TOGGLE_DISPLAY_INFO,
+  }
+}
+
+export function toggleDisplayInfoWrapper():ThunkAction {
+  return dispatch => dispatch(toggleDisplayInfo())
+}
+
+export function toggleMapMode():Action {
+  return {
+    type: TOGGLE_MAP_MODE,
+  }
+}
+
+export function toggleMapModeWrapper():ThunkAction {
+  return dispatch => dispatch(toggleMapMode())
+}

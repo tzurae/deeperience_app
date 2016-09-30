@@ -42,16 +42,15 @@ function mapDispatchToProps(dispatch) {
 
 class TripContent extends React.Component {
 
-  onReturn() {
-    Actions.pop()
-  }
-
   render() {
     return (
       <View style={styles.container}>
         <Header
           headerText={I18n.t('Nav.tripContent')}
-          onReturn={() => this.onReturn()}
+          onReturn={() => {
+            this.props.dispatch(this.props.actions.closeDisplayInfo())
+            Actions.pop()
+          }}
         />
         <TabBar>
           <View
