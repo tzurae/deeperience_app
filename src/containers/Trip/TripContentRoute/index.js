@@ -182,7 +182,7 @@ class TripContentRoute extends React.Component {
                   (Platform.OS === 'ios' ?
                     { height: height - 80, width } :
                     { height: height - 100, width }) :
-                  { height: 200, width }
+                  { height: 200, width },
                 ]}>
                   <View style={styles.infoContainer}>
                     <Loading

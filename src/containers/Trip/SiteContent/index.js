@@ -200,7 +200,7 @@ class SiteContent extends React.Component {
         <View style={[
           styles.mapContainer,
           this.props.trip.mapDisplayMode ?
-          styles.mapDisplayModeTrue : { height: 250, width }
+          styles.mapDisplayModeTrue : { height: 250, width },
         ]}>
           <TouchableIcon
             style={styles.expandMapIcon}
