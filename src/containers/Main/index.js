@@ -9,7 +9,7 @@ import { Actions } from 'react-native-router-flux'
 import React, { Component } from 'react'
 import Header from '../../components/Header'
 import ThumbnailPlan from '../../components/ThumbnailPlan'
-import { View } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
 import TabBar from '../../components/TabBar'
@@ -72,7 +72,7 @@ class Main extends Component {
           back={false}
         />
         <TabBar>
-          <View
+          <ScrollView
             style={styles.innerView}
             tabLabel={I18n.t('Nav.recommendation')}
           >
@@ -97,7 +97,7 @@ class Main extends Component {
                 )
               })
             }
-          </View>
+          </ScrollView>
           <View
             style={styles.innerView}
             tabLabel={I18n.t('Nav.purchased')}

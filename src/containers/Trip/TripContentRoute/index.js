@@ -128,6 +128,8 @@ class TripContentRoute extends React.Component {
   render() {
     const { btnBigRadius } = MainStyle.TripSiteButton
     // this.testLoad()
+    console.log('tripInfo')
+    console.log(this.props.trip.tripInfo)
     return (
       <View style={[
         styles.container,

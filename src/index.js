@@ -154,29 +154,14 @@ export default function native(platform) {
               <Scene key="Subview"
                      component={Subview}
               />
-
-              <Scene key="Tabbar"
-                     tabs={true}
+              <Scene key="Main"
+                     title={I18n.t('Nav.planList')}
+                     iconName={"list-ul"}
+                     icon={TabIcon}
                      hideNavBar={true}
-                     tabBarStyle={styles.tabBar}
-                     default="Main"
+                     component={Main}
                      initial={true}
-              >
-                <Scene key="Main"
-                       title={I18n.t('Nav.planList')}
-                       iconName={"list-ul"}
-                       icon={TabIcon}
-                       hideNavBar={true}
-                       component={Main}
-                />
-                <Scene key="Logout"
-                       title={I18n.t('Nav.logout')}
-                       icon={TabIcon}
-                       iconName={"users"}
-                       hideNavBar={true}
-                       component={Logout}
-                />
-              </Scene>
+              />
               <Scene key="TripContent"
                      component={TripContent}
               />
@@ -196,6 +181,22 @@ export default function native(platform) {
   //        hideNavBar={true}
   //        component={Profile}
   // />
+  //
+  // <Scene key="Tabbar"
+  //        tabs={true}
+  //        hideNavBar={true}
+  //        tabBarStyle={styles.tabBar}
+  //        default="Main"
+  //        initial={true}
+  // >
+  //   <Scene key="Logout"
+  //          title={I18n.t('Nav.logout')}
+  //          icon={TabIcon}
+  //          iconName={"users"}
+  //          hideNavBar={true}
+  //          component={Logout}
+  //   />
+  // </Scene>
 
   Deeperience.childContextTypes = {
     store: React.PropTypes.object,
