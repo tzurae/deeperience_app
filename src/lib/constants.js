@@ -6,19 +6,29 @@ export default keyMirror({
   SET_VERSION: null,
 
   ON_LOGIN_STATE_CHANGE: null,
-  LOGOUT: null,
-
   ON_AUTH_FORM_FIELD_CHANGE: null,
+
+  INIT_AUTH: null,
+
   SIGNUP_START: null,
   SIGNUP_REQUEST: null,
   SIGNUP_SUCCESS: null,
   SIGNUP_FAILURE: null,
 
+  // LOGOUT, REGISTER, LOGIN just status of view
+  // for example , when you send LOGOUT action
+  // the form's state that user input will be diminished.
+  LOGOUT: null,
+  REGISTER: null,
+  LOGIN: null,
+
+  LOGIN_START: null,
   LOGIN_REQUEST: null,
   LOGIN_SUCCESS: null,
   LOGIN_FAILURE: null,
   LOGIN_SOCIAL: null,
 
+  LOGOUT_START: null,
   LOGOUT_REQUEST: null,
   LOGOUT_SUCCESS: null,
   LOGOUT_FAILURE: null,
@@ -26,6 +36,7 @@ export default keyMirror({
   LOGGED_IN: null,
   LOGGED_OUT: null,
 
+  RESET_PASSWORD_START: null,
   RESET_PASSWORD_REQUEST: null,
   RESET_PASSWORD_SUCCESS: null,
   RESET_PASSWORD_FAILURE: null,
@@ -46,8 +57,6 @@ export default keyMirror({
 
   // LoginForm.js
   FORGOT_PASSWORD: null,
-  LOGIN: null,
-  REGISTER: null,
 
   GET_ALL_TRIP: null,
   GET_ALL_TRIP_SUCCESS: null,

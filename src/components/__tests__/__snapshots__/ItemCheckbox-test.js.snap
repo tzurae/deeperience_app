@@ -22,7 +22,9 @@ exports[`ItemCheckbox if disabled and checked, it should display check-square an
     }
     testID={undefined}>
     <Text
+      accessible={true}
       allowFontScaling={false}
+      lineBreakMode="tail"
       style={
         Array [
           Object {
@@ -37,7 +39,10 @@ exports[`ItemCheckbox if disabled and checked, it should display check-square an
       }>
       
     </Text>
-    <Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      lineBreakMode="tail">
        
       TextShouldDisplay
     </Text>
@@ -69,7 +74,9 @@ exports[`ItemCheckbox if disabled and not checked, it should display square-o an
     }
     testID={undefined}>
     <Text
+      accessible={true}
       allowFontScaling={false}
+      lineBreakMode="tail"
       style={
         Array [
           Object {
@@ -84,7 +91,10 @@ exports[`ItemCheckbox if disabled and not checked, it should display square-o an
       }>
       
     </Text>
-    <Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      lineBreakMode="tail">
        
       TextShouldDisplay
     </Text>
@@ -125,7 +135,9 @@ exports[`ItemCheckbox if not disabled and checked, it should display check-squar
         }
       }>
       <Text
+        accessible={true}
         allowFontScaling={false}
+        lineBreakMode="tail"
         style={
           Array [
             Object {
@@ -140,7 +152,10 @@ exports[`ItemCheckbox if not disabled and checked, it should display check-squar
         }>
         
       </Text>
-      <Text>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        lineBreakMode="tail">
          
         TextShouldDisplay
       </Text>
@@ -182,7 +197,9 @@ exports[`ItemCheckbox if not disabled and not checked, it should display square-
         }
       }>
       <Text
+        accessible={true}
         allowFontScaling={false}
+        lineBreakMode="tail"
         style={
           Array [
             Object {
@@ -197,7 +214,10 @@ exports[`ItemCheckbox if not disabled and not checked, it should display square-
         }>
         
       </Text>
-      <Text>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        lineBreakMode="tail">
          
         TextShouldDisplay
       </Text>

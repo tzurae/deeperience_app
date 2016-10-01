@@ -1,6 +1,15 @@
 /**
+<<<<<<< HEAD
  * # TripContentRoute.js
  *  Display route of tripcontent
+=======
+ * # app.js
+ *  Display startup screen and
+ *  getSessionTokenAtStartup which will navigate upon completion
+ *
+ *
+ *
+>>>>>>> temp
  */
 'use strict'
 import { bindActionCreators } from 'redux'
@@ -376,5 +385,4 @@ class TripContentRoute extends React.Component {
 TripContentRoute.contextTypes = {
   store: React.PropTypes.object,
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(TripContentRoute)

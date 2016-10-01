@@ -160,7 +160,7 @@ export default function native(platform) {
                      hideNavBar={true}
                      tabBarStyle={styles.tabBar}
                      default="Main"
-                     initial
+                     initial={true}
               >
                 <Scene key="Main"
                        title={I18n.t('Nav.planList')}
@@ -168,10 +168,9 @@ export default function native(platform) {
                        icon={TabIcon}
                        hideNavBar={true}
                        component={Main}
-                       initial={true}
                 />
                 <Scene key="Logout"
-                       title={I18n.t('Nav.favoriteGuide')}
+                       title={I18n.t('Nav.logout')}
                        icon={TabIcon}
                        iconName={"users"}
                        hideNavBar={true}

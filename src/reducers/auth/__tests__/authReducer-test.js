@@ -19,9 +19,6 @@
  * case statements are shared amongst the actions.
  */
 const {
-  SESSION_TOKEN_REQUEST,
-  SESSION_TOKEN_SUCCESS,
-  SESSION_TOKEN_FAILURE,
 
   LOGOUT,
   LOGIN,
@@ -47,54 +44,7 @@ const  authReducer = require('../authReducer').default;
  * authReducer
  */
 describe('authReducer', () => {
-  /**
-   * ### SessionToken ...all requests in general
-   *
-   * In general, all requests will have fetching true before
-   * actually performing the request,and followed
-   * by either a success or failure action that signals the request
-   * has ended and the fetching flag can be toggled.
-   *
-   * *Note*: these tests call the ```authReducer``` with an
-   * ```undefined``` state so that the reducer will return a valid state.
-   *
-   */
-  xdescribe('SESSION-TOKEN-REQUEST', () => {
-    it('starts fetching', () => {
-      const action = {
-        type: SESSION_TOKEN_REQUEST,
-      };
-      let next = authReducer(undefined, action);
 
-      expect(next.form.isFetching).toBe(true);
-      expect(next.form.error).toBe(null);
-    });
-
-    it('finishes fetching on success', () => {
-      const action = {
-        type: SESSION_TOKEN_SUCCESS,
-      };
-      let next = authReducer(undefined, action);
-
-      expect(next.form.isFetching).toBe(false);
-      expect(next.form.error).toBe(null);
-    });
-
-    it('finishes fetching on failure', () => {
-      const action = {
-        type: SESSION_TOKEN_FAILURE,
-      };
-      let next = authReducer(undefined, action);
-
-      expect(next.form.isFetching).toBe(false);
-      expect(next.form.error).toBe(null);
-    });
-  });// Session-token-request
-
-  /**
-   * ### Signup failure will have an error associated with it
-   *
-   */
   describe('SIGNUP_FAILURE', () => {
     it('Finish fetching with error', () => {
       const action = {
@@ -280,9 +230,9 @@ describe('authReducer', () => {
      * provide valid input and the form should be valid
      */
     it('form is  valid with valid fields', () => {
-      const userNameFieldChangeAction = {
+      const emailFieldChangeAction = {
         type: ON_AUTH_FORM_FIELD_CHANGE,
-        payload: {field: 'username', value: 'barton'},
+        payload: {field: 'email', value: 'barton@x.com'},
       };
       const passwordFieldChangeAction = {
         type: ON_AUTH_FORM_FIELD_CHANGE,
@@ -290,7 +240,7 @@ describe('authReducer', () => {
       };
 
       let userNameState = authReducer(initialState,
-                                      userNameFieldChangeAction);
+                                      emailFieldChangeAction);
       let passwordState = authReducer(userNameState,
                                       passwordFieldChangeAction);
 

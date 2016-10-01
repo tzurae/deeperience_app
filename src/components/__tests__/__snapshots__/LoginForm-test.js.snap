@@ -646,6 +646,15 @@ exports[`LoginForm FORGOT_PASSWORD should not be editable if fetching 1`] = `
   options={
     Object {
       "fields": Object {
+        "email": Object {
+          "autoCapitalize": "none",
+          "editable": false,
+          "error": undefined,
+          "hasError": true,
+          "keyboardType": "email-address",
+          "label": undefined,
+          "placeholder": undefined
+        },
         "password": Object {
           "editable": false,
           "error": undefined,
@@ -654,15 +663,6 @@ exports[`LoginForm FORGOT_PASSWORD should not be editable if fetching 1`] = `
           "maxLength": 12,
           "placeholder": undefined,
           "secureTextEntry": true
-        },
-        "username": Object {
-          "autoCapitalize": "none",
-          "editable": false,
-          "error": undefined,
-          "hasError": undefined,
-          "label": undefined,
-          "maxLength": 12,
-          "placeholder": undefined
         }
       }
     }
@@ -823,6 +823,15 @@ exports[`LoginForm LOGIN password fields are not secured if shown 1`] = `
   options={
     Object {
       "fields": Object {
+        "email": Object {
+          "autoCapitalize": "none",
+          "editable": true,
+          "error": undefined,
+          "hasError": undefined,
+          "keyboardType": "email-address",
+          "label": undefined,
+          "placeholder": undefined
+        },
         "password": Object {
           "editable": true,
           "error": undefined,
@@ -831,15 +840,6 @@ exports[`LoginForm LOGIN password fields are not secured if shown 1`] = `
           "maxLength": 12,
           "placeholder": undefined,
           "secureTextEntry": false
-        },
-        "username": Object {
-          "autoCapitalize": "none",
-          "editable": true,
-          "error": undefined,
-          "hasError": false,
-          "label": undefined,
-          "maxLength": 12,
-          "placeholder": undefined
         }
       }
     }
@@ -1000,6 +1000,15 @@ exports[`LoginForm LOGIN should display  errors and  values 1`] = `
   options={
     Object {
       "fields": Object {
+        "email": Object {
+          "autoCapitalize": "none",
+          "editable": true,
+          "error": undefined,
+          "hasError": undefined,
+          "keyboardType": "email-address",
+          "label": undefined,
+          "placeholder": undefined
+        },
         "password": Object {
           "editable": true,
           "error": undefined,
@@ -1008,15 +1017,6 @@ exports[`LoginForm LOGIN should display  errors and  values 1`] = `
           "maxLength": 12,
           "placeholder": undefined,
           "secureTextEntry": true
-        },
-        "username": Object {
-          "autoCapitalize": "none",
-          "editable": true,
-          "error": undefined,
-          "hasError": true,
-          "label": undefined,
-          "maxLength": 12,
-          "placeholder": undefined
         }
       }
     }
@@ -1177,6 +1177,15 @@ exports[`LoginForm LOGIN should display without errors and without values 1`] = 
   options={
     Object {
       "fields": Object {
+        "email": Object {
+          "autoCapitalize": "none",
+          "editable": true,
+          "error": undefined,
+          "hasError": undefined,
+          "keyboardType": "email-address",
+          "label": undefined,
+          "placeholder": undefined
+        },
         "password": Object {
           "editable": true,
           "error": undefined,
@@ -1185,15 +1194,6 @@ exports[`LoginForm LOGIN should display without errors and without values 1`] = 
           "maxLength": 12,
           "placeholder": undefined,
           "secureTextEntry": true
-        },
-        "username": Object {
-          "autoCapitalize": "none",
-          "editable": true,
-          "error": undefined,
-          "hasError": false,
-          "label": undefined,
-          "maxLength": 12,
-          "placeholder": undefined
         }
       }
     }
@@ -1354,6 +1354,15 @@ exports[`LoginForm LOGIN should not be editable if fetching 1`] = `
   options={
     Object {
       "fields": Object {
+        "email": Object {
+          "autoCapitalize": "none",
+          "editable": false,
+          "error": undefined,
+          "hasError": undefined,
+          "keyboardType": "email-address",
+          "label": undefined,
+          "placeholder": undefined
+        },
         "password": Object {
           "editable": false,
           "error": undefined,
@@ -1362,15 +1371,6 @@ exports[`LoginForm LOGIN should not be editable if fetching 1`] = `
           "maxLength": 12,
           "placeholder": undefined,
           "secureTextEntry": true
-        },
-        "username": Object {
-          "autoCapitalize": "none",
-          "editable": false,
-          "error": undefined,
-          "hasError": true,
-          "label": undefined,
-          "maxLength": 12,
-          "placeholder": undefined
         }
       }
     }

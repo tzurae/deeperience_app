@@ -1,6 +1,15 @@
 /**
+<<<<<<< HEAD
  * # TripContent.js
  * Display tripContent
+=======
+ * # app.js
+ *  Display startup screen and
+ *  getSessionTokenAtStartup which will navigate upon completion
+ *
+ *
+ *
+>>>>>>> temp
  */
 'use strict'
 import { bindActionCreators } from 'redux'

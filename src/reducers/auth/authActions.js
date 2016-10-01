@@ -1,20 +1,22 @@
 // @flow
 'use strict'
-import { Actions } from 'react-native-router-flux'
-import ApiFactory from '../../api/apiFactory'
 import Firebase from '../../api/firebase'
-import type { ThunkAction, Action } from '../../lib/types'
+import type { Action } from '../../lib/types'
 
 const {
+
+  INIT_AUTH,
   LOGOUT,
   REGISTER,
   LOGIN,
   FORGOT_PASSWORD,
 
+  LOGOUT_START,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
 
+  LOGIN_START,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -27,36 +29,18 @@ const {
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
 
+  RESET_PASSWORD_START,
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
 
 } = require('../../lib/constants').default
 
-/**
- *  ## Initialize user auth when app start running
- */
-
-export function initAuth():ThunkAction {
-  return dispatch => {
-    return new ApiFactory().initAuth()
-      .then(
-        user => {
-          if (user) {
-            dispatch(loginSuccess(user.json))
-            Actions.Tabbar()
-          } else {
-            Actions.InitialLoginForm()
-          }
-        })
-      .catch(
-        error => {
-          dispatch(loginFailure(error))
-        }
-      )
+export function initAuth():Action {
+  return {
+    type: INIT_AUTH,
   }
 }
-
 /**
  * ## State actions
  * controls which form is displayed to the user
@@ -100,27 +84,19 @@ export function logoutSuccess():Action {
     type: LOGOUT_SUCCESS,
   }
 }
-export function logoutFailure(error: any):Action { // TODO
+export function logoutFailure(error: any):Action {
   return {
     type: LOGOUT_FAILURE,
     payload: error,
   }
 }
-export function logout():ThunkAction {
-  return dispatch => {
-    dispatch(logoutRequest())
-    return new ApiFactory().logout()
-      .then(() => {
-        dispatch(loginState())
-        dispatch(logoutSuccess())
-        Actions.InitialLoginForm()
-      })
-      .catch((error) => {
-        dispatch(loginState())
-        dispatch(logoutFailure(error))
-      })
+
+export function logout():Action {
+  return {
+    type: LOGOUT_START, //redux saga action
   }
 }
+
 /**
  * ## onAuthFormFieldChange
  * Set the payload so the reducer can work on it
@@ -139,57 +115,22 @@ export function signupRequest():Action {
     type: SIGNUP_REQUEST,
   }
 }
-export function signupSuccess(json:any):Action { // TODO
+export function signupSuccess(user:any):Action {
   return {
     type: SIGNUP_SUCCESS,
-    payload: json,
+    payload: user,
   }
 }
-export function signupFailure(error:any):Action { // TODO
+export function signupFailure(error:any):Action {
   return {
     type: SIGNUP_FAILURE,
     payload: error,
   }
 }
 
-/**
- * ## signup
- * @param {string} username - name of user
- * @param {string} email - user's email
- * @param {string} password - user's password
- */
-// export function signup(username:string, email:string, password:string):ThunkAction {
-//   return dispatch => {
-//     dispatch(signupRequest())
-//     return new ApiFactory().signup({
-//       email,
-//       password,
-//     })
-//       .then((json) => {
-//         const newUser = new UserModel(json.uid, {
-//           name: username,
-//           nickname: null,
-//         })
-//         new ApiFactory().writeDataBase(newUser.getPath(), newUser.getData())
-//         dispatch(signupSuccess(
-//           {
-//             uid: json.uid,
-//             name: json.displayName,
-//             email: json.email,
-//           }))
-//         dispatch(logoutState())
-//             // navigate to Tabbar
-//         Actions.Tabbar()
-//       })
-//       .catch((error) => {
-//         dispatch(signupFailure(error))
-//       })
-//   }
-// }
-
 export function signup(username:string, email:string, password:string):Action {
   return {
-    type: SIGNUP_START,
+    type: SIGNUP_START, // redux-saga actions
     payload: {
       username,
       email,
@@ -220,22 +161,14 @@ export function loginFailure(error:any):Action { // TODO
     payload: error,
   }
 }
-export function login(email:string,  password:string):ThunkAction {
-  return dispatch => {
-    dispatch(loginRequest())
-    return new ApiFactory().login({
+
+export function login(email:string, password:string):Action {
+  return {
+    type: LOGIN_START,
+    payload: {
       email,
       password,
-    })
-      .then(json => {
-        dispatch(loginSuccess(json))
-            // navigate to Tabbar
-        Actions.Tabbar()
-        dispatch(logoutState())
-      })
-      .catch((error) => {
-        dispatch(loginFailure(error))
-      })
+    },
   }
 }
 
@@ -284,25 +217,12 @@ export function resetPasswordFailure(error:any):Action { // TODO
  * @param {string} email - the email address to reset password
  * *Note* There's no feedback to the user whether the email
  * address is valid or not.
- *
- * This functionality depends on setting Parse.com
- * up correctly ie, that emails are verified.
- * With that enabled, an email can be sent w/ a
- * form for setting the new password.
  */
-export function resetPassword(email:string):ThunkAction {
-  return dispatch => {
-    dispatch(resetPasswordRequest())
-    return new ApiFactory().resetPassword({
+export function resetPassword(email:string):Action {
+  return {
+    type: RESET_PASSWORD_START,
+    payload: {
       email,
-    })
-      .then(() => {
-        dispatch(loginState())
-        dispatch(resetPasswordSuccess())
-        Actions.Login()
-      })
-      .catch((error) => {
-        dispatch(resetPasswordFailure(error))
-      })
+    },
   }
 }

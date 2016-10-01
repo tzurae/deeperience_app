@@ -8,6 +8,12 @@ export type Action =
     { type: 'SIGNUP_SUCCESS', payload: any } |
     { type: 'SIGNUP_FAILURE', payload: any } |
 
+    { type: 'SIGNUP_START', payload: {username: string, email: string, password: string}} |
+    { type: 'INIT_AUTH' } |
+    { type: 'LOGOUT_START'} |
+    { type: 'LOGIN_START', payload:{ email:string, password:string}} |
+    { type: 'RESET_PASSWORD_START', payload: {email:string}} |
+
     { type: 'LOGIN_REQUEST' } |
     { type: 'LOGIN_SUCCESS', payload: any } |
     { type: 'LOGIN_FAILURE', payload: any } |
