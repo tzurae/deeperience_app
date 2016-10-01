@@ -1,15 +1,6 @@
 /**
-<<<<<<< HEAD
  * # TripContentRoute.js
  *  Display route of tripcontent
-=======
- * # app.js
- *  Display startup screen and
- *  getSessionTokenAtStartup which will navigate upon completion
- *
- *
- *
->>>>>>> temp
  */
 'use strict'
 import { bindActionCreators } from 'redux'
@@ -22,7 +13,6 @@ import styles from './styles'
 import MainStyle from '../../../styles'
 import Svg, { Line } from 'react-native-svg'
 import SiteButton from '../../../components/Trip/SiteButton'
-import TabBar from '../../../components/TabBar'
 import { Actions } from 'react-native-router-flux'
 import TouchableIcon from '../../../components/TouchableIcon'
 import Loading from '../../../components/Loading'
@@ -128,8 +118,6 @@ class TripContentRoute extends React.Component {
   render() {
     const { btnBigRadius } = MainStyle.TripSiteButton
     // this.testLoad()
-    console.log('tripInfo')
-    console.log(this.props.trip.tripInfo)
     return (
       <View style={[
         styles.container,
@@ -138,50 +126,48 @@ class TripContentRoute extends React.Component {
           visible={this.props.trip.isFetching}
           text={I18n.t('TripContent.fetchingData')}
         />
-        <TabBar>
-          {this.props.trip.tripInfo.map((dailyTrip, dIndex) => (
-            <ScrollView
-              style={{ backgroundColor: '#eaeaea' }}
-              tabLabel={`DAY ${dIndex + 1}`}
-              horizontal={false}
-              key={`TripDay${dIndex}`}
+        {this.props.trip.tripInfo.map((dailyTrip, dIndex) => (
+          <ScrollView
+            style={{ backgroundColor: '#eaeaea', height: 100 }}
+            tabLabel={`DAY ${dIndex + 1}`}
+            horizontal={false}
+            key={`TripDay${dIndex}`}
+          >
+            <Svg
+              height={dailyTrip.ylayer.length * 100 + 250} // the extra 250 is to make the ScrollView even higher
+              width={width}
             >
-              <Svg
-                height={dailyTrip.ylayer.length * 100 + 250} // the extra 250 is to make the ScrollView even higher
-                width={width}
-              >
-                {
-                  dailyTrip.routes.map(route => (
-                    <Line
-                      x1={(route.posFrom.xpos + 1) / (dailyTrip.ylayer[route.posFrom.ypos] + 1) * width}
-                      y1={route.posFrom.ypos * 100 + 50 + btnBigRadius}
-                      x2={(route.posTo.xpos + 1) / (dailyTrip.ylayer[route.posTo.ypos] + 1) * width}
-                      y2={route.posTo.ypos * 100 + 50 + btnBigRadius}
-                      stroke={MainStyle.color.main}
-                      strokeWidth="2"
-                      key = {`(${route.posFrom.xpos},${route.posFrom.ypos})-(${route.posTo.xpos},${route.posTo.ypos})`}
-                    />
-                  ))
-                }
-              </Svg>
               {
-                dailyTrip.sites.map((site, siteOrder) => (
-                  <SiteButton
-                    top = {site.pos.ypos * 100 + 50}
-                    left = {(site.pos.xpos + 1) / (dailyTrip.ylayer[site.pos.ypos] + 1) * width - btnBigRadius}
-                    siteInfo = {site}
-                    order = {siteOrder}
-                    status = {this.props.trip.siteStatus[dIndex][siteOrder]}
-                    key = {site.siteKey}
-                  >
-                    {site.content.name}
-                  </SiteButton>
+                dailyTrip.routes.map(route => (
+                  <Line
+                    x1={(route.posFrom.xpos + 1) / (dailyTrip.ylayer[route.posFrom.ypos] + 1) * width}
+                    y1={route.posFrom.ypos * 100 + 50 + btnBigRadius}
+                    x2={(route.posTo.xpos + 1) / (dailyTrip.ylayer[route.posTo.ypos] + 1) * width}
+                    y2={route.posTo.ypos * 100 + 50 + btnBigRadius}
+                    stroke={MainStyle.color.main}
+                    strokeWidth="2"
+                    key = {`(${route.posFrom.xpos},${route.posFrom.ypos})-(${route.posTo.xpos},${route.posTo.ypos})`}
+                  />
                 ))
               }
-            </ScrollView>
-          ))
-          }
-        </TabBar>
+            </Svg>
+            {
+              dailyTrip.sites.map((site, siteOrder) => (
+                <SiteButton
+                  top = {site.pos.ypos * 100 + 50}
+                  left = {(site.pos.xpos + 1) / (dailyTrip.ylayer[site.pos.ypos] + 1) * width - btnBigRadius}
+                  siteInfo = {site}
+                  order = {siteOrder}
+                  status = {this.props.trip.siteStatus[dIndex][siteOrder]}
+                  key = {site.siteKey}
+                >
+                  {site.content.name}
+                </SiteButton>
+              ))
+            }
+          </ScrollView>
+        ))
+        }
         {
           (() => {
             if (this.props.trip.displayInfoOrNot) {

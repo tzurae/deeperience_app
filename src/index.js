@@ -1,8 +1,6 @@
 import React from 'react'
 import {
   AppRegistry,
-  // Navigator,
-  StyleSheet,
   View,
   Text,
 } from 'react-native'
@@ -25,7 +23,7 @@ import {
 import configureStore from './lib/configureStore'
 import App from './containers/App'
 import Login from './containers/Login'
-import Logout from './containers/Logout'
+// import Logout from './containers/Logout'
 import Register from './containers/Register'
 import ForgotPassword from './containers/ForgotPassword'
 // import Profile from './containers/Profile'
@@ -69,14 +67,6 @@ function getInitialState() {
   }
   return initState
 }
-
-const styles = StyleSheet.create({
-  tabBar: {
-    height: 65,
-    borderTopWidth: 2,
-    borderTopColor: 'darkgray',
-  },
-})
 
 /**
  * ## TabIcon

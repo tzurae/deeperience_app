@@ -161,41 +161,6 @@ export function setSiteStatus(res:any):Action {
   }
 }
 
-export function getTripContentTest(tripId:string):ThunkAction {
-  return dispatch => {
-    dispatch(getTripContent())
-
-    return new ApiFactory().readDataBaseOnce(`/trips/${tripId}`)
-      .then(res => {
-        dispatch(getTripContentSuccess(res.val()))
-        const allSitesKey = res.val().allSites
-        const { routes, startSites } = res.val()
-        const promiseAllSite = allSitesKey.map((key) => {
-          return new ApiFactory()
-                      .readDataBaseOnce(`/site/${key}`)
-                      .then(res => res.val())
-        })
-
-        return Promise.all(promiseAllSite).then(sites => {
-          const allSites = {}
-          sites.forEach((site, index) => {
-            allSites[allSitesKey[index]] = site
-          })
-          return allSites
-        }).then(allSites => {
-          dispatch(
-            setSiteContentSuccess(
-              calculateTripInfo(routes, startSites, allSites)
-            )
-          )
-        })
-      })
-      .catch((error) => {
-        dispatch(getTripContentFailure(error))
-      })
-  }
-}
-
 export function getTripContentById(tripId:string):ThunkAction {
   return dispatch => {
     dispatch(getTripContent())
@@ -345,23 +310,24 @@ export function getDisplayInfoDirection(mode: number, position: any):ThunkAction
 }
 
 export function getMapInfoDirection(outres :any):ThunkAction {
+  const destLat = outres.position.lat
+  const destLng = outres.position.lng
   return dispatch => {
     return getNowPosition().then(({ lat, lng }) => {
       return fetch('https://maps.googleapis.com/maps/api/directions/json?' +
         `origin=${lat},${lng}` +
-        `&destination=${outres.address}` +
+        `&destination=${destLat},${destLng}` +
         '&region=tw' +
         '&mode=walking' +
         '&language=zh-TW' +
         `&key=${auth.firebase.apiKey}`)
     }).then(res => res.json()).then(res => {
-      const { name, introduction, address } = outres
+      const { name, introduction } = outres
       if (res.routes.length === 0) { // no route
         dispatch(setMapDirection({
           polyline: [],
           name,
           introduction,
-          address,
           distance: I18n.t('TripAction.noRoute'),
         }))
       } else {
@@ -371,7 +337,6 @@ export function getMapInfoDirection(outres :any):ThunkAction {
           polyline,
           name,
           introduction,
-          address,
           distance,
         }))
       }
@@ -472,7 +437,7 @@ export function pressMarkerFailure(res: any):Action {
   }
 }
 
-export function pressmarkerfailurewrapper(res: any):ThunkAction {
+export function pressMarkerFailureWrapper(res: any):ThunkAction {
   return dispatch => dispatch(pressMarkerFailure(res))
 }
 

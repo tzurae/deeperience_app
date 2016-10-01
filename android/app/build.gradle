@@ -171,7 +171,6 @@ dependencies {
     compile project(':react-native-i18n')
     compile project(':react-native-facebook-login')
     compile "com.airbnb.android:react-native-maps:0.7.1"
-    compile project(':RNSound')
     compile project(':react-native-audio-toolkit')
 }
 

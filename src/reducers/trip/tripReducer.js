@@ -145,7 +145,6 @@ export default function tripReducer(state = initialState, action) {
       return state.setIn(['mapInfo', 'mainTitle'], action.payload.name)
                   .setIn(['mapInfo', 'subTitle'], action.payload.name)
                   .setIn(['mapInfo', 'content'], action.payload.introduction)
-                  .setIn(['mapInfo', 'address'], action.payload.address)
                   .setIn(['mapInfo', 'polyline'], action.payload.polyline)
                   .setIn(['mapInfo', 'distance'], action.payload.distance)
 
