@@ -91,21 +91,12 @@ class SiteContent extends React.Component {
     })
   }
 
-  onMarkerPress({ name, introduction, address, audioURL }) {
-    new Promise((resolve) => {
+  onMarkerPress({ name, introduction, address }) {
+    try {
       this.props.actions.getMapInfoDirection({ name, introduction, address })
-      resolve()
-    }).then(() => new Promise((resolve) => {
-      this.props.actions.setAudioWrapper({
-        audioURL,
-        audioPosition: 0,
-      })
-      resolve()
-    }))
-      .then(() => this.prepareAudio())
-      .then((res) => {
-        this.props.actions.setAudioWrapper(res)
-      }).catch(err => this.props.actions.pressMarkerFailureWrapper(err))
+    } catch (err) {
+      this.props.actions.pressMarkerFailureWrapper(err)
+    }
   }
 
   onPausePress() {

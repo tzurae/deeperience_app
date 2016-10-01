@@ -22,7 +22,7 @@ export function calculateTripInfo(routes, startSites, allSites) {
       filterRoutes.forEach((filterRoute) => {
         const destString = getDestId(filterRoute)
         const xpos = layerArray[ypos] + 1
-        if (dailyPos[destString] === undefined) {
+        if (!dailyPos[destString]) {
           dailyPos[destString] = { xpos, ypos }
 
           frontQueue.push(destToStart({ ...filterRoute, xpos, ypos }))
@@ -33,7 +33,6 @@ export function calculateTripInfo(routes, startSites, allSites) {
           if (ypos > oldyPos) {
             dailyPos[destString] = { xpos, ypos }
             layerArray[ypos]++
-            layerArray[oldyPos]--
           }
         }
       })
@@ -73,7 +72,6 @@ export function calculateTripInfo(routes, startSites, allSites) {
     siteStatus.push(status)
     allInfo.push({ ylayer, sites, routes: dailyRoutes })
   })
-
   console.log(allInfo)
   console.log(siteStatus)
   return { allInfo, siteStatus }

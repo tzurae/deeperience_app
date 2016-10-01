@@ -53,5 +53,6 @@ export default StyleSheet.create({
     backgroundColor: '#eaeaea',
     zIndex: 1000,
     top: 35,
+    textAlign: 'center',
   },
 })

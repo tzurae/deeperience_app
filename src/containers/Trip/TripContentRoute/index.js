@@ -86,7 +86,7 @@ class TripContentRoute extends React.Component {
     const dispatchSite = this.props.trip.tripInfo[this.props.trip.displayDay].sites[this.props.trip.displayWhich]
     this.props.actions.setMapInfoWrapper(dispatchSite)
     this.props.actions.setAudioWrapper({
-      audioURL: dispatchSite.content.mapSite[0].audioURL,
+      audioURL: dispatchSite.content.audioURL,
       audioPosition: 0,
     })
     Actions.SiteContent()
