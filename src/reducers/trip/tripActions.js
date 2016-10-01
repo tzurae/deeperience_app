@@ -44,6 +44,7 @@ const {
   TOGGLE_DISPLAY_INFO,
 
   TOGGLE_MAP_MODE,
+  TOGGLE_CONTENT_MODE,
 
   SWITCH_DISPLAY_INFO_CARD,
   PRESS_MARKER_FAILURE,
@@ -459,4 +460,14 @@ export function toggleMapMode():Action {
 
 export function toggleMapModeWrapper():ThunkAction {
   return dispatch => dispatch(toggleMapMode())
+}
+
+export function toggleContentMode():Action {
+  return {
+    type: TOGGLE_CONTENT_MODE,
+  }
+}
+
+export function toggleContentModeWrapper():ThunkAction {
+  return dispatch => dispatch(toggleContentMode())
 }

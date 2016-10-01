@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { Map } from 'immutable'
 import * as tripActions from '../../../reducers/trip/tripActions'
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, Image } from 'react-native'
 import Header from '../../../components/Header'
 import styles from './styles'
 import MapView from 'react-native-maps'
@@ -18,6 +18,7 @@ import { Player } from 'react-native-audio-toolkit'
 import Slider from 'react-native-slider'
 import TouchableIcon from '../../../components/TouchableIcon'
 import MainStyle from '../../../styles'
+import HTMLRender from 'react-native-html-render'
 
 import Dimensions from 'Dimensions'
 const { width } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -46,7 +47,8 @@ function mapStateToProps(state) {
       address: state.trip.mapInfo.address,
       audioPosition: state.trip.mapInfo.audioPosition,
       audioURL: state.trip.mapInfo.audioURL,
-      mapDisplayMode: state.trip.mapInfo.displayMode,
+      mapDisplayMode: state.trip.mapInfo.mapDisplayMode,
+      contentDisplayMode: state.trip.mapInfo.contentDisplayMode,
     },
   }
 }
@@ -127,6 +129,9 @@ class SiteContent extends React.Component {
 
   onReturn() {
     clearInterval(this.timerId)
+    if (this.props.trip.contentDisplayMode === true) {
+      this.props.actions.toggleContentModeWrapper()
+    }
     this.audioPlayer.destroy((success) => {
       this.props.actions.resetAudioWrapper()
       Actions.pop()
@@ -134,6 +139,42 @@ class SiteContent extends React.Component {
   }
 
   render() {
+    const htmlStyle = StyleSheet.create({
+      img: {
+        width: width - 30,
+        height: width - 100,
+        resizeMode: Image.resizeMode.contain,
+        margin: 0,
+        padding: 0,
+      },
+      imgWrapper: {
+        marginTop: -25,
+        marginBottom: -35,
+      },
+      p: {
+        fontSize: 16,
+        paddingTop: 0,
+        paddingBottom: 0,
+        lineHeight: 16,
+      },
+      pwrapper: {
+        marginTop: 6,
+        marginBottom: 6,
+      },
+      h6: {
+        fontSize: 14,
+        textAlign: 'center',
+        width,
+        justifyContent: 'center',
+      },
+      h6wrapper: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 0,
+        marginBottom: 12,
+      },
+    })
+
     return (
       <View style={styles.container}>
         <Header
@@ -242,13 +283,31 @@ class SiteContent extends React.Component {
             />
           </MapView>
         </View>
-        <View style={styles.siteContentContainer}>
+        <View style={[
+          styles.siteContentContainer,
+          this.props.trip.contentDisplayMode ?
+          styles.siteContentContainerExpand : {},
+        ]}>
           <Text style={styles.subTitle}>{this.props.trip.subTitle}</Text>
-          <Text style={styles.content}>{this.props.trip.content}</Text>
           <Text style={styles.distance}>{this.props.trip.distance}</Text>
+          <TouchableIcon
+            style={styles.expandContentIcon}
+            underlayColor="#ccc"
+            onPress={() => this.props.actions.toggleContentModeWrapper()}
+            name={this.props.trip.contentDisplayMode ? 'compress' : 'expand'}
+            size={18}
+            color={'black'}
+          />
+          <ScrollView>
+            <HTMLRender
+              stylesheet={htmlStyle}
+              value={this.props.trip.content}
+            />
+          </ScrollView>
         </View>
       </View>
     )
   }
 }
+// <Text style={styles.content}>{this.props.trip.content}</Text>
 export default connect(mapStateToProps, mapDispatchToProps)(SiteContent)

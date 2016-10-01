@@ -45,6 +45,7 @@ const {
   TOGGLE_DISPLAY_INFO,
 
   TOGGLE_MAP_MODE,
+  TOGGLE_CONTENT_MODE,
 
   SWITCH_DISPLAY_INFO_CARD,
 
@@ -189,8 +190,12 @@ export default function tripReducer(state = initialState, action) {
       return state.setIn(['displayInfo', 'displayMode'], !nowState)
 
     case TOGGLE_MAP_MODE:
-      nowState = state.getIn(['mapInfo', 'displayMode'])
-      return state.setIn(['mapInfo', 'displayMode'], !nowState)
+      nowState = state.getIn(['mapInfo', 'mapDisplayMode'])
+      return state.setIn(['mapInfo', 'mapDisplayMode'], !nowState)
+
+    case TOGGLE_CONTENT_MODE:
+      nowState = state.getIn(['mapInfo', 'contentDisplayMode'])
+      return state.setIn(['mapInfo', 'contentDisplayMode'], !nowState)
 
     case SET_MAP_DIRECTION_ERROR:
       return state.setIn(['error'], action.payload)

@@ -95,6 +95,7 @@ export default keyMirror({
   TOGGLE_DISPLAY_INFO: null,
 
   TOGGLE_MAP_MODE: null,
+  TOGGLE_CONTENT_MODE: null,
 
   SWITCH_DISPLAY_INFO_CARD: null,
 

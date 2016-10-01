@@ -70,6 +70,20 @@ export default StyleSheet.create({
       paddingTop: 10,
       paddingBottom: 10,
     },
+    backgroundColor: 'white',
+  },
+  siteContentContainerExpand: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+    ios: {
+      top: 40,
+    },
+    android: {
+      top: 50,
+    },
   },
   subTitle: {
     fontSize: MainStyle.font.big,
@@ -79,16 +93,13 @@ export default StyleSheet.create({
       marginBottom: 10,
     },
   },
-  content: {
-    fontSize: MainStyle.font.medium,
-  },
   distance: {
     fontSize: MainStyle.font.big + 2,
     color: MainStyle.color.main,
     position: 'absolute',
-    right: 20,
+    right: 60,
     ios: {
-      top: 10,
+      top: 12,
     },
     android: {
       top: 8,
@@ -113,5 +124,22 @@ export default StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  expandContentIcon: {
+    position: 'absolute',
+    top: 8,
+    right: 10,
+    backgroundColor: 'white',
+    height: 36,
+    width: 36,
+    zIndex: 20,
+    borderWidth: 1,
+    borderColor: '#CCC',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  content: {
+    fontSize: MainStyle.font.medium,
   },
 })

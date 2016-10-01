@@ -80,6 +80,7 @@ export type Action =
     { type: 'TOGGLE_DISPLAY_INFO' } |
 
     { type: 'TOGGLE_MAP_MODE' } |
+    { type: 'TOGGLE_CONTENT_MODE' } |
 
     { type: 'SWITCH_DISPLAY_INFO_CARD', payload: number } |
     { type: 'PRESS_MARKER_FAILURE', payload: any }

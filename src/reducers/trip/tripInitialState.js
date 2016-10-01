@@ -52,7 +52,8 @@ const InitialState = Record({
     audioPosition: 0,
     audioURL: '',
     isFetching: false,
-    displayMode: false, // false: half, true: whole mode
+    mapDisplayMode: false, // false: half, true: whole mode
+    contentDisplayMode: false, // false: half, true: whole mode
   }))(),
   isFetching: false,
   error: null,
