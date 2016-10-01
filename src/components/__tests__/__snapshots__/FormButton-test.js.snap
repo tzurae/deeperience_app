@@ -35,7 +35,9 @@ exports[`test FormButton 1`] = `
     }
     testID={undefined}>
     <Text
-      allowFontScaling={undefined}
+      accessible={true}
+      allowFontScaling={true}
+      lineBreakMode="tail"
       style={
         Array [
           Object {

@@ -3,6 +3,7 @@ import path from 'path';
 import register from 'babel-core/register';
 import chai from 'chai';
 import chaiEnzyme from 'chai-enzyme';
+import mockery from 'mockery'
 
 
 // Ignore all node_modules except these
@@ -33,8 +34,15 @@ register(config);
 global.__DEV__ = true;
 global.expect = chai.expect;
 chai.use(chaiEnzyme());
+
+
 // Setup mocks
 require('react-native-mock/mock');
+mockery.enable()
+mockery.warnOnUnregistered(false)
+mockery.registerMock('react-native-router-flux',1)
+
+
 require('babel-polyfill');
 
 const React = require('react-native')

@@ -230,9 +230,9 @@ describe('authReducer', () => {
      * provide valid input and the form should be valid
      */
     it('form is  valid with valid fields', () => {
-      const userNameFieldChangeAction = {
+      const emailFieldChangeAction = {
         type: ON_AUTH_FORM_FIELD_CHANGE,
-        payload: {field: 'username', value: 'barton'},
+        payload: {field: 'email', value: 'barton@x.com'},
       };
       const passwordFieldChangeAction = {
         type: ON_AUTH_FORM_FIELD_CHANGE,
@@ -240,7 +240,7 @@ describe('authReducer', () => {
       };
 
       let userNameState = authReducer(initialState,
-                                      userNameFieldChangeAction);
+                                      emailFieldChangeAction);
       let passwordState = authReducer(userNameState,
                                       passwordFieldChangeAction);
 

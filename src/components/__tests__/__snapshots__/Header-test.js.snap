@@ -1,94 +1,55 @@
-exports[`Header should be display empty text when not fetching 1`] = `
-<View>
-  <View
+exports[`<Header /> render if Head_text is empty 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#F78B6D",
+      "justifyContent": "center",
+      "marginTop": 20
+    }
+  }>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    lineBreakMode="tail"
     style={
       Object {
-        "alignItems": "center",
-        "backgroundColor": "transparent",
-        "justifyContent": "center",
-        "marginTop": 20
+        "color": "#ffffff",
+        "fontSize": 20,
+        "fontWeight": "bold",
+        "lineHeight": 30,
+        "marginBottom": 10
       }
     }>
-    <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
-      accessible={true}
-      hitSlop={undefined}
-      onLayout={undefined}
-      onResponderGrant={[Function bound touchableHandleResponderGrant]}
-      onResponderMove={[Function bound touchableHandleResponderMove]}
-      onResponderRelease={[Function bound touchableHandleResponderRelease]}
-      onResponderTerminate={[Function bound touchableHandleResponderTerminate]}
-      onResponderTerminationRequest={[Function bound touchableHandleResponderTerminationRequest]}
-      onStartShouldSetResponder={[Function bound touchableHandleStartShouldSetResponder]}
-      style={
-        Array [
-          Object {
-            "backgroundColor": "transparent"
-          },
-          undefined
-        ]
-      }
-      testID={undefined}>
-      <Image
-        source={1}
-        style={
-          Object {
-            "height": 100,
-            "width": 100
-          }
-        } />
-    </View>
-  </View>
+    
+  </Text>
 </View>
 `;
 
-exports[`Header should be display spinner when fetching 1`] = `
-<View>
-  <View
+exports[`<Header /> render if Head_text not empty 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#F78B6D",
+      "justifyContent": "center",
+      "marginTop": 20
+    }
+  }>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    lineBreakMode="tail"
     style={
       Object {
-        "alignItems": "center",
-        "backgroundColor": "transparent",
-        "justifyContent": "center",
-        "marginTop": 20
+        "color": "#ffffff",
+        "fontSize": 20,
+        "fontWeight": "bold",
+        "lineHeight": 30,
+        "marginBottom": 10
       }
     }>
-    <View
-      accessibilityComponentType={undefined}
-      accessibilityLabel={undefined}
-      accessibilityTraits={undefined}
-      accessible={true}
-      hitSlop={undefined}
-      onLayout={undefined}
-      onResponderGrant={[Function bound touchableHandleResponderGrant]}
-      onResponderMove={[Function bound touchableHandleResponderMove]}
-      onResponderRelease={[Function bound touchableHandleResponderRelease]}
-      onResponderTerminate={[Function bound touchableHandleResponderTerminate]}
-      onResponderTerminationRequest={[Function bound touchableHandleResponderTerminationRequest]}
-      onStartShouldSetResponder={[Function bound touchableHandleStartShouldSetResponder]}
-      style={
-        Array [
-          Object {
-            "backgroundColor": "transparent"
-          },
-          undefined
-        ]
-      }
-      testID={undefined}>
-      <Image
-        source={1}
-        style={
-          Object {
-            "height": 100,
-            "width": 100
-          }
-        } />
-    </View>
-    <ActivityIndicator
-      animating={true}
-      size="large" />
-  </View>
+    test
+  </Text>
 </View>
 `;
