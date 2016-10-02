@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { Map } from 'immutable'
 import * as tripActions from '../../../reducers/trip/tripActions'
 import React from 'react'
-import { View, Text, ScrollView, StyleSheet, Image } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import Header from '../../../components/Header'
 import styles from './styles'
 import MapView from 'react-native-maps'
@@ -17,7 +17,7 @@ import { convertSecondToTime } from '../../../reducers/trip/tripHelper'
 import { Player } from 'react-native-audio-toolkit'
 import Slider from 'react-native-slider'
 import TouchableIcon from '../../../components/TouchableIcon'
-import MainStyle from '../../../styles'
+import MainStyle, { HTMLStyle } from '../../../styles'
 import HTMLRender from 'react-native-html-render'
 
 import Dimensions from 'Dimensions'
@@ -49,6 +49,8 @@ function mapStateToProps(state) {
       audioURL: state.trip.mapInfo.audioURL,
       mapDisplayMode: state.trip.mapInfo.mapDisplayMode,
       contentDisplayMode: state.trip.mapInfo.contentDisplayMode,
+      displayDay: state.trip.displayInfo.displayDay,
+      displayWhich: state.trip.displayInfo.displayWhich,
     },
   }
 }
@@ -68,11 +70,21 @@ function mapDispatchToProps(dispatch) {
 class SiteContent extends React.Component {
 
   componentWillMount() {
-    this.prepareAudio().then(res => {
-      console.log(res)
-      this.props.actions.setAudioWrapper(res)
-    }).then(() => this.props.actions.setMapInfoSuccessWrapper())
-      .catch(err => this.props.actions.setMapInfoFailureWrapper(err))
+    const dispatchSite = this.props.trip.tripInfo[this.props.trip.displayDay].sites[this.props.trip.displayWhich]
+
+    return new Promise((resolve) => {
+      this.props.actions.setMapInfoWrapper(dispatchSite)
+      this.props.actions.setAudioWrapper({
+        audioURL: dispatchSite.content.audioURL,
+        audioPosition: 0,
+      })
+      resolve()
+    }).then(() => {
+      this.prepareAudio().then(res => {
+        this.props.actions.setAudioWrapper(res)
+      }).then(() => this.props.actions.setMapInfoSuccessWrapper())
+        .catch(err => this.props.actions.setMapInfoFailureWrapper(err))
+    })
   }
 
   prepareAudio() {
@@ -139,42 +151,6 @@ class SiteContent extends React.Component {
   }
 
   render() {
-    const htmlStyle = StyleSheet.create({
-      img: {
-        width: width - 30,
-        height: width - 100,
-        resizeMode: Image.resizeMode.contain,
-        margin: 0,
-        padding: 0,
-      },
-      imgWrapper: {
-        marginTop: -25,
-        marginBottom: -35,
-      },
-      p: {
-        fontSize: 16,
-        paddingTop: 0,
-        paddingBottom: 0,
-        lineHeight: 16,
-      },
-      pwrapper: {
-        marginTop: 6,
-        marginBottom: 6,
-      },
-      h6: {
-        fontSize: 14,
-        textAlign: 'center',
-        width,
-        justifyContent: 'center',
-      },
-      h6wrapper: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginTop: 0,
-        marginBottom: 12,
-      },
-    })
-
     return (
       <View style={styles.container}>
         <Header
@@ -300,7 +276,7 @@ class SiteContent extends React.Component {
           />
           <ScrollView>
             <HTMLRender
-              stylesheet={htmlStyle}
+              stylesheet={HTMLStyle}
               value={this.props.trip.content}
             />
           </ScrollView>

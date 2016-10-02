@@ -82,12 +82,6 @@ class TripContentRoute extends React.Component {
   }
 
   goToMap() {
-    const dispatchSite = this.props.trip.tripInfo[this.props.trip.displayDay].sites[this.props.trip.displayWhich]
-    this.props.actions.setMapInfoWrapper(dispatchSite)
-    this.props.actions.setAudioWrapper({
-      audioURL: dispatchSite.content.audioURL,
-      audioPosition: 0,
-    })
     Actions.SiteContent()
   }
 
@@ -123,7 +117,7 @@ class TripContentRoute extends React.Component {
         styles.container,
         { height: Platform.OS === 'ios' ? height - 80 : height - 110, width }]}>
         <Loading
-          visible={this.props.trip.isFetching}
+          visible={this.props.trip.isFetching || this.props.trip.mapInfo.isFetching}
           text={I18n.t('TripContent.fetchingData')}
         />
         {this.props.trip.tripInfo.map((dailyTrip, dIndex) => (
