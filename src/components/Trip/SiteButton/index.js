@@ -1,28 +1,8 @@
 'use strict'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { Map } from 'immutable'
 import React, { PropTypes } from 'react'
 import styles from './styles'
 import Button from 'react-native-button'
 import { View, Text } from 'react-native'
-import * as tripActions from '../../../reducers/trip/tripActions'
-
-const actions = [
-  tripActions,
-]
-
-function mapDispatchToProps(dispatch) {
-  const creators = Map()
-            .merge(...actions)
-            .filter(value => typeof value === 'function')
-            .toObject()
-
-  return {
-    actions: bindActionCreators(creators, dispatch),
-    dispatch,
-  }
-}
 
 class SiteButton extends React.Component {
 
@@ -30,32 +10,12 @@ class SiteButton extends React.Component {
     status: PropTypes.number,
     top: PropTypes.number,
     left: PropTypes.number,
-    order: PropTypes.number,
   }
+
   static defaultProps = {
     status: 0,
     top: 0,
     left: 0,
-    order: 0,
-  }
-
-  onPress() {
-    if (this.props.status === 0) return
-
-    const { name, introduction } = this.props.siteInfo.content
-    this.props.dispatch(
-      this.props.actions.setDisplayInfo({
-        title: name, introduction,
-      })
-    )
-    this.props.dispatch(this.props.actions.deactivateSiteBtn())
-    this.props.dispatch(
-      this.props.actions.activateSiteBtn({
-        day: this.props.siteInfo.day,
-        order: this.props.order,
-      })
-    )
-    this.props.dispatch(this.props.actions.switchDisplayInfoCard(0))
   }
 
   render() {
@@ -117,11 +77,11 @@ class SiteButton extends React.Component {
             left: 36,
             zIndex: 10,
           }}
-          onPress={() => this.onPress()}
+          onPress={() => this.props.onPress()}
         />
       </View>
     )
   }
 }
 
-export default connect(null, mapDispatchToProps)(SiteButton)
+export default SiteButton

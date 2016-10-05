@@ -19,6 +19,7 @@ import TouchableIcon from '../../../components/TouchableIcon'
 import Loading from '../../../components/Loading'
 import I18n from '../../../lib/i18n'
 import { setSiteStatusStorage } from '../../../reducers/trip/tripHelper'
+import MenuDrawer from '../../../components/Trip/MenuDrawer'
 
 import Dimensions from 'Dimensions'
 const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -101,23 +102,6 @@ class TripContentRoute extends React.Component {
     }
   }
 
-  unlock() {
-    const status = []
-
-    this.props.trip.siteStatus.forEach(site => { // deep copy status
-      status.push(site)
-    })
-
-    status[this.props.trip.displayDay][this.props.trip.displayWhich] = 3
-    status[this.props.trip.displayDay] = status[this.props.trip.displayDay].map(site => {
-      return site === 5 ? 0 : site
-    })
-    setSiteStatusStorage(this.props.trip.tripKey, status).then(() => { // store local first, then dispatch siteStatus
-      status[this.props.trip.displayDay][this.props.trip.displayWhich] = 4
-      this.props.dispatch(this.props.actions.setSiteStatus(status))
-    })
-  }
-
   setFrontier() {
     const status = []
     const routes = this.props.trip.tripInfo[this.props.trip.displayDay].routes
@@ -165,6 +149,40 @@ class TripContentRoute extends React.Component {
     this.props.dispatch(this.props.actions.closeDisplayInfo())
 
     setSiteStatusStorage(this.props.trip.tripKey, status)
+  }
+
+  unlock() {
+    const status = []
+
+    this.props.trip.siteStatus.forEach(site => { // deep copy status
+      status.push(site)
+    })
+
+    status[this.props.trip.displayDay][this.props.trip.displayWhich] = 3
+    status[this.props.trip.displayDay] = status[this.props.trip.displayDay].map(site => {
+      return site === 5 ? 0 : site
+    })
+    setSiteStatusStorage(this.props.trip.tripKey, status).then(() => { // store local first, then dispatch siteStatus
+      status[this.props.trip.displayDay][this.props.trip.displayWhich] = 4
+      this.props.dispatch(this.props.actions.setSiteStatus(status))
+    })
+  }
+
+  siteBtnClick(name, introduction, day, order) {
+    if (this.props.status === 0) return
+
+    this.props.dispatch(
+      this.props.actions.setDisplayInfo({
+        title: name, introduction,
+      })
+    )
+    this.props.dispatch(this.props.actions.deactivateSiteBtn())
+    this.props.dispatch(
+      this.props.actions.activateSiteBtn({
+        day, order,
+      })
+    )
+    this.props.dispatch(this.props.actions.switchDisplayInfoCard(0))
   }
 
   render() {
@@ -227,9 +245,14 @@ class TripContentRoute extends React.Component {
                 <SiteButton
                   top = {site.pos.ypos * 100 + 50}
                   left = {(site.pos.xpos + 1) / (dailyTrip.ylayer[site.pos.ypos] + 1) * width - btnBigRadius}
-                  siteInfo = {site}
-                  order = {siteOrder}
                   status = {this.props.trip.siteStatus[dIndex][siteOrder]}
+                  onPress = {() =>
+                    this.siteBtnClick(
+                      site.content.name,
+                      site.content.introduction,
+                      dIndex,
+                      siteOrder
+                  )}
                   key = {site.siteKey}
                 >
                   {site.content.name}
@@ -417,123 +440,37 @@ class TripContentRoute extends React.Component {
                       color="#999"
                     />
                   </View>
-                  <View style={[
-                    styles.iconContainer,
-                    this.props.trip.sidebarDisplayMode ? { right: 0 } : { right: -175 },
-                    this.props.trip.displayInfoMode ?
-                    { width: 60, justifyContent: 'center' } :
-                    {},
-                  ]}>
-                    <TouchableIcon
-                      style={styles.sideIcon}
-                      textStyle={styles.sideIconText}
-                      onPress={() => this.props.actions.toggleSidebarWrapper()}
-                      name="angle-double-right"
-                      size={20}
-                      color="white"
-                      activeColor="#FF8000"
-                    >{I18n.t('IconSidebar.close')}</TouchableIcon>
-                    <TouchableIcon
-                      style={styles.sideIcon}
-                      textStyle={styles.sideIconText}
-                      onPress={() => {
-                        this.switchDisplayInfoTab(0)
-                        this.props.actions.toggleSidebarWrapper()
-                      }}
-                      name="info"
-                      size={20}
-                      color="white"
-                      activeColor="#FF8000"
-                      active={this.props.trip.displayWhichCard === 0}
-                    >{I18n.t('IconSidebar.introduction')}</TouchableIcon>
-                    {(() => {
-                      if (this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich] !== 6) {
-                        return (
-                          <TouchableIcon
-                            style={styles.sideIcon}
-                            textStyle={styles.sideIconText}
-                            onPress={() => {
-                              this.goToMap()
-                              this.props.actions.toggleSidebarWrapper()
-                            }}
-                            name="map-o"
-                            size={20}
-                            color="white"
-                            activeColor="#FF8000"
-                          >{I18n.t('IconSidebar.guide')}</TouchableIcon>
-                        )
-                      }
-                    })()}
-                    {(() => {
-                      if (this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich] !== 6) {
-                        return (
-                          <TouchableIcon
-                            style={styles.sideIcon}
-                            textStyle={styles.sideIconText}
-                            onPress={() => {
-                              this.switchDisplayInfoTab(1)
-                              this.props.actions.toggleSidebarWrapper()
-                            }}
-                            name="subway"
-                            size={20}
-                            color="white"
-                            activeColor="#FF8000"
-                            active={this.props.trip.displayWhichCard === 1}
-                          >{I18n.t('IconSidebar.transportation')}</TouchableIcon>
-                        )
-                      }
-                    })()}
-                    {(() => {
-                      if (this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich] === 4) {
-                        return (
-                          <TouchableIcon
-                            style={styles.sideIcon}
-                            textStyle={styles.sideIconText}
-                            onPress={() => {
-                              this.setFrontier()
-                              this.props.actions.toggleSidebarWrapper()
-                            }}
-                            name="check"
-                            size={20}
-                            color="white"
-                            activeColor="#FF8000"
-                          >{I18n.t('IconSidebar.done')}</TouchableIcon>
-                        )
-                      }
-                    })()}
-                    {(() => {
-                      if (this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich] === 6) {
-                        return (
-                          <TouchableIcon
-                            style={styles.sideIcon}
-                            textStyle={styles.sideIconText}
-                            onPress={() => {
-                              this.unlock()
-                              this.props.actions.toggleSidebarWrapper()
-                            }}
-                            name="unlock"
-                            size={20}
-                            color="white"
-                            activeColor="#FF8000"
-                          >{I18n.t('IconSidebar.unlock')}</TouchableIcon>
-                        )
-                      }
-                    })()}
-                    <TouchableIcon
-                      style={styles.sideIcon}
-                      textStyle={styles.sideIconText}
-                      onPress={() => {
-                        this.props.actions.toggleSidebarWrapper()
-                        this.props.actions.toggleDisplayInfoWrapper()
-                      }}
-                      name={this.props.trip.displayInfoMode ? 'angle-double-down' : 'angle-double-up'}
-                      size={20}
-                      color="white"
-                      activeColor="#FF8000"
-                    >
-                      {this.props.trip.displayInfoMode ? I18n.t('IconSidebar.closeDown') : I18n.t('IconSidebar.openUp')}
-                    </TouchableIcon>
-                  </View>
+                  <MenuDrawer
+                    whichCard={this.props.trip.displayWhichCard}
+                    status={this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich]}
+                    sidebarDisplayMode={this.props.trip.sidebarDisplayMode}
+                    displayInfoMode={this.props.trip.displayInfoMode}
+                    closeFunc={() => this.props.actions.toggleSidebarWrapper()}
+                    introductionFunc={() => {
+                      this.switchDisplayInfoTab(0)
+                      this.props.actions.toggleSidebarWrapper()
+                    }}
+                    guideFunc={() => {
+                      this.goToMap()
+                      this.props.actions.toggleSidebarWrapper()
+                    }}
+                    transportationFunc={() => {
+                      this.switchDisplayInfoTab(1)
+                      this.props.actions.toggleSidebarWrapper()
+                    }}
+                    doneFunc={() => {
+                      this.setFrontier()
+                      this.props.actions.toggleSidebarWrapper()
+                    }}
+                    unlockFunc={() => {
+                      this.unlock()
+                      this.props.actions.toggleSidebarWrapper()
+                    }}
+                    closeExpandFunc={() => {
+                      this.props.actions.toggleSidebarWrapper()
+                      this.props.actions.toggleDisplayInfoWrapper()
+                    }}
+                  />
                 </View>
               )
             }
