@@ -6,24 +6,29 @@ export default (key) => ({
     return createStorageEngine(key)
             .load()
             .then(res => {
-              const now = new Date()
-              console.groupCollapsed(`%c load @ ${now.getHours()}:${now.getMinutes()}` +
-                `:${now.getSeconds()}:${now.getMilliseconds()} key = ${key}`,
-                'fontWeight: bold, color:"black"'
-              )
-              console.log(res)
-              console.groupEnd()
+              if (console.groupCollapsed && console.groupEnd) {
+                const now = new Date()
+
+                console.groupCollapsed(`%c load @ ${now.getHours()}:${now.getMinutes()}` +
+                  `:${now.getSeconds()}:${now.getMilliseconds()} key = ${key}`,
+                  'fontWeight: bold, color:"black"'
+                )
+                console.log(res)
+                console.groupEnd()
+              }
               return res
             })
   },
   save(state) {
-    const now = new Date()
-    console.groupCollapsed(`%c save @ ${now.getHours()}:${now.getMinutes()}` +
-      `:${now.getSeconds()}:${now.getMilliseconds()} key = ${key}`,
-      'fontWeight: bold, color: black'
-    )
-    console.log(state)
-    console.groupEnd()
+    if (console.groupCollapsed && console.groupEnd) {
+      const now = new Date()
+      console.groupCollapsed(`%c save @ ${now.getHours()}:${now.getMinutes()}` +
+        `:${now.getSeconds()}:${now.getMilliseconds()} key = ${key}`,
+        'fontWeight: bold, color: black'
+      )
+      console.log(state)
+      console.groupEnd()
+    }
 
     return createStorageEngine(key).save(state)
   },

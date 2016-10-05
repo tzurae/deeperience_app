@@ -80,10 +80,12 @@ class SiteContent extends React.Component {
       })
       resolve()
     }).then(() => {
-      this.prepareAudio().then(res => {
-        this.props.actions.setAudioWrapper(res)
-      }).then(() => this.props.actions.setMapInfoSuccessWrapper())
-        .catch(err => this.props.actions.setMapInfoFailureWrapper(err))
+      setTimeout(() => {
+        this.prepareAudio().then(res => {
+          this.props.actions.setAudioWrapper(res)
+        }).then(() => this.props.actions.setMapInfoSuccessWrapper())
+          .catch(err => this.props.actions.setMapInfoFailureWrapper(err))
+      }, 100) // because this action takes time to finish, so we must make it asynchronous
     })
   }
 
@@ -114,23 +116,27 @@ class SiteContent extends React.Component {
   }
 
   onPausePress() {
-    this.audioPlayer.pause((success) => {
-      if (success === null) clearInterval(this.timerId)
-    })
+    if (this.audioPlayer) {
+      this.audioPlayer.pause((success) => {
+        if (success === null) clearInterval(this.timerId)
+      })
+    }
   }
 
   onPlayPress() {
-    this.audioPlayer.play((success) => {
-      clearInterval(this.timerId)
-      this.props.actions.setAudioWrapper({ // for ios
-        audioDuration: Math.floor(this.audioPlayer.duration),
-      })
-      this.timerId = setInterval(() => {
-        this.props.actions.setAudioWrapper({
-          audioPosition: this.audioPlayer.currentTime,
+    if (this.audioPlayer) {
+      this.audioPlayer.play((success) => {
+        clearInterval(this.timerId)
+        this.props.actions.setAudioWrapper({ // for ios
+          audioDuration: Math.floor(this.audioPlayer.duration),
         })
-      }, 250)
-    })
+        this.timerId = setInterval(() => {
+          this.props.actions.setAudioWrapper({
+            audioPosition: this.audioPlayer.currentTime,
+          })
+        }, 250)
+      })
+    }
   }
 
   audioPlay(percent) {

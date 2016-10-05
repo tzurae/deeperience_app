@@ -138,6 +138,7 @@ export default function tripReducer(state = initialState, action) {
                   .setIn(['mapInfo', 'subTitle'], action.payload.content.mapSite[0].name)
                   .setIn(['mapInfo', 'content'], action.payload.content.mapSite[0].introduction)
                   .setIn(['mapInfo', 'pos'], action.payload.content.mapSite[0].position)
+                  .setIn(['mapInfo', 'polyline'], [])
                   .setIn(['mapInfo', 'markers'], action.payload.content.mapSite)
                   .setIn(['mapInfo', 'address'], action.payload.content.mapSite[0].address)
                   .setIn(['mapInfo', 'isFetching'], true)

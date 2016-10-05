@@ -47,6 +47,7 @@ export const HTMLStyle = StyleSheet.create({
   },
   h5: {
     fontSize: 18,
+    color: 'black',
   },
   h5wrapper: {
     marginTop: 0,
