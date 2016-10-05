@@ -29,9 +29,9 @@ class Header extends React.Component {
                 style={styles.backIcon}
                 onPress={() => this.props.onReturn()}
                 underlayColor={MainStyle.color.main}
-                name={"chevron-left"}
+                name="chevron-left"
                 size={30}
-                color={"white"}
+                color="white"
               />
               )
           }

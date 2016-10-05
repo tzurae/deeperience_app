@@ -146,7 +146,7 @@ export default function native(platform) {
               />
               <Scene key="Main"
                      title={I18n.t('Nav.planList')}
-                     iconName={"list-ul"}
+                     iconName="list-ul"
                      icon={TabIcon}
                      hideNavBar={true}
                      component={Main}
