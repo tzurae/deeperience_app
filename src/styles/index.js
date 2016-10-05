@@ -21,17 +21,17 @@ export const HTMLStyle = StyleSheet.create({
   },
   imgWrapper: {
     marginTop: -25,
-    marginBottom: -35,
+    marginBottom: -15,
   },
   p: {
     fontSize: 16,
     paddingTop: 0,
     paddingBottom: 0,
-    lineHeight: 16,
+    lineHeight: 18,
   },
   pwrapper: {
     marginTop: 6,
-    marginBottom: 6,
+    marginBottom: 20,
   },
   h6: {
     fontSize: 14,
@@ -42,6 +42,13 @@ export const HTMLStyle = StyleSheet.create({
   h6wrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginTop: 0,
+    marginBottom: 12,
+  },
+  h5: {
+    fontSize: 18,
+  },
+  h5wrapper: {
     marginTop: 0,
     marginBottom: 12,
   },

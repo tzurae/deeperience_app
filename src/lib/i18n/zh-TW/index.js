@@ -72,7 +72,7 @@ export default {
   "TripContent": {
     "fetchingData": "讀取詳細行程⋯⋯",
     "fetchingTransitData": "讀取資料中⋯⋯",
-    "noRoute": "對不起，查無方法到達目的地",
+    "noRoute": "對不起，查無路線。",
     "noFareData": "無資料",
     "ride": "搭乘",
     "from": "從",
@@ -80,5 +80,15 @@ export default {
   },
   "TripAction": {
     "noRoute": "-- m",
-  }
+  },
+  "IconSidebar": {
+    "close": "收起",
+    "guide": "導覽",
+    "closeDown": "縮小",
+    "openUp": "放大",
+    "introduction": "簡介",
+    "transportation": "路線",
+    "done": "完成",
+    "unlock": "解鎖",
+  },
 }

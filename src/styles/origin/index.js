@@ -7,7 +7,7 @@ export default {
   },
   color: {
     main: '#F78B6D',
-    mainShadow: 'rgba(247,139,109,0.3)',
+    mainShadow: 'rgba(247,139,109,0.5)',
   },
   button: {
 

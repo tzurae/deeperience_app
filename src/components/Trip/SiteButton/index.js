@@ -40,6 +40,8 @@ class SiteButton extends React.Component {
   }
 
   onPress() {
+    if (this.props.status === 0) return
+
     const { name, introduction } = this.props.siteInfo.content
     this.props.dispatch(
       this.props.actions.setDisplayInfo({
@@ -69,10 +71,17 @@ class SiteButton extends React.Component {
         <View
           style={[styles.site, (() => {
             switch (this.props.status) {
-              case 0:
+              case 0: // locked
                 return styles.siteDeactive
-              case 1:
-                return styles.siteActive
+              case 1: // unlocked and unclick
+              case 3: // pioneer and unclick
+                return styles.siteActiveUnclick
+              case 2: // unlocked and click
+              case 4: // pioneer and click
+              case 6: // frontier and click
+                return styles.siteActiveClick
+              case 5: // frontier and click
+                return styles.siteFrontier
             }
           })()]}
         />
@@ -83,11 +92,20 @@ class SiteButton extends React.Component {
               case 0:
                 return styles.siteBackgroundDeactive
               case 1:
-                return styles.siteBackgroundActive
+              case 3:
+                return styles.siteBackgroundActiveUnclick
+              case 2:
+              case 4:
+              case 6:
+                return styles.siteBackgroundActiveClick
+              case 5:
+                return styles.siteFrontier
             }
           })()]}
         />
-        <Text style={styles.siteName}>{this.props.children}</Text>
+        <Text style={styles.siteName}>
+          {this.props.status !== 0 ? this.props.children : ''}
+        </Text>
         <Button
           containerStyle={{
             width: 28,

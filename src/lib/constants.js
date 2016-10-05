@@ -93,6 +93,7 @@ export default keyMirror({
   SET_DISPLAY_INFO_TRANSIT_SUCCESS: null,
   SET_DISPLAY_INFO_TRANSIT_FAILURE: null,
   TOGGLE_DISPLAY_INFO: null,
+  TOGGLE_SIDEBAR: null,
 
   TOGGLE_MAP_MODE: null,
   TOGGLE_CONTENT_MODE: null,
@@ -100,4 +101,6 @@ export default keyMirror({
   SWITCH_DISPLAY_INFO_CARD: null,
 
   PRESS_MARKER_FAILURE: null,
+
+  CLEAR_TRIP_LOCAL_STORAGE: null,
 })

@@ -2,10 +2,11 @@
 'use strict'
 import ApiFactory from '../../api/apiFactory'
 import type { ThunkAction, Action } from '../../lib/types'
-import { calculateTripInfo, convertPolyline } from './tripHelper'
+import { calculateTripInfo, convertPolyline, setSiteStatusStorage } from './tripHelper'
 import { auth } from '../../config'
 import I18n from '../../lib/i18n'
 import _ from 'underscore'
+import storageEngine from '../../lib/localStorage'
 
 const {
   GET_ALL_TRIP,
@@ -42,6 +43,7 @@ const {
   SET_DISPLAY_INFO_TRANSIT_SUCCESS,
   SET_DISPLAY_INFO_TRANSIT_FAILURE,
   TOGGLE_DISPLAY_INFO,
+  TOGGLE_SIDEBAR,
 
   TOGGLE_MAP_MODE,
   TOGGLE_CONTENT_MODE,
@@ -184,11 +186,17 @@ export function getTripContentById(tripId:string):ThunkAction {
           })
           return allSites
         }).then(allSites => {
-          dispatch(
-            setSiteContentSuccess(
-              calculateTripInfo(routes, startSites, allSites)
-            )
-          )
+          const tripInfo = calculateTripInfo(routes, startSites, allSites)
+          dispatch(setSiteContentSuccess(tripInfo))
+
+          storageEngine(tripId).load().then(res => {
+            console.log(res)
+            if (!res.siteStatus) setSiteStatusStorage(tripId, tripInfo.siteStatus)
+            else {
+              dispatch(setSiteStatus(res.siteStatus))
+              setSiteStatusStorage(tripId, res.siteStatus)
+            }
+          })
         })
       })
       .catch((error) => {
@@ -471,3 +479,14 @@ export function toggleContentMode():Action {
 export function toggleContentModeWrapper():ThunkAction {
   return dispatch => dispatch(toggleContentMode())
 }
+
+export function toggleSidebar():Action {
+  return {
+    type: TOGGLE_SIDEBAR,
+  }
+}
+
+export function toggleSidebarWrapper():ThunkAction {
+  return dispatch => dispatch(toggleSidebar())
+}
+

@@ -16,11 +16,20 @@ export default StyleSheet.create({
     left: 50 - btnRadius,
     zIndex: 3,
   },
-  siteActive: {
-    backgroundColor: 'blue',
+  siteActiveClick: {
+    backgroundColor: '#FF4400',
+  },
+  siteActiveUnclick: {
+    backgroundColor: MainStyle.color.main,
   },
   siteDeactive: {
+    backgroundColor: 'grey',
+  },
+  sitePioneer: {
     backgroundColor: MainStyle.color.main,
+  },
+  siteFrontier: {
+    backgroundColor: 'green',
   },
   siteShadow: {
     borderRadius: btnRadius,
@@ -35,24 +44,35 @@ export default StyleSheet.create({
   },
   siteBackground: {
     borderRadius: btnBigRadius,
-    opacity: 0.5,
+    opacity: 0.4,
     zIndex: 1,
     width: btnBigDiameter,
     height: btnBigDiameter,
     position: 'absolute',
     left: 50 - btnBigRadius,
   },
-  siteBackgroundActive: {
-    backgroundColor: 'blue',
+  siteBackgroundActiveClick: {
+    backgroundColor: '#FF4400',
+  },
+  siteBackgroundActiveUnclick: {
+    backgroundColor: MainStyle.color.main,
   },
   siteBackgroundDeactive: {
+    backgroundColor: 'grey',
+  },
+  siteBackgroundPioneer: {
     backgroundColor: MainStyle.color.main,
+  },
+  siteBackgroundFrontier: {
+    backgroundColor: 'green',
   },
   siteName: {
     position: 'relative',
-    backgroundColor: '#eaeaea',
+    backgroundColor: 'transparent',
+    color: 'white',
     zIndex: 1000,
     top: 35,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
 })

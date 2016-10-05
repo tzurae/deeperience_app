@@ -1,5 +1,7 @@
 'use strict'
 import _ from 'underscore'
+import storageEngine from '../../lib/localStorage'
+
 export function calculateTripInfo(routes, startSites, allSites) {
   const allInfo = [] // array by day
   const siteStatus = [] // site active or not
@@ -61,6 +63,7 @@ export function calculateTripInfo(routes, startSites, allSites) {
         siteKey: key,
       })
     })
+    status[0] = 3
     siteStatus.push(status)
     allInfo.push({ ylayer, sites, routes: dailyRoutes })
   })
@@ -133,4 +136,10 @@ export function convertSecondToTime(ms) {
   if (ms === -1) return '0:00'
   const second = Math.floor(ms / 1000)
   return `${Math.floor(second / 60)}:${formatNumber(second % 60)}`
+}
+
+export function setSiteStatusStorage(tripId, siteStatus) {
+  return storageEngine(tripId).save({
+    siteStatus,
+  })
 }

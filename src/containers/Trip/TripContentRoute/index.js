@@ -8,23 +8,20 @@ import { connect } from 'react-redux'
 import { Map } from 'immutable'
 import React from 'react'
 import * as tripActions from '../../../reducers/trip/tripActions'
-import { View, ScrollView, Text, Platform } from 'react-native'
+import { View, ScrollView, Text, Platform, Image } from 'react-native'
 import styles from './styles'
-import MainStyle from '../../../styles'
-import Svg, { Line } from 'react-native-svg'
+import MainStyle, { HTMLStyle } from '../../../styles'
+import HTMLRender from 'react-native-html-render'
+import Svg, { Line, Rect } from 'react-native-svg'
 import SiteButton from '../../../components/Trip/SiteButton'
 import { Actions } from 'react-native-router-flux'
 import TouchableIcon from '../../../components/TouchableIcon'
 import Loading from '../../../components/Loading'
 import I18n from '../../../lib/i18n'
-import * as storage from 'redux-storage'
-import createStorageEngine from 'redux-storage-engine-reactnativeasyncstorage'
-import { storageKey } from '../../../config'
+import { setSiteStatusStorage } from '../../../reducers/trip/tripHelper'
 
 import Dimensions from 'Dimensions'
 const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
-
-const engine = createStorageEngine(storageKey)
 
 const actions = [
   tripActions,
@@ -47,6 +44,7 @@ function mapStateToProps(state) {
       displayInfoTitle: state.trip.displayInfo.displayInfoTitle,
       displayInfoIntroduction: state.trip.displayInfo.displayInfoIntroduction,
       displayInfoMode: state.trip.displayInfo.displayMode,
+      sidebarDisplayMode: state.trip.displayInfo.sidebarDisplayMode,
       mapInfo: {
         isFetching: state.trip.mapInfo.isFetching,
       },
@@ -79,6 +77,8 @@ class TripContentRoute extends React.Component {
 
   componentWillMount() {
     this.props.actions.getTripContentById(this.props.trip.tripKey)
+    // must delete
+    setSiteStatusStorage(this.props.trip.tripKey, [[3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
   }
 
   goToMap() {
@@ -101,28 +101,98 @@ class TripContentRoute extends React.Component {
     }
   }
 
-  testLoad() {
-    const { store } = this.context
-    const load = storage.createLoader(engine)
-    load(store).then(state => {
-      this.props.dispatch(this.props.actions.setSiteStatus())
+  unlock() {
+    const status = []
+
+    this.props.trip.siteStatus.forEach(site => { // deep copy status
+      status.push(site)
     })
+
+    status[this.props.trip.displayDay][this.props.trip.displayWhich] = 3
+    status[this.props.trip.displayDay] = status[this.props.trip.displayDay].map(site => {
+      return site === 5 ? 0 : site
+    })
+    setSiteStatusStorage(this.props.trip.tripKey, status).then(() => { // store local first, then dispatch siteStatus
+      status[this.props.trip.displayDay][this.props.trip.displayWhich] = 4
+      this.props.dispatch(this.props.actions.setSiteStatus(status))
+    })
+  }
+
+  setFrontier() {
+    const status = []
+    const routes = this.props.trip.tripInfo[this.props.trip.displayDay].routes
+    const sites = this.props.trip.tripInfo[this.props.trip.displayDay].sites
+    const frontier = []
+
+    this.props.trip.siteStatus.forEach(site => { // deep copy status
+      status.push(site)
+    })
+    let which
+    this.props.trip.siteStatus[this.props.trip.displayDay].some((site, index) => {
+      if (site === 4) {
+        which = index
+        return true
+      }
+      return false
+    })
+    if (which === undefined) return // no pioneer
+
+    const { day, hour, minute, siteId } = sites[which]
+    routes.forEach(route => { // find route and next Site
+      if (route.from === siteId &&
+        route.depart.day === day &&
+        route.depart.hour === hour &&
+        route.depart.minute === minute) {
+        sites.forEach((site, index) => {
+          if (route.to === site.siteId &&
+            route.nextStopDepart.day === site.day &&
+            route.nextStopDepart.hour === site.hour &&
+            route.nextStopDepart.minute === site.minute) {
+            frontier.push(index)
+          }
+        })
+      }
+    })
+    if (frontier.length === 1) status[this.props.trip.displayDay][frontier[0]] = 3
+    else {
+      frontier.forEach((index) => {
+        status[this.props.trip.displayDay][index] = 5
+      })
+    }
+
+    status[this.props.trip.displayDay][this.props.trip.displayWhich] = 1
+    this.props.dispatch(this.props.actions.setSiteStatus(status))
+    this.props.dispatch(this.props.actions.closeDisplayInfo())
+
+    setSiteStatusStorage(this.props.trip.tripKey, status)
   }
 
   render() {
     const { btnBigRadius } = MainStyle.TripSiteButton
-    // this.testLoad()
     return (
       <View style={[
         styles.container,
-        { height: Platform.OS === 'ios' ? height - 80 : height - 110, width }]}>
+        { height: Platform.OS === 'ios' ? height - 80 : height - 105, width }]}>
         <Loading
           visible={this.props.trip.isFetching || this.props.trip.mapInfo.isFetching}
           text={I18n.t('TripContent.fetchingData')}
         />
+        <Image
+          source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/deeperience.appspot.com/o/images%2FtripBackground%2F25289242242_4ab3f6ef19_b.jpg?alt=media&token=23152136-5a4a-49c9-ab29-90f8109af481' }}
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: -1,
+            opacity: 0.5,
+            width,
+          }}
+          resizeMode="cover"
+        />
         {this.props.trip.tripInfo.map((dailyTrip, dIndex) => (
           <ScrollView
-            style={{ backgroundColor: '#eaeaea', height: 100 }}
             tabLabel={`DAY ${dIndex + 1}`}
             horizontal={false}
             key={`TripDay${dIndex}`}
@@ -131,6 +201,13 @@ class TripContentRoute extends React.Component {
               height={dailyTrip.ylayer.length * 100 + 250} // the extra 250 is to make the ScrollView even higher
               width={width}
             >
+              <Rect
+                x="20"
+                y="20"
+                height={dailyTrip.ylayer.length * 100 + 10}
+                width={width - 40}
+                fill="rgba(0,0,0,0.55)"
+              />
               {
                 dailyTrip.routes.map(route => (
                   <Line
@@ -138,7 +215,7 @@ class TripContentRoute extends React.Component {
                     y1={route.posFrom.ypos * 100 + 50 + btnBigRadius}
                     x2={(route.posTo.xpos + 1) / (dailyTrip.ylayer[route.posTo.ypos] + 1) * width}
                     y2={route.posTo.ypos * 100 + 50 + btnBigRadius}
-                    stroke={MainStyle.color.main}
+                    stroke="#999"
                     strokeWidth="2"
                     key = {`(${route.posFrom.xpos},${route.posFrom.ypos})-(${route.posTo.xpos},${route.posTo.ypos})`}
                   />
@@ -189,9 +266,10 @@ class TripContentRoute extends React.Component {
                                 <Text style={styles.displayInfoTitle}>
                                   {this.props.trip.displayInfoTitle}
                                 </Text>
-                                <Text style={styles.displayInfoIntroduction}>
-                                  {this.props.trip.displayInfoIntroduction}
-                                </Text>
+                                <HTMLRender
+                                  stylesheet={HTMLStyle}
+                                  value={this.props.trip.displayInfoIntroduction}
+                                />
                               </ScrollView>
                             )
                           case 1:
@@ -222,7 +300,7 @@ class TripContentRoute extends React.Component {
                                       return (
                                         <View
                                           style={styleBackground}
-                                          key = {`route_${step.polyline.points}`}
+                                          key={`route_${step.polyline.points}`}
                                         >
                                           <Text style={styles.transitListNumber}>
                                             {`${index + 1}.`}
@@ -312,47 +390,149 @@ class TripContentRoute extends React.Component {
                       })()
                     }
                   </View>
-                  <View style={styles.iconContainer}>
+                  <View style={styles.iconContainerFix}>
                     <TouchableIcon
-                      style={styles.sideIcon}
+                      style={styles.sideIcon2}
                       onPress={() => {
                         this.props.dispatch(this.props.actions.closeDisplayInfo())
                         this.props.dispatch(this.props.actions.deactivateSiteBtn())
                       }}
                       name="close"
-                      size={20}
+                      size={25}
+                      color="#999"
+                      underlayColor="white"
+                    />
+                    <TouchableIcon
+                      style={styles.sideIcon2}
+                      onPress={() => this.props.actions.toggleSidebarWrapper()}
+                      name="angle-double-left"
+                      size={25}
                       color="#999"
                     />
                     <TouchableIcon
-                      style={styles.sideIcon}
-                      onPress={() => this.goToMap()}
-                      name="map-o"
-                      size={18}
-                      color="#999"
-                    />
-                    <TouchableIcon
-                      style={styles.sideIcon}
-                      onPress={() => this.switchDisplayInfoTab(0)}
-                      name="info"
-                      size={20}
-                      color="#999"
-                      active={this.props.trip.displayWhichCard === 0}
-                    />
-                    <TouchableIcon
-                      style={styles.sideIcon}
-                      onPress={() => this.switchDisplayInfoTab(1)}
-                      name="subway"
-                      size={20}
-                      color="#999"
-                      active={this.props.trip.displayWhichCard === 1}
-                    />
-                    <TouchableIcon
-                      style={styles.sideIcon}
+                      style={styles.sideIcon2}
                       onPress={() => this.props.actions.toggleDisplayInfoWrapper()}
                       name={this.props.trip.displayInfoMode ? 'angle-double-down' : 'angle-double-up'}
-                      size={20}
+                      size={25}
                       color="#999"
                     />
+                  </View>
+                  <View style={[
+                    styles.iconContainer,
+                    this.props.trip.sidebarDisplayMode ? { right: 0 } : { right: -175 },
+                    this.props.trip.displayInfoMode ?
+                    { width: 60, justifyContent: 'center' } :
+                    {},
+                  ]}>
+                    <TouchableIcon
+                      style={styles.sideIcon}
+                      textStyle={styles.sideIconText}
+                      onPress={() => this.props.actions.toggleSidebarWrapper()}
+                      name="angle-double-right"
+                      size={20}
+                      color="white"
+                      activeColor="#FF8000"
+                    >{I18n.t('IconSidebar.close')}</TouchableIcon>
+                    <TouchableIcon
+                      style={styles.sideIcon}
+                      textStyle={styles.sideIconText}
+                      onPress={() => {
+                        this.switchDisplayInfoTab(0)
+                        this.props.actions.toggleSidebarWrapper()
+                      }}
+                      name="info"
+                      size={20}
+                      color="white"
+                      activeColor="#FF8000"
+                      active={this.props.trip.displayWhichCard === 0}
+                    >{I18n.t('IconSidebar.introduction')}</TouchableIcon>
+                    {(() => {
+                      if (this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich] !== 6) {
+                        return (
+                          <TouchableIcon
+                            style={styles.sideIcon}
+                            textStyle={styles.sideIconText}
+                            onPress={() => {
+                              this.goToMap()
+                              this.props.actions.toggleSidebarWrapper()
+                            }}
+                            name="map-o"
+                            size={20}
+                            color="white"
+                            activeColor="#FF8000"
+                          >{I18n.t('IconSidebar.guide')}</TouchableIcon>
+                        )
+                      }
+                    })()}
+                    {(() => {
+                      if (this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich] !== 6) {
+                        return (
+                          <TouchableIcon
+                            style={styles.sideIcon}
+                            textStyle={styles.sideIconText}
+                            onPress={() => {
+                              this.switchDisplayInfoTab(1)
+                              this.props.actions.toggleSidebarWrapper()
+                            }}
+                            name="subway"
+                            size={20}
+                            color="white"
+                            activeColor="#FF8000"
+                            active={this.props.trip.displayWhichCard === 1}
+                          >{I18n.t('IconSidebar.transportation')}</TouchableIcon>
+                        )
+                      }
+                    })()}
+                    {(() => {
+                      if (this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich] === 4) {
+                        return (
+                          <TouchableIcon
+                            style={styles.sideIcon}
+                            textStyle={styles.sideIconText}
+                            onPress={() => {
+                              this.setFrontier()
+                              this.props.actions.toggleSidebarWrapper()
+                            }}
+                            name="check"
+                            size={20}
+                            color="white"
+                            activeColor="#FF8000"
+                          >{I18n.t('IconSidebar.done')}</TouchableIcon>
+                        )
+                      }
+                    })()}
+                    {(() => {
+                      if (this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich] === 6) {
+                        return (
+                          <TouchableIcon
+                            style={styles.sideIcon}
+                            textStyle={styles.sideIconText}
+                            onPress={() => {
+                              this.unlock()
+                              this.props.actions.toggleSidebarWrapper()
+                            }}
+                            name="unlock"
+                            size={20}
+                            color="white"
+                            activeColor="#FF8000"
+                          >{I18n.t('IconSidebar.unlock')}</TouchableIcon>
+                        )
+                      }
+                    })()}
+                    <TouchableIcon
+                      style={styles.sideIcon}
+                      textStyle={styles.sideIconText}
+                      onPress={() => {
+                        this.props.actions.toggleSidebarWrapper()
+                        this.props.actions.toggleDisplayInfoWrapper()
+                      }}
+                      name={this.props.trip.displayInfoMode ? 'angle-double-down' : 'angle-double-up'}
+                      size={20}
+                      color="white"
+                      activeColor="#FF8000"
+                    >
+                      {this.props.trip.displayInfoMode ? I18n.t('IconSidebar.closeDown') : I18n.t('IconSidebar.openUp')}
+                    </TouchableIcon>
                   </View>
                 </View>
               )
@@ -364,7 +544,4 @@ class TripContentRoute extends React.Component {
   }
 }
 
-TripContentRoute.contextTypes = {
-  store: React.PropTypes.object,
-}
 export default connect(mapStateToProps, mapDispatchToProps)(TripContentRoute)

@@ -8,6 +8,7 @@ export default StyleSheet.create({
     paddingBottom: 5,
     paddingLeft: 10,
     paddingRight: 10,
+    backgroundColor: MainStyle.color.mainShadow,
   },
   tripOverView: {
     flexDirection: 'row',

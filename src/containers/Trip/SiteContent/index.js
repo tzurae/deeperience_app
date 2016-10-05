@@ -144,10 +144,12 @@ class SiteContent extends React.Component {
     if (this.props.trip.contentDisplayMode === true) {
       this.props.actions.toggleContentModeWrapper()
     }
-    this.audioPlayer.destroy((success) => {
-      this.props.actions.resetAudioWrapper()
-      Actions.pop()
-    })
+    if (this.audioPlayer) {
+      this.audioPlayer.destroy((success) => {
+        this.props.actions.resetAudioWrapper()
+        Actions.pop()
+      })
+    }
   }
 
   render() {

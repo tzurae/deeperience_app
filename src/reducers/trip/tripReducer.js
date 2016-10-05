@@ -4,7 +4,6 @@
  * The reducer for all the actions about trip
  */
 'use strict'
-
 import InitialState from './tripInitialState'
 
 const {
@@ -43,6 +42,7 @@ const {
   SET_DISPLAY_INFO_TRANSIT_SUCCESS,
   SET_DISPLAY_INFO_TRANSIT_FAILURE,
   TOGGLE_DISPLAY_INFO,
+  TOGGLE_SIDEBAR,
 
   TOGGLE_MAP_MODE,
   TOGGLE_CONTENT_MODE,
@@ -50,6 +50,7 @@ const {
   SWITCH_DISPLAY_INFO_CARD,
 
   PRESS_MARKER_FAILURE,
+
 } = require('../../lib/constants').default
 
 const initialState = new InitialState()
@@ -58,6 +59,9 @@ export default function tripReducer(state = initialState, action) {
   if (!(state instanceof InitialState)) return initialState.mergeDeep(state)
   let siteStatus
   let nowState
+  let order
+  const displayDay = state.getIn(['displayInfo', 'displayDay'])
+  const displayWhich = state.getIn(['displayInfo', 'displayWhich'])
   switch (action.type) {
     case GET_ALL_TRIP:
       return state.setIn(['main', 'isFetching'], true)
@@ -99,7 +103,7 @@ export default function tripReducer(state = initialState, action) {
                   .setIn(['error'], action.payload)
 
     case SET_SITE_STATUS:
-      return state.setIn(['tripContent', 'siteStatus'], action.payload.siteStatus)
+      return state.setIn(['tripContent', 'siteStatus'], action.payload)
 
     case SET_DISPLAY_INFO:
       const { title, introduction } = action.payload
@@ -113,15 +117,18 @@ export default function tripReducer(state = initialState, action) {
 
     case ACTIVATE_SITE_BTN:
       siteStatus = state.getIn(['tripContent', 'siteStatus'])
-      siteStatus[action.payload.day][action.payload.order] = 1
+      order = action.payload.order
+      if (siteStatus[displayDay][order] === 1) siteStatus[displayDay][order] = 2
+      else if (siteStatus[displayDay][order] === 3) siteStatus[displayDay][order] = 4
+      else if (siteStatus[displayDay][order] === 5) siteStatus[displayDay][order] = 6
       return state.setIn(['tripContent', 'siteStatus'], siteStatus)
-                  .setIn(['displayInfo', 'displayWhich'], action.payload.order)
+                  .setIn(['displayInfo', 'displayWhich'], order)
 
     case DEACTIVATE_SITE_BTN:
       siteStatus = state.getIn(['tripContent', 'siteStatus'])
-      const displayDay = state.getIn(['displayInfo', 'displayDay'])
-      const displayWhich = state.getIn(['displayInfo', 'displayWhich'])
-      siteStatus[displayDay][displayWhich] = 0
+      if (siteStatus[displayDay][displayWhich] === 2) siteStatus[displayDay][displayWhich] = 1
+      else if (siteStatus[displayDay][displayWhich] === 4) siteStatus[displayDay][displayWhich] = 3 // pioneer sitesite
+      else if (siteStatus[displayDay][displayWhich] === 6) siteStatus[displayDay][displayWhich] = 5 // frontier sitesite
       return state.setIn(['tripContent', 'siteStatus'], siteStatus)
                   .setIn(['displayInfo', 'transit', 'fetched'], false)
 
@@ -188,6 +195,10 @@ export default function tripReducer(state = initialState, action) {
     case TOGGLE_DISPLAY_INFO:
       nowState = state.getIn(['displayInfo', 'displayMode'])
       return state.setIn(['displayInfo', 'displayMode'], !nowState)
+
+    case TOGGLE_SIDEBAR:
+      nowState = state.getIn(['displayInfo', 'sidebarDisplayMode'])
+      return state.setIn(['displayInfo', 'sidebarDisplayMode'], !nowState)
 
     case TOGGLE_MAP_MODE:
       nowState = state.getIn(['mapInfo', 'mapDisplayMode'])

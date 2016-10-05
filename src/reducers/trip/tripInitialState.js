@@ -24,6 +24,7 @@ const InitialState = Record({
     displayInfoIntroduction: '',
     displayWhichCard: 0,
     displayMode: false, // false: half, true: whole mode
+    sidebarDisplayMode: false, // false: half, true: whole mode
     transit: new (Record({
       departureTime: '',
       arrivalTime: '',

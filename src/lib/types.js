@@ -78,6 +78,7 @@ export type Action =
     { type: 'SET_DISPLAY_INFO_TRANSIT_SUCCESS', payload: any } |
     { type: 'SET_DISPLAY_INFO_TRANSIT_FAILURE', payload: any } |
     { type: 'TOGGLE_DISPLAY_INFO' } |
+    { type: 'TOGGLE_SIDEBAR' } |
 
     { type: 'TOGGLE_MAP_MODE' } |
     { type: 'TOGGLE_CONTENT_MODE' } |

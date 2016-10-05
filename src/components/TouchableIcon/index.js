@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
-import { TouchableHighlight } from 'react-native'
+import { TouchableHighlight, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import MainStyle from '../../styles'
 
@@ -14,6 +14,7 @@ class TouchableIcon extends React.Component {
     activeColor: PropTypes.string,
     onPress: PropTypes.func.isRequired,
     active: PropTypes.bool,
+    clickable: PropTypes.bool,
   }
   static defaultProps = {
     underlayColor: MainStyle.color.mainShadow,
@@ -21,6 +22,7 @@ class TouchableIcon extends React.Component {
     color: 'white',
     activeColor: MainStyle.color.main,
     active: false,
+    clickable: true,
   }
   render() {
     return (
@@ -29,14 +31,32 @@ class TouchableIcon extends React.Component {
         onPress={() => this.props.onPress()}
         underlayColor={this.props.underlayColor}
       >
-        <Icon
-          name={this.props.name}
-          size={this.props.size}
-          color={(() => {
-            if (!this.props.active) return this.props.color
-            else return this.props.activeColor
+        <View style={{
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}>
+          <Icon
+            name={this.props.name}
+            size={this.props.size}
+            color={(() => {
+              if (!this.props.active) return this.props.color
+              else return this.props.activeColor
+            })()}
+          />
+          {(() => {
+            if (this.props.children) {
+              return (
+                <Text style={[
+                  this.props.textStyle,
+                  { color: this.props.active ? this.props.activeColor : this.props.color },
+                ]}>
+                {this.props.children}
+                </Text>
+              )
+            }
           })()}
-        />
+        </View>
       </TouchableHighlight>
     )
   }
