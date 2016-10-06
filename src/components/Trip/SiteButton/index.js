@@ -4,7 +4,7 @@ import styles from './styles'
 import Button from 'react-native-button'
 import { View, Text } from 'react-native'
 
-class SiteButton extends React.Component {
+class SiteButton extends React.PureComponent {
 
   static propTypes = {
     status: PropTypes.number,
