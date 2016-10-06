@@ -8,18 +8,18 @@ import { connect } from 'react-redux'
 import { Map } from 'immutable'
 import React from 'react'
 import * as tripActions from '../../../reducers/trip/tripActions'
-import { View, ScrollView, Text, Platform, Image } from 'react-native'
+import { View, ScrollView, Platform, Image } from 'react-native'
 import styles from './styles'
-import MainStyle, { HTMLStyle } from '../../../styles'
-import HTMLRender from 'react-native-html-render'
+import MainStyle from '../../../styles'
 import Svg, { Line, Rect } from 'react-native-svg'
 import SiteButton from '../../../components/Trip/SiteButton'
 import { Actions } from 'react-native-router-flux'
-import TouchableIcon from '../../../components/TouchableIcon'
 import Loading from '../../../components/Loading'
 import I18n from '../../../lib/i18n'
 import { setSiteStatusStorage } from '../../../reducers/trip/tripHelper'
 import MenuDrawer from '../../../components/Trip/MenuDrawer'
+import IconSidebar from '../../../components/Trip/IconSidebar'
+import DisplayInfo from '../../../components/Trip/DisplayInfo'
 
 import Dimensions from 'Dimensions'
 const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
@@ -50,11 +50,7 @@ function mapStateToProps(state) {
         isFetching: state.trip.mapInfo.isFetching,
       },
       transit: {
-        departureTime: state.trip.displayInfo.transit.departureTime,
-        arrivalTime: state.trip.displayInfo.transit.arrivalTime,
-        duration: state.trip.displayInfo.transit.duration,
         steps: state.trip.displayInfo.transit.steps,
-        fare: state.trip.displayInfo.transit.fare,
         fetched: state.trip.displayInfo.transit.fetched,
         isFetching: state.trip.displayInfo.transit.isFetching,
       },
@@ -168,8 +164,8 @@ class TripContentRoute extends React.Component {
     })
   }
 
-  siteBtnClick(name, introduction, day, order) {
-    if (this.props.status === 0) return
+  siteBtnClick(status, name, introduction, day, order) {
+    if (status === 0) return
 
     this.props.dispatch(
       this.props.actions.setDisplayInfo({
@@ -248,6 +244,7 @@ class TripContentRoute extends React.Component {
                   status = {this.props.trip.siteStatus[dIndex][siteOrder]}
                   onPress = {() =>
                     this.siteBtnClick(
+                      this.props.trip.siteStatus[dIndex][siteOrder],
                       site.content.name,
                       site.content.introduction,
                       dIndex,
@@ -263,218 +260,66 @@ class TripContentRoute extends React.Component {
         ))
         }
         {
-          (() => {
-            if (this.props.trip.displayInfoOrNot) {
-              return (
-                <View style={[
-                  styles.container,
-                  styles.displayInfo,
-                  this.props.trip.displayInfoMode ?
-                  (Platform.OS === 'ios' ?
-                    { height: height - 80, width } :
-                    { height: height - 100, width }) :
-                  { height: 200, width },
-                ]}>
-                  <View style={styles.infoContainer}>
-                    <Loading
-                      visible={this.props.trip.transit.isFetching}
-                      text={I18n.t('TripContent.fetchingTransitData')}
-                    />
-                    {
-                      (() => {
-                        switch (this.props.trip.displayWhichCard) {
-                          case 0:
-                            return (
-                              <ScrollView style={styles.displayInfoCard}>
-                                <Text style={styles.displayInfoTitle}>
-                                  {this.props.trip.displayInfoTitle}
-                                </Text>
-                                <HTMLRender
-                                  stylesheet={HTMLStyle}
-                                  value={this.props.trip.displayInfoIntroduction}
-                                />
-                              </ScrollView>
-                            )
-                          case 1:
-                            return (
-                              <ScrollView style={[styles.displayInfoCard, { paddingLeft: 0, paddingRight: 0 }]}>
-                                <View style={{ paddingLeft: 15, paddingRight: 10 }}>
-                                  <Text style={styles.displayInfoTitle}>
-                                    大眾運輸
-                                  </Text>
-                                </View>
-                                {(() => {
-                                  if (this.props.trip.transit.steps.length === 0) {
-                                    return (
-                                      <View style={styles.transitWhite}>
-                                        <Text style={styles.transitInstruction}>
-                                          {I18n.t('TripContent.noRoute')}
-                                        </Text>
-                                      </View>
-                                    )
-                                  }
-                                })()}
-                                {
-                                  this.props.trip.transit.steps.map((step, index) => {
-                                    let styleBackground
-                                    if (index % 2 === 0) styleBackground = styles.transitGray
-                                    else styleBackground = styles.transitWhite
-                                    if (step.travel_mode === 'WALKING') {
-                                      return (
-                                        <View
-                                          style={styleBackground}
-                                          key={`route_${step.polyline.points}`}
-                                        >
-                                          <Text style={styles.transitListNumber}>
-                                            {`${index + 1}.`}
-                                          </Text>
-                                          <Text style={[{ flex: 3 }, styles.walkInstruction]}>
-                                            {`${step.html_instructions.replace(/(<([^>]+)>)/ig, '')}`}
-                                          </Text>
-                                          <View style={{ flex: 1 }}>
-                                            <Text style={[{ flex: 1 }, styles.transitDuration]}>
-                                              {step.duration.text}
-                                            </Text>
-                                            <Text style={[{ flex: 1 }, styles.transitDistance]}>
-                                              {step.distance.text}
-                                            </Text>
-                                          </View>
-                                        </View>
-                                      )
-                                    } else if (step.travel_mode === 'TRANSIT') {
-                                      const shortName = step.transit_details.line.short_name
-                                      const vehicle = step.transit_details.line.vehicle.name
-                                      const departureStop = step.transit_details.departure_stop.name
-                                      const arrivalStop = step.transit_details.arrival_stop.name
-                                      const departureTime = step.transit_details.departure_time.text
-                                      const arrivalTime = step.transit_details.arrival_time.text
-                                      return (
-                                        <View
-                                          style={styleBackground}
-                                          key = {`route_${step.polyline.points}`}
-                                        >
-                                          <Text style={styles.transitListNumber}>
-                                            {`${index + 1}.`}
-                                          </Text>
-                                          <View style={{ width: 45 }}>
-                                            <Text style={styles.transitHelpWord}>
-                                              {`${I18n.t('TripContent.ride')}`}
-                                            </Text>
-                                            <Text style={styles.transitHelpWord}>
-                                              {`${I18n.t('TripContent.from')}`}
-                                            </Text>
-                                            <Text style={styles.transitHelpWord}>
-                                              {`${I18n.t('TripContent.to')}`}
-                                            </Text>
-                                          </View>
-                                          <View style={{ flex: 1, flexDirection: 'column' }}>
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                              <Text
-                                                numberOfLines={1}
-                                                style={styles.transitInstruction}
-                                              >
-                                                {`${shortName} ${vehicle}`}
-                                              </Text>
-                                              <Text style={styles.transitTimeInterval}>
-                                                {`${departureTime}~${arrivalTime}`}
-                                              </Text>
-                                            </View>
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                              <Text
-                                                numberOfLines={1}
-                                                style={styles.transitInstruction}
-                                              >
-                                                {`${departureStop}`}
-                                              </Text>
-                                              <Text style={styles.transitDuration}>
-                                                {step.duration.text}
-                                              </Text>
-                                            </View>
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                              <Text
-                                                numberOfLines={1}
-                                                style={styles.transitInstruction}
-                                              >
-                                                {`${arrivalStop}`}
-                                              </Text>
-                                              <Text style={styles.transitDistance}>
-                                                {step.distance.text}
-                                              </Text>
-                                            </View>
-                                          </View>
-                                        </View>
-                                      )
-                                    } else return (<Text/>)
-                                  })
-                                }
-                              </ScrollView>
-                            )
-                        }
-                      })()
-                    }
-                  </View>
-                  <View style={styles.iconContainerFix}>
-                    <TouchableIcon
-                      style={styles.sideIcon2}
-                      onPress={() => {
-                        this.props.dispatch(this.props.actions.closeDisplayInfo())
-                        this.props.dispatch(this.props.actions.deactivateSiteBtn())
-                      }}
-                      name="close"
-                      size={25}
-                      color="#999"
-                      underlayColor="white"
-                    />
-                    <TouchableIcon
-                      style={styles.sideIcon2}
-                      onPress={() => this.props.actions.toggleSidebarWrapper()}
-                      name="angle-double-left"
-                      size={25}
-                      color="#999"
-                    />
-                    <TouchableIcon
-                      style={styles.sideIcon2}
-                      onPress={() => this.props.actions.toggleDisplayInfoWrapper()}
-                      name={this.props.trip.displayInfoMode ? 'angle-double-down' : 'angle-double-up'}
-                      size={25}
-                      color="#999"
-                    />
-                  </View>
-                  <MenuDrawer
-                    whichCard={this.props.trip.displayWhichCard}
-                    status={this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich]}
-                    sidebarDisplayMode={this.props.trip.sidebarDisplayMode}
-                    displayInfoMode={this.props.trip.displayInfoMode}
-                    closeFunc={() => this.props.actions.toggleSidebarWrapper()}
-                    introductionFunc={() => {
-                      this.switchDisplayInfoTab(0)
-                      this.props.actions.toggleSidebarWrapper()
-                    }}
-                    guideFunc={() => {
-                      this.goToMap()
-                      this.props.actions.toggleSidebarWrapper()
-                    }}
-                    transportationFunc={() => {
-                      this.switchDisplayInfoTab(1)
-                      this.props.actions.toggleSidebarWrapper()
-                    }}
-                    doneFunc={() => {
-                      this.setFrontier()
-                      this.props.actions.toggleSidebarWrapper()
-                    }}
-                    unlockFunc={() => {
-                      this.unlock()
-                      this.props.actions.toggleSidebarWrapper()
-                    }}
-                    closeExpandFunc={() => {
-                      this.props.actions.toggleSidebarWrapper()
-                      this.props.actions.toggleDisplayInfoWrapper()
-                    }}
-                  />
-                </View>
-              )
-            }
-          })()
+          this.props.trip.displayInfoOrNot ? (
+            <View style={[
+              styles.container,
+              styles.displayInfo,
+              this.props.trip.displayInfoMode ?
+              (Platform.OS === 'ios' ?
+                { height: height - 80, width } :
+                { height: height - 100, width }) :
+              { height: 200, width },
+            ]}>
+              <DisplayInfo
+                isFetching={this.props.trip.transit.isFetching}
+                whichCard={this.props.trip.displayWhichCard}
+                title={this.props.trip.displayInfoTitle}
+                introduction={this.props.trip.displayInfoIntroduction}
+                steps={this.props.trip.transit.steps}
+              />
+              <IconSidebar
+                displayInfoMode={this.props.trip.displayInfoMode}
+                closeFunc={() => {
+                  this.props.dispatch(this.props.actions.closeDisplayInfo())
+                  this.props.dispatch(this.props.actions.deactivateSiteBtn())
+                }}
+                openMenuFunc={() => this.props.actions.toggleSidebarWrapper()}
+                closeExpandFunc={() => this.props.actions.toggleDisplayInfoWrapper()}
+              />
+              <MenuDrawer
+                whichCard={this.props.trip.displayWhichCard}
+                status={this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich]}
+                sidebarDisplayMode={this.props.trip.sidebarDisplayMode}
+                displayInfoMode={this.props.trip.displayInfoMode}
+                closeFunc={() => this.props.actions.toggleSidebarWrapper()}
+                introductionFunc={() => {
+                  this.switchDisplayInfoTab(0)
+                  this.props.actions.toggleSidebarWrapper()
+                }}
+                guideFunc={() => {
+                  this.goToMap()
+                  this.props.actions.toggleSidebarWrapper()
+                }}
+                transportationFunc={() => {
+                  this.switchDisplayInfoTab(1)
+                  this.props.actions.toggleSidebarWrapper()
+                }}
+                doneFunc={() => {
+                  this.setFrontier()
+                  this.props.actions.toggleSidebarWrapper()
+                }}
+                unlockFunc={() => {
+                  this.unlock()
+                  this.props.actions.toggleSidebarWrapper()
+                }}
+                closeExpandFunc={() => {
+                  this.props.actions.toggleSidebarWrapper()
+                  this.props.actions.toggleDisplayInfoWrapper()
+                }}
+              />
+            </View>
+
+          ) : null
         }
       </View>
     )

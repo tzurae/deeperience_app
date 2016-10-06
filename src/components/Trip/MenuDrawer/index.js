@@ -14,11 +14,16 @@ class MenuDrawer extends React.Component {
     displayInfoMode: PropTypes.bool,
   }
 
+  static defaultProps = {
+    whichCard: 0,
+    sidebarDisplayMode: false,
+    displayInfoMode: false,
+  }
+
   shouldComponentUpdate(nextProps) {
-    return !this.props.whichCard === nextProps.whichCard ||
-            !this.props.status === nextProps.status ||
-            !this.props.sidebarDisplayMode === nextProps.sidebarDisplayMode ||
-            !this.props.displayInfoMode === nextProps.displayInfoMode
+    return this.props.whichCard !== nextProps.whichCard ||
+            this.props.sidebarDisplayMode !== nextProps.sidebarDisplayMode ||
+            this.props.displayInfoMode !== nextProps.displayInfoMode
   }
 
   render() {
@@ -72,7 +77,7 @@ class MenuDrawer extends React.Component {
   }
 }
 
-class Icon extends React.Component {
+class Icon extends React.PureComponent {
 
   render() {
     return (
@@ -82,9 +87,7 @@ class Icon extends React.Component {
         size={20}
         color="white"
         activeColor="#FF8000"
-        onPress={this.props.onPress}
-        name={this.props.name}
-        active={this.props.active}
+        {...this.props}
       >
         {this.props.children}
       </TouchableIcon>
