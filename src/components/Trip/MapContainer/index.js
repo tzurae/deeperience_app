@@ -27,6 +27,14 @@ class AudioContainer extends React.Component {
     polyline: [],
   }
 
+  constructor(props) {
+    super(props)
+    // hack, for toolbars to appear
+    this.state = {
+      markerPressed: false,
+    }
+  }
+
   shouldComponentUpdate(nextProps) {
     return this.props.displayMode !== nextProps.displayMode ||
             this.props.lat !== nextProps.lat ||
@@ -50,6 +58,7 @@ class AudioContainer extends React.Component {
           color={'black'}
         />
         <MapView
+          provider="google"
           style={styles.map}
           initialRegion={{
             latitude: this.props.lat,
@@ -60,13 +69,19 @@ class AudioContainer extends React.Component {
           rotateEnabled={true}
           showsUserLocation={true}
           showsMyLocationButton={true}
+          toolbarEnabled={true}
+          pitchEnabled={false}
         >
           {this.props.markers.map(marker => {
             const { lat, lng } = marker.position
             return (
               <MapView.Marker
                 coordinate={{ latitude: lat, longitude: lng }}
-                onPress={() => this.props.onMarkerPress(marker)} // for Android
+                onPress={() => {
+                  this.props.onMarkerPress(marker)
+                  // hack, for toolbars to appear
+                  this.setState({ markerPressed: !this.state.markerPressed })
+                }} // for Android
                 onSelect={() => this.props.onMarkerPress(marker)} // for IOS
                 title={marker.name}
                 key={marker.name}
@@ -89,6 +104,7 @@ class AudioContainer extends React.Component {
             }]}
           />
         </MapView>
+        {this.state.markerPressed ? (<View/>) : null}
       </View>
     )
   }

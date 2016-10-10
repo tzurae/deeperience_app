@@ -24,8 +24,8 @@ export default StyleSheet.create({
   },
   expandMapIcon: {
     position: 'absolute',
-    bottom: 10,
-    right: 10,
+    top: 10,
+    left: 10,
     backgroundColor: 'white',
     height: 36,
     width: 36,
