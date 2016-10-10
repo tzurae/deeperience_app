@@ -69,7 +69,6 @@
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/prefer-es6-class": "error",
-    "react/jsx-closing-bracket-location":"error",
     "react/jsx-curly-spacing":"error",
     "react/no-string-refs":"error",
     "react/jsx-wrap-multilines":"error",

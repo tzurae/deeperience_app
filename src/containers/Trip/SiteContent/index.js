@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { Map } from 'immutable'
 import * as tripActions from '../../../reducers/trip/tripActions'
 import React from 'react'
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, BackAndroid } from 'react-native'
 import Header from '../../../components/Header'
 import styles from './styles'
 import { Actions } from 'react-native-router-flux'
@@ -66,6 +66,8 @@ function mapDispatchToProps(dispatch) {
 class SiteContent extends React.Component {
 
   componentWillMount() {
+    BackAndroid.removeEventListener('hardwareBackPress', () => this.onReturn())
+
     const dispatchSite = this.props.trip.tripInfo[this.props.trip.displayDay].sites[this.props.trip.displayWhich]
 
     return new Promise((resolve) => {
@@ -83,6 +85,22 @@ class SiteContent extends React.Component {
           .catch(err => this.props.actions.setMapInfoFailureWrapper(err))
       }, 100) // because this action takes time to finish, so we must make it asynchronous
     })
+  }
+
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', () => this.onReturn())
+  }
+
+  onReturn() {
+    clearInterval(this.timerId)
+    if (this.props.trip.contentDisplayMode === true) {
+      this.props.actions.toggleContentModeWrapper()
+    }
+    if (this.audioPlayer) {
+      this.audioPlayer.destroy((success) => {
+        this.props.actions.resetAudioWrapper()
+      })
+    }
   }
 
   prepareAudio() {
@@ -123,7 +141,9 @@ class SiteContent extends React.Component {
     if (this.audioPlayer) {
       this.audioPlayer.play((success) => {
         clearInterval(this.timerId)
-        this.props.actions.setAudioWrapper({ // for ios
+        // for ios, since the duration equals -1 in the constructor,
+        // so we miust set the duration here for ios
+        this.props.actions.setAudioWrapper({
           audioDuration: Math.floor(this.audioPlayer.duration),
         })
         this.timerId = setInterval(() => {
@@ -141,25 +161,15 @@ class SiteContent extends React.Component {
     })
   }
 
-  onReturn() {
-    clearInterval(this.timerId)
-    if (this.props.trip.contentDisplayMode === true) {
-      this.props.actions.toggleContentModeWrapper()
-    }
-    if (this.audioPlayer) {
-      this.audioPlayer.destroy((success) => {
-        this.props.actions.resetAudioWrapper()
-        Actions.pop()
-      })
-    }
-  }
-
   render() {
     return (
       <View style={styles.container}>
         <Header
           headerText={this.props.trip.headerText}
-          onReturn = {() => this.onReturn()}
+          onReturn = {() => {
+            this.onReturn()
+            Actions.pop()
+          }}
         />
         <AudioContainer
           title={this.props.trip.mainTitle}

@@ -61,7 +61,6 @@ export default {
     "recommendation": "推薦",
     "purchased": "已購買",
     "tripContent": "行程介紹",
-
   },
   "TripTab": {
     "introduction": "簡  介",
@@ -90,5 +89,8 @@ export default {
     "transportation": "路線",
     "done": "完成",
     "unlock": "解鎖",
+  },
+  "Toast": {
+    "pressAgainExit": "再按一次離開",
   },
 }

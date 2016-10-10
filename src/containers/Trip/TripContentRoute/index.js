@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { Map } from 'immutable'
 import React from 'react'
 import * as tripActions from '../../../reducers/trip/tripActions'
-import { View, ScrollView, Platform, Image } from 'react-native'
+import { View, ScrollView, Platform, Image, BackAndroid } from 'react-native'
 import styles from './styles'
 import MainStyle from '../../../styles'
 import Svg, { Line, Rect } from 'react-native-svg'
@@ -73,13 +73,19 @@ function mapDispatchToProps(dispatch) {
 class TripContentRoute extends React.Component {
 
   componentWillMount() {
+    BackAndroid.removeEventListener('hardwareBackPress', () => this.onReturn())
     this.props.actions.getTripContentById(this.props.trip.tripKey)
     // must delete
     setSiteStatusStorage(this.props.trip.tripKey, [[3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
   }
 
-  goToMap() {
-    Actions.SiteContent()
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', () => this.onReturn())
+  }
+
+  onReturn() {
+    this.props.dispatch(this.props.actions.deactivateSiteBtn())
+    this.props.dispatch(this.props.actions.closeDisplayInfo())
   }
 
   switchDisplayInfoTab(tab) {
@@ -297,7 +303,7 @@ class TripContentRoute extends React.Component {
                   this.props.actions.toggleSidebarWrapper()
                 }}
                 guideFunc={() => {
-                  this.goToMap()
+                  Actions.SiteContent()
                   this.props.actions.toggleSidebarWrapper()
                 }}
                 transportationFunc={() => {

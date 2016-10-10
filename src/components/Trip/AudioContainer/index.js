@@ -72,7 +72,8 @@ class AudioContainer extends React.Component {
             position: 'absolute',
             top: 8,
             right: 0,
-          }}>
+          }}
+          >
             {`${convertSecondToTime(this.props.position)}` +
             '/' +
             `${convertSecondToTime(this.props.duration)}`}

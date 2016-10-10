@@ -3,23 +3,16 @@ import {
   AppRegistry,
   View,
   Text,
+  ToastAndroid,
 } from 'react-native'
 
-/**
- * ### Router-Flux
- *
- * Necessary components from Router-Flux
- */
 import {
   Router,
   Scene,
   // TabBar,
 } from 'react-native-router-flux'
 
-import {
-  Provider,
-  // connect,
-} from 'react-redux'
+import { Provider } from 'react-redux'
 import configureStore from './lib/configureStore'
 import App from './containers/App'
 import Login from './containers/Login'
@@ -96,6 +89,12 @@ class TabIcon extends React.Component {
 
 export default function native(platform) {
   class Deeperience extends React.Component {
+
+    constructor(props) {
+      super(props)
+      this.exitOrNot = false
+    }
+
     render() {
       const store = configureStore({
         initialState: getInitialState(),
@@ -109,14 +108,23 @@ export default function native(platform) {
 
       // setup the router table with App selected as the initial component
       // note: See https://github.com/aksonov/react-native-router-flux/issues/948
+
       return (
         <Provider store={store}>
 
-          <Router sceneStyle={{ backgroundColor: 'white' }}>
+          <Router
+            onExitApp={() => {
+              if (!this.exitOrNot) {
+                ToastAndroid.show(I18n.t('Toast.pressAgainExit'), ToastAndroid.SHORT)
+                this.exitOrNot = true
+                setTimeout(() => { this.exitOrNot = false }, 3000)
+                return true
+              } else return false
+            }}
+          >
             <Scene key="root"
                    hideNavBar={true}
             >
-
               <Scene key="App"
                      component={App}
                      type="replace"
