@@ -123,7 +123,10 @@ class SiteContent extends React.Component {
 
   onMarkerPress({ name, introduction, position }) {
     try {
-      this.props.actions.getMapInfoDirection({ name, introduction, position })
+      console.log(name)
+      console.log(introduction)
+      console.log(position)
+      this.props.actions.setMapDirection({ name, introduction, position })
     } catch (err) {
       this.props.actions.pressMarkerFailureWrapper(err)
     }

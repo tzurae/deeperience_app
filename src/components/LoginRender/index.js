@@ -226,52 +226,52 @@ class LoginRender extends React.Component {
     return (
       <View style={styles.container}>
         <Header headerText={REGISTER}/>
-    <ScrollableTabView>
-      <View style={styles.container} tabLabel="login">
-        <ScrollView horizontal={false} width={width} height={height}>
-          <View>
-            <View style={styles.inputs}>
-              <LoginForm
-                formType={formType}
-                form={this.props.auth.form}
-                value={this.state.value}
-                onChange={self.onChange.bind(self)}
-              />
-              {passwordCheckbox}
-            </View>
+        <ScrollableTabView>
+          <View style={styles.container} tabLabel="login">
+            <ScrollView horizontal={false} width={width} height={height}>
+              <View>
+                <View style={styles.inputs}>
+                  <LoginForm
+                    formType={formType}
+                    form={this.props.auth.form}
+                    value={this.state.value}
+                    onChange={self.onChange.bind(self)}
+                  />
+                  {passwordCheckbox}
+                </View>
 
-            <FormButton
-              isDisabled={!this.props.auth.form.isValid || this.props.auth.form.isFetching}
-              onPress={onButtonPress}
-              buttonText={loginButtonText}
-            />
+                <FormButton
+                  isDisabled={!this.props.auth.form.isValid || this.props.auth.form.isFetching}
+                  onPress={onButtonPress}
+                  buttonText={loginButtonText}
+                />
 
-            <View >
-              <View style={styles.forgotContainer}>
-                {leftMessage}
-                {rightMessage}
+                <View >
+                  <View style={styles.forgotContainer}>
+                    {leftMessage}
+                    {rightMessage}
+                  </View>
+                </View>
+
               </View>
-            </View>
-
+            </ScrollView>
           </View>
-        </ScrollView>
-      </View>
-      <View tabLabel="fblogin">
-        <ScrollView horizontal={false} width={width} height={height}>
-          <FBLogin
-            ref={(fbLogin) => { this.fbLogin = fbLogin }}
-            loginBehavior={loginBehavior[this.props.device.platform]}
-            permissions={['email', 'user_friends']}
-            onLogin={e => R.log(e)}
-            onLoginFound={e => R.log(e)}
-            onLoginNotFound={e => R.log(e)}
-            onLogout={e => R.log(e)}
-            onCancel={e => R.log(e)}
-            onPermissionsMissing={e => R.log(e)}
-          />
-        </ScrollView>
-      </View>
-    </ScrollableTabView>
+          <View tabLabel="fblogin">
+            <ScrollView horizontal={false} width={width} height={height}>
+              <FBLogin
+                ref={(fbLogin) => { this.fbLogin = fbLogin }}
+                loginBehavior={loginBehavior[this.props.device.platform]}
+                permissions={['email', 'user_friends']}
+                onLogin={e => R.log(e)}
+                onLoginFound={e => R.log(e)}
+                onLoginNotFound={e => R.log(e)}
+                onLogout={e => R.log(e)}
+                onCancel={e => R.log(e)}
+                onPermissionsMissing={e => R.log(e)}
+              />
+            </ScrollView>
+          </View>
+        </ScrollableTabView>
         </View>
     )
   }

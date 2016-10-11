@@ -23,11 +23,6 @@ const actions = [
   tripActions,
 ]
 
-function mapStateToProps(state) {
-  return {
-  }
-}
-
 function mapDispatchToProps(dispatch) {
   const creators = Map()
           .merge(...actions)
@@ -48,8 +43,8 @@ class TripContent extends React.Component {
         <Header
           headerText={I18n.t('Nav.tripContent')}
           onReturn={() => {
-            this.props.dispatch(this.props.actions.closeDisplayInfo())
-            this.props.dispatch(this.props.actions.deactivateSiteBtn())
+            this.props.actions.closeDisplayInfoWrapper()
+            this.props.actions.deactivateSiteBtnWrapper()
             Actions.pop()
           }}
         />
@@ -84,4 +79,4 @@ class TripContent extends React.Component {
     )
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(TripContent)
+export default connect(null, mapDispatchToProps)(TripContent)

@@ -1,12 +1,6 @@
 // @flow
 'use strict'
-import ApiFactory from '../../api/apiFactory'
 import type { ThunkAction, Action } from '../../lib/types'
-import { calculateTripInfo, convertPolyline, setSiteStatusStorage } from './tripHelper'
-import { auth } from '../../config'
-import I18n from '../../lib/i18n'
-import _ from 'underscore'
-import storageEngine from '../../lib/localStorage'
 
 const {
   GET_ALL_TRIP,
@@ -34,10 +28,13 @@ const {
   SET_MAP_INFO_SUCCESS,
   SET_MAP_INFO_FAILURE,
   SET_MAP_DIRECTION,
-  SET_MAP_DIRECTION_ERROR,
+  SET_MAP_DIRECTION_SUCCESS,
+  SET_MAP_DIRECTION_FAILURE,
 
   SET_AUDIO,
   RESET_AUDIO,
+
+  GET_DISPLAY_INFO_DIRECTION_START,
 
   SET_DISPLAY_INFO_TRANSIT,
   SET_DISPLAY_INFO_TRANSIT_SUCCESS,
@@ -72,53 +69,16 @@ export function getAllTripFailure(res: any):Action {
   }
 }
 
-export function getAllTripWrapper():ThunkAction {
-  return dispatch => {
-    dispatch(getAllTrip())
-
-    return new ApiFactory().readDataBaseOnce('/trips/')
-      .then(res => res.val())
-      .then(res => {
-        const allTrip = []
-        _.each(res, (value, key) => {
-          allTrip.push({ ...value, tripKey: key })
-        })
-        return allTrip
-      })
-      .then(res => {
-        const allTrip = []
-        const tripGuide = res.map((trip) => {
-          return new ApiFactory()
-            .readDataBaseOnce(`/users/${trip.guideId}`)
-            .then(res => res.val())
-        })
-
-        return Promise.all(tripGuide).then(guides => {
-          res.forEach((trip, index) => {
-            allTrip.push({
-              ...trip,
-              guideInfo: guides[index],
-            })
-          })
-          return allTrip
-        }).then(res => {
-          console.log(res)
-          dispatch(getAllTripSuccess(res))
-        })
-      })
-      .catch(err => getAllTripFailure(err))
-  }
-}
-
 export function getTripByClass():Action {
   return {
     type: GET_TRIP_BY_CLASS,
   }
 }
 
-export function getTripContent():Action {
+export function getTripContent(res: string):Action {
   return {
     type: GET_TRIP_CONTENT,
+    payload: { tripId: res },
   }
 }
 
@@ -143,6 +103,10 @@ export function setTripKey(res:any):Action {
   }
 }
 
+export function setTripKeyWrapper(res: any):ThunkAction {
+  return dispatch => dispatch(setTripKey(res))
+}
+
 export function setSiteContentSuccess(res:any):Action {
   return {
     type: SET_SITE_CONTENT_SUCCESS,
@@ -164,46 +128,10 @@ export function setSiteStatus(res:any):Action {
   }
 }
 
-export function getTripContentById(tripId:string):ThunkAction {
-  return dispatch => {
-    dispatch(getTripContent())
-
-    return new ApiFactory().readDataBaseOnce(`/trips/${tripId}`)
-      .then(res => {
-        dispatch(getTripContentSuccess(res.val()))
-        const allSitesKey = res.val().allSites
-        const { routes, startSites } = res.val()
-        const promiseAllSite = allSitesKey.map((key) => {
-          return new ApiFactory()
-            .readDataBaseOnce(`/site/${key}`)
-            .then(res => res.val())
-        })
-
-        return Promise.all(promiseAllSite).then(sites => {
-          const allSites = {}
-          sites.forEach((site, index) => {
-            allSites[allSitesKey[index]] = site
-          })
-          return allSites
-        }).then(allSites => {
-          const tripInfo = calculateTripInfo(routes, startSites, allSites)
-          dispatch(setSiteContentSuccess(tripInfo))
-
-          storageEngine(tripId).load().then(res => {
-            console.log(res)
-            if (!res.siteStatus) setSiteStatusStorage(tripId, tripInfo.siteStatus)
-            else {
-              dispatch(setSiteStatus(res.siteStatus))
-              setSiteStatusStorage(tripId, res.siteStatus)
-            }
-          })
-        })
-      })
-      .catch((error) => {
-        dispatch(getTripContentFailure(error))
-      })
-  }
+export function setSiteStatusWrapper(res: any):ThunkAction {
+  return dispatch => dispatch(setSiteStatus(res))
 }
+
 export function activateSiteBtn(res: any):Action {
   return {
     type: ACTIVATE_SITE_BTN,
@@ -211,10 +139,18 @@ export function activateSiteBtn(res: any):Action {
   }
 }
 
+export function activateSiteBtnWrapper(res: any):ThunkAction {
+  return dispatch => dispatch(activateSiteBtn(res))
+}
+
 export function deactivateSiteBtn():Action {
   return {
     type: DEACTIVATE_SITE_BTN,
   }
+}
+
+export function deactivateSiteBtnWrapper():ThunkAction {
+  return dispatch => dispatch(deactivateSiteBtn())
 }
 
 export function setDisplayInfo(res: any):Action {
@@ -226,10 +162,24 @@ export function setDisplayInfo(res: any):Action {
     },
   }
 }
+export function setDisplayInfoWrapper(res: any):ThunkAction {
+  return dispatch => dispatch(setDisplayInfo(res))
+}
 
 export function closeDisplayInfo():Action {
   return {
     type: CLOSE_DISPLAY_INFO,
+  }
+}
+
+export function closeDisplayInfoWrapper():ThunkAction {
+  return dispatch => dispatch(closeDisplayInfo())
+}
+
+export function getDisplayInfoDirectionStart(res: any):Action {
+  return {
+    type: GET_DISPLAY_INFO_DIRECTION_START,
+    payload: res,
   }
 }
 
@@ -251,118 +201,6 @@ export function setDisplayInfoTransitFailure(res:any):Action {
     type: SET_DISPLAY_INFO_TRANSIT_FAILURE,
     payload: res,
   }
-}
-
-export function getDisplayInfoDirection(mode: number, position: any):ThunkAction {
-  return dispatch => {
-    dispatch(setDisplayInfoTransit())
-    let modeStr = 'transit'
-    let startCallback = setDisplayInfoTransit
-    let successCallback = setDisplayInfoTransitSuccess
-    let errorCallback = setDisplayInfoTransitFailure
-    switch (mode) {
-      case 0:
-        modeStr = 'transit'
-        startCallback = setDisplayInfoTransit
-        successCallback = setDisplayInfoTransitSuccess
-        errorCallback = setDisplayInfoTransitFailure
-        break
-      case 1:
-        modeStr = 'driving'
-        break
-      case 2:
-        modeStr = 'walking'
-        break
-      case 3:
-        modeStr = 'bicycling'
-        break
-    }
-    dispatch(startCallback())
-
-    return getNowPosition().then(({ lat, lng }) => {
-      return fetch('https://maps.googleapis.com/maps/api/directions/json?' +
-        `origin=${lat},${lng}` +
-        `&destination=${position.lat},${position.lng}` +
-        '&region=tw' +
-        `&mode=${modeStr}` +
-        '&language=zh-TW' +
-        `&key=${auth.firebase.apiKey}`)
-    }).then(res => res.json()).then(res => {
-      if (mode === 0) {
-        let departureTime = ''
-        let arrivalTime = ''
-        let durationText = ''
-        let stepsArr = []
-        let fare = ''
-        console.log(res)
-
-        if (res.routes.length !== 0) { // has route
-          const { departure_time, arrival_time, duration, steps } = res.routes[0].legs[0]
-          if (departure_time) departureTime = departure_time.text
-          if (arrival_time) arrivalTime = arrival_time.text
-          if (duration) durationText = duration.text
-          stepsArr = steps
-          if (res.routes[0].fare) fare = res.routes[0].fare.text
-          else fare = I18n.t('TripContent.noFareData')
-        }
-
-        dispatch(successCallback({
-          departureTime,
-          arrivalTime,
-          duration: durationText,
-          steps: stepsArr,
-          fare,
-        }))
-      }
-    }).catch(err => dispatch(errorCallback(err)))
-  }
-}
-
-export function getMapInfoDirection(outres :any):ThunkAction {
-  const destLat = outres.position.lat
-  const destLng = outres.position.lng
-  return dispatch => {
-    return getNowPosition().then(({ lat, lng }) => {
-      return fetch('https://maps.googleapis.com/maps/api/directions/json?' +
-        `origin=${lat},${lng}` +
-        `&destination=${destLat},${destLng}` +
-        '&region=tw' +
-        '&mode=walking' +
-        '&language=zh-TW' +
-        `&key=${auth.firebase.apiKey}`)
-    }).then(res => res.json()).then(res => {
-      const { name, introduction } = outres
-      if (res.routes.length === 0) { // no route
-        dispatch(setMapDirection({
-          polyline: [],
-          name,
-          introduction,
-          distance: I18n.t('TripAction.noRoute'),
-        }))
-      } else {
-        const distance = res.routes[0].legs[0].distance.text
-        const polyline = convertPolyline(res.routes[0].overview_polyline.points)
-        dispatch(setMapDirection({
-          polyline,
-          name,
-          introduction,
-          distance,
-        }))
-      }
-    }).catch(err => dispatch(setMapDirectionError(err)))
-  }
-}
-
-export function getNowPosition():Promise<Action> {
-  return new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords
-      resolve({ lat: latitude, lng: longitude })
-    },
-    error => reject(error),
-    { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
-    )
-  })
 }
 
 export function setMapInfo(res : any):Action {
@@ -404,9 +242,16 @@ export function setMapDirection(res : any):Action {
   }
 }
 
-export function setMapDirectionError(res : any):Action {
+export function setMapDirectionSuccess(res : any):Action {
   return {
-    type: SET_MAP_DIRECTION_ERROR,
+    type: SET_MAP_DIRECTION_SUCCESS,
+    payload: res,
+  }
+}
+
+export function setMapDirectionFailure(res : any):Action {
+  return {
+    type: SET_MAP_DIRECTION_FAILURE,
     payload: res,
   }
 }
@@ -432,11 +277,15 @@ export function resetAudioWrapper():ThunkAction {
   return dispatch => dispatch(resetAudio())
 }
 
-export function switchDisplayInfoCard(which : number):Action {
+export function switchDisplayInfoCard(which: number):Action {
   return {
     type: SWITCH_DISPLAY_INFO_CARD,
     payload: which,
   }
+}
+
+export function switchDisplayInfoCardWrapper(res: number):ThunkAction {
+  return dispatch => dispatch(switchDisplayInfoCard(res))
 }
 
 export function pressMarkerFailure(res: any):Action {

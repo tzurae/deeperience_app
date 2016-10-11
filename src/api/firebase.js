@@ -70,6 +70,6 @@ export default class Firebase extends apiInterface {
   }
 
   readDataBaseOnce(path) {
-    return firebase.database().ref(path).once('value')
+    return firebase.database().ref(path).once('value').then(res => res.val())
   }
 }

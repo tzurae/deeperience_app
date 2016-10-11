@@ -74,7 +74,7 @@ class TripContentRoute extends React.Component {
 
   componentWillMount() {
     BackAndroid.removeEventListener('hardwareBackPress', () => this.onReturn())
-    this.props.actions.getTripContentById(this.props.trip.tripKey)
+    this.props.actions.getTripContent(this.props.trip.tripKey)
     // must delete
     setSiteStatusStorage(this.props.trip.tripKey, [[3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
   }
@@ -84,22 +84,22 @@ class TripContentRoute extends React.Component {
   }
 
   onReturn() {
-    this.props.dispatch(this.props.actions.deactivateSiteBtn())
-    this.props.dispatch(this.props.actions.closeDisplayInfo())
+    this.props.actions.deactivateSiteBtnWrapper()
+    this.props.actions.closeDisplayInfoWrapper()
   }
 
   switchDisplayInfoTab(tab) {
     if (tab === 0) {
-      this.props.dispatch(this.props.actions.switchDisplayInfoCard(0))
+      this.props.actions.switchDisplayInfoCardWrapper(0)
     } else if (tab === 1) { // public transportation
-      this.props.dispatch(this.props.actions.switchDisplayInfoCard(1))
+      this.props.actions.switchDisplayInfoCardWrapper(1)
       if (this.props.trip.transit.fetched === false) {
-        this.props.actions.getDisplayInfoDirection(
-          0, // transit
-          this.props.trip.tripInfo[this.props.trip.displayDay]
+        this.props.actions.getDisplayInfoDirectionStart({
+          mode: 0, // transit
+          position: this.props.trip.tripInfo[this.props.trip.displayDay]
             .sites[this.props.trip.displayWhich]
-            .content.mapSite[0].position
-        )
+            .content.mapSite[0].position,
+        })
       }
     }
   }
@@ -147,8 +147,8 @@ class TripContentRoute extends React.Component {
     }
 
     status[this.props.trip.displayDay][this.props.trip.displayWhich] = 1
-    this.props.dispatch(this.props.actions.setSiteStatus(status))
-    this.props.dispatch(this.props.actions.closeDisplayInfo())
+    this.props.actions.setSiteStatusWrapper(status)
+    this.props.actions.closeDisplayInfoWrapper()
 
     setSiteStatusStorage(this.props.trip.tripKey, status)
   }
@@ -166,25 +166,17 @@ class TripContentRoute extends React.Component {
     })
     setSiteStatusStorage(this.props.trip.tripKey, status).then(() => { // store local first, then dispatch siteStatus
       status[this.props.trip.displayDay][this.props.trip.displayWhich] = 4
-      this.props.dispatch(this.props.actions.setSiteStatus(status))
+      this.props.actions.setSiteStatusWrapper(status)
     })
   }
 
   siteBtnClick(status, name, introduction, day, order) {
     if (status === 0) return
 
-    this.props.dispatch(
-      this.props.actions.setDisplayInfo({
-        title: name, introduction,
-      })
-    )
-    this.props.dispatch(this.props.actions.deactivateSiteBtn())
-    this.props.dispatch(
-      this.props.actions.activateSiteBtn({
-        day, order,
-      })
-    )
-    this.props.dispatch(this.props.actions.switchDisplayInfoCard(0))
+    this.props.actions.setDisplayInfoWrapper({ title: name, introduction })
+    this.props.actions.deactivateSiteBtnWrapper()
+    this.props.actions.activateSiteBtnWrapper({ day, order })
+    this.props.actions.switchDisplayInfoCardWrapper(0)
   }
 
   render() {
@@ -286,8 +278,8 @@ class TripContentRoute extends React.Component {
               <IconSidebar
                 displayInfoMode={this.props.trip.displayInfoMode}
                 closeFunc={() => {
-                  this.props.dispatch(this.props.actions.closeDisplayInfo())
-                  this.props.dispatch(this.props.actions.deactivateSiteBtn())
+                  this.props.actions.closeDisplayInfoWrapper()
+                  this.props.actions.deactivateSiteBtnWrapper()
                 }}
                 openMenuFunc={() => this.props.actions.toggleSidebarWrapper()}
                 closeExpandFunc={() => this.props.actions.toggleDisplayInfoWrapper()}

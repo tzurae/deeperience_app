@@ -68,12 +68,14 @@ export type Action =
     { type: 'SET_MAP_INFO', payload: any } |
     { type: 'SET_MAP_INFO_SUCCESS' } |
     { type: 'SET_MAP_INFO_FAILURE', payload: any } |
-    { type: 'SET_MAP_DIRECTION', payload: any } |
-    { type: 'SET_MAP_DIRECTION_ERROR', payload: any } |
+    { type: 'SET_MAP_DIRECTION' } |
+    { type: 'SET_MAP_DIRECTION_SUCCESS', payload: any } |
+    { type: 'SET_MAP_DIRECTION_FAILURE', payload: any } |
 
     { type: 'SET_AUDIO', payload: number } |
     { type: 'RESET_AUDIO' } |
 
+    { type: 'DISPLAY_INFO_DIRECTION_START' } |
     { type: 'SET_DISPLAY_INFO_TRANSIT' } |
     { type: 'SET_DISPLAY_INFO_TRANSIT_SUCCESS', payload: any } |
     { type: 'SET_DISPLAY_INFO_TRANSIT_FAILURE', payload: any } |

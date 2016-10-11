@@ -54,13 +54,11 @@ class Main extends Component {
 
   constructor(props) {
     super(props)
-    this.props.actions.getAllTripWrapper()
+    this.props.actions.getAllTrip()
   }
 
   onTripPress(key) {
-    this.props.dispatch(
-      this.props.actions.setTripKey(key)
-    )
+    this.props.actions.setTripKeyWrapper(key)
     Actions.TripContent()
   }
 

@@ -33,10 +33,13 @@ const {
   SET_MAP_INFO_SUCCESS,
   SET_MAP_INFO_FAILURE,
   SET_MAP_DIRECTION,
-  SET_MAP_DIRECTION_ERROR,
+  SET_MAP_DIRECTION_SUCCESS,
+  SET_MAP_DIRECTION_FAILURE,
 
   SET_AUDIO,
   RESET_AUDIO,
+
+  GET_DISPLAY_INFO_DIRECTION_START,
 
   SET_DISPLAY_INFO_TRANSIT,
   SET_DISPLAY_INFO_TRANSIT_SUCCESS,
@@ -151,11 +154,15 @@ export default function tripReducer(state = initialState, action = {}) {
                   .setIn(['error'], action.payload)
 
     case SET_MAP_DIRECTION:
+      return state
+    case SET_MAP_DIRECTION_SUCCESS:
       return state.setIn(['mapInfo', 'mainTitle'], action.payload.name)
                   .setIn(['mapInfo', 'subTitle'], action.payload.name)
                   .setIn(['mapInfo', 'content'], action.payload.introduction)
                   .setIn(['mapInfo', 'polyline'], action.payload.polyline)
                   .setIn(['mapInfo', 'distance'], action.payload.distance)
+    case SET_MAP_DIRECTION_FAILURE:
+      return state.setIn(['error'], action.payload)
 
     case SET_AUDIO:
       let newState = state
@@ -170,8 +177,11 @@ export default function tripReducer(state = initialState, action = {}) {
                   .setIn(['mapInfo', 'audioPosition'], 0)
                   .setIn(['mapInfo', 'audioDuration'], 1)
 
-    case SET_DISPLAY_INFO_TRANSIT:
+    case GET_DISPLAY_INFO_DIRECTION_START:
       return state.setIn(['displayInfo', 'transit', 'isFetching'], true)
+
+    case SET_DISPLAY_INFO_TRANSIT:
+      return state
 
     case SET_DISPLAY_INFO_TRANSIT_SUCCESS:
       const {
@@ -208,9 +218,6 @@ export default function tripReducer(state = initialState, action = {}) {
     case TOGGLE_CONTENT_MODE:
       nowState = state.getIn(['mapInfo', 'contentDisplayMode'])
       return state.setIn(['mapInfo', 'contentDisplayMode'], !nowState)
-
-    case SET_MAP_DIRECTION_ERROR:
-      return state.setIn(['error'], action.payload)
 
     case SWITCH_DISPLAY_INFO_CARD:
       return state.setIn(['displayInfo', 'displayWhichCard'], action.payload)
