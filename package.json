@@ -17,6 +17,13 @@
       "/node_modules/"
     ]
   },
+  "env": {
+    "production": {
+      "plugins": [
+        "transform-remove-console"
+      ]
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://gitlab.com/deeperience/deeperience-app.git"
@@ -45,6 +52,7 @@
   "dependencies": {
     "apsl-react-native-button": "3.0.0",
     "babel-core": "^6.17.0",
+    "babel-plugin-transform-remove-console": "^6.8.0",
     "eslint": "^3.7.1",
     "firebase": "^3.3.0",
     "immutable": "3.8.1",

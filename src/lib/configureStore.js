@@ -40,13 +40,17 @@ export default function configureStore(options: Options) {
 
   const storage = createStorageMiddleware(platformDeps.createStorageEngine)
 
-  const middlewares = [
+  let middlewares = [
     saga,
     thunk,
     injectMiddleware(platformDeps),
     storage,
-    logger,
   ]
+
+  if (process.env.NODE_ENV !== 'production') {
+    middlewares = [...middlewares, logger]
+  }
+
   // ------------------------middleware setting end-------------------------
 
   const enhancer = compose(applyMiddleware(...middlewares), devTools({ realtime: true }))
