@@ -105,6 +105,7 @@ class TripContentRoute extends React.Component {
   }
 
   setFrontier() {
+    return
     const status = []
     const routes = this.props.trip.tripInfo[this.props.trip.displayDay].routes
     const sites = this.props.trip.tripInfo[this.props.trip.displayDay].sites
@@ -154,6 +155,7 @@ class TripContentRoute extends React.Component {
   }
 
   unlock() {
+    return
     const status = []
 
     this.props.trip.siteStatus.forEach(site => { // deep copy status
