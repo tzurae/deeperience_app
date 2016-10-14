@@ -13,8 +13,6 @@ export default {
 
 export const HTMLStyle = StyleSheet.create({
   img: {
-    width: width - 30,
-    height: width - 100,
     resizeMode: Image.resizeMode.contain,
     margin: 0,
     padding: 0,
