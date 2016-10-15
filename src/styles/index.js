@@ -18,8 +18,8 @@ export const HTMLStyle = StyleSheet.create({
     padding: 0,
   },
   imgWrapper: {
-    marginTop: -25,
-    marginBottom: -15,
+    marginTop: 5,
+    marginBottom: 5,
   },
   p: {
     fontSize: 16,

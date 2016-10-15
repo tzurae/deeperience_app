@@ -1,10 +1,9 @@
 'use strict'
 import React, { PropTypes } from 'react'
 import styles from './styles'
-import { View, ScrollView, Text, Image } from 'react-native'
+import { View, ScrollView, Text } from 'react-native'
 import I18n from '../../../lib/i18n'
-import { HTMLStyle } from '../../../styles'
-import HTMLRender from 'react-native-html-render'
+import HTMLContent from '../../HTMLContent'
 import Loading from '../../../components/Loading'
 import Dimensions from 'Dimensions'
 const { width } = Dimensions.get('window')
@@ -27,45 +26,6 @@ class DisplayInfo extends React.PureComponent {
     steps: [],
   }
 
-  constructor(props) {
-    super(props)
-    this.state = { size: {} }
-  }
-
-  componentWillMount() {
-    console.log(this.props.introduction)
-    const arr = this.props.introduction.match(/src="\S*"/g)
-    if (arr) {
-      arr.map((str) => str.substring(5, str.length - 1).replace('&amp;', '&'))
-        .forEach((str) => {
-          this.state.size[str] = { width: 100, height: 100 }
-          Image.getSize(str, (wid, hei) => {
-            this.setState({
-              size: { ...this.state.size, [str]: { width: width - 60, height: hei / wid * (width - 60) } },
-            })
-          })
-        })
-    }
-  }
-
-  renderHTML(node, index, parent, type) {
-    const name = node.name
-    if (name === 'img') {
-      let uri = node.attribs.src
-      if (/^\/\/dn-cnode\.qbox\.me\/.*/.test(uri)) {
-        uri = `https:${uri}`
-      }
-      return (
-        <View
-          key={index}
-          style={styles.imgWrapper}>
-          <Image source={{ uri }}
-                 style={[styles.img, this.state.size[uri]]}/>
-        </View>
-      )
-    }
-  }
-
   render() {
     return (
       <View style={styles.infoContainer}>
@@ -82,9 +42,8 @@ class DisplayInfo extends React.PureComponent {
                     <Text style={styles.displayInfoTitle}>
                       {this.props.title}
                     </Text>
-                    <HTMLRender
-                      renderNode={this.renderHTML.bind(this)}
-                      stylesheet={HTMLStyle}
+                    <HTMLContent
+                      width={width - 60}
                       value={this.props.introduction}
                     />
                   </ScrollView>

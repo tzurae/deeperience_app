@@ -14,10 +14,11 @@ import styles from './styles'
 import { Actions } from 'react-native-router-flux'
 import { Player } from 'react-native-audio-toolkit'
 import TouchableIcon from '../../../components/TouchableIcon'
-import { HTMLStyle } from '../../../styles'
-import HTMLRender from 'react-native-html-render'
+import HTMLContent from '../../../components/HTMLContent'
 import AudioContainer from '../../../components/Trip/AudioContainer'
 import MapContainer from '../../../components/Trip/MapContainer'
+import Dimensions from 'Dimensions'
+const { width } = Dimensions.get('window')
 
 const actions = [
   tripActions,
@@ -208,9 +209,9 @@ class SiteContent extends React.Component {
             color={'black'}
           />
           <ScrollView>
-            <HTMLRender
-              stylesheet={HTMLStyle}
+            <HTMLContent
               value={this.props.trip.content}
+              width={width - 30}
             />
           </ScrollView>
         </View>
