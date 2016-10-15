@@ -28,6 +28,7 @@ class TabBar extends React.Component {
       <ScrollableTabView
         tabBarPosition = {this.props.tabBarPosition}
         onChangeTab={this.props.onChangeTab}
+        initialPage={this.props.initialPage || 0}
         renderTabBar={() =>
         <DefaultTabBar
           activeTextColor = {this.props.activeTextColor}

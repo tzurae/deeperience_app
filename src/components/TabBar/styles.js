@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 import MainStyle from '../../styles'
 
-export default (StyleSheet.create({
+export default StyleSheet.create({
   tabStyle: {
     paddingTop: 7,
     flex: 1,
@@ -24,4 +24,4 @@ export default (StyleSheet.create({
   text: {
     fontSize: MainStyle.font.medium,
   },
-}))
+})

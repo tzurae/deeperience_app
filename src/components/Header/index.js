@@ -5,6 +5,7 @@ import
 {
   Text,
   View,
+  Platform,
 } from 'react-native'
 import styles from './styles'
 import MainStyle from '../../styles'
@@ -22,20 +23,18 @@ class Header extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {(() => {
-          if (this.props.back) {
-            return (
-              <TouchableIcon
-                style={styles.backIcon}
-                onPress={() => this.props.onReturn()}
-                underlayColor={MainStyle.color.main}
-                name="chevron-left"
-                size={30}
-                color="white"
-              />
-              )
-          }
-        })()}
+        {Platform.OS === 'ios' ? (
+          <View style={styles.iosbar}/>
+        ) : null}
+        {this.props.back ? (
+            <TouchableIcon
+              style={styles.backIcon}
+              onPress={() => this.props.onReturn()}
+              underlayColor={MainStyle.color.main}
+              name="chevron-left"
+              size={30}
+              color="white"
+            />) : null}
         <Text style={styles.textStyle}>{this.props.headerText}</Text>
       </View>
     )

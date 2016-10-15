@@ -53,6 +53,10 @@ export default {
     "valid_password": "6-12 in length, with a number and special character: !@#$%^&*",
     "valid_password_again": "Passwords must match",
   },
+  "MainChoose": {
+    "custom": "客製化行程",
+    "walkAround": "到處逛逛",
+  },
   "Nav": {
     "planList": "旅程列表",
     "favoriteGuide": "收藏嚮導",
@@ -61,6 +65,9 @@ export default {
     "recommendation": "推薦",
     "purchased": "已購買",
     "tripContent": "行程介紹",
+    "favorite": "已收藏",
+    "theme": "主題",
+    "custom": "客製化",
   },
   "TripTab": {
     "introduction": "簡  介",

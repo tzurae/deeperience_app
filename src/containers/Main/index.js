@@ -52,11 +52,6 @@ function mapDispatchToProps(dispatch) {
 
 class Main extends Component {
 
-  constructor(props) {
-    super(props)
-    this.props.actions.getAllTrip()
-  }
-
   onTripPress(key) {
     this.props.actions.setTripKeyWrapper(key)
     Actions.TripContent()
@@ -69,7 +64,11 @@ class Main extends Component {
           headerText={I18n.t('Nav.planList')}
           back={false}
         />
-        <TabBar>
+        <TabBar initialPage={this.props.initialPage}>
+          <View
+            style={styles.innerView}
+            tabLabel={I18n.t('Nav.custom')}
+          />
           <ScrollView
             style={styles.innerView}
             tabLabel={I18n.t('Nav.recommendation')}
@@ -96,6 +95,10 @@ class Main extends Component {
               })
             }
           </ScrollView>
+          <View
+            style={styles.innerView}
+            tabLabel={I18n.t('Nav.theme')}
+          />
           <View
             style={styles.innerView}
             tabLabel={I18n.t('Nav.purchased')}

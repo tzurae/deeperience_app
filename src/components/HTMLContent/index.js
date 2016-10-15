@@ -4,8 +4,7 @@ import React, { PropTypes } from 'react'
 import { View, Image } from 'react-native'
 import { HTMLStyle } from '../../styles/'
 import HTMLRender from 'react-native-html-render'
-import Dimensions from 'Dimensions'
-const { width } = Dimensions.get('window')
+import { width } from '../../lib/dimensions'
 
 class HTMLContent extends React.Component {
   static propTypes = {
@@ -25,11 +24,26 @@ class HTMLContent extends React.Component {
   }
 
   componentWillMount() {
-    const arr = this.props.value.match(/src="\S*"/g)
+    this.setImageSize(this.props.value)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setImageSize(nextProps.value)
+  }
+
+  setImageSize(value) {
+    const arr = value.match(/src="\S*"/g)
     if (arr) {
       arr.map((str) => str.substring(5, str.length - 1).replace('&amp;', '&'))
         .forEach((str) => {
-          this.state.size[str] = { width: 0, height: 0 }
+          if (!this.state.size[str]) {
+            Image.getSize(str, (wid, hei) => {
+              this.setState({
+                size: { ...this.state.size,
+                  [str]: { width: this.props.width,
+                    height: hei / wid * this.props.width } } })
+            })
+          }
         })
     }
   }
@@ -40,15 +54,6 @@ class HTMLContent extends React.Component {
       let uri = node.attribs.src
       if (/^\/\/dn-cnode\.qbox\.me\/.*/.test(uri)) {
         uri = `https:${uri}`
-      }
-      if (!this.state.size[uri] || this.state.size[uri].width === 0) {
-        Image.getSize(uri, (wid, hei) => {
-          const newSize = this.state.size
-          newSize[uri] = { width: this.props.width, height: hei / wid * this.props.width }
-          this.setState({
-            size: newSize,
-          })
-        })
       }
       return (
         <View

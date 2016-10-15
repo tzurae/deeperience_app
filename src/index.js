@@ -1,8 +1,6 @@
 import React from 'react'
 import {
   AppRegistry,
-  View,
-  Text,
   ToastAndroid,
 } from 'react-native'
 
@@ -15,6 +13,7 @@ import {
 import { Provider } from 'react-redux'
 import configureStore from './lib/configureStore'
 import App from './containers/App'
+import MainChoose from './containers/MainChoose'
 import Login from './containers/Login'
 // import Logout from './containers/Logout'
 import Register from './containers/Register'
@@ -25,7 +24,6 @@ import Subview from './containers/Subview'
 import TripContent from './containers/Trip/TripContent'
 import SiteContent from './containers/Trip/SiteContent'
 
-import Icon from 'react-native-vector-icons/FontAwesome'
 import createStorageEngine from 'redux-storage-engine-reactnativeasyncstorage'
 
 import { setPlatform, setVersion } from './reducers/device/deviceActions'
@@ -60,32 +58,6 @@ function getInitialState() {
   }
   return initState
 }
-
-/**
- * ## TabIcon
- *
- * Displays the icon for the tab w/ color dependent upon selection
- */
-class TabIcon extends React.Component {
-  render() {
-    const color = this.props.selected ? '#FF3366' : '#FFB3B3'
-    return (
-      <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', alignSelf: 'center' }}>
-        <Icon style={{ color }} name={this.props.iconName} size={25}/>
-        <Text style={{ color }}>{this.props.title}</Text>
-      </View>
-    )
-  }
-}
-
-/**
- * ## Native
- *
- * ```configureStore``` with the ```initialState``` and set the
- * ```platform``` and ```version``` into the store by ```dispatch```.
- * *Note* the ```store``` itself is set into the ```store```.  This
- * will be used when doing hot loading
- */
 
 export default function native(platform) {
   class Deeperience extends React.Component {
@@ -129,6 +101,10 @@ export default function native(platform) {
                      component={App}
                      type="replace"
               />
+              <Scene key="MainChoose"
+                     component={MainChoose}
+                     initial={true}
+              />
               <Scene key="InitialLoginForm"
                      component={Register}
                      type="replace"
@@ -153,12 +129,7 @@ export default function native(platform) {
                      component={Subview}
               />
               <Scene key="Main"
-                     title={I18n.t('Nav.planList')}
-                     iconName="list-ul"
-                     icon={TabIcon}
-                     hideNavBar={true}
                      component={Main}
-                     initial={true}
               />
               <Scene key="TripContent"
                      component={TripContent}
