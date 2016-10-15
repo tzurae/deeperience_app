@@ -75,8 +75,6 @@ class TripContentRoute extends React.Component {
   componentWillMount() {
     BackAndroid.removeEventListener('hardwareBackPress', () => this.onReturn())
     this.props.actions.getTripContent(this.props.trip.tripKey)
-    // must delete
-    setSiteStatusStorage(this.props.trip.tripKey, [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
   }
 
   componentDidMount() {
@@ -172,20 +170,13 @@ class TripContentRoute extends React.Component {
 
   siteBtnClick(status, name, introduction, day, order) {
     if (status === 0) return
-    // by Chiu
-    // pretty hacky,
-    // the reason why I use a promise is to make sure that the componentWillMount
-    // will be execute, so that the width and height of the images in the displayInfo
-    // will recalculate and reload
-    new Promise((resolve) => {
-      this.props.actions.closeDisplayInfoWrapper()
-      resolve()
-    }).then(() => {
-      this.props.actions.setDisplayInfoWrapper({ title: name, introduction })
-      this.props.actions.deactivateSiteBtnWrapper()
-      this.props.actions.activateSiteBtnWrapper({ day, order })
-      this.props.actions.switchDisplayInfoCardWrapper(0)
-    })
+    this.props.actions.setDisplayInfoWrapper({ title: name, introduction })
+    this.props.actions.deactivateSiteBtnWrapper()
+    this.props.actions.activateSiteBtnWrapper({ day, order })
+    this.props.actions.switchDisplayInfoCardWrapper(0)
+    if (this.props.trip.sidebarDisplayMode) {
+      this.props.actions.toggleSidebarWrapper(0)
+    }
   }
 
   render() {
