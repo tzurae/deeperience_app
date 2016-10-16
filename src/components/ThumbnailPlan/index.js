@@ -1,7 +1,7 @@
 'use strict'
 import {
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
   Image,
   View,
 } from 'react-native'
@@ -35,8 +35,9 @@ class ThumbnailPlan extends Component {
   render() {
     return (
       <View>
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={() => this.props.onPress()}
+          activeOpacity={0.7}
         >
           <View style={styles.tripView}>
             <Image
@@ -67,7 +68,7 @@ class ThumbnailPlan extends Component {
               {`${this.props.unit} ${this.props.price}`}
             </Text>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
         <View style={styles.tripOverView}>
           <Text style={styles.guideName}>
             {this.props.guideName}

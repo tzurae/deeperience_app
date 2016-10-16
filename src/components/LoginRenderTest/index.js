@@ -1,5 +1,5 @@
 /**
- * # Login.js
+ * # LoginRender.js
  *
  * This class is a little complicated as it handles multiple states.
  *
@@ -15,23 +15,16 @@ import ErrorAlert from '../ErrorAlert'
 import FormButton from '../FormButton'
 import LoginForm from '../LoginForm'
 import ItemCheckbox from '../ItemCheckbox'
+import Header from '../Header'
 import React from 'react'
-import ScrollableTabView from 'react-native-scrollable-tab-view'
 import
 {
-  ScrollView,
   Text,
   TouchableHighlight,
   View,
-}
-  from 'react-native'
+} from 'react-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
-import Dimensions from 'Dimensions'
-import { FBLogin, FBLoginManager } from 'react-native-facebook-login'
-import R from 'reactotron-react-native'
-
-const { height, width } = Dimensions.get('window') // Screen dimensions in current orientation
 
 /**
  * The states were interested in
@@ -41,9 +34,7 @@ const {
   REGISTER,
   FORGOT_PASSWORD,
 } = require('../../lib/constants').default
-/**
- * ## Redux boilerplate
- */
+
 const actions = [
   authActions,
   globalActions,
@@ -138,7 +129,7 @@ class LoginRender extends React.Component {
           Actions.ForgotPassword()
         }}
        >
-        <Text>{I18n.t('LoginRender.forgot_password')}</Text>
+        <Text>{I18n.t('LoginRender.forgotPassword')}</Text>
       </TouchableHighlight>)
 
     const alreadyHaveAccount =
@@ -148,7 +139,7 @@ class LoginRender extends React.Component {
           Actions.Login()
         }}
        >
-        <Text>{I18n.t('LoginRender.already_have_account')}</Text>
+        <Text>{I18n.t('LoginRender.alreadyHaveAccount')}</Text>
       </TouchableHighlight>)
 
     const register =
@@ -176,44 +167,8 @@ class LoginRender extends React.Component {
    * Setup some default presentations and render
    */
   render() {
-    const formType = this.props.formType
-    const loginButtonText = this.props.loginButtonText
-    const onButtonPress = this.props.onButtonPress
-    const displayPasswordCheckbox = this.props.displayPasswordCheckbox
-    const leftMessageType = this.props.leftMessageType
-    const rightMessageType = this.props.rightMessageType
-
-    let passwordCheckbox = <Text/>
-    const leftMessage = this.getMessage(leftMessageType, this.props.actions)
-    const rightMessage = this.getMessage(rightMessageType, this.props.actions)
-
-    const self = this
-
     // display the login / register / change password screens
     this.errorAlert.checkError(this.props.auth.form.error)
-
-    /**
-     * Toggle the display of the Password and PasswordAgain fields
-     */
-    if (displayPasswordCheckbox) {
-      passwordCheckbox =
-        (<ItemCheckbox
-          text={I18n.t('LoginRender.show_password')}
-          disabled={this.props.auth.form.isFetching}
-          onCheck={() => {
-            this.props.actions.onAuthFormFieldChange('showPassword', true)
-          }}
-          onUncheck={() => {
-            this.props.actions.onAuthFormFieldChange('showPassword', false)
-          }}
-         />)
-    }
-
-    // https://github.com/magus/react-native-facebook-login/blob/master/android/README.md
-    const loginBehavior = {
-      ios: FBLoginManager.LoginBehaviors.Browser,
-      android: FBLoginManager.LoginBehaviors.Native,
-    }
 
     /**
      * The LoginForm is now defined with the required fields.  Just
@@ -224,53 +179,40 @@ class LoginRender extends React.Component {
      */
     return (
       <View style={styles.container}>
-        <ScrollableTabView>
-          <View style={styles.container} tabLabel="login">
-            <ScrollView horizontal={false} width={width} height={height}>
-              <View>
-                <View style={styles.inputs}>
-                  <LoginForm
-                    formType={formType}
-                    form={this.props.auth.form}
-                    value={this.state.value}
-                    onChange={self.onChange.bind(self)}
-                  />
-                  {passwordCheckbox}
-                </View>
-
-                <FormButton
-                  isDisabled={!this.props.auth.form.isValid || this.props.auth.form.isFetching}
-                  onPress={onButtonPress}
-                  buttonText={loginButtonText}
-                />
-
-                <View>
-                  <View style={styles.forgotContainer}>
-                    {leftMessage}
-                    {rightMessage}
-                  </View>
-                </View>
-
-              </View>
-            </ScrollView>
+        <Header
+          onReturn={() => Actions.pop()}
+        />
+        <View style={styles.innerContainer}>
+          <Text style={styles.title}>
+            {I18n.t('LoginRender.explore')}
+          </Text>
+          <View>
+            <LoginForm
+              formType={this.props.formType}
+              form={this.props.auth.form}
+              value={this.state.value}
+              onChange={this.onChange.bind(this)}
+            />
+            {this.props.displayPasswordCheckbox ?
+              (<ItemCheckbox
+                text={I18n.t('LoginRender.showPassword')}
+                disabled={this.props.auth.form.isFetching}
+                onCheck={() => {
+                  this.props.actions.onAuthFormFieldChange('showPassword', true)
+                }}
+                onUncheck={() => {
+                  this.props.actions.onAuthFormFieldChange('showPassword', false)
+                }}
+              />) : null
+            }
           </View>
-          <View tabLabel="fblogin">
-            <ScrollView horizontal={false} width={width} height={height}>
-              <FBLogin
-                ref={(fbLogin) => { this.fbLogin = fbLogin }}
-                loginBehavior={loginBehavior[this.props.device.platform]}
-                permissions={['email', 'user_friends']}
-                onLogin={e => R.log(e)}
-                onLoginFound={e => R.log(e)}
-                onLoginNotFound={e => R.log(e)}
-                onLogout={e => R.log(e)}
-                onCancel={e => R.log(e)}
-                onPermissionsMissing={e => R.log(e)}
-              />
-            </ScrollView>
-          </View>
-        </ScrollableTabView>
+          <FormButton
+            isDisabled={!this.props.auth.form.isValid || this.props.auth.form.isFetching}
+            onPress={this.props.onButtonPress}
+            buttonText={this.props.buttonText}
+          />
         </View>
+      </View>
     )
   }
 }

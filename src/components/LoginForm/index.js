@@ -7,23 +7,13 @@
  *
  */
 'use strict'
-/**
- * ## Import
- *
- * React
- */
 import React, { PropTypes } from 'react'
-/**
- *  The fantastic little form library
- */
 import t from 'tcomb-form-native'
-
+import stylesheet from './styles'
 import I18n from '../../lib/i18n'
 
 const Form = t.form.Form
-/**
- * States of login display
- */
+
 const {
   REGISTER,
   LOGIN,
@@ -45,16 +35,12 @@ class LoginForm extends React.Component {
     onChange: PropTypes.func,
   }
 
-  /**
-   * ## render
-   *
-   * setup all the fields using the props and default messages
-   *
-   */
   render() {
     const formType = this.props.formType
 
     const options = {
+      auto: 'none',
+      stylesheet,
       fields: {
       },
     }
@@ -65,6 +51,7 @@ class LoginForm extends React.Component {
       editable: !this.props.form.isFetching,
       hasError: this.props.form.fields.usernameHasError,
       error: this.props.form.fields.usernameErrorMsg,
+      underlineColorAndroid: '#FFFFFF',
     }
 
     const email = {
@@ -73,6 +60,7 @@ class LoginForm extends React.Component {
       editable: !this.props.form.isFetching,
       hasError: this.props.form.fields.emailHasError,
       error: this.props.form.fields.emailErrorMsg,
+      underlineColorAndroid: '#FFFFFF',
     }
 
     const secureTextEntry = !this.props.form.fields.showPassword
@@ -84,15 +72,17 @@ class LoginForm extends React.Component {
       editable: !this.props.form.isFetching,
       hasError: this.props.form.fields.passwordHasError,
       error: this.props.form.fields.passwordErrorMsg,
+      underlineColorAndroid: '#FFFFFF',
     }
 
     const passwordAgain = {
-      label: I18n.t('LoginForm.password_again'),
+      label: I18n.t('LoginForm.passwordAgain'),
       secureTextEntry,
       maxLength: 12,
       editable: !this.props.form.isFetching,
       hasError: this.props.form.fields.passwordAgainHasError,
       error: this.props.form.fields.passwordAgainErrorMsg,
+      underlineColorAndroid: '#FFFFFF',
     }
 
     let loginForm
@@ -109,15 +99,11 @@ class LoginForm extends React.Component {
           passwordAgain: t.String,
         })
         options.fields.username = username
-        options.fields.username.placeholder = I18n.t('LoginForm.username')
         options.fields.username.autoCapitalize = 'none'
         options.fields.email = email
-        options.fields.email.placeholder = I18n.t('LoginForm.email')
         options.fields.email.autoCapitalize = 'none'
         options.fields.password = password
-        options.fields.password.placeholder = I18n.t('LoginForm.password')
         options.fields.passwordAgain = passwordAgain
-        options.fields.passwordAgain.placeholder = I18n.t('LoginForm.password_again')
         break
 
       /**
@@ -150,10 +136,6 @@ class LoginForm extends React.Component {
         break
     } // switch
 
-    /**
-     * ### Return
-     * returns the Form component with the correct structures
-     */
     return (
       <Form ref={ref => { this.form = ref }}
             type={loginForm}

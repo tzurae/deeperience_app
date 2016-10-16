@@ -17,6 +17,7 @@ import MainChoose from './containers/MainChoose'
 import Login from './containers/Login'
 // import Logout from './containers/Logout'
 import Register from './containers/Register'
+import RegisterTest from './containers/RegisterTest'
 import ForgotPassword from './containers/ForgotPassword'
 // import Profile from './containers/Profile'
 import Main from './containers/Main'
@@ -103,7 +104,19 @@ export default function native(platform) {
               />
               <Scene key="MainChoose"
                      component={MainChoose}
+              />
+              <Scene key="Main"
+                     component={Main}
                      initial={true}
+              />
+              <Scene key="RegisterTest"
+                     component={RegisterTest}
+              />
+              <Scene key="TripContent"
+                     component={TripContent}
+              />
+              <Scene key="SiteContent"
+                     component={SiteContent}
               />
               <Scene key="InitialLoginForm"
                      component={Register}
@@ -127,15 +140,6 @@ export default function native(platform) {
 
               <Scene key="Subview"
                      component={Subview}
-              />
-              <Scene key="Main"
-                     component={Main}
-              />
-              <Scene key="TripContent"
-                     component={TripContent}
-              />
-              <Scene key="SiteContent"
-                     component={SiteContent}
               />
             </Scene>
           </Router>

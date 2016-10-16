@@ -13,7 +13,6 @@ import
 {
   View,
   Text,
-  TouchableHighlight,
   TouchableWithoutFeedback,
 } from 'react-native'
 
@@ -25,10 +24,9 @@ class ItemCheckbox extends React.Component {
     onUncheck: PropTypes.func,
     iconCheck: PropTypes.string,
     iconOpen: PropTypes.string,
-    size: PropTypes.number,
     backgroundColor: PropTypes.string,
+    iconSize: PropTypes.number,
     color: PropTypes.string,
-    iconSize: PropTypes.string,
     checked: PropTypes.bool,
     style: PropTypes.func,
     text: PropTypes.string,
@@ -37,12 +35,11 @@ class ItemCheckbox extends React.Component {
   static defaultProps = {
     onCheck: null,
     onUncheck: null,
-    iconCheck: 'check-square',
+    iconCheck: 'check-square-o',
     iconOpen: 'square-o',
-    size: 30,
     backgroundColor: 'white',
-    color: 'grey',
-    iconSize: 'normal',
+    iconSize: 20,
+    color: 'black',
     checked: false,
     text: 'MISSING TEXT',
     disabled: false,
@@ -56,24 +53,6 @@ class ItemCheckbox extends React.Component {
     super(props)
     this.state = {
       checked: this.props.checked,
-      bgColor: this.props.backgroundColor,
-    }
-  }
-  /**
-   * ### _getCircleCheckSytel
-   * merge the props styles w/ some defaults
-   */
-  getCircleCheckStyle() {
-    return {
-      width: this.props.size,
-      height: this.props.size,
-      backgroundColor: this.state.bg_color,
-      borderColor: this.props.color,
-      borderWidth: 2,
-      borderRadius: this.props.size / 2,
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: 2,
     }
   }
   /**
@@ -83,21 +62,11 @@ class ItemCheckbox extends React.Component {
    */
   completeProgress() {
     if (this.state.checked) {
-      this.setState({
-        checked: false,
-        bgColor: this.props.backgroundColor,
-      })
-      if (this.props.onUncheck) {
-        this.props.onUncheck()
-      }
+      this.setState({ checked: false })
+      if (this.props.onUncheck) this.props.onUncheck()
     } else {
-      this.setState({
-        checked: true,
-        bgColor: this.props.color,
-      })
-      if (this.props.onCheck) {
-        this.props.onCheck()
-      }
+      this.setState({ checked: true })
+      if (this.props.onCheck) this.props.onCheck()
     }
   }
   /**
@@ -116,12 +85,7 @@ class ItemCheckbox extends React.Component {
    * Set the ```iconName``` depending on if checked
    */
   render() {
-    let iconName = this.props.iconOpen
-    if (this.state.checked) {
-      iconName = this.props.iconCheck
-    }
     if (this.props.disabled) {
-      iconName = this.props.checked ? this.props.iconCheck : this.props.iconOpen
       return (
         <View style={this.props.style}>
           <TouchableWithoutFeedback>
@@ -130,32 +94,51 @@ class ItemCheckbox extends React.Component {
               flex: 1,
             }}>
               <Icon
-                  name={iconName}
-                  size={20}
+                  name={this.props.checked ? this.props.iconCheck : this.props.iconOpen}
+                  size={this.props.iconSize}
+                  color={this.props.color}
               />
-              <Text> {this.props.text}</Text>
+              <Text
+                style={{ color: this.props.color,
+                          marginLeft: 5,
+                          fontSize: this.props.iconSize - 5,
+                          position: 'relative',
+                          top: -1 }}
+              >
+                {this.props.text}
+              </Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
         )
     } else {
       return (
-          <View style={this.props.style}>
-            <TouchableHighlight
-                onPress={this.completeProgress}
-            >
-              <View style={{
-                flexDirection: 'row',
-                flex: 1,
-              }}>
-                <Icon
-                    name={iconName}
-                    size={20}
-                />
-                <Text> {this.props.text}</Text>
-              </View>
-            </TouchableHighlight>
-          </View>
+        <View style={this.props.style}>
+          <TouchableWithoutFeedback
+            onPress={this.completeProgress.bind(this)}
+          >
+            <View style={{
+              flexDirection: 'row',
+              flex: 1,
+              alignItems: 'center',
+            }}>
+              <Icon
+                name={this.state.checked ? this.props.iconCheck : this.props.iconOpen}
+                size={this.props.iconSize}
+                color={this.props.color}
+              />
+              <Text
+                style={{ color: this.props.color,
+                          marginLeft: 5,
+                          fontSize: this.props.iconSize - 5,
+                          position: 'relative',
+                          top: -1 }}
+              >
+                {this.props.text}
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
         )
     }
   }

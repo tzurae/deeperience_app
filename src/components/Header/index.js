@@ -1,14 +1,8 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
-import
-{
-  Text,
-  View,
-  Platform,
-} from 'react-native'
+import { Text, View, Platform } from 'react-native'
 import styles from './styles'
-import MainStyle from '../../styles'
 import TouchableIcon from '../TouchableIcon'
 
 class Header extends React.Component {
@@ -30,7 +24,6 @@ class Header extends React.Component {
             <TouchableIcon
               style={styles.backIcon}
               onPress={() => this.props.onReturn()}
-              underlayColor={MainStyle.color.main}
               name="chevron-left"
               size={30}
               color="white"

@@ -1,13 +1,12 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
-import { TouchableHighlight, Text, View } from 'react-native'
+import { TouchableOpacity, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import MainStyle from '../../styles'
 
 class TouchableIcon extends React.Component {
   static propTypes = {
-    underlayColor: PropTypes.string,
     name: PropTypes.string.isRequired,
     size: PropTypes.number,
     color: PropTypes.string,
@@ -17,7 +16,6 @@ class TouchableIcon extends React.Component {
     clickable: PropTypes.bool,
   }
   static defaultProps = {
-    underlayColor: MainStyle.color.mainShadow,
     size: 20,
     color: 'white',
     activeColor: MainStyle.color.main,
@@ -26,10 +24,10 @@ class TouchableIcon extends React.Component {
   }
   render() {
     return (
-      <TouchableHighlight
+      <TouchableOpacity
         style={this.props.style}
         onPress={() => this.props.onPress()}
-        underlayColor={this.props.underlayColor}
+        activeOpacity={0.7}
       >
         <View style={{
           justifyContent: 'center',
@@ -39,25 +37,17 @@ class TouchableIcon extends React.Component {
           <Icon
             name={this.props.name}
             size={this.props.size}
-            color={(() => {
-              if (!this.props.active) return this.props.color
-              else return this.props.activeColor
-            })()}
+            color={!this.props.active ? this.props.color : this.props.activeColor}
           />
-          {(() => {
-            if (this.props.children) {
-              return (
-                <Text style={[
-                  this.props.textStyle,
+          {this.props.children ?
+            (<Text style={[
+              this.props.textStyle,
                   { color: this.props.active ? this.props.activeColor : this.props.color },
-                ]}>
-                {this.props.children}
-                </Text>
-              )
-            }
-          })()}
+            ]}>
+              {this.props.children}
+            </Text>) : null}
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     )
   }
 }

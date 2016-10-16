@@ -202,7 +202,6 @@ class SiteContent extends React.Component {
           <Text style={styles.distance}>{this.props.trip.distance}</Text>
           <TouchableIcon
             style={styles.expandContentIcon}
-            underlayColor="#ccc"
             onPress={() => this.props.actions.toggleContentModeWrapper()}
             name={this.props.trip.contentDisplayMode ? 'compress' : 'expand'}
             size={18}

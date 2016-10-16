@@ -5,30 +5,20 @@
  */
 'use strict'
 import React from 'react'
-import
-{
-  View,
-} from 'react-native'
-
+import Button from 'react-native-button'
 import styles from './styles'
-
-/**
- * The platform neutral button
- */
-const Button = require('apsl-react-native-button')
 
 class FormButton extends React.Component {
   render() {
     return (
-      <View style={styles.signin}>
-        <Button style={styles.button}
-                textStyle={{ fontSize: 18 }}
-                isDisabled={this.props.isDisabled}
-                onPress={this.props.onPress}
-        >
-          {this.props.buttonText}
-        </Button>
-      </View>
+      <Button style={styles.button}
+              containerStyle={styles.container}
+              disabled={this.props.isDisabled}
+              onPress={this.props.onPress}
+              activeOpacity={0.7}
+      >
+        {this.props.buttonText}
+      </Button>
     )
   }
 }

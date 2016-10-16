@@ -8,11 +8,12 @@ import { Map } from 'immutable'
 import { Actions } from 'react-native-router-flux'
 import React, { Component } from 'react'
 import Header from '../../components/Header'
+import TabBar from '../../components/TabBar'
 import ThumbnailPlan from '../../components/ThumbnailPlan'
+import LoginMain from '../LoginMain'
 import { View, ScrollView } from 'react-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
-import TabBar from '../../components/TabBar'
 
 const actions = [
   authActions,
@@ -68,7 +69,9 @@ class Main extends Component {
           <View
             style={styles.innerView}
             tabLabel={I18n.t('Nav.custom')}
-          />
+          >
+            <LoginMain/>
+          </View>
           <ScrollView
             style={styles.innerView}
             tabLabel={I18n.t('Nav.recommendation')}

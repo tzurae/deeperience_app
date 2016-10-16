@@ -51,7 +51,6 @@ class AudioContainer extends React.Component {
       ]}>
         <TouchableIcon
           style={styles.expandMapIcon}
-          underlayColor="#ccc"
           onPress={this.props.toggleMap}
           name={this.props.displayMode ? 'compress' : 'expand'}
           size={18}
