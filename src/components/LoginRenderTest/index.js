@@ -11,29 +11,14 @@ import * as authActions from '../../reducers/auth/authActions'
 import * as globalActions from '../../reducers/global/globalActions'
 import { Map } from 'immutable'
 import { Actions } from 'react-native-router-flux'
-import ErrorAlert from '../ErrorAlert'
 import FormButton from '../FormButton'
 import LoginForm from '../LoginForm'
 import ItemCheckbox from '../ItemCheckbox'
 import Header from '../Header'
 import React from 'react'
-import
-{
-  Text,
-  TouchableHighlight,
-  View,
-} from 'react-native'
+import { Text, View } from 'react-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
-
-/**
- * The states were interested in
- */
-const {
-  LOGIN,
-  REGISTER,
-  FORGOT_PASSWORD,
-} = require('../../lib/constants').default
 
 const actions = [
   authActions,
@@ -67,7 +52,6 @@ function mapStateToProps(state) {
 class LoginRender extends React.Component {
   constructor(props) {
     super(props)
-    this.errorAlert = new ErrorAlert()
     this.state = {
       value: {
         username: this.props.auth.form.fields.username,
@@ -79,10 +63,6 @@ class LoginRender extends React.Component {
     }
   }
 
-  /**
-   * ### componentWillReceiveProps
-   * As the properties are validated they will be set here.
-   */
   componentWillReceiveProps(nextprops) {
     this.setState({
       value: {
@@ -120,60 +100,8 @@ class LoginRender extends React.Component {
       { value }
     )
   }
-  /**
-   *  Get the appropriate message for the current action
-   *  @param messageType FORGOT_PASSWORD, or LOGIN, or REGISTER
-   *  @param actions the action for the message type
-   */
-  getMessage(messageType, actions) {
-    const forgotPassword =
-      (<TouchableHighlight
-        onPress={() => {
-          actions.forgotPasswordState()
-          Actions.ForgotPassword()
-        }}
-       >
-        <Text>{I18n.t('LoginRender.forgotPassword')}</Text>
-      </TouchableHighlight>)
 
-    const alreadyHaveAccount =
-      (<TouchableHighlight
-        onPress={() => {
-          actions.loginState()
-          Actions.Login()
-        }}
-       >
-        <Text>{I18n.t('LoginRender.alreadyHaveAccount')}</Text>
-      </TouchableHighlight>)
-
-    const register =
-      (<TouchableHighlight
-        onPress={() => {
-          actions.registerState()
-          Actions.Register()
-        }}
-       >
-        <Text>{I18n.t('LoginRender.register')}</Text>
-      </TouchableHighlight>)
-
-    switch (messageType) {
-      case FORGOT_PASSWORD:
-        return forgotPassword
-      case LOGIN:
-        return alreadyHaveAccount
-      case REGISTER:
-        return register
-    }
-  }
-
-  /**
-   * ### render
-   * Setup some default presentations and render
-   */
   render() {
-    // display the login / register / change password screens
-    this.errorAlert.checkError(this.props.auth.form.error)
-
     /**
      * The LoginForm is now defined with the required fields.  Just
      * surround it with the Header and the navigation messages

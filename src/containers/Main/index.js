@@ -11,6 +11,8 @@ import Header from '../../components/Header'
 import TabBar from '../../components/TabBar'
 import ThumbnailPlan from '../../components/ThumbnailPlan'
 import LoginMain from '../LoginMain'
+import Setting from '../Setting'
+import Custom from '../Custom'
 import { View, ScrollView } from 'react-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
@@ -29,7 +31,7 @@ function mapStateToProps(state) {
       },
     },
     global: {
-      currentState: state.global.currentState,
+      currentUser: state.global.currentUser,
       showState: state.global.showState,
     },
     trip: {
@@ -58,6 +60,10 @@ class Main extends Component {
     Actions.TripContent()
   }
 
+  componentWillMount() {
+    this.props.actions.initAuth()
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -70,11 +76,11 @@ class Main extends Component {
             style={styles.innerView}
             tabLabel={I18n.t('Nav.custom')}
           >
-            <LoginMain/>
+            { this.props.global.currentUser === null ? <LoginMain/> : <Custom/> }
           </View>
           <ScrollView
             style={styles.innerView}
-            tabLabel={I18n.t('Nav.recommendation')}
+            tabLabel={I18n.t('Nav.theme')}
           >
             {
               this.props.trip.mainContent.map(trip => {
@@ -100,12 +106,14 @@ class Main extends Component {
           </ScrollView>
           <View
             style={styles.innerView}
-            tabLabel={I18n.t('Nav.theme')}
+            tabLabel={I18n.t('Nav.purchased')}
           />
           <View
             style={styles.innerView}
-            tabLabel={I18n.t('Nav.purchased')}
-          />
+            tabLabel={I18n.t('Nav.setting')}
+          >
+            { this.props.global.currentUser === null ? <LoginMain/> : <Setting/> }
+          </View>
         </TabBar>
       </View>
     )

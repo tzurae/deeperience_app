@@ -3,6 +3,8 @@ import * as authActions from '../../reducers/auth/authActions'
 import ApiFactory from '../../api/apiFactory'
 import UserModel from '../../model/UserModel'
 import { Actions } from 'react-native-router-flux'
+import SimpleAlert from 'react-native-simpledialog-android'
+import I18n from '../../lib/i18n'
 
 const {
   SIGNUP_START,
@@ -18,17 +20,18 @@ export function* signUp(payload) {
   try {
     yield put(authActions.signupRequest())
     // user is a promise backed from firebase
-    const user = yield call([api, api.signup], payload.email, payload.password)
+    const user = yield call([api, api.signup], payload)
     // newUser will be written in database
     const newUser =  yield new UserModel(user.uid, {
       email: user.email,
-      displayName: user.displayName,
+      name: payload.username,
     })
     yield call([api, api.writeDataBase], newUser.getPath(), newUser.getData())
     yield put(authActions.signupSuccess({ uid: user.uid }))
     yield put(authActions.logoutState())
-    Actions.Tabbar()
+    Actions.pop()
   } catch (error) {
+    SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.signupError'))
     yield put(authActions.signupFailure(error))
   }
 }
@@ -43,13 +46,12 @@ export function* initAuth() {
         email: user.email,
       }))
       yield put(authActions.logoutState())
-      Actions.Tabbar()
     } else {
       yield (put(authActions.loginState()))
-      Actions.InitialLoginForm()
     }
   } catch (error) {
-    yield put(authActions.loginFailure())
+    SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.loginError'))
+    yield put(authActions.loginFailure(error))
   }
 }
 
@@ -59,26 +61,27 @@ export function* logout() {
     yield call([api, api.logout])
     yield put(authActions.loginState())
     yield put(authActions.logoutSuccess())
-    Actions.InitialLoginForm()
   } catch (error) {
     yield put(authActions.loginState())
-    yield put(authActions.logoutFailure())
+    SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.logoutError'))
+    yield put(authActions.logoutFailure(error))
   }
 }
 
 export function* login(payload) {
   try {
     yield put(authActions.loginRequest())
-    const user = yield call([api, api.login], payload.email, payload.password)
+    const user = yield call([api, api.login], payload)
     yield put(authActions.loginSuccess({
       uid: user.uid,
       displayName: user.displayName,
       email: user.email,
     }))
     yield put(authActions.logoutState())
-    Actions.Tabbar()
+    Actions.pop()
   } catch (error) {
-    yield put(authActions.loginFailure())
+    SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.loginError'))
+    yield put(authActions.loginFailure(error))
   }
 }
 
@@ -90,7 +93,8 @@ export function* resetPassword(payload) {
     yield put(authActions.resetPasswordSuccess())
     Actions.Login()
   } catch (error) {
-    yield put(authActions.resetPasswordFailure())
+    SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.resetPasswordError'))
+    yield put(authActions.resetPasswordFailure(error))
   }
 }
 
@@ -121,7 +125,7 @@ export function* watchLogout() {
 
 export function* watchLogin() {
   while (true) {
-    const payload  = yield take(LOGIN_START)
+    const { payload } = yield take(LOGIN_START)
     yield fork(login, payload)
   }
 }

@@ -23,7 +23,6 @@ import { Record } from 'immutable'
  *   * device
  *   * auth
  *   * global
- *   * profile
  *
  */
 const InitialState = Record({

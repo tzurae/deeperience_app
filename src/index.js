@@ -1,41 +1,23 @@
+'use strict'
 import React from 'react'
-import {
-  AppRegistry,
-  ToastAndroid,
-} from 'react-native'
-
-import {
-  Router,
-  Scene,
-  // TabBar,
-} from 'react-native-router-flux'
-
+import { AppRegistry, ToastAndroid } from 'react-native'
+import { Router, Scene } from 'react-native-router-flux'
 import { Provider } from 'react-redux'
 import configureStore from './lib/configureStore'
 import App from './containers/App'
 import MainChoose from './containers/MainChoose'
-import Login from './containers/Login'
-// import Logout from './containers/Logout'
-import Register from './containers/Register'
-import RegisterTest from './containers/RegisterTest'
+import LoginRegister from './containers/LoginRegister'
 import ForgotPassword from './containers/ForgotPassword'
-// import Profile from './containers/Profile'
 import Main from './containers/Main'
-import Subview from './containers/Subview'
 import TripContent from './containers/Trip/TripContent'
 import SiteContent from './containers/Trip/SiteContent'
-
 import createStorageEngine from 'redux-storage-engine-reactnativeasyncstorage'
-
 import { setPlatform, setVersion } from './reducers/device/deviceActions'
 import { setStore } from './reducers/global/globalActions'
-
 import AuthInitialState from './reducers/auth/authInitialState'
 import DeviceInitialState from './reducers/device/deviceInitialState'
 import GlobalInitialState from './reducers/global/globalInitialState'
-import ProfileInitialState from './reducers/profile/profileInitialState'
 import TripInitialState from './reducers/trip/tripInitialState'
-
 import pack from '../package'
 import I18n from './lib/i18n'
 // Support fallbacks so en-US & en-BR both use en
@@ -54,7 +36,6 @@ function getInitialState() {
     auth: new AuthInitialState(),
     device: (new DeviceInitialState()).set('isMobile', true),
     global: new GlobalInitialState(),
-    profile: new ProfileInitialState(),
     trip: new TripInitialState(),
   }
   return initState
@@ -109,8 +90,8 @@ export default function native(platform) {
                      component={Main}
                      initial={true}
               />
-              <Scene key="RegisterTest"
-                     component={RegisterTest}
+              <Scene key="LoginRegister"
+                     component={LoginRegister}
               />
               <Scene key="TripContent"
                      component={TripContent}
@@ -118,28 +99,10 @@ export default function native(platform) {
               <Scene key="SiteContent"
                      component={SiteContent}
               />
-              <Scene key="InitialLoginForm"
-                     component={Register}
-                     type="replace"
-              />
-
-              <Scene key="Login"
-                     component={Login}
-                     type="replace"
-              />
-
-              <Scene key="Register"
-                     component={Register}
-                     type="replace"
-              />
 
               <Scene key="ForgotPassword"
                      component={ForgotPassword}
                      type="replace"
-              />
-
-              <Scene key="Subview"
-                     component={Subview}
               />
             </Scene>
           </Router>
@@ -147,29 +110,6 @@ export default function native(platform) {
       )
     }
   }
-  // <Scene key="Profile"
-  //        title={I18n.t('Nav.setting')}
-  //        icon={TabIcon}
-  //        iconName={"gear"}
-  //        hideNavBar={true}
-  //        component={Profile}
-  // />
-  //
-  // <Scene key="Tabbar"
-  //        tabs={true}
-  //        hideNavBar={true}
-  //        tabBarStyle={styles.tabBar}
-  //        default="Main"
-  //        initial={true}
-  // >
-  //   <Scene key="Logout"
-  //          title={I18n.t('Nav.logout')}
-  //          icon={TabIcon}
-  //          iconName={"users"}
-  //          hideNavBar={true}
-  //          component={Logout}
-  //   />
-  // </Scene>
 
   Deeperience.childContextTypes = {
     store: React.PropTypes.object,

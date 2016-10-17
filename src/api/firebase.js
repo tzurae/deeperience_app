@@ -34,7 +34,7 @@ export default class Firebase extends apiInterface {
     return firebaseAuth.signInWithPopup(providerId)
   }
 
-  signup(email, password) {
+  signup({ email, password }) {
     return firebaseAuth.createUserWithEmailAndPassword(email, password)
   }
 
@@ -50,8 +50,8 @@ export default class Firebase extends apiInterface {
     if (firebaseAuth.currentUser) {
       const user = firebaseAuth.currentUser
       return user.updateProfile({
-        displayName: user.displayName,
-        photoUrl: '',
+        name: user.name,
+        avatar: '',
         //...etc
       })
     }

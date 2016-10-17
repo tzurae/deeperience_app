@@ -13,7 +13,6 @@ const initialState = new InitialState()
  * formValidation for setting the form's valid flag
  */
 const {
-  GET_PROFILE_SUCCESS,
   SIGNUP_SUCCESS,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
@@ -42,7 +41,6 @@ export default function globalReducer(state = initialState, action) {
      */
     case SIGNUP_SUCCESS:
     case LOGIN_SUCCESS:
-    case GET_PROFILE_SUCCESS:
       return state.set('currentUser', action.payload)
 
     /**
@@ -77,7 +75,6 @@ export default function globalReducer(state = initialState, action) {
         const newState = {}
         newState.auth = tmpState.auth.toJS()
         newState.device = tmpState.device.toJS()
-        newState.profile = tmpState.profile.toJS()
 
       // Make sure global doesn't have the previous currentState
         // let _noCurrentState =  _state.global.set('currentState',null);

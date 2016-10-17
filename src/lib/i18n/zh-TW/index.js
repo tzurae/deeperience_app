@@ -1,30 +1,6 @@
 export default {
   "App": {
-    "version": "Version",
-  },
-  "Header": {
-    "current_state": "Current State",
-    "see_console": "see console",
-    "update_state": "Update State",
-  },
-  "Subview": {
-    "subview": "Subview",
-    "back": "Back",
-  },
-  "Snowflake": {
-    "logout": "Log out",
-    "main": "Main",
-    "profile": "Profile",
-  },
-  "Main": {
-    "navigate": "Navigate to Subview",
-  },
-  "Profile": {
-    "username": "User name",
-    "email": "Email",
-    "update": "Update Profile",
-    "verified": "Email verified",
-    "display": "display only",
+    "version": "版本",
   },
   "LoginForm": {
     "username": "暱稱",
@@ -39,14 +15,19 @@ export default {
     "register": "註冊",
     "showPassword": "顯示密碼",
   },
-  "ForgotPassword": {
-    "reset_password": "Reset password",
-  },
-  "Login": {
+  "LoginRegister": {
     "login": "登入",
-  },
-  "Register": {
     "register": "註冊",
+  },
+  "ForgotPassword": {
+    "reset_password": "重設密碼",
+  },
+  "AuthMessage": {
+    "error": "錯誤",
+    "signupError": "註冊錯誤",
+    "loginError": "帳號密碼錯誤",
+    "logoutError": "登出發生錯誤",
+    "resetPasswordError": "重設密碼錯誤",
   },
   "FieldValidation": {
     "valid_user_name": "6-15 字的英數字",
@@ -60,14 +41,10 @@ export default {
   },
   "Nav": {
     "planList": "旅程列表",
-    "favoriteGuide": "收藏嚮導",
-    "filter": "篩選行程",
-    "setting": "個人i化",
-    "recommendation": "推薦",
+    "setting": "個人化",
     "purchased": "已購買",
     "tripContent": "行程介紹",
-    "favorite": "已收藏",
-    "theme": "主題",
+    "theme": "找主題",
     "custom": "客製化",
   },
   "LoginMain": {
@@ -78,11 +55,8 @@ export default {
     "login": "一般登入",
     "serviceText": "註冊即代表我同意 Deeperience 的服務條款、支付服務條款、隱私政策。",
   },
-  "TripTab": {
-    "introduction": "簡  介",
-    "route": "行  程",
-    "comment": "評  論",
-    "guide": "嚮  導",
+  "Setting": {
+    "logout": "登出",
   },
   "TripContent": {
     "fetchingData": "讀取詳細行程⋯⋯",
@@ -107,6 +81,6 @@ export default {
     "unlock": "解鎖",
   },
   "Toast": {
-    "pressAgainExit": "再按一次離開",
+    "pressAgainExit": "再按一次離開 Deeperience",
   },
 }

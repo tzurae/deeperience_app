@@ -8,17 +8,8 @@
  */
 'use strict'
 
-/**
- * ## Imports
- *
- * validate and underscore
- *
- */
 import validate from 'validate.js'
 import _ from 'underscore'
-/**
- * ### Translations
- */
 import I18n from './i18n'
 
 /**
@@ -31,10 +22,6 @@ const emailConstraints = {
   },
 }
 
-/**
-* ## username validation rule
-* read the message.. ;)
-*/
 const usernamePattern = /^[a-zA-Z0-9]{6,15}$/
 const usernameConstraints = {
   username: {
@@ -45,10 +32,6 @@ const usernameConstraints = {
   },
 }
 
-/**
-* ## password validation rule
-* read the message... ;)
-*/
 const passwordPattern =  /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{6,20}$/
 const passwordConstraints = {
   password: {

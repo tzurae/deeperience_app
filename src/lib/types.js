@@ -29,16 +29,6 @@ export type Action =
 
     { type: 'TOGGLE_REGISTER_CHECKED' } |
 
-    { type: 'GET_PROFILE_REQUEST' } |
-    { type: 'GET_PROFILE_SUCCESS', payload: any } |
-    { type: 'GET_PROFILE_FAILURE', payload: any } |
-
-    { type: 'PROFILE_UPDATE_REQUEST' } |
-    { type: 'PROFILE_UPDATE_SUCCESS' } |
-    { type: 'PROFILE_UPDATE_FAILURE', payload: any } |
-
-    { type: 'ON_PROFILE_FORM_FIELD_CHANGE', payload: {field:string, value:string} } |
-
     { type: 'SET_STATE', payload: any } |
     { type: 'GET_STATE', payload: any } |
     { type: 'SET_STORE', payload: any } |

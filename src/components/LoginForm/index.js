@@ -36,8 +36,6 @@ class LoginForm extends React.Component {
   }
 
   render() {
-    const formType = this.props.formType
-
     const options = {
       auto: 'none',
       stylesheet,
@@ -67,7 +65,7 @@ class LoginForm extends React.Component {
 
     const password = {
       label: I18n.t('LoginForm.password'),
-      maxLength: 12,
+      maxLength: 20,
       secureTextEntry,
       editable: !this.props.form.isFetching,
       hasError: this.props.form.fields.passwordHasError,
@@ -78,7 +76,7 @@ class LoginForm extends React.Component {
     const passwordAgain = {
       label: I18n.t('LoginForm.passwordAgain'),
       secureTextEntry,
-      maxLength: 12,
+      maxLength: 15,
       editable: !this.props.form.isFetching,
       hasError: this.props.form.fields.passwordAgainHasError,
       error: this.props.form.fields.passwordAgainErrorMsg,
@@ -86,7 +84,7 @@ class LoginForm extends React.Component {
     }
 
     let loginForm
-    switch (formType) {
+    switch (this.props.formType) {
       /**
        * ### Registration
        * The registration form has 4 fields

@@ -11,7 +11,6 @@ import * as authActions from '../../reducers/auth/authActions'
 import * as globalActions from '../../reducers/global/globalActions'
 import { Map } from 'immutable'
 import { Actions } from 'react-native-router-flux'
-import ErrorAlert from '../ErrorAlert'
 import FormButton from '../FormButton'
 import LoginForm from '../LoginForm'
 import ItemCheckbox from '../ItemCheckbox'
@@ -72,7 +71,6 @@ function mapStateToProps(state) {
 class LoginRender extends React.Component {
   constructor(props) {
     super(props)
-    this.errorAlert = new ErrorAlert()
     this.state = {
       value: {
         username: this.props.auth.form.fields.username,
@@ -188,9 +186,6 @@ class LoginRender extends React.Component {
     const rightMessage = this.getMessage(rightMessageType, this.props.actions)
 
     const self = this
-
-    // display the login / register / change password screens
-    this.errorAlert.checkError(this.props.auth.form.error)
 
     /**
      * Toggle the display of the Password and PasswordAgain fields

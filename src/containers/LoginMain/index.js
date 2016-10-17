@@ -17,6 +17,11 @@ import { Actions } from 'react-native-router-flux'
 import I18n from '../../lib/i18n'
 import MainStyle from '../../styles'
 
+const {
+  LOGIN,
+  REGISTER,
+} = require('../../lib/constants').default
+
 const actions = [
   authActions,
 ]
@@ -74,7 +79,7 @@ class LoginMain extends React.Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => { Actions.RegisterTest() }}
+            onPress={() => Actions.LoginRegister({ formType: REGISTER })}
             style={[styles.btn, styles.normalBtn]}
             underlayColor="transparent"
             activeOpacity={0.7}
@@ -82,7 +87,7 @@ class LoginMain extends React.Component {
             <Text style={[styles.btnText, styles.normalBtnText]}>{I18n.t('LoginMain.register')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={() => Actions.LoginRegister({ formType: LOGIN })}
             style={[styles.btn, styles.normalBtn]}
             underlayColor="transparent"
             activeOpacity={0.7}
