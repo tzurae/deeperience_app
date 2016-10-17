@@ -27,6 +27,8 @@ export type Action =
     { type: 'RESET_PASSWORD_SUCCESS' } |
     { type: 'RESET_PASSWORD_FAILURE', payload: any } |
 
+    { type: 'TOGGLE_REGISTER_CHECKED' } |
+
     { type: 'GET_PROFILE_REQUEST' } |
     { type: 'GET_PROFILE_SUCCESS', payload: any } |
     { type: 'GET_PROFILE_FAILURE', payload: any } |

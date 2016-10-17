@@ -41,6 +41,8 @@ export default keyMirror({
   RESET_PASSWORD_SUCCESS: null,
   RESET_PASSWORD_FAILURE: null,
 
+  TOGGLE_REGISTER_CHECKED: null,
+
   GET_PROFILE_REQUEST: null,
   GET_PROFILE_SUCCESS: null,
   GET_PROFILE_FAILURE: null,

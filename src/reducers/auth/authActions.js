@@ -1,7 +1,7 @@
 // @flow
 'use strict'
 import Firebase from '../../api/firebase'
-import type { Action } from '../../lib/types'
+import type { Action, ThunkAction } from '../../lib/types'
 
 const {
 
@@ -33,6 +33,8 @@ const {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
+
+  TOGGLE_REGISTER_CHECKED,
 
 } = require('../../lib/constants').default
 
@@ -225,4 +227,14 @@ export function resetPassword(email:string):Action {
       email,
     },
   }
+}
+
+export function toggleRegisterChecked():Action {
+  return {
+    type: TOGGLE_REGISTER_CHECKED,
+  }
+}
+
+export function toggleRegisterCheckedWrapper():ThunkAction {
+  return dispatch => dispatch(toggleRegisterChecked())
 }

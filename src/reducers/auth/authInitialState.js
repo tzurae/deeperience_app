@@ -51,6 +51,7 @@ const Form = Record({
  */
 const InitialState = Record({
   form: new Form(),
+  registerChecked: false, // register itemcheckbox checked
 })
 export default InitialState
 

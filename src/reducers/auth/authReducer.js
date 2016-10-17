@@ -41,6 +41,8 @@ const {
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
 
+  TOGGLE_REGISTER_CHECKED,
+
   SET_STATE,
 } = require('../../lib/constants').default
 
@@ -133,6 +135,9 @@ export default function authReducer(state = initialState, action) {
     case RESET_PASSWORD_FAILURE:
       return state.setIn(['form', 'isFetching'], false)
       .setIn(['form', 'error'], action.payload)
+
+    case TOGGLE_REGISTER_CHECKED:
+      return state.setIn(['registerChecked'], !state.getIn(['registerChecked']))
 
     /**
      * ### Hot Loading support

@@ -57,6 +57,10 @@ function mapStateToProps(state) {
     device: {
       platform: state.device.platform,
     },
+    auth: {
+      checked: state.auth.registerChecked,
+      form: state.auth.form,
+    },
   }
 }
 
@@ -197,10 +201,13 @@ class LoginRender extends React.Component {
               (<ItemCheckbox
                 text={I18n.t('LoginRender.showPassword')}
                 disabled={this.props.auth.form.isFetching}
+                checked={this.props.auth.checked}
                 onCheck={() => {
+                  this.props.actions.toggleRegisterCheckedWrapper()
                   this.props.actions.onAuthFormFieldChange('showPassword', true)
                 }}
                 onUncheck={() => {
+                  this.props.actions.toggleRegisterCheckedWrapper()
                   this.props.actions.onAuthFormFieldChange('showPassword', false)
                 }}
               />) : null
