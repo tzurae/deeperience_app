@@ -10,12 +10,13 @@ import { connect } from 'react-redux'
 import * as authActions from '../../reducers/auth/authActions'
 import { Map } from 'immutable'
 import React from 'react'
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Platform } from 'react-native'
 import styles from './styles'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Actions } from 'react-native-router-flux'
 import I18n from '../../lib/i18n'
 import MainStyle from '../../styles'
+import { FBLogin, FBLoginManager } from '../../components/FBLogin'
 
 const {
   LOGIN,
@@ -28,8 +29,9 @@ const actions = [
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth,
-    global: state.global,
+    device: {
+      platform: state.device.platform,
+    },
   }
 }
 
@@ -48,6 +50,12 @@ function mapDispatchToProps(dispatch) {
 class LoginMain extends React.Component {
 
   render() {
+    // https://github.com/magus/react-native-facebook-login/blob/master/android/README.md
+    const loginBehavior = {
+      ios: FBLoginManager.LoginBehaviors.Native,
+      android: FBLoginManager.LoginBehaviors.Native,
+    }
+
     return (
       <View style={styles.container}>
         <View style={{ flex: 2 }}>
@@ -62,22 +70,33 @@ class LoginMain extends React.Component {
                         flexDirection: 'column',
                         paddingTop: 10 }}
         >
-          <TouchableOpacity
-            onPress={() => {}}
-            style={[styles.btn, styles.fbBtn]}
-            underlayColor="white"
-            activeOpacity={0.7}
-          >
-            <View style={styles.fbBtnInnerView}>
-              <Icon
-                name="facebook"
-                size={18}
-                color={MainStyle.color.main}
-                style={styles.icon}
+          {
+            Platform.OS === 'ios' ? null : (
+              <FBLogin
+                containerStyle={[styles.btn, styles.fbBtn]}
+                buttonView={(
+                  <View style={styles.fbBtnInnerView}>
+                    <Icon
+                      name="facebook"
+                      size={18}
+                      color={MainStyle.color.main}
+                      style={styles.icon}
+                    />
+                    <Text style={[styles.btnText, styles.fbBtnText]}>{I18n.t('LoginMain.facebookLogin')}</Text>
+                  </View>
+                )}
+                ref={(fbLogin) => { this.fbLogin = fbLogin }}
+                loginBehavior={loginBehavior[this.props.device.platform]}
+                permissions={['email', 'user_friends']}
+                onLogin={e => console.log(e)}
+                onLoginFound={e => console.log(e)}
+                onLoginNotFound={e => console.log(e)}
+                onLogout={e => console.log(e)}
+                onCancel={e => console.log(e)}
+                onPermissionsMissing={e => console.log(e)}
               />
-              <Text style={[styles.btnText, styles.fbBtnText]}>{I18n.t('LoginMain.facebookLogin')}</Text>
-            </View>
-          </TouchableOpacity>
+            )
+          }
           <TouchableOpacity
             onPress={() => Actions.LoginRegister({ formType: REGISTER })}
             style={[styles.btn, styles.normalBtn]}

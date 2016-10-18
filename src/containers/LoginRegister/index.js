@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as authActions from '../../reducers/auth/authActions'
 import { Map } from 'immutable'
-import LoginRender from '../../components/LoginRenderTest'
+import LoginRegisterRender from '../../components/LoginRegisterRender'
 import React from 'react'
 import I18n from '../../lib/i18n'
 
@@ -51,7 +51,7 @@ class LoginRegister extends React.Component {
     switch (this.props.formType) {
       case REGISTER:
         return (
-          <LoginRender
+          <LoginRegisterRender
             formType={REGISTER}
             buttonText={I18n.t('LoginRegister.register')}
             onButtonPress={() => {
@@ -65,7 +65,7 @@ class LoginRegister extends React.Component {
         )
       case LOGIN:
         return (
-          <LoginRender
+          <LoginRegisterRender
             formType={LOGIN}
             buttonText={I18n.t('LoginRegister.login')}
             onButtonPress={() => {

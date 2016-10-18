@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
 import MainStyle from '../../styles'
+import StyleSheet from '../../styles/StyleSheet'
 
 export default StyleSheet.create({
   container: {
@@ -8,7 +8,15 @@ export default StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     backgroundColor: MainStyle.color.main,
-    padding: 30,
+    ios: {
+      padding: 30,
+    },
+    android: {
+      paddingTop: 20,
+      paddingBottom: 20,
+      paddingRight: 20,
+      paddingLeft: 20,
+    },
   },
   logo: {
     width: 70,
@@ -19,7 +27,12 @@ export default StyleSheet.create({
     justifyContent: 'flex-start',
     color: 'white',
     fontSize: MainStyle.font.large,
-    marginTop: 8,
+    ios: {
+      marginTop: 8,
+    },
+    android: {
+      marginTop: 3,
+    },
     fontWeight: 'bold',
   },
   btn: {

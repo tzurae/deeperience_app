@@ -39,9 +39,6 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    device: {
-      platform: state.device.platform,
-    },
     auth: {
       checked: state.auth.registerChecked,
       form: state.auth.form,
@@ -49,7 +46,7 @@ function mapStateToProps(state) {
   }
 }
 
-class LoginRender extends React.Component {
+class LoginRegisterRender extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -59,7 +56,6 @@ class LoginRender extends React.Component {
         password: this.props.auth.form.fields.password,
         passwordAgain: this.props.auth.form.fields.passwordAgain,
       },
-      selectedTab: 'Social Login',
     }
   }
 
@@ -151,4 +147,4 @@ class LoginRender extends React.Component {
     )
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(LoginRender)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginRegisterRender)
