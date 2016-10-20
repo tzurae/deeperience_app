@@ -52,7 +52,6 @@ export default class Firebase extends apiInterface {
       return user.updateProfile({
         name: user.name,
         avatar: '',
-        //...etc
       })
     }
   }

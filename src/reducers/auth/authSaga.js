@@ -49,7 +49,7 @@ export function* initAuth() {
       }))
       yield put(authActions.logoutState())
     } else {
-      yield (put(authActions.loginState()))
+      yield put(authActions.loginState())
     }
   } catch (error) {
     SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.loginError'))

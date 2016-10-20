@@ -71,7 +71,35 @@ class LoginMain extends React.Component {
                         paddingTop: 10 }}
         >
           {
-            Platform.OS === 'ios' ? null : (
+            Platform.OS === 'ios' ? (
+              <FBLogin
+                containerStyle={[styles.btn, styles.fbBtn]}
+                buttonView={(
+                  <View style={styles.fbBtnInnerView}>
+                    <Icon
+                      name="facebook"
+                      size={18}
+                      color={MainStyle.color.main}
+                      style={styles.icon}
+                    />
+                    <Text style={[styles.btnText, styles.fbBtnText]}>{I18n.t('LoginMain.facebookLogin')}</Text>
+                  </View>
+                )}
+                ref={(fbLogin) => { this.fbLogin = fbLogin }}
+                loginBehavior={loginBehavior[this.props.device.platform]}
+                permissions={['email', 'user_friends']}
+                onLogin={result => {
+                  console.log(result)
+                  const token = result.credentials.token
+                  this.props.actions.facebookLogin(token)
+                }}
+                onLoginFound={e => console.log(e)}
+                onLoginNotFound={e => console.log(e)}
+                onLogout={e => console.log(e)}
+                onCancel={e => console.log(e)}
+                onPermissionsMissing={e => console.log(e)}
+              />
+            ) : (
               <FBLogin
                 containerStyle={[styles.btn, styles.fbBtn]}
                 buttonView={(

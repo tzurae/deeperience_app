@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -197,6 +198,7 @@
 		481062E51D842E7300C6C5E2 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../node_modules/react-native-facebook-login/FacebookSDK/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
 		481062E61D842E7300C6C5E2 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "../node_modules/react-native-facebook-login/FacebookSDK/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
 		481062E71D842E7300C6C5E2 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = "../node_modules/react-native-facebook-login/FacebookSDK/FBSDKShareKit.framework"; sourceTree = "<group>"; };
+		482966501DB91EC60025FB1A /* deeperience.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = deeperience.entitlements; path = deeperience/deeperience.entitlements; sourceTree = "<group>"; };
 		482B4B6B1D9B91B80092DAB2 /* ReactNativeAudioToolkit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeAudioToolkit.xcodeproj; path = "../node_modules/react-native-audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit.xcodeproj"; sourceTree = "<group>"; };
 		5E3B0BA5FC0849CC96E96860 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		75CE4370A26743D38251F503 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 		13B07FAE1A68108700A75B9A /* deeperience */ = {
 			isa = PBXGroup;
 			children = (
+				482966501DB91EC60025FB1A /* deeperience.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -527,6 +530,11 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 933XE6MQLW;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -873,9 +881,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = deeperience/deeperience.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
-				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/../node_modules/react-native-facebook-login/FacebookSDK";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-facebook-login/FacebookSDK/**";
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/../node_modules/react-native-facebook-login/FacebookSDK/**";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -902,7 +912,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = deeperience/deeperience.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-facebook-login/FacebookSDK/**";
 				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/../node_modules/react-native-facebook-login/FacebookSDK";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
