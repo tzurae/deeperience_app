@@ -23,15 +23,15 @@ export default class Firebase extends apiInterface {
   getProvider(provider) {
     switch (provider) {
       case 'facebook':
-        return new firebase.auth.FacebookAuthProvider()
+        return firebase.auth.FacebookAuthProvider
       case 'google':
-        return new firebase.auth.GoogleAuthProvider()
+        return firebase.auth.GoogleAuthProvider
     }
   }
 
-  loginWithProvider(provider) {
-    const providerId = this.getProvider(provider)
-    return firebaseAuth.signInWithPopup(providerId)
+  fblogin(token) {
+    const credential = this.getProvider('facebook').credential(token)
+    return firebaseAuth.signInWithCredential(credential)
   }
 
   signup({ email, password }) {

@@ -43,6 +43,8 @@ export default keyMirror({
 
   TOGGLE_REGISTER_CHECKED: null,
 
+  FB_LOGIN_START: null,
+
   SET_STATE: null,
   GET_STATE: null,
   SET_STORE: null,

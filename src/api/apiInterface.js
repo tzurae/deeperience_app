@@ -21,20 +21,10 @@ export default class apiInterface {
   getProvider(provider) {}
 
   /**
-   * ### loginWithProvider
-   *
-   * @param provider: string, "facebook" or "google"
-   *
-   * @return user.json
-   * Property and Method -> https://firebase.google.com/docs/reference/node/firebase.User
-   */
-  loginWithProvider(provider) {}
-
-  /**
    * ### signup
    *
    * @param user
-   * {username: "barton", password: "Passw0rd!"}
+   * {displayName: "barton", password: "Passw0rd!"}
    * @returns user.json
    * Properties -> https://firebase.google.com/docs/reference/node/firebase.User
    */
@@ -43,7 +33,7 @@ export default class apiInterface {
   /**
    * ### login
    * @param user
-   *  {username: "barton", password: "Passw0rd!"}
+   *  {email: "123@yahoo.com.tw", password: "Passw0rd!"}
    * @returns user.json
    * Properties -> https://firebase.google.com/docs/reference/node/firebase.User
    */

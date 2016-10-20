@@ -12,6 +12,7 @@ const {
   LOGIN_START,
   RESET_PASSWORD_START,
   INIT_AUTH,
+  FB_LOGIN_START,
 } = require('../../lib/constants').default
 
 const api = new ApiFactory()
@@ -23,8 +24,8 @@ export function* signUp(payload) {
     const user = yield call([api, api.signup], payload)
     // newUser will be written in database
     const newUser =  yield new UserModel(user.uid, {
-      email: user.email,
-      name: payload.username,
+      email: payload.email,
+      username: payload.username,
     })
     yield call([api, api.writeDataBase], newUser.getPath(), newUser.getData())
     yield put(authActions.signupSuccess({ uid: user.uid }))
@@ -42,8 +43,9 @@ export function* initAuth() {
     if (user) {
       yield put(authActions.loginSuccess({
         uid: user.uid,
-        displayName: user.displayName,
+        username: user.displayName,
         email: user.email,
+        avatar: user.photoURL,
       }))
       yield put(authActions.logoutState())
     } else {
@@ -74,8 +76,9 @@ export function* login(payload) {
     const user = yield call([api, api.login], payload)
     yield put(authActions.loginSuccess({
       uid: user.uid,
-      displayName: user.displayName,
+      username: user.displayName,
       email: user.email,
+      avatar: user.photoURL,
     }))
     yield put(authActions.logoutState())
     Actions.pop()
@@ -95,6 +98,27 @@ export function* resetPassword(payload) {
   } catch (error) {
     SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.resetPasswordError'))
     yield put(authActions.resetPasswordFailure(error))
+  }
+}
+
+export function* facebookLogin(payload) {
+  try {
+    const user = yield call([api, api.fblogin], payload)
+    const newUser =  yield new UserModel(user.uid, {
+      email: user.email,
+      username: user.displayName,
+      avatar: user.photoURL,
+    })
+    console.log(newUser.getPath())
+    console.log(newUser.getData())
+    yield call([api, api.updateDataBase], newUser.getPath(), newUser.getData())
+    yield put(authActions.loginSuccess({
+      uid: user.uid,
+      ...newUser.getData(),
+    }))
+  } catch (error) {
+    SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.loginError'))
+    yield put(authActions.loginFailure(error))
   }
 }
 
@@ -137,10 +161,18 @@ export function* watchResetPassword() {
   }
 }
 
+export function* watchFacebookLogin() {
+  while (true) {
+    const { payload } = yield take(FB_LOGIN_START)
+    yield fork(facebookLogin, payload)
+  }
+}
+
 export default [
   fork(watchSignUp),
   fork(watchInitAuth),
   fork(watchLogout),
   fork(watchLogin),
   fork(watchResetPassword),
+  fork(watchFacebookLogin),
 ]

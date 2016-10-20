@@ -21,7 +21,9 @@ const actions = [
 function mapStateToProps(state) {
   return {
     auth: state.auth,
-    global: state.global,
+    global: {
+      currentUser: state.global.currentUser,
+    },
   }
 }
 
@@ -42,6 +44,10 @@ class LoginMain extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text>{this.props.global.currentUser.username}</Text>
+        <Text>{this.props.global.currentUser.email}</Text>
+        <Text>{this.props.global.currentUser.uid}</Text>
+        <Text>{this.props.global.currentUser.avatar}</Text>
         <TouchableOpacity
           onPress={() => this.props.actions.logout()}
           style={[styles.btn, styles.normalBtn]}

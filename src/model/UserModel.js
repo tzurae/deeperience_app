@@ -6,7 +6,8 @@ import ModelInterface from './ModelInterface'
 type idType = string
 type userDataType = {
   email: string,
-  displayName: ?string,
+  username: ?string,
+  avatar: ?string,
 }
 
 const PATH = '/users/'

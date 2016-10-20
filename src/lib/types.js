@@ -29,6 +29,8 @@ export type Action =
 
     { type: 'TOGGLE_REGISTER_CHECKED' } |
 
+    { type: 'FB_LOGIN_START' } |
+
     { type: 'SET_STATE', payload: any } |
     { type: 'GET_STATE', payload: any } |
     { type: 'SET_STORE', payload: any } |

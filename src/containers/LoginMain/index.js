@@ -88,7 +88,10 @@ class LoginMain extends React.Component {
                 ref={(fbLogin) => { this.fbLogin = fbLogin }}
                 loginBehavior={loginBehavior[this.props.device.platform]}
                 permissions={['email', 'user_friends']}
-                onLogin={e => console.log(e)}
+                onLogin={result => {
+                  const token = result.credentials.token
+                  this.props.actions.facebookLogin(token)
+                }}
                 onLoginFound={e => console.log(e)}
                 onLoginNotFound={e => console.log(e)}
                 onLogout={e => console.log(e)}

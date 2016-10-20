@@ -35,6 +35,7 @@ const {
   RESET_PASSWORD_FAILURE,
 
   TOGGLE_REGISTER_CHECKED,
+  FB_LOGIN_START,
 
 } = require('../../lib/constants').default
 
@@ -237,4 +238,11 @@ export function toggleRegisterChecked():Action {
 
 export function toggleRegisterCheckedWrapper():ThunkAction {
   return dispatch => dispatch(toggleRegisterChecked())
+}
+
+export function facebookLogin(token: string):Action {
+  return {
+    type: FB_LOGIN_START,
+    payload: token,
+  }
 }
