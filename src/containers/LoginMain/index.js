@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import * as authActions from '../../reducers/auth/authActions'
 import { Map } from 'immutable'
 import React from 'react'
-import { View, Text, Image, TouchableOpacity, Platform } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import styles from './styles'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Actions } from 'react-native-router-flux'
@@ -32,6 +32,9 @@ function mapStateToProps(state) {
     device: {
       platform: state.device.platform,
     },
+    auth: {
+      currentUser: state.global.currentUser,
+    }
   }
 }
 
@@ -70,64 +73,17 @@ class LoginMain extends React.Component {
                         flexDirection: 'column',
                         paddingTop: 10 }}
         >
-          {
-            Platform.OS === 'ios' ? (
-              <FBLogin
-                containerStyle={[styles.btn, styles.fbBtn]}
-                buttonView={(
-                  <View style={styles.fbBtnInnerView}>
-                    <Icon
-                      name="facebook"
-                      size={18}
-                      color={MainStyle.color.main}
-                      style={styles.icon}
-                    />
-                    <Text style={[styles.btnText, styles.fbBtnText]}>{I18n.t('LoginMain.facebookLogin')}</Text>
-                  </View>
-                )}
-                ref={(fbLogin) => { this.fbLogin = fbLogin }}
-                loginBehavior={loginBehavior[this.props.device.platform]}
-                permissions={['email', 'user_friends']}
-                onLogin={result => {
-                  console.log(result)
-                  const token = result.credentials.token
-                  this.props.actions.facebookLogin(token)
-                }}
-                onLoginFound={e => console.log(e)}
-                onLoginNotFound={e => console.log(e)}
-                onLogout={e => console.log(e)}
-                onCancel={e => console.log(e)}
-                onPermissionsMissing={e => console.log(e)}
-              />
-            ) : (
-              <FBLogin
-                containerStyle={[styles.btn, styles.fbBtn]}
-                buttonView={(
-                  <View style={styles.fbBtnInnerView}>
-                    <Icon
-                      name="facebook"
-                      size={18}
-                      color={MainStyle.color.main}
-                      style={styles.icon}
-                    />
-                    <Text style={[styles.btnText, styles.fbBtnText]}>{I18n.t('LoginMain.facebookLogin')}</Text>
-                  </View>
-                )}
-                ref={(fbLogin) => { this.fbLogin = fbLogin }}
-                loginBehavior={loginBehavior[this.props.device.platform]}
-                permissions={['email', 'user_friends']}
-                onLogin={result => {
-                  const token = result.credentials.token
-                  this.props.actions.facebookLogin(token)
-                }}
-                onLoginFound={e => console.log(e)}
-                onLoginNotFound={e => console.log(e)}
-                onLogout={e => console.log(e)}
-                onCancel={e => console.log(e)}
-                onPermissionsMissing={e => console.log(e)}
-              />
-            )
-          }
+          <FBLogin
+            ref={(fbLogin) => { this.fbLogin = fbLogin }}
+            loginBehavior={loginBehavior[this.props.device.platform]}
+            permissions={['email', 'user_friends']}
+            onLogin={result => {
+              const token = result.credentials.token
+              this.props.actions.facebookLogin(token)
+            }}
+            onLogout={e => console.log(e)}
+            loginOrNot={this.props.global.currentUser ? true : false}
+          />
           <TouchableOpacity
             onPress={() => Actions.LoginRegister({ formType: REGISTER })}
             style={[styles.btn, styles.normalBtn]}
