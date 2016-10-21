@@ -6,26 +6,16 @@ import React, {
 import {
   View,
   Text,
-  StyleSheet,
   NativeModules,
   TouchableOpacity,
 } from 'react-native'
-
+import I18n from '../../lib/i18n'
+import MainStyle from '../../styles'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import styles from './styles'
 import itypeof from 'itypeof'
 
 const FBLoginManager = NativeModules.MFBLoginManager
-
-const styles = StyleSheet.create({
-  login: {
-    flex: 1,
-    backgroundColor: '#3B5998',
-    padding: 10,
-    alignItems: 'center',
-  },
-  whiteFont: {
-    color: 'white',
-  },
-})
 
 const statics = {
   loginText: 'Login with Facebook',
@@ -35,11 +25,9 @@ const statics = {
 class FBLogin extends Component {
   constructor(props) {
     super(props)
-
     this.login = this.login.bind(this)
     this.logout = this.logout.bind(this)
     this.handleEvent = this.handleEvent.bind(this)
-    this.getButtonView = this.getButtonView.bind(this)
     this.getChildContext = this.getChildContext.bind(this)
     this.onFacebookPress = this.onFacebookPress.bind(this)
 
@@ -94,6 +82,7 @@ class FBLogin extends Component {
 
   handleEvent(e, data) {
     const result = e || data
+
     if (result.type === 'success' && result.profile) {
       try {
         result.profile = JSON.parse(result.profile)
@@ -132,29 +121,25 @@ class FBLogin extends Component {
     }
   }
 
-  getButtonView() {
-    const buttonText = this.props.facebookText ? this.props.facebookText : this.state.buttonText
-    return (this.props.buttonView) ?
-      this.props.buttonView :
-      (<View style={[styles.login, this.props.style]}>
-          <Text style={[styles.whiteFont, this.fontStyle]}> {buttonText} </Text>
-        </View>)
-  }
-
   render() {
     return (
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={this.onFacebookPress} >
-        <View style={[this.props.containerStyle]}>
-          {this.getButtonView()}
+        <View style={[styles.btn, styles.fbBtn]}>
+          <View style={styles.fbBtnInnerView}>
+            <Icon
+              name="facebook"
+              size={18}
+              color={MainStyle.color.main}
+              style={styles.icon}
+            />
+            <Text style={[styles.btnText, styles.fbBtnText]}>{I18n.t('LoginMain.facebookLogin')}</Text>
+          </View>
         </View>
       </TouchableOpacity>
     )
   }
 }
 
-module.exports =  {
-  FBLogin,
-  FBLoginManager,
-}
+module.exports =  { FBLogin, FBLoginManager }

@@ -99,7 +99,6 @@ export default function native(platform) {
               <Scene key="SiteContent"
                      component={SiteContent}
               />
-
               <Scene key="ForgotPassword"
                      component={ForgotPassword}
                      type="replace"
