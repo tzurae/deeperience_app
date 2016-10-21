@@ -9,11 +9,9 @@ import { Actions } from 'react-native-router-flux'
 import React, { Component } from 'react'
 import Header from '../../components/Header'
 import TabBar from '../../components/TabBar'
-import ThumbnailPlan from '../../components/ThumbnailPlan'
-import LoginMain from '../LoginMain'
 import Setting from '../Setting'
 import Custom from '../Custom'
-import { View, ScrollView } from 'react-native'
+import { View } from 'react-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
 
@@ -65,10 +63,18 @@ class Main extends Component {
   }
 
   render() {
+    if (this.props.global.currentUser === null) {
+      return (
+        <View style={styles.container}>
+          <Custom/>
+        </View>
+      )
+    }
+
     return (
       <View style={styles.container}>
         <Header
-          headerText={I18n.t('Nav.planList')}
+          headerText={I18n.t('Nav.mainPage')}
           back={false}
         />
         <TabBar initialPage={this.props.initialPage}>
@@ -76,34 +82,8 @@ class Main extends Component {
             style={styles.innerView}
             tabLabel={I18n.t('Nav.custom')}
           >
-            { this.props.global.currentUser === null ? <LoginMain/> : <Custom/> }
+            <Custom/>
           </View>
-          <ScrollView
-            style={styles.innerView}
-            tabLabel={I18n.t('Nav.theme')}
-          >
-            {
-              this.props.trip.mainContent.map(trip => {
-                return (
-                  <ThumbnailPlan
-                    backgroundImage={trip.backgroundPic}
-                    avatar={trip.guideInfo.avatar}
-                    title={trip.name}
-                    dayInfo={trip.dayInfo}
-                    guideName={trip.guideInfo.name}
-                    starNum={trip.star}
-                    seenNum={trip.seen}
-                    purchaseNum={trip.purchase}
-                    price={trip.price}
-                    unit={'TWD'}
-                    tags={trip.tags}
-                    key={trip.tripKey}
-                    onPress={() => this.onTripPress(trip.tripKey)}
-                  />
-                )
-              })
-            }
-          </ScrollView>
           <View
             style={styles.innerView}
             tabLabel={I18n.t('Nav.purchased')}
@@ -112,7 +92,7 @@ class Main extends Component {
             style={styles.innerView}
             tabLabel={I18n.t('Nav.setting')}
           >
-            { this.props.global.currentUser === null ? <LoginMain/> : <Setting/> }
+            <Setting/>
           </View>
         </TabBar>
       </View>

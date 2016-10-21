@@ -9,6 +9,7 @@ import MainChoose from './containers/MainChoose'
 import LoginRegister from './containers/LoginRegister'
 import ForgotPassword from './containers/ForgotPassword'
 import Main from './containers/Main'
+import Custom from './containers/Custom'
 import TripContent from './containers/Trip/TripContent'
 import SiteContent from './containers/Trip/SiteContent'
 import createStorageEngine from 'redux-storage-engine-reactnativeasyncstorage'
@@ -65,7 +66,6 @@ export default function native(platform) {
 
       return (
         <Provider store={store}>
-
           <Router
             onExitApp={() => {
               if (!this.exitOrNot) {
@@ -88,6 +88,9 @@ export default function native(platform) {
               />
               <Scene key="Main"
                      component={Main}
+              />
+              <Scene key="Custom"
+                     component={Custom}
                      initial={true}
               />
               <Scene key="LoginRegister"

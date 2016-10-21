@@ -41,6 +41,7 @@ export default {
   },
   "Nav": {
     "planList": "旅程列表",
+    "mainPage": "首頁",
     "setting": "個人化",
     "purchased": "已購買",
     "tripContent": "行程介紹",
@@ -54,6 +55,11 @@ export default {
     "register": "建立帳號",
     "login": "一般登入",
     "serviceText": "註冊即代表我同意 Deeperience 的服務條款、支付服務條款、隱私政策。",
+  },
+  "Custom": {
+    "name": "Deeperience",
+    "slogan": "以最划算的價格客製化您的完美旅程",
+    "slideDown": "下拉體驗更多",
   },
   "Setting": {
     "logout": "登出",
