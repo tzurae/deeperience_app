@@ -47,4 +47,36 @@ export default StyleSheet.create({
     },
     fontWeight: 'bold',
   },
+  customView: {
+    backgroundColor: '#4d5d70',
+    padding: 20,
+  },
+  option: {
+    alignSelf: 'stretch',
+    marginBottom: 10,
+  },
+  optionText: {
+    color: 'white',
+    fontSize: MainStyle.font.medium,
+    marginBottom: 5,
+  },
+  trackStyle: {
+    height: 4,
+    borderRadius: 2,
+  },
+  selectedTrackStyle: {
+    backgroundColor: '#32a69e',
+  },
+  unselectedTrackStyle: {
+    backgroundColor: '#b7b7b7',
+  },
+  markerStyle: {
+    backgroundColor: '#32a69e',
+    height: 16,
+    width: 16,
+    borderRadius: 8,
+  },
+  pressedMarkerStyle: {
+    backgroundColor: '#b7b7b7',
+  },
 })

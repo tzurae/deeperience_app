@@ -6,12 +6,13 @@ import { Provider } from 'react-redux'
 import configureStore from './lib/configureStore'
 import App from './containers/App'
 import MainChoose from './containers/MainChoose'
-import LoginRegister from './containers/LoginRegister'
+import LoginMain from './containers/LoginMain'
 import ForgotPassword from './containers/ForgotPassword'
 import Main from './containers/Main'
 import Custom from './containers/Custom'
 import TripContent from './containers/Trip/TripContent'
 import SiteContent from './containers/Trip/SiteContent'
+import Introduction from './containers/Introduction'
 import createStorageEngine from 'redux-storage-engine-reactnativeasyncstorage'
 import { setPlatform, setVersion } from './reducers/device/deviceActions'
 import { setStore } from './reducers/global/globalActions'
@@ -91,10 +92,13 @@ export default function native(platform) {
               />
               <Scene key="Custom"
                      component={Custom}
+              />
+              <Scene key="Introduction"
+                     component={Introduction}
                      initial={true}
               />
-              <Scene key="LoginRegister"
-                     component={LoginRegister}
+              <Scene key="LoginMain"
+                     component={LoginMain}
               />
               <Scene key="TripContent"
                      component={TripContent}

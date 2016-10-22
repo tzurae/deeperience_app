@@ -2,9 +2,16 @@ import keyMirror from 'key-mirror'
 
 export default keyMirror({
 
+  // ----------device----------
   SET_PLATFORM: null,
   SET_VERSION: null,
 
+  // ----------global----------
+  SET_STATE: null,
+  GET_STATE: null,
+  SET_STORE: null,
+
+  // ----------auth----------
   ON_LOGIN_STATE_CHANGE: null,
   ON_AUTH_FORM_FIELD_CHANGE: null,
 
@@ -45,13 +52,9 @@ export default keyMirror({
 
   FB_LOGIN_START: null,
 
-  SET_STATE: null,
-  GET_STATE: null,
-  SET_STORE: null,
-
-  // LoginForm.js
   FORGOT_PASSWORD: null,
 
+  // ----------trip----------
   GET_ALL_TRIP: null,
   GET_ALL_TRIP_SUCCESS: null,
   GET_ALL_TRIP_FAILURE: null,
@@ -101,4 +104,10 @@ export default keyMirror({
   PRESS_MARKER_FAILURE: null,
 
   CLEAR_TRIP_LOCAL_STORAGE: null,
+
+  // ----------main----------
+  SET_FEE: null,
+
+  RESIDENT_FEE: null,
+  ALL_FEE: null,
 })

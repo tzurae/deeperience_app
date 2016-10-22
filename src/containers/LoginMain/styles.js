@@ -2,7 +2,8 @@ import MainStyle from '../../styles'
 import StyleSheet from '../../styles/StyleSheet'
 
 export default StyleSheet.create({
-  container: {
+  container: MainStyle.container,
+  innerContainer: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',

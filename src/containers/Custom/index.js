@@ -7,7 +7,7 @@
 'use strict'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as authActions from '../../reducers/auth/authActions'
+import * as mainActions from '../../reducers/main/mainActions'
 import { Map } from 'immutable'
 import React from 'react'
 import { ScrollView, View, Image, Text } from 'react-native'
@@ -15,15 +15,22 @@ import I18n from '../../lib/i18n'
 import styles from './styles'
 import TouchableIcon from '../../components/TouchableIcon'
 import * as Animatable from 'react-native-animatable'
+import MultiSlider from 'react-native-multi-slider'
+import { width } from '../../lib/dimensions'
+
+const {
+  RESIDENT_FEE,
+  ALL_FEE,
+} = require('../../lib/constants').default
 
 const actions = [
-  authActions,
+  mainActions,
 ]
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth,
-    global: state.global,
+    device: state.device,
+    main: state.main,
   }
 }
 
@@ -39,7 +46,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-class LoginMain extends React.Component {
+class Custom extends React.Component {
 
   render() {
     return (
@@ -53,40 +60,38 @@ class LoginMain extends React.Component {
           />
         </View>
         <ScrollView>
-          <View style={styles.innerView}>
-            <View style={[styles.centerContainer, { flex: 3 }]}>
-              <Image source={require('../../images/dpLogoTransparent.png')}
-                     style={[styles.logo, { marginTop: 30 }]}
+          <View style={styles.customView}>
+            <View style={styles.option}>
+              <Text style={styles.optionText}>
+                {`旅館預算 (NT)   ${this.props.main.residentFee[0]} - ${this.props.main.residentFee[1]}`}
+              </Text>
+              <MultiSlider
+                values={[2500, 7500]}
+                min={0}
+                max={10000}
+                step={500}
+                onValuesChange={valuesArray => this.props.actions.setFeeWrapper(RESIDENT_FEE, valuesArray)}
+                sliderLength={this.props.device.platform === 'ios' ? width - 80 : width - 60}
+                trackStyle={styles.trackStyle}
+                selectedStyle={styles.selectedTrackStyle}
+                unselectedStyle={styles.unselectedTrackStyle}
+                markerStyle={styles.markerStyle}
+                pressedMarkerStyle={styles.pressedMarkerStyle}
+                style={styles.slider}
               />
-              <Text style={[styles.title, { marginTop: 0 }]}>{I18n.t('Custom.name')}</Text>
-              <Text style={[styles.title, { marginTop: 60, color: '#2493B5' }]}>{I18n.t('Custom.slogan')}</Text>
             </View>
-            <View style={[styles.centerContainer, { flex: 2 }]}>
-              <Text style={[styles.title, { marginTop: 30, color: '#FF4747' }]}>{I18n.t('Custom.slideDown')}</Text>
-              <Animatable.View
-                style={{ position: 'relative', top: 40, backgroundColor: 'transparent' }}
-                animation="fadeInDown"
-                delay={500}
-                duration={1500}
-                easing="ease-out"
-                iterationCount="infinite"
-                direction="alternate"
-              >
-                <TouchableIcon
-                  onPress={() => {}}
-                  name="angle-double-down"
-                  color="#FF4747"
-                  size={45}
-                />
-              </Animatable.View>
-
+            <View style={styles.option}>
+              <Text style={styles.optionText}>旅館預算 (NT)</Text>
+            </View>
+            <View style={styles.option}>
+              <Text style={styles.optionText}>旅館預算 (NT)</Text>
+              <MultiSlider/>
             </View>
           </View>
         </ScrollView>
-
       </View>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginMain)
+export default connect(mapStateToProps, mapDispatchToProps)(Custom)

@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native'
-import Mainstyle from '../../styles'
+import MainStyle from '../../styles'
 
 export default (StyleSheet.create({
-  container: Mainstyle.container,
+  container: MainStyle.container,
   summary: {
     fontFamily: 'BodoniSvtyTwoITCTT-Book',
     fontSize: 18,

@@ -10,9 +10,12 @@ class Header extends React.Component {
   static propTypes = {
     headerText: PropTypes.string,
     back: PropTypes.bool,
+    onReturn: PropTypes.func,
   }
   static defaultProps = {
+    headerText: '',
     back: true,
+    onReturn: () => {},
   }
   render() {
     return (

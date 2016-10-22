@@ -15,6 +15,7 @@ import styles from './styles'
 import { Actions } from 'react-native-router-flux'
 import I18n from '../../lib/i18n'
 import { FBLogin, FBLoginManager } from '../../components/FBLogin'
+import Header from '../../components/Header'
 
 const {
   LOGIN,
@@ -53,69 +54,76 @@ class LoginMain extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ flex: 2 }}>
-          <Image source={require('../../images/dpLogoWhiteTransparent.png')}
-               style={styles.logo}
-          />
-          <Text style={styles.title}>{I18n.t('LoginMain.notLoginYet')}</Text>
-          <Text style={styles.title}>{I18n.t('LoginMain.deeperience')}</Text>
-        </View>
-        <View style={{ flex: 3,
+        <Header
+          headerText={I18n.t('LoginMain.loginMain')}
+          back={true}
+          onReturn={() => Actions.pop()}
+        />
+        <View style={styles.innerContainer}>
+          <View style={{ flex: 2 }}>
+            <Image source={require('../../images/dpLogoWhiteTransparent.png')}
+                   style={styles.logo}
+            />
+            <Text style={styles.title}>{I18n.t('LoginMain.notLoginYet')}</Text>
+            <Text style={styles.title}>{I18n.t('LoginMain.deeperience')}</Text>
+          </View>
+          <View style={{ flex: 3,
                         alignSelf: 'stretch',
                         flexDirection: 'column',
                         paddingTop: 10 }}
-        >
-          {
-            this.props.device.platform === 'ios' ? (
-              <FBLogin
-                ref={(fbLogin) => { this.fbLogin = fbLogin }}
-                permissions={['email', 'user_friends']}
-                onLogin={result => {
-                  const token = result.credentials.token
-                  this.props.actions.facebookLogin(token)
-                }}
-                onLogout={e => console.log(e)}
-                loginOrNot={this.props.global.currentUser !== null}
-              />
-            ) : (
-              <FBLogin
-                ref={(fbLogin) => { this.fbLogin = fbLogin }}
-                loginBehavior={FBLoginManager.LoginBehaviors.Native}
-                permissions={['email', 'user_friends']}
-                onLogin={result => {
-                  const token = result.credentials.token
-                  this.props.actions.facebookLogin(token)
-                }}
-                onLoginFound={e => console.log(e)}
-                onLoginNotFound={e => console.log(e)}
-                onLogout={e => console.log(e)}
-                onCancel={e => console.log(e)}
-                onPermissionsMissing={e => console.log(e)}
-              />
-            )
-          }
-          <TouchableOpacity
-            onPress={() => Actions.LoginRegister({ formType: REGISTER })}
-            style={[styles.btn, styles.normalBtn]}
-            underlayColor="transparent"
-            activeOpacity={0.7}
           >
-            <Text style={[styles.btnText, styles.normalBtnText]}>{I18n.t('LoginMain.register')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => Actions.LoginRegister({ formType: LOGIN })}
-            style={[styles.btn, styles.normalBtn]}
-            underlayColor="transparent"
-            activeOpacity={0.7}
-          >
-            <Text style={[styles.btnText, styles.normalBtnText]}>{I18n.t('LoginMain.login')}</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{ flex: 1,
+            {
+              this.props.device.platform === 'ios' ? (
+                <FBLogin
+                  ref={(fbLogin) => { this.fbLogin = fbLogin }}
+                  permissions={['email', 'user_friends']}
+                  onLogin={result => {
+                    const token = result.credentials.token
+                    this.props.actions.facebookLogin(token)
+                  }}
+                  onLogout={e => console.log(e)}
+                  loginOrNot={this.props.global.currentUser !== null}
+                />
+              ) : (
+                <FBLogin
+                  ref={(fbLogin) => { this.fbLogin = fbLogin }}
+                  loginBehavior={FBLoginManager.LoginBehaviors.Native}
+                  permissions={['email', 'user_friends']}
+                  onLogin={result => {
+                    const token = result.credentials.token
+                    this.props.actions.facebookLogin(token)
+                  }}
+                  onLoginFound={e => console.log(e)}
+                  onLoginNotFound={e => console.log(e)}
+                  onLogout={e => console.log(e)}
+                  onCancel={e => console.log(e)}
+                  onPermissionsMissing={e => console.log(e)}
+                />
+              )
+            }
+            <TouchableOpacity
+              onPress={() => Actions.LoginRegister({ formType: REGISTER })}
+              style={[styles.btn, styles.normalBtn]}
+              underlayColor="transparent"
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.btnText, styles.normalBtnText]}>{I18n.t('LoginMain.register')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => Actions.LoginRegister({ formType: LOGIN })}
+              style={[styles.btn, styles.normalBtn]}
+              underlayColor="transparent"
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.btnText, styles.normalBtnText]}>{I18n.t('LoginMain.login')}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{ flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
                         alignSelf: 'stretch' }}>
-          <Text style={styles.serviceText}>{I18n.t('LoginMain.serviceText')}</Text>
+            <Text style={styles.serviceText}>{I18n.t('LoginMain.serviceText')}</Text>
+          </View>
         </View>
       </View>
     )

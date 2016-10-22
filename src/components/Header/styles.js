@@ -7,6 +7,7 @@ export default StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'stretch',
     backgroundColor: MainStyle.color.main,
     flexDirection: 'column',
     ios: {

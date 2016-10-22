@@ -37,7 +37,7 @@ class MainChoose extends React.Component {
 
   componentDidMount() {
     setTimeout(() => {
-      Actions.Main()
+      Actions.Introduction()
     }, 4000)
   }
 

@@ -1,18 +1,12 @@
 /**
  * # reducers
- *
  * This class combines all the reducers into one
- *
  */
 'use strict'
-/**
- * ## Imports
- *
- * our 4 reducers
- */
 import auth from './auth/authReducer'
 import device from './device/deviceReducer'
 import global from './global/globalReducer'
+import main from './main/mainReducer'
 import trip from './trip/tripReducer'
 
 import { combineReducers } from 'redux'
@@ -27,6 +21,7 @@ const rootReducer = combineReducers({
   auth,
   device,
   global,
+  main,
   trip,
 })
 
