@@ -29,6 +29,7 @@ const InitialState = Record({
   currentUser: null,
   showState: false,
   currentState: null,
+  firstTime: true,
   store: null,
 })
 export default InitialState

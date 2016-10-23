@@ -88,13 +88,13 @@ export function* login(payload) {
   }
 }
 
-export function* resetPassword(payload) {
+export function* resetPassword(email) {
   try {
     yield put(authActions.resetPasswordRequest())
-    yield call([api, api.resetPassword], payload.email)
+    yield call([api, api.resetPassword], email)
     yield put(authActions.loginState())
     yield put(authActions.resetPasswordSuccess())
-    Actions.Login()
+    Actions.pop()
   } catch (error) {
     SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.resetPasswordError'))
     yield put(authActions.resetPasswordFailure(error))
@@ -109,8 +109,6 @@ export function* facebookLogin(payload) {
       username: user.displayName,
       avatar: user.photoURL,
     })
-    console.log(newUser.getPath())
-    console.log(newUser.getData())
     yield call([api, api.updateDataBase], newUser.getPath(), newUser.getData())
     yield put(authActions.loginSuccess({
       uid: user.uid,
@@ -156,7 +154,7 @@ export function* watchLogin() {
 
 export function* watchResetPassword() {
   while (true) {
-    const payload = yield take(RESET_PASSWORD_START)
+    const { payload } = yield take(RESET_PASSWORD_START)
     yield fork(resetPassword, payload)
   }
 }

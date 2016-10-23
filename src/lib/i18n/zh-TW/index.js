@@ -8,19 +8,15 @@ export default {
     "password": "密碼",
     "passwordAgain": "密碼確認",
   },
-  "LoginRender": {
+  "LoginRenderRegister": {
     "explore": "探索Deeperience！",
-    "forgotPassword": "忘記密碼",
-    "alreadyHaveAccount": "己經有帳號了",
-    "register": "註冊",
     "showPassword": "顯示密碼",
+    "forgotPassword": "忘記密碼？",
   },
   "LoginRegister": {
     "login": "登入",
     "register": "註冊",
-  },
-  "ForgotPassword": {
-    "reset_password": "重設密碼",
+    "resetPassword": "重設密碼",
   },
   "AuthMessage": {
     "error": "錯誤",

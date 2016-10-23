@@ -1,7 +1,7 @@
 /**
- * # LoginRender.js
+ * # LoginRegisterRender.js
  *
- * This class is a little complicated as it handles multiple states.
+ * To render all kinds of form
  *
  */
 'use strict'
@@ -19,11 +19,18 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
+import Button from 'react-native-button'
 
 const actions = [
   authActions,
   globalActions,
 ]
+
+const {
+  LOGIN,
+  REGISTER,
+  FORGOT_PASSWORD,
+} = require('../../lib/constants').default
 
 function mapDispatchToProps(dispatch) {
   const creators = Map()
@@ -70,6 +77,10 @@ class LoginRegisterRender extends React.Component {
     })
   }
 
+  componentWillMount() {
+    this.props.dispatch({ type: this.props.formType }) // set form type and state
+  }
+
   /**
    * ### onChange
    *
@@ -105,15 +116,22 @@ class LoginRegisterRender extends React.Component {
      * header props are mostly for support of Hot reloading.
      * See the docs for Header for more info.
      */
+
     return (
       <View style={styles.container}>
         <Header
           onReturn={() => Actions.pop()}
         />
         <View style={styles.innerContainer}>
-          <Text style={styles.title}>
-            {I18n.t('LoginRender.explore')}
-          </Text>
+          {this.props.formType === FORGOT_PASSWORD ? (
+            <Text style={styles.title}>
+              {I18n.t('LoginRenderRegister.explore')}
+            </Text>
+            ) : (
+            <Text style={styles.title}>
+              {I18n.t('LoginRenderRegister.explore')}
+            </Text>)
+          }
           <View>
             <LoginForm
               formType={this.props.formType}
@@ -121,9 +139,10 @@ class LoginRegisterRender extends React.Component {
               value={this.state.value}
               onChange={this.onChange.bind(this)}
             />
-            {this.props.displayPasswordCheckbox ?
+            {this.props.formType === LOGIN || this.props.formType === REGISTER ?
               (<ItemCheckbox
-                text={I18n.t('LoginRender.showPassword')}
+                style={{ marginTop: 5 }}
+                text={I18n.t('LoginRenderRegister.showPassword')}
                 disabled={this.props.auth.form.isFetching}
                 checked={this.props.auth.checked}
                 onCheck={() => {
@@ -135,6 +154,19 @@ class LoginRegisterRender extends React.Component {
                   this.props.actions.onAuthFormFieldChange('showPassword', false)
                 }}
               />) : null
+            }
+            {
+              this.props.formType === LOGIN ? (
+                <View style={styles.forgotPasswordView}>
+                  <Button
+                    onPress={() => {
+                      Actions.LoginRegister({ formType: FORGOT_PASSWORD })
+                    }}
+                    style={styles.forgotPassword}>
+                    {I18n.t('LoginRenderRegister.forgotPassword')}
+                  </Button>
+                </View>
+              ) : null
             }
           </View>
           <FormButton

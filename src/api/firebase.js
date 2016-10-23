@@ -46,18 +46,9 @@ export default class Firebase extends apiInterface {
     return firebaseAuth.signOut()
   }
 
-  updateProfile(updateData) {
-    if (firebaseAuth.currentUser) {
-      const user = firebaseAuth.currentUser
-      return user.updateProfile({
-        name: user.name,
-        avatar: '',
-      })
-    }
-  }
-
-  resetPassword(newPassword) {
-    return firebaseAuth.currentUser.updatePassword(newPassword)
+  // https://firebase.google.com/docs/hosting/custom-domain
+  resetPassword(email) {
+    return firebaseAuth.sendPasswordResetEmail(email)
   }
 
   writeDataBase(path, value) {

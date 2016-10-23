@@ -1,7 +1,7 @@
 /**
- * # Login.js
+ * # LoginRegister.js
  *
- *  The container to display the Login form
+ *  The container to display Login, Register, ForgotPassword form
  *
  */
 'use strict'
@@ -16,6 +16,7 @@ import I18n from '../../lib/i18n'
 const {
   LOGIN,
   REGISTER,
+  FORGOT_PASSWORD,
 } = require('../../lib/constants').default
 
 const actions = [
@@ -60,7 +61,6 @@ class LoginRegister extends React.Component {
                 this.props.auth.email,
                 this.props.auth.password)
             }}
-            displayPasswordCheckbox={true}
           />
         )
       case LOGIN:
@@ -73,7 +73,16 @@ class LoginRegister extends React.Component {
                 this.props.auth.email,
                 this.props.auth.password)
             }}
-            displayPasswordCheckbox={true}
+          />
+        )
+      case FORGOT_PASSWORD:
+        return (
+          <LoginRegisterRender
+            formType={FORGOT_PASSWORD}
+            buttonText={I18n.t('LoginRegister.resetPassword')}
+            onButtonPress={() => {
+              this.props.actions.resetPassword(this.props.auth.email)
+            }}
           />
         )
       default:

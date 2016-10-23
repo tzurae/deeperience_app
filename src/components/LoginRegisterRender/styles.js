@@ -14,4 +14,15 @@ export default StyleSheet.create({
     color: 'white',
     marginBottom: 20,
   },
+  forgotPassword: {
+    color: 'black',
+    fontSize: MainStyle.font.medium - 1,
+    fontWeight: 'normal',
+  },
+  forgotPasswordView: {
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginTop: 10,
+  },
 })

@@ -24,7 +24,7 @@ export default class apiInterface {
    * ### signup
    *
    * @param user
-   * {displayName: "barton", password: "Passw0rd!"}
+   * {email: "barton@y.com", password: "Password!"}
    * @returns user.json
    * Properties -> https://firebase.google.com/docs/reference/node/firebase.User
    */
@@ -47,19 +47,11 @@ export default class apiInterface {
 
   /**
    * ### resetPassword
-   * @param newPassword:string
+   * @param email: string
    * @returns object
    * if error:  {code: xxx, error: 'message'}
    */
-  resetPassword(data) {}
-
-  /**
-   * ### updateProfile
-   * @param updateData:object
-   * property:https://firebase.google.com/docs/reference/node/firebase.User
-   * @return user.json
-   */
-  updateProfile(updateData) {}
+  resetPassword(email) {}
 
   /**
    * ### writeDataBase

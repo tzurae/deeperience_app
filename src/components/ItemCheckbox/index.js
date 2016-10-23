@@ -28,7 +28,7 @@ class ItemCheckbox extends React.Component {
     iconSize: PropTypes.number,
     color: PropTypes.string,
     checked: PropTypes.bool,
-    style: PropTypes.func,
+    style: View.propTypes.style,
     text: PropTypes.string,
     disabled: PropTypes.bool,
   }
@@ -41,6 +41,7 @@ class ItemCheckbox extends React.Component {
     iconSize: 20,
     color: 'black',
     checked: false,
+    style: {},
     text: 'MISSING TEXT',
     disabled: false,
   }

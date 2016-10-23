@@ -33,7 +33,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-class MainChoose extends React.Component {
+class LoadingApp extends React.Component {
 
   componentDidMount() {
     setTimeout(() => {
@@ -69,4 +69,4 @@ class MainChoose extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainChoose)
+export default connect(mapStateToProps, mapDispatchToProps)(LoadingApp)

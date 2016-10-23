@@ -4,10 +4,9 @@ import { AppRegistry, ToastAndroid } from 'react-native'
 import { Router, Scene } from 'react-native-router-flux'
 import { Provider } from 'react-redux'
 import configureStore from './lib/configureStore'
-import App from './containers/App'
-import MainChoose from './containers/MainChoose'
+import LoadingApp from './containers/LoadingApp'
 import LoginMain from './containers/LoginMain'
-import ForgotPassword from './containers/ForgotPassword'
+import LoginRegister from './containers/LoginRegister'
 import Main from './containers/Main'
 import Custom from './containers/Custom'
 import TripContent from './containers/Trip/TripContent'
@@ -80,12 +79,9 @@ export default function native(platform) {
             <Scene key="root"
                    hideNavBar={true}
             >
-              <Scene key="App"
-                     component={App}
-                     type="replace"
-              />
-              <Scene key="MainChoose"
-                     component={MainChoose}
+              <Scene key="LoadingApp"
+                     component={LoadingApp}
+                     initial={true}
               />
               <Scene key="Main"
                      component={Main}
@@ -95,20 +91,18 @@ export default function native(platform) {
               />
               <Scene key="Introduction"
                      component={Introduction}
-                     initial={true}
               />
               <Scene key="LoginMain"
                      component={LoginMain}
+              />
+              <Scene key="LoginRegister"
+                     component={LoginRegister}
               />
               <Scene key="TripContent"
                      component={TripContent}
               />
               <Scene key="SiteContent"
                      component={SiteContent}
-              />
-              <Scene key="ForgotPassword"
-                     component={ForgotPassword}
-                     type="replace"
               />
             </Scene>
           </Router>

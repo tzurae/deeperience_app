@@ -224,9 +224,7 @@ export function resetPasswordFailure(error:any):Action { // TODO
 export function resetPassword(email:string):Action {
   return {
     type: RESET_PASSWORD_START,
-    payload: {
-      email,
-    },
+    payload: email,
   }
 }
 

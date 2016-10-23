@@ -48,6 +48,7 @@ class Introduction extends React.Component {
         nextBtnLabel={I18n.t('Introduction.nextBtn')}
         skipBtnLabel={I18n.t('Introduction.skipBtn')}
         doneBtnLabel={I18n.t('Introduction.doneBtn')}
+        defaultIndex={0}
       >
         <View style={[styles.slide, { backgroundColor: '#F88B6D' }]}>
           <View style={styles.imageView} level={10}>

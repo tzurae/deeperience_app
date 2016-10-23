@@ -1,7 +1,7 @@
 /**
  * # LoginMain.js
  *
- *  The container to display every Login form
+ *  The container to display every Login option
  *
  */
 'use strict'

@@ -12,7 +12,7 @@ class FormButton extends React.Component {
   render() {
     return (
       <Button style={styles.button}
-              containerStyle={styles.container}
+              containerStyle={this.props.isDisabled ? styles.disContainer : styles.container}
               disabled={this.props.isDisabled}
               onPress={this.props.onPress}
               activeOpacity={0.7}
