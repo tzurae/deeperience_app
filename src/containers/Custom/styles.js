@@ -1,24 +1,18 @@
 import MainStyle from '../../styles'
 import StyleSheet from '../../styles/StyleSheet'
-import { height } from '../../lib/dimensions'
+import { width, height } from '../../lib/dimensions'
 
 export default StyleSheet.create({
+  outerContainer: {
+    flex: 1,
+    flexDirection: 'column',
+  },
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'white',
-    ios: {
-      paddingTop: 30,
-      paddingBottom: 30,
-      paddingRight: 20,
-      paddingLeft: 20,
-    },
-    android: {
-      paddingTop: 20,
-      paddingBottom: 20,
-      paddingRight: 20,
-      paddingLeft: 20,
-    },
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    opacity: 0.85,
+    padding: 20,
   },
   centerContainer: {
     alignItems: 'center',
@@ -31,6 +25,17 @@ export default StyleSheet.create({
     width: 70,
     height: 70,
     marginBottom: 10,
+  },
+  backgroundImg: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: -1,
+    opacity: 1,
+    width,
+    height,
   },
   title: {
     color: MainStyle.color.main,
@@ -47,17 +52,23 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
   customView: {
-    backgroundColor: '#4d5d70',
+    backgroundColor: 'rgba(77,93,112,1)',
     padding: 20,
   },
   option: {
     alignSelf: 'stretch',
-    marginBottom: 10,
+    marginBottom: 20,
+  },
+  optionTextView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
   },
   optionText: {
     color: 'white',
-    fontSize: MainStyle.font.medium,
+    fontSize: MainStyle.font.medium + 2,
     marginBottom: 5,
+    fontWeight: 'bold',
   },
   trackStyle: {
     height: 4,
@@ -67,7 +78,7 @@ export default StyleSheet.create({
     backgroundColor: '#32a69e',
   },
   unselectedTrackStyle: {
-    backgroundColor: '#b7b7b7',
+    backgroundColor: '#ccc',
   },
   markerStyle: {
     backgroundColor: '#32a69e',
@@ -76,6 +87,42 @@ export default StyleSheet.create({
     borderRadius: 8,
   },
   pressedMarkerStyle: {
-    backgroundColor: '#b7b7b7',
+    backgroundColor: MainStyle.color.main,
+  },
+  modalPicker: {
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  MPSelectTextStyle: {
+    color: 'white',
+    fontSize: MainStyle.font.medium + 2,
+  },
+  MPOverlayStyle: {
+    backgroundColor: 'rgba(0,0,0,0.85)',
+  },
+  MPOptionStyle: {
+    padding: 12,
+    borderBottomWidth: 0.75,
+    borderBottomColor: '#aaa',
+  },
+  MPOptionTextStyle: {
+    fontSize: MainStyle.font.medium + 2,
+  },
+  MPCancelTextStyle: {
+    color: 'black',
+    fontSize: MainStyle.font.medium + 2,
+  },
+  MPCancelStyle: {
+    padding: 10,
+  },
+  MPSectionTextStyle: {
+    color: 'black',
+    fontSize: MainStyle.font.medium + 4,
+    fontWeight: 'bold',
+  },
+  MPSectionStyle: {
+    padding: 16,
+    borderBottomWidth: 0.75,
+    borderBottomColor: '#aaa',
   },
 })

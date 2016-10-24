@@ -11,11 +11,21 @@ class Header extends React.Component {
     headerText: PropTypes.string,
     back: PropTypes.bool,
     onReturn: PropTypes.func,
+    rightIcon: PropTypes.string,
+    rightIconSize: PropTypes.number,
+    rightIconColor: PropTypes.string,
+    rightIconStyle: View.propTypes.style,
+    onPress: PropTypes.func,
   }
   static defaultProps = {
     headerText: '',
     back: true,
     onReturn: () => {},
+    rightIcon: 'chevron-left',
+    rightIconSize: 30,
+    rightIconColor: 'white',
+    rightIconStyle: {},
+    onPress: () => {},
   }
   render() {
     return (
@@ -23,15 +33,23 @@ class Header extends React.Component {
         {Platform.OS === 'ios' ? (
           <View style={styles.iosbar}/>
         ) : null}
-        {this.props.back ? (
+        <View style={styles.contentView}>
+          {this.props.back ? (
             <TouchableIcon
-              style={styles.backIcon}
               onPress={() => this.props.onReturn()}
               name="chevron-left"
               size={30}
               color="white"
             />) : null}
-        <Text style={styles.textStyle}>{this.props.headerText}</Text>
+          <Text style={styles.textStyle}>{this.props.headerText}</Text>
+          <TouchableIcon
+            style={this.props.rightIconStyle}
+            onPress={() => this.props.onPress()}
+            name={this.props.rightIcon}
+            size={this.props.rightIconSize}
+            color={this.props.rightIcon === '' ? 'transparent' : this.props.rightIconColor}
+          />
+        </View>
       </View>
     )
   }

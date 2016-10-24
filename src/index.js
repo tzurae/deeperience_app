@@ -81,13 +81,13 @@ export default function native(platform) {
             >
               <Scene key="LoadingApp"
                      component={LoadingApp}
-                     initial={true}
               />
               <Scene key="Main"
                      component={Main}
               />
               <Scene key="Custom"
                      component={Custom}
+                     initial={true}
               />
               <Scene key="Introduction"
                      component={Introduction}

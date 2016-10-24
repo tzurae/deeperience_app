@@ -107,7 +107,10 @@ export default keyMirror({
 
   // ----------main----------
   SET_FEE: null,
+  SET_DAY: null,
+  SET_HOTEL_TYPE: null,
+  SET_TRIP_LOCATION: null,
 
   RESIDENT_FEE: null,
-  ALL_FEE: null,
+  TRIP_FEE: null,
 })

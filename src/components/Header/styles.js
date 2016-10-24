@@ -25,20 +25,15 @@ export default StyleSheet.create({
     height: 14,
     width,
   },
+  contentView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+  },
   textStyle: {
     fontSize: MainStyle.font.big,
     color: '#ffffff',
     fontWeight: 'bold',
-  },
-  backIcon: {
-    alignSelf: 'flex-start',
-    position: 'absolute',
-    left: 10,
-    ios: {
-      top: 17,
-    },
-    android: {
-      top: 9,
-    },
   },
 })
