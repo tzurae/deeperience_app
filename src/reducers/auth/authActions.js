@@ -1,7 +1,6 @@
-// @flow
+// @flow weak
 'use strict'
 import Firebase from '../../api/firebase'
-import type { Action, ThunkAction } from '../../lib/types'
 
 const {
 
@@ -39,7 +38,7 @@ const {
 
 } = require('../../lib/constants').default
 
-export function initAuth():Action {
+export function initAuth() {
   return {
     type: INIT_AUTH,
   }
@@ -50,24 +49,24 @@ export function initAuth():Action {
  * as in login, register, logout or reset password
  */
 
-export function logoutState():Action {
+export function logoutState() {
   return {
     type: LOGOUT,
   }
 }
-export function registerState():Action {
+export function registerState() {
   return {
     type: REGISTER,
   }
 }
 
-export function loginState():Action {
+export function loginState() {
   return {
     type: LOGIN,
   }
 }
 
-export function forgotPasswordState():Action {
+export function forgotPasswordState() {
   return {
     type: FORGOT_PASSWORD,
   }
@@ -76,25 +75,25 @@ export function forgotPasswordState():Action {
 /**
  * ## Logout actions
  */
-export function logoutRequest():Action {
+export function logoutRequest() {
   return {
     type: LOGOUT_REQUEST,
   }
 }
 
-export function logoutSuccess():Action {
+export function logoutSuccess() {
   return {
     type: LOGOUT_SUCCESS,
   }
 }
-export function logoutFailure(error: any):Action {
+export function logoutFailure(error: any) {
   return {
     type: LOGOUT_FAILURE,
     payload: error,
   }
 }
 
-export function logout():Action {
+export function logout() {
   return {
     type: LOGOUT_START, //redux saga action
   }
@@ -104,7 +103,7 @@ export function logout():Action {
  * ## onAuthFormFieldChange
  * Set the payload so the reducer can work on it
  */
-export function onAuthFormFieldChange(field:string, value:string):Action {
+export function onAuthFormFieldChange(field:string, value:string) {
   return {
     type: ON_AUTH_FORM_FIELD_CHANGE,
     payload: { field, value },
@@ -113,25 +112,25 @@ export function onAuthFormFieldChange(field:string, value:string):Action {
 /**
  * ## Signup actions
  */
-export function signupRequest():Action {
+export function signupRequest() {
   return {
     type: SIGNUP_REQUEST,
   }
 }
-export function signupSuccess(user:any):Action {
+export function signupSuccess(user:any) {
   return {
     type: SIGNUP_SUCCESS,
     payload: user,
   }
 }
-export function signupFailure(error:any):Action {
+export function signupFailure(error:any) {
   return {
     type: SIGNUP_FAILURE,
     payload: error,
   }
 }
 
-export function signup(username:string, email:string, password:string):Action {
+export function signup(username:string, email:string, password:string) {
   return {
     type: SIGNUP_START, // redux-saga actions
     payload: {
@@ -145,27 +144,27 @@ export function signup(username:string, email:string, password:string):Action {
 /**
  * ### Normal Login Actions
  */
-export function loginRequest():Action {
+export function loginRequest() {
   return {
     type: LOGIN_REQUEST,
   }
 }
 
-export function loginSuccess(json:any):Action { // TODO
+export function loginSuccess(json:any) { // TODO
   return {
     type: LOGIN_SUCCESS,
     payload: json,
   }
 }
 
-export function loginFailure(error:any):Action { // TODO
+export function loginFailure(error:any) { // TODO
   return {
     type: LOGIN_FAILURE,
     payload: error,
   }
 }
 
-export function login(email:string, password:string):Action {
+export function login(email:string, password:string) {
   return {
     type: LOGIN_START,
     payload: {
@@ -178,7 +177,7 @@ export function login(email:string, password:string):Action {
 /**
  * ### Social Login Actions
  */
-export function loginWithSocial(authProvider:any):Action { // TODO
+export function loginWithSocial(authProvider:any) { // TODO
   return {
     type: LOGIN_SOCIAL,
     payload: { authProvider },
@@ -196,19 +195,19 @@ export function loginWithGoogle() {
 /**
  * ## ResetPassword actions
  */
-export function resetPasswordRequest():Action {
+export function resetPasswordRequest() {
   return {
     type: RESET_PASSWORD_REQUEST,
   }
 }
 
-export function resetPasswordSuccess():Action {
+export function resetPasswordSuccess() {
   return {
     type: RESET_PASSWORD_SUCCESS,
   }
 }
 
-export function resetPasswordFailure(error:any):Action { // TODO
+export function resetPasswordFailure(error:any) { // TODO
   return {
     type: RESET_PASSWORD_FAILURE,
     payload: error,
@@ -221,24 +220,24 @@ export function resetPasswordFailure(error:any):Action { // TODO
  * *Note* There's no feedback to the user whether the email
  * address is valid or not.
  */
-export function resetPassword(email:string):Action {
+export function resetPassword(email:string) {
   return {
     type: RESET_PASSWORD_START,
     payload: email,
   }
 }
 
-export function toggleRegisterChecked():Action {
+export function toggleRegisterChecked() {
   return {
     type: TOGGLE_REGISTER_CHECKED,
   }
 }
 
-export function toggleRegisterCheckedWrapper():ThunkAction {
+export function toggleRegisterCheckedWrapper() {
   return dispatch => dispatch(toggleRegisterChecked())
 }
 
-export function facebookLogin(token: string):Action {
+export function facebookLogin(token: string) {
   return {
     type: FB_LOGIN_START,
     payload: token,

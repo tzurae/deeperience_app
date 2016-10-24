@@ -1,6 +1,5 @@
-// @flow
+// @flow weak
 'use strict'
-import type { ThunkAction, Action } from '../../lib/types'
 
 const {
   GET_ALL_TRIP,
@@ -49,111 +48,111 @@ const {
   PRESS_MARKER_FAILURE,
 } = require('../../lib/constants').default
 
-export function getAllTrip():Action {
+export function getAllTrip() {
   return {
     type: GET_ALL_TRIP,
   }
 }
 
-export function getAllTripSuccess(res: any):Action {
+export function getAllTripSuccess(res: any) {
   return {
     type: GET_ALL_TRIP_SUCCESS,
     payload: res,
   }
 }
 
-export function getAllTripFailure(res: any):Action {
+export function getAllTripFailure(res: any) {
   return {
     type: GET_ALL_TRIP_FAILURE,
     payload: res,
   }
 }
 
-export function getTripByClass():Action {
+export function getTripByClass() {
   return {
     type: GET_TRIP_BY_CLASS,
   }
 }
 
-export function getTripContent(res: string):Action {
+export function getTripContent(res: string) {
   return {
     type: GET_TRIP_CONTENT,
     payload: { tripId: res },
   }
 }
 
-export function getTripContentSuccess(res:any):Action {
+export function getTripContentSuccess(res:any) {
   return {
     type: GET_TRIP_CONTENT_SUCCESS,
     payload: res,
   }
 }
 
-export function getTripContentFailure(res:any):Action {
+export function getTripContentFailure(res:any) {
   return {
     type: GET_TRIP_CONTENT_FAILURE,
     payload: res,
   }
 }
 
-export function setTripKey(res:any):Action {
+export function setTripKey(res:any) {
   return {
     type: SET_TRIP_KEY,
     payload: res,
   }
 }
 
-export function setTripKeyWrapper(res: any):ThunkAction {
+export function setTripKeyWrapper(res: any) {
   return dispatch => dispatch(setTripKey(res))
 }
 
-export function setSiteContentSuccess(res:any):Action {
+export function setSiteContentSuccess(res:any) {
   return {
     type: SET_SITE_CONTENT_SUCCESS,
     payload: res,
   }
 }
 
-export function setSiteContentFailure(res:any):Action {
+export function setSiteContentFailure(res:any) {
   return {
     type: SET_SITE_CONTENT_FAILURE,
     payload: res,
   }
 }
 
-export function setSiteStatus(res:any):Action {
+export function setSiteStatus(res:any) {
   return {
     type: SET_SITE_STATUS,
     payload: res,
   }
 }
 
-export function setSiteStatusWrapper(res: any):ThunkAction {
+export function setSiteStatusWrapper(res: any) {
   return dispatch => dispatch(setSiteStatus(res))
 }
 
-export function activateSiteBtn(res: any):Action {
+export function activateSiteBtn(res: any) {
   return {
     type: ACTIVATE_SITE_BTN,
     payload: res,
   }
 }
 
-export function activateSiteBtnWrapper(res: any):ThunkAction {
+export function activateSiteBtnWrapper(res: any) {
   return dispatch => dispatch(activateSiteBtn(res))
 }
 
-export function deactivateSiteBtn():Action {
+export function deactivateSiteBtn() {
   return {
     type: DEACTIVATE_SITE_BTN,
   }
 }
 
-export function deactivateSiteBtnWrapper():ThunkAction {
+export function deactivateSiteBtnWrapper() {
   return dispatch => dispatch(deactivateSiteBtn())
 }
 
-export function setDisplayInfo(res: any):Action {
+export function setDisplayInfo(res: any) {
   return {
     type: SET_DISPLAY_INFO,
     payload: {
@@ -162,180 +161,180 @@ export function setDisplayInfo(res: any):Action {
     },
   }
 }
-export function setDisplayInfoWrapper(res: any):ThunkAction {
+export function setDisplayInfoWrapper(res: any) {
   return dispatch => dispatch(setDisplayInfo(res))
 }
 
-export function closeDisplayInfo():Action {
+export function closeDisplayInfo() {
   return {
     type: CLOSE_DISPLAY_INFO,
   }
 }
 
-export function closeDisplayInfoWrapper():ThunkAction {
+export function closeDisplayInfoWrapper() {
   return dispatch => dispatch(closeDisplayInfo())
 }
 
-export function getDisplayInfoDirectionStart(res: any):Action {
+export function getDisplayInfoDirectionStart(res: any) {
   return {
     type: GET_DISPLAY_INFO_DIRECTION_START,
     payload: res,
   }
 }
 
-export function setDisplayInfoTransit():Action {
+export function setDisplayInfoTransit() {
   return {
     type: SET_DISPLAY_INFO_TRANSIT,
   }
 }
 
-export function setDisplayInfoTransitSuccess(res:any):Action {
+export function setDisplayInfoTransitSuccess(res:any) {
   return {
     type: SET_DISPLAY_INFO_TRANSIT_SUCCESS,
     payload: res,
   }
 }
 
-export function setDisplayInfoTransitFailure(res:any):Action {
+export function setDisplayInfoTransitFailure(res:any) {
   return {
     type: SET_DISPLAY_INFO_TRANSIT_FAILURE,
     payload: res,
   }
 }
 
-export function setMapInfo(res : any):Action {
+export function setMapInfo(res : any) {
   return {
     type: SET_MAP_INFO,
     payload: res,
   }
 }
 
-export function setMapInfoWrapper(res: any):ThunkAction {
+export function setMapInfoWrapper(res: any) {
   return dispatch => dispatch(setMapInfo(res))
 }
 
-export function setMapInfoSuccess():Action {
+export function setMapInfoSuccess() {
   return {
     type: SET_MAP_INFO_SUCCESS,
   }
 }
 
-export function setMapInfoSuccessWrapper(res: any):ThunkAction {
+export function setMapInfoSuccessWrapper(res: any) {
   return dispatch => dispatch(setMapInfoSuccess(res))
 }
 
-export function setMapInfoFailure(res : any):Action {
+export function setMapInfoFailure(res : any) {
   return {
     type: SET_MAP_INFO_FAILURE,
     payload: res,
   }
 }
 
-export function setMapInfoFailureWrapper(res: any):ThunkAction {
+export function setMapInfoFailureWrapper(res: any) {
   return dispatch => dispatch(setMapInfoFailure(res))
 }
 
-export function setMapDirection(res : any):Action {
+export function setMapDirection(res : any) {
   return {
     type: SET_MAP_DIRECTION,
     payload: res,
   }
 }
 
-export function setMapDirectionSuccess(res : any):Action {
+export function setMapDirectionSuccess(res : any) {
   return {
     type: SET_MAP_DIRECTION_SUCCESS,
     payload: res,
   }
 }
 
-export function setMapDirectionFailure(res : any):Action {
+export function setMapDirectionFailure(res : any) {
   return {
     type: SET_MAP_DIRECTION_FAILURE,
     payload: res,
   }
 }
 
-export function setAudio(res : any):Action {
+export function setAudio(res : any) {
   return {
     type: SET_AUDIO,
     payload: res,
   }
 }
 
-export function setAudioWrapper(res: any):ThunkAction {
+export function setAudioWrapper(res: any) {
   return dispatch => dispatch(setAudio(res))
 }
 
-export function resetAudio():Action {
+export function resetAudio() {
   return {
     type: RESET_AUDIO,
   }
 }
 
-export function resetAudioWrapper():ThunkAction {
+export function resetAudioWrapper() {
   return dispatch => dispatch(resetAudio())
 }
 
-export function switchDisplayInfoCard(which: number):Action {
+export function switchDisplayInfoCard(which: number) {
   return {
     type: SWITCH_DISPLAY_INFO_CARD,
     payload: which,
   }
 }
 
-export function switchDisplayInfoCardWrapper(res: number):ThunkAction {
+export function switchDisplayInfoCardWrapper(res: number) {
   return dispatch => dispatch(switchDisplayInfoCard(res))
 }
 
-export function pressMarkerFailure(res: any):Action {
+export function pressMarkerFailure(res: any) {
   return {
     type: PRESS_MARKER_FAILURE,
     payload: res,
   }
 }
 
-export function pressMarkerFailureWrapper(res: any):ThunkAction {
+export function pressMarkerFailureWrapper(res: any) {
   return dispatch => dispatch(pressMarkerFailure(res))
 }
 
-export function toggleDisplayInfo():Action {
+export function toggleDisplayInfo() {
   return {
     type: TOGGLE_DISPLAY_INFO,
   }
 }
 
-export function toggleDisplayInfoWrapper():ThunkAction {
+export function toggleDisplayInfoWrapper() {
   return dispatch => dispatch(toggleDisplayInfo())
 }
 
-export function toggleMapMode():Action {
+export function toggleMapMode() {
   return {
     type: TOGGLE_MAP_MODE,
   }
 }
 
-export function toggleMapModeWrapper():ThunkAction {
+export function toggleMapModeWrapper() {
   return dispatch => dispatch(toggleMapMode())
 }
 
-export function toggleContentMode():Action {
+export function toggleContentMode() {
   return {
     type: TOGGLE_CONTENT_MODE,
   }
 }
 
-export function toggleContentModeWrapper():ThunkAction {
+export function toggleContentModeWrapper() {
   return dispatch => dispatch(toggleContentMode())
 }
 
-export function toggleSidebar():Action {
+export function toggleSidebar() {
   return {
     type: TOGGLE_SIDEBAR,
   }
 }
 
-export function toggleSidebarWrapper():ThunkAction {
+export function toggleSidebarWrapper() {
   return dispatch => dispatch(toggleSidebar())
 }
 

@@ -1,12 +1,11 @@
-// @flow
+// @flow weak
 'use strict'
-import type { Action, ThunkAction } from '../../lib/types'
 
 const {
   SET_FEE,
 } = require('../../lib/constants').default
 
-export function setFee(type: string, fee: any):Action {
+export function setFee(type: string, fee: any) {
   return {
     type: SET_FEE,
     payload: {
@@ -16,6 +15,6 @@ export function setFee(type: string, fee: any):Action {
   }
 }
 
-export function setFeeWrapper(type: string, fee: any):ThunkAction {
+export function setFeeWrapper(type: string, fee: any) {
   return dispatch => dispatch(setFee(type, fee))
 }

@@ -1,10 +1,10 @@
+// @flow weak
 /**
  * # globalActions.js
  *
  * Actions that are global in nature
  */
 'use strict'
-import type { Action } from '../../lib/types'
 
 const {
   SET_STORE,
@@ -20,7 +20,7 @@ const {
  * this is here to support Hot Loading
  *
  */
-export function setStore(store:any):Action {
+export function setStore(store:any) {
   return {
     type: SET_STORE,
     payload: store,
@@ -30,7 +30,7 @@ export function setStore(store:any):Action {
  * ## set state
  *
  */
-export function setState(newState:any):Action {
+export function setState(newState:any) {
   return {
     type: SET_STATE,
     payload: newState,
@@ -40,7 +40,7 @@ export function setState(newState:any):Action {
  * ## getState
  *
  */
-export function getState(toggle:any):Action {
+export function getState(toggle:any) {
   return {
     type: GET_STATE,
     payload: toggle,

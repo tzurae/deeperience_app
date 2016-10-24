@@ -7,7 +7,6 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    // backgroundColor: '#DBF6FD',
     ios: {
       paddingTop: 30,
       paddingBottom: 30,

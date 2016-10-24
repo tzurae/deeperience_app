@@ -1,3 +1,4 @@
+// @flow weak
 /**
  * # deviceActions.js
  *
@@ -7,7 +8,6 @@
  *
  */
 'use strict'
-import type { Action } from '../../lib/types'
 
 const {
   SET_PLATFORM,
@@ -18,7 +18,7 @@ const {
  * ## Set the platformState
  *
  */
-export function setPlatform(platform:string):Action {
+export function setPlatform(platform:string) {
   return {
     type: SET_PLATFORM,
     payload: platform,
@@ -28,7 +28,7 @@ export function setPlatform(platform:string):Action {
  * ## set the version
  *
  */
-export function setVersion(version:string):Action {
+export function setVersion(version:string) {
   return {
     type: SET_VERSION,
     payload: version,
