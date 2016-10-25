@@ -6,6 +6,9 @@ const {
   SET_DAY,
   SET_HOTEL_TYPE,
   SET_TRIP_LOCATION,
+  SET_TRIP_ELEMENT,
+  TOGGLE_TRIP_ELEMENT,
+  SET_OTHER_DEMAND,
 } = require('../../lib/constants').default
 
 export function setFee(type: string, fee: [number, number]) {
@@ -41,6 +44,33 @@ export function setTripLocation(tripLocation: number) {
     type: SET_TRIP_LOCATION,
     payload: {
       tripLocation,
+    },
+  }
+}
+
+export function setTripElement(tripElement: any) {
+  return {
+    type: SET_TRIP_ELEMENT,
+    payload: {
+      tripElement,
+    },
+  }
+}
+
+export function toggleTripElement(tripElementIndex: number) {
+  return {
+    type: TOGGLE_TRIP_ELEMENT,
+    payload: {
+      tripElementIndex,
+    },
+  }
+}
+
+export function setOtherDemand(otherDemand: string) {
+  return {
+    type: SET_OTHER_DEMAND,
+    payload: {
+      otherDemand,
     },
   }
 }

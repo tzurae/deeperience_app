@@ -9,10 +9,7 @@
  *
  */
 'use strict'
-/**
- * ## Import immutable record
- */
-import { Record } from 'immutable'
+const { Record } = require('immutable')
 
 /**
  * ## InitialState

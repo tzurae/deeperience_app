@@ -12,7 +12,7 @@
 /**
  * ## Import
  */
-const { Record } = require('immutable')
+import { Record } from 'immutable'
 const {
   REGISTER,
 } = require('../../lib/constants').default

@@ -38,3 +38,15 @@ export const tripLocation = [
   { key: 11, label: '台東' },
   { key: 12, label: '花蓮' },
 ]
+
+export const tripElement = [
+  { key: 1, label: '大自然' },
+  { key: 2, label: '夜生活' },
+  { key: 3, label: '美食' },
+  { key: 4, label: '文化' },
+  { key: 5, label: '歷史' },
+  { key: 6, label: '刺激' },
+  { key: 7, label: '浪漫' },
+  { key: 8, label: '親子' },
+  { key: 9, label: '個人' },
+]

@@ -45,7 +45,6 @@
     "prefer-spread": "error",
     "arrow-spacing": "error",
     "prefer-arrow-callback": "error",
-    "no-confusing-arrow": "error",
     "no-dupe-class-members":"error",
     "no-duplicate-imports": "error",
     "no-iterator": "error",

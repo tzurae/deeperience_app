@@ -105,11 +105,14 @@ export default keyMirror({
 
   CLEAR_TRIP_LOCAL_STORAGE: null,
 
-  // ----------main----------
+  // ----------main-gTi---------
   SET_FEE: null,
   SET_DAY: null,
   SET_HOTEL_TYPE: null,
   SET_TRIP_LOCATION: null,
+  SET_TRIP_ELEMENT: null,
+  TOGGLE_TRIP_ELEMENT: null,
+  SET_OTHER_DEMAND: null,
 
   RESIDENT_FEE: null,
   TRIP_FEE: null,

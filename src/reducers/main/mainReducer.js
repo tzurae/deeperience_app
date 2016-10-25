@@ -13,14 +13,18 @@
 import InitialState from './mainInitialState'
 
 const {
+  RESIDENT_FEE,
+  TRIP_FEE,
+
   SET_STATE,
 
   SET_FEE,
   SET_DAY,
   SET_HOTEL_TYPE,
   SET_TRIP_LOCATION,
-  RESIDENT_FEE,
-  TRIP_FEE,
+  SET_TRIP_ELEMENT,
+  TOGGLE_TRIP_ELEMENT,
+  SET_OTHER_DEMAND,
 } = require('../../lib/constants').default
 
 const initialState = new InitialState()
@@ -31,6 +35,7 @@ export default function authReducer(state = initialState, action) {
   const tripFee = state.getIn(['tripFee'])
   const residentFee = state.getIn(['residentFee'])
   const day = state.getIn(['day'])
+  const tripElement  = state.getIn(['tripElement'])
   switch (action.type) {
     case SET_FEE:
       if (action.payload.type === RESIDENT_FEE) {
@@ -53,6 +58,18 @@ export default function authReducer(state = initialState, action) {
 
     case SET_TRIP_LOCATION:
       return state.setIn(['tripLocation'], action.payload.tripLocation)
+
+    case SET_TRIP_ELEMENT:
+      return state.setIn(['tripElement'], action.payload.tripElement)
+
+    case TOGGLE_TRIP_ELEMENT:
+      return state.setIn(['tripElement'],
+                          tripElement.map(
+                            (element, index) =>
+                              index === action.payload.tripElementIndex ? !element : element))
+
+    case SET_OTHER_DEMAND:
+      return state.setIn(['otherDemand'], action.payload.otherDemand)
 
     case SET_STATE:
       return state

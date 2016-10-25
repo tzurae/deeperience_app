@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import * as mainActions from '../../reducers/main/mainActions'
 import { Map } from 'immutable'
 import React from 'react'
-import { ScrollView, View, Text, Image, Platform } from 'react-native'
+import { ScrollView, View, Text, Image, Platform, TextInput } from 'react-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
 import MainStyle from '../../styles'
@@ -19,7 +19,9 @@ import { width } from '../../lib/dimensions'
 import Header from '../../components/Header'
 import { Actions } from 'react-native-router-flux'
 import ModalPicker from 'react-native-modal-picker'
-import { dayData, hotelType, tripLocation } from './options'
+import { dayData, hotelType, tripLocation, tripElement } from './options'
+import ItemCheckbox from '../../components/ItemCheckbox'
+import Button from 'react-native-button'
 
 const {
   RESIDENT_FEE,
@@ -138,16 +140,53 @@ class Custom extends React.Component {
               <View style={styles.optionTextView}>
                 <Text style={styles.optionText}>{I18n.t('Custom.tripElement')}</Text>
               </View>
+              <View style={styles.checkboxView}>
+                {tripElement.map((element, index) => (
+                    <ItemCheckbox
+                      style={{ marginRight: 10, height: 30 }}
+                      text={element.label}
+                      key={`tripElement_${element.key}`}
+                      checked={this.props.main.tripElement[index]}
+                      color="white"
+                      textStyle={{ fontWeight: 'bold' }}
+                      iconViewStyle={this.props.main.tripElement[index] ?
+                                      { backgroundColor: MainStyle.color.weedGreen, borderWidth: 0 } :
+                                      null}
+                      onCheck={() => {
+                        this.props.actions.toggleTripElement(index)
+                      }}
+                      onUncheck={() => {
+                        this.props.actions.toggleTripElement(index)
+                      }}
+                    />
+                  ))}
+              </View>
             </View>
             <View style={styles.option}>
               <View style={styles.optionTextView}>
                 <Text style={styles.optionText}>{I18n.t('Custom.otherDemand')}</Text>
               </View>
+              <View style={styles.textInputView}>
+                <TextInput
+                  style={styles.textInput}
+                  multiline={true}
+                  selectionColor="white"
+                  onChangeText={(text) => this.props.actions.setOtherDemand(text)}
+                  value={this.props.otherDemand}
+                />
+              </View>
+            </View>
+            <View style={styles.option}>
+              <Button
+                containerStyle={styles.btnContainer}
+                activeOpacity={0.7}
+                style={styles.btn}
+                onPress={() => {}}
+              >{I18n.t('Custom.submit')}</Button>
             </View>
           </ScrollView>
         </View>
       </View>
-
     )
   }
 }

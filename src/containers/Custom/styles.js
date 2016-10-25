@@ -75,13 +75,13 @@ export default StyleSheet.create({
     borderRadius: 2,
   },
   selectedTrackStyle: {
-    backgroundColor: '#32a69e',
+    backgroundColor: MainStyle.color.weedGreen,
   },
   unselectedTrackStyle: {
     backgroundColor: '#ccc',
   },
   markerStyle: {
-    backgroundColor: '#32a69e',
+    backgroundColor: MainStyle.color.weedGreen,
     height: 16,
     width: 16,
     borderRadius: 8,
@@ -124,5 +124,40 @@ export default StyleSheet.create({
     padding: 16,
     borderBottomWidth: 0.75,
     borderBottomColor: '#aaa',
+  },
+  checkboxView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    flexWrap: 'wrap',
+  },
+  textInputView: {
+    height: 200,
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  textInput: {
+    flex: 1,
+    fontSize: MainStyle.font.medium,
+    color: MainStyle.color.main,
+    fontWeight: 'bold',
+  },
+  btn: {
+    color: 'white',
+    fontSize: MainStyle.font.big,
+  },
+  btnContainer: {
+    height: 40,
+    alignSelf: 'stretch',
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })

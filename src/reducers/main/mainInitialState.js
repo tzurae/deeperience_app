@@ -5,7 +5,8 @@
  *
  */
 'use strict'
-const { Record } = require('immutable')
+import { tripElement } from '../../containers/Custom/options'
+import { Record } from 'immutable'
 
 const InitialState = Record({
   residentFee: [2500, 5000],
@@ -14,6 +15,8 @@ const InitialState = Record({
   day: 0,
   hotelType: 0, // 0 means null
   tripLocation: 0,
+  tripElement: Array(tripElement.length).fill(false),
+  otherDemand: '',
 })
 export default InitialState
 

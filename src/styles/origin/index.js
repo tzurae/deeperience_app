@@ -10,6 +10,7 @@ export default {
     mainDisabled: '#E2775C',
     mainShadow: 'rgba(247,139,109,0.5)',
     btnUnderlay: '#ccc',
+    weedGreen: '#32A69E',
   },
   button: {
 

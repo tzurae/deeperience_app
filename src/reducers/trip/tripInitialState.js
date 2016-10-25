@@ -1,6 +1,12 @@
+/**
+ * # tripInitialState.js
+ *
+ * control states in trip content display
+ *
+ */
 'use strict'
 
-const { Record } = require('immutable')
+import { Record } from 'immutable'
 
 const InitialState = Record({
   main: new (Record({

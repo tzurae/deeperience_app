@@ -83,6 +83,7 @@ export default {
     "chooseHotelType": "選擇旅館類型",
     "chooseTripLocation": "選擇旅遊地點",
     "cancel": "取消",
+    "submit": "送出",
   },
   "Setting": {
     "logout": "登出",

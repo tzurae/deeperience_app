@@ -9,9 +9,6 @@
  *
  */
 'use strict'
-/**
- * ## Import
- */
 import { Record } from 'immutable'
 /**
  * ## InitialState

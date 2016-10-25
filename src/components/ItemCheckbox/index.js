@@ -9,12 +9,7 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
-import
-{
-  View,
-  Text,
-  TouchableWithoutFeedback,
-} from 'react-native'
+import { View, Text, TouchableWithoutFeedback } from 'react-native'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
@@ -23,7 +18,6 @@ class ItemCheckbox extends React.Component {
     onCheck: PropTypes.func.isRequired,
     onUncheck: PropTypes.func.isRequired,
     iconCheck: PropTypes.string,
-    iconOpen: PropTypes.string,
     backgroundColor: PropTypes.string,
     iconSize: PropTypes.number,
     color: PropTypes.string,
@@ -31,19 +25,22 @@ class ItemCheckbox extends React.Component {
     style: View.propTypes.style,
     text: PropTypes.string,
     disabled: PropTypes.bool,
+    textStyle: Text.propTypes.style,
+    iconViewStyle: View.propTypes.style,
   }
   static defaultProps = {
     onCheck: null,
     onUncheck: null,
-    iconCheck: 'check-square-o',
-    iconOpen: 'square-o',
-    backgroundColor: 'white',
-    iconSize: 20,
+    iconCheck: 'check',
+    backgroundColor: 'transparent',
+    iconSize: 14,
     color: 'black',
     checked: false,
     style: {},
-    text: 'MISSING TEXT',
+    text: '',
     disabled: false,
+    textStyle: {},
+    iconViewStyle: {},
   }
 
   render() {
@@ -57,17 +54,32 @@ class ItemCheckbox extends React.Component {
             flex: 1,
             alignItems: 'center',
           }}>
-            <Icon
-              name={this.props.checked ? this.props.iconCheck : this.props.iconOpen}
-              size={this.props.iconSize}
-              color={this.props.color}
-            />
+            <View
+              style={[
+                {
+                  height: 16,
+                  width: 16,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderColor: 'white',
+                  borderWidth: 1,
+                  borderRadius: 2,
+                },
+                { borderColor: this.props.color, backgroundColor: this.props.backgroundColor },
+                this.props.iconViewStyle,
+              ]}>
+              {this.props.checked ? (
+                  <Icon
+                    name={this.props.iconCheck}
+                    size={this.props.iconSize}
+                    color={this.props.color}
+                  />
+                ) : null}
+            </View>
             <Text
-              style={{ color: this.props.color,
+              style={[{ color: this.props.color,
                           marginLeft: 5,
-                          fontSize: this.props.iconSize - 5,
-                          position: 'relative',
-                          top: -1 }}
+                          fontSize: this.props.iconSize + 1 }]}
             >
               {this.props.text}
             </Text>
