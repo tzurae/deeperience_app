@@ -43,6 +43,8 @@ const {
 
   TOGGLE_REGISTER_CHECKED,
 
+  RESET_FORM,
+
   SET_STATE,
 } = require('../../lib/constants').default
 
@@ -139,14 +141,12 @@ export default function authReducer(state = initialState, action) {
     case TOGGLE_REGISTER_CHECKED:
       return state.setIn(['registerChecked'], !state.getIn(['registerChecked']))
 
-    /**
-     * ### Hot Loading support
-     *
-     * Set all the field values from the payload
-     */
+    case RESET_FORM:
+      return initialState
+
     case SET_STATE:
       const form = JSON.parse(action.payload).auth.form
-      const next = state.setIn(['form', 'state'], form.state)
+      return state.setIn(['form', 'state'], form.state)
           .setIn(['form', 'disabled'], form.disabled)
           .setIn(['form', 'error'], form.error)
           .setIn(['form', 'isValid'], form.isValid)
@@ -159,8 +159,6 @@ export default function authReducer(state = initialState, action) {
           .setIn(['form', 'fields', 'passwordHasError'], form.fields.passwordHasError)
           .setIn(['form', 'fields', 'passwordAgain'], form.fields.passwordAgain)
           .setIn(['form', 'fields', 'passwordAgainHasError'], form.fields.passwordAgainHasError)
-
-      return next
   }
   /**
    * ## Default

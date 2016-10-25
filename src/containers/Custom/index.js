@@ -1,13 +1,11 @@
 /**
  * # Custom.js
- *
  *  The container to custom post
- *
  */
 'use strict'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as mainActions from '../../reducers/main/mainActions'
+import * as customActions from '../../reducers/custom/customActions'
 import { Map } from 'immutable'
 import React from 'react'
 import { ScrollView, View, Text, Image, Platform, TextInput } from 'react-native'
@@ -29,13 +27,13 @@ const {
 } = require('../../lib/constants').default
 
 const actions = [
-  mainActions,
+  customActions,
 ]
 
 function mapStateToProps(state) {
   return {
     device: state.device,
-    main: state.main,
+    custom: state.custom,
   }
 }
 
@@ -61,13 +59,9 @@ class Custom extends React.Component {
           style={styles.backgroundImg}
         />
         <Header
-          headerText={I18n.t('LoginMain.loginMain')}
+          headerText={I18n.t('Custom.custom')}
           back={true}
           onReturn={() => Actions.pop()}
-          rightIcon="user"
-          rightIconSize={26}
-          rightIconStyle={{ position: 'relative', right: 5 }}
-          onPress={() => {}}
         />
         <View style={styles.container}>
           <ScrollView style={styles.customView}>
@@ -84,7 +78,7 @@ class Custom extends React.Component {
               <View style={styles.optionTextView}>
                 <Text style={styles.optionText}>{I18n.t('Custom.hotelFee')}</Text>
                 <Text style={styles.optionText}>
-                  {`${this.props.main.residentFee[0]} - ${this.props.main.residentFee[1]}`}
+                  {`${this.props.custom.residentFee[0]} - ${this.props.custom.residentFee[1]}`}
                 </Text>
               </View>
               {getMultiSlider(
@@ -107,7 +101,7 @@ class Custom extends React.Component {
               <View style={styles.optionTextView}>
                 <Text style={styles.optionText}>{I18n.t('Custom.travelFee')}</Text>
                 <Text style={styles.optionText}>
-                  {`${this.props.main.tripFee[0]} - ${this.props.main.tripFee[1]}`}
+                  {`${this.props.custom.tripFee[0]} - ${this.props.custom.tripFee[1]}`}
                 </Text>
               </View>
               {getMultiSlider(
@@ -123,7 +117,7 @@ class Custom extends React.Component {
               </View>
               <View style={[styles.optionTextView, { justifyContent: 'center', marginBottom: 0 }]}>
                 <Text style={[styles.optionText, { fontSize: MainStyle.font.large }]}>
-                  {`${this.props.main.allFee[0]} - ${this.props.main.allFee[1]}`}
+                  {`${this.props.custom.allFee[0]} - ${this.props.custom.allFee[1]}`}
                 </Text>
               </View>
             </View>
@@ -146,10 +140,10 @@ class Custom extends React.Component {
                       style={{ marginRight: 10, height: 30 }}
                       text={element.label}
                       key={`tripElement_${element.key}`}
-                      checked={this.props.main.tripElement[index]}
+                      checked={this.props.custom.tripElement[index]}
                       color="white"
                       textStyle={{ fontWeight: 'bold' }}
-                      iconViewStyle={this.props.main.tripElement[index] ?
+                      iconViewStyle={this.props.custom.tripElement[index] ?
                                       { backgroundColor: MainStyle.color.weedGreen, borderWidth: 0 } :
                                       null}
                       onCheck={() => {

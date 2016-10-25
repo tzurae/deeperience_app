@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { Map } from 'immutable'
 import React from 'react'
 import * as tripActions from '../../../reducers/trip/tripActions'
-import { View, ScrollView, Platform, Image, BackAndroid } from 'react-native'
+import { View, ScrollView, Image, BackAndroid } from 'react-native'
 import styles from './styles'
 import MainStyle from '../../../styles'
 import Svg, { Line, Rect } from 'react-native-svg'
@@ -30,6 +30,7 @@ const actions = [
 
 function mapStateToProps(state) {
   return {
+    device: state.device,
     trip: {
       tripKey: state.trip.tripContent.tripKey,
       name: state.trip.tripContent.name,
@@ -82,15 +83,15 @@ class TripContentRoute extends React.Component {
   }
 
   onReturn() {
-    this.props.actions.deactivateSiteBtnWrapper()
-    this.props.actions.closeDisplayInfoWrapper()
+    this.props.actions.deactivateSiteBtn()
+    this.props.actions.closeDisplayInfo()
   }
 
   switchDisplayInfoTab(tab) {
     if (tab === 0) {
-      this.props.actions.switchDisplayInfoCardWrapper(0)
+      this.props.actions.switchDisplayInfoCard(0)
     } else if (tab === 1) { // public transportation
-      this.props.actions.switchDisplayInfoCardWrapper(1)
+      this.props.actions.switchDisplayInfoCard(1)
       if (this.props.trip.transit.fetched === false) {
         this.props.actions.getDisplayInfoDirectionStart({
           mode: 0, // transit
@@ -145,8 +146,8 @@ class TripContentRoute extends React.Component {
     }
 
     status[this.props.trip.displayDay][this.props.trip.displayWhich] = 1
-    this.props.actions.setSiteStatusWrapper(status)
-    this.props.actions.closeDisplayInfoWrapper()
+    this.props.actions.setSiteStatus(status)
+    this.props.actions.closeDisplayInfo()
 
     setSiteStatusStorage(this.props.trip.tripKey, status)
   }
@@ -164,18 +165,18 @@ class TripContentRoute extends React.Component {
     })
     setSiteStatusStorage(this.props.trip.tripKey, status).then(() => { // store local first, then dispatch siteStatus
       status[this.props.trip.displayDay][this.props.trip.displayWhich] = 4
-      this.props.actions.setSiteStatusWrapper(status)
+      this.props.actions.setSiteStatus(status)
     })
   }
 
   siteBtnClick(status, name, introduction, day, order) {
     if (status === 0) return
-    this.props.actions.setDisplayInfoWrapper({ title: name, introduction })
-    this.props.actions.deactivateSiteBtnWrapper()
-    this.props.actions.activateSiteBtnWrapper({ day, order })
-    this.props.actions.switchDisplayInfoCardWrapper(0)
+    this.props.actions.setDisplayInfo({ title: name, introduction })
+    this.props.actions.deactivateSiteBtn()
+    this.props.actions.activateSiteBtn({ day, order })
+    this.props.actions.switchDisplayInfoCard(0)
     if (this.props.trip.sidebarDisplayMode) {
-      this.props.actions.toggleSidebarWrapper(0)
+      this.props.actions.toggleSidebar(0)
     }
   }
 
@@ -184,7 +185,7 @@ class TripContentRoute extends React.Component {
     return (
       <View style={[
         styles.container,
-        { height: Platform.OS === 'ios' ? height - 80 : height - 105, width }]}>
+        { height: this.props.device.platform === 'ios' ? height - 80 : height - 105, width }]}>
         <Loading
           visible={this.props.trip.isFetching || this.props.trip.mapInfo.isFetching}
           text={I18n.t('TripContent.fetchingData')}
@@ -263,7 +264,7 @@ class TripContentRoute extends React.Component {
               styles.container,
               styles.displayInfo,
               this.props.trip.displayInfoMode ?
-              (Platform.OS === 'ios' ?
+              (this.props.device.platform === 'ios' ?
                 { height: height - 80, width } :
                 { height: height - 100, width }) :
               { height: 200, width },
@@ -278,41 +279,41 @@ class TripContentRoute extends React.Component {
               <IconSidebar
                 displayInfoMode={this.props.trip.displayInfoMode}
                 closeFunc={() => {
-                  this.props.actions.closeDisplayInfoWrapper()
-                  this.props.actions.deactivateSiteBtnWrapper()
+                  this.props.actions.closeDisplayInfo()
+                  this.props.actions.deactivateSiteBtn()
                 }}
-                openMenuFunc={() => this.props.actions.toggleSidebarWrapper()}
-                closeExpandFunc={() => this.props.actions.toggleDisplayInfoWrapper()}
+                openMenuFunc={() => this.props.actions.toggleSidebar()}
+                closeExpandFunc={() => this.props.actions.toggleDisplayInfo()}
               />
               <MenuDrawer
                 whichCard={this.props.trip.displayWhichCard}
                 status={this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich]}
                 sidebarDisplayMode={this.props.trip.sidebarDisplayMode}
                 displayInfoMode={this.props.trip.displayInfoMode}
-                closeFunc={() => this.props.actions.toggleSidebarWrapper()}
+                closeFunc={() => this.props.actions.toggleSidebar()}
                 introductionFunc={() => {
                   this.switchDisplayInfoTab(0)
-                  this.props.actions.toggleSidebarWrapper()
+                  this.props.actions.toggleSidebar()
                 }}
                 guideFunc={() => {
                   Actions.SiteContent()
-                  this.props.actions.toggleSidebarWrapper()
+                  this.props.actions.toggleSidebar()
                 }}
                 transportationFunc={() => {
                   this.switchDisplayInfoTab(1)
-                  this.props.actions.toggleSidebarWrapper()
+                  this.props.actions.toggleSidebar()
                 }}
                 doneFunc={() => {
                   this.setFrontier()
-                  this.props.actions.toggleSidebarWrapper()
+                  this.props.actions.toggleSidebar()
                 }}
                 unlockFunc={() => {
                   this.unlock()
-                  this.props.actions.toggleSidebarWrapper()
+                  this.props.actions.toggleSidebar()
                 }}
                 closeExpandFunc={() => {
-                  this.props.actions.toggleSidebarWrapper()
-                  this.props.actions.toggleDisplayInfoWrapper()
+                  this.props.actions.toggleSidebar()
+                  this.props.actions.toggleDisplayInfo()
                 }}
               />
             </View>

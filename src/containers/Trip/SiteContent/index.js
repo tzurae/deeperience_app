@@ -72,8 +72,8 @@ class SiteContent extends React.Component {
     const dispatchSite = this.props.trip.tripInfo[this.props.trip.displayDay].sites[this.props.trip.displayWhich]
 
     return new Promise((resolve) => {
-      this.props.actions.setMapInfoWrapper(dispatchSite)
-      this.props.actions.setAudioWrapper({
+      this.props.actions.setMapInfo(dispatchSite)
+      this.props.actions.setAudio({
         audioURL: dispatchSite.content.audioURL,
         audioPosition: 0,
       })
@@ -81,9 +81,9 @@ class SiteContent extends React.Component {
     }).then(() => {
       setTimeout(() => {
         this.prepareAudio().then(res => {
-          this.props.actions.setAudioWrapper(res)
-        }).then(() => this.props.actions.setMapInfoSuccessWrapper())
-          .catch(err => this.props.actions.setMapInfoFailureWrapper(err))
+          this.props.actions.setAudio(res)
+        }).then(() => this.props.actions.setMapInfoSuccess())
+          .catch(err => this.props.actions.setMapInfoFailure(err))
       }, 100) // because this action takes time to finish, so we must make it asynchronous
     })
   }
@@ -95,11 +95,11 @@ class SiteContent extends React.Component {
   onReturn() {
     clearInterval(this.timerId)
     if (this.props.trip.contentDisplayMode === true) {
-      this.props.actions.toggleContentModeWrapper()
+      this.props.actions.toggleContentMode()
     }
     if (this.audioPlayer) {
       this.audioPlayer.destroy((success) => {
-        this.props.actions.resetAudioWrapper()
+        this.props.actions.resetAudio()
       })
     }
   }
@@ -117,7 +117,7 @@ class SiteContent extends React.Component {
       this.timerId = null
       this.audioPlayer.on('ended', () => {
         clearInterval(this.timerId)
-        this.props.actions.setAudioWrapper({ audioPosition: 0 })
+        this.props.actions.setAudio({ audioPosition: 0 })
       })
     })
   }
@@ -129,7 +129,7 @@ class SiteContent extends React.Component {
       console.log(position)
       this.props.actions.setMapDirection({ name, introduction, position })
     } catch (err) {
-      this.props.actions.pressMarkerFailureWrapper(err)
+      this.props.actions.pressMarkerFailure(err)
     }
   }
 
@@ -147,11 +147,11 @@ class SiteContent extends React.Component {
         clearInterval(this.timerId)
         // for ios, since the duration equals -1 in the constructor,
         // so we miust set the duration here for ios
-        this.props.actions.setAudioWrapper({
+        this.props.actions.setAudio({
           audioDuration: Math.floor(this.audioPlayer.duration),
         })
         this.timerId = setInterval(() => {
-          this.props.actions.setAudioWrapper({
+          this.props.actions.setAudio({
             audioPosition: this.audioPlayer.currentTime,
           })
         }, 250)
@@ -191,7 +191,7 @@ class SiteContent extends React.Component {
           markers={this.props.trip.markers}
           polyline={this.props.trip.polyline}
           onMarkerPress={(marker) => this.onMarkerPress(marker)}
-          toggleMap={() => this.props.actions.toggleMapModeWrapper()}
+          toggleMap={() => this.props.actions.toggleMapMode()}
         />
         <View style={[
           styles.siteContentContainer,
@@ -202,7 +202,7 @@ class SiteContent extends React.Component {
           <Text style={styles.distance}>{this.props.trip.distance}</Text>
           <TouchableIcon
             style={styles.expandContentIcon}
-            onPress={() => this.props.actions.toggleContentModeWrapper()}
+            onPress={() => this.props.actions.toggleContentMode()}
             name={this.props.trip.contentDisplayMode ? 'compress' : 'expand'}
             size={18}
             color={'black'}

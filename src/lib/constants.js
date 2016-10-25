@@ -28,6 +28,7 @@ export default keyMirror({
   LOGOUT: null,
   REGISTER: null,
   LOGIN: null,
+  FORGOT_PASSWORD: null,
 
   LOGIN_START: null,
   LOGIN_REQUEST: null,
@@ -50,9 +51,9 @@ export default keyMirror({
 
   TOGGLE_REGISTER_CHECKED: null,
 
-  FB_LOGIN_START: null,
+  RESET_FORM: null,
 
-  FORGOT_PASSWORD: null,
+  FB_LOGIN_START: null,
 
   // ----------trip----------
   GET_ALL_TRIP: null,
@@ -105,7 +106,12 @@ export default keyMirror({
 
   CLEAR_TRIP_LOCAL_STORAGE: null,
 
-  // ----------main-gTi---------
+  // ----------main---------
+  LOAD_APP: null,
+
+  SET_FIRST_TIME: null,
+
+  // ----------custom---------
   SET_FEE: null,
   SET_DAY: null,
   SET_HOTEL_TYPE: null,
@@ -113,6 +119,7 @@ export default keyMirror({
   SET_TRIP_ELEMENT: null,
   TOGGLE_TRIP_ELEMENT: null,
   SET_OTHER_DEMAND: null,
+  RESET_CUSTOM: null,
 
   RESIDENT_FEE: null,
   TRIP_FEE: null,

@@ -102,10 +102,6 @@ export function setTripKey(res:any) {
   }
 }
 
-export function setTripKeyWrapper(res: any) {
-  return dispatch => dispatch(setTripKey(res))
-}
-
 export function setSiteContentSuccess(res:any) {
   return {
     type: SET_SITE_CONTENT_SUCCESS,
@@ -127,10 +123,6 @@ export function setSiteStatus(res:any) {
   }
 }
 
-export function setSiteStatusWrapper(res: any) {
-  return dispatch => dispatch(setSiteStatus(res))
-}
-
 export function activateSiteBtn(res: any) {
   return {
     type: ACTIVATE_SITE_BTN,
@@ -138,18 +130,10 @@ export function activateSiteBtn(res: any) {
   }
 }
 
-export function activateSiteBtnWrapper(res: any) {
-  return dispatch => dispatch(activateSiteBtn(res))
-}
-
 export function deactivateSiteBtn() {
   return {
     type: DEACTIVATE_SITE_BTN,
   }
-}
-
-export function deactivateSiteBtnWrapper() {
-  return dispatch => dispatch(deactivateSiteBtn())
 }
 
 export function setDisplayInfo(res: any) {
@@ -161,18 +145,11 @@ export function setDisplayInfo(res: any) {
     },
   }
 }
-export function setDisplayInfoWrapper(res: any) {
-  return dispatch => dispatch(setDisplayInfo(res))
-}
 
 export function closeDisplayInfo() {
   return {
     type: CLOSE_DISPLAY_INFO,
   }
-}
-
-export function closeDisplayInfoWrapper() {
-  return dispatch => dispatch(closeDisplayInfo())
 }
 
 export function getDisplayInfoDirectionStart(res: any) {
@@ -209,18 +186,10 @@ export function setMapInfo(res : any) {
   }
 }
 
-export function setMapInfoWrapper(res: any) {
-  return dispatch => dispatch(setMapInfo(res))
-}
-
 export function setMapInfoSuccess() {
   return {
     type: SET_MAP_INFO_SUCCESS,
   }
-}
-
-export function setMapInfoSuccessWrapper(res: any) {
-  return dispatch => dispatch(setMapInfoSuccess(res))
 }
 
 export function setMapInfoFailure(res : any) {
@@ -228,10 +197,6 @@ export function setMapInfoFailure(res : any) {
     type: SET_MAP_INFO_FAILURE,
     payload: res,
   }
-}
-
-export function setMapInfoFailureWrapper(res: any) {
-  return dispatch => dispatch(setMapInfoFailure(res))
 }
 
 export function setMapDirection(res : any) {
@@ -262,18 +227,10 @@ export function setAudio(res : any) {
   }
 }
 
-export function setAudioWrapper(res: any) {
-  return dispatch => dispatch(setAudio(res))
-}
-
 export function resetAudio() {
   return {
     type: RESET_AUDIO,
   }
-}
-
-export function resetAudioWrapper() {
-  return dispatch => dispatch(resetAudio())
 }
 
 export function switchDisplayInfoCard(which: number) {
@@ -283,19 +240,11 @@ export function switchDisplayInfoCard(which: number) {
   }
 }
 
-export function switchDisplayInfoCardWrapper(res: number) {
-  return dispatch => dispatch(switchDisplayInfoCard(res))
-}
-
 export function pressMarkerFailure(res: any) {
   return {
     type: PRESS_MARKER_FAILURE,
     payload: res,
   }
-}
-
-export function pressMarkerFailureWrapper(res: any) {
-  return dispatch => dispatch(pressMarkerFailure(res))
 }
 
 export function toggleDisplayInfo() {
@@ -304,18 +253,10 @@ export function toggleDisplayInfo() {
   }
 }
 
-export function toggleDisplayInfoWrapper() {
-  return dispatch => dispatch(toggleDisplayInfo())
-}
-
 export function toggleMapMode() {
   return {
     type: TOGGLE_MAP_MODE,
   }
-}
-
-export function toggleMapModeWrapper() {
-  return dispatch => dispatch(toggleMapMode())
 }
 
 export function toggleContentMode() {
@@ -324,17 +265,8 @@ export function toggleContentMode() {
   }
 }
 
-export function toggleContentModeWrapper() {
-  return dispatch => dispatch(toggleContentMode())
-}
-
 export function toggleSidebar() {
   return {
     type: TOGGLE_SIDEBAR,
   }
 }
-
-export function toggleSidebarWrapper() {
-  return dispatch => dispatch(toggleSidebar())
-}
-

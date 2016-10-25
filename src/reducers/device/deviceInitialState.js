@@ -11,13 +11,8 @@
 'use strict'
 const { Record } = require('immutable')
 
-/**
- * ## InitialState
- *
- * The fields we're concerned with
- */
 const InitialState = Record({
-  isMobile: false,
+  isMobile: true,
   platform: '',
   version: null,
 })

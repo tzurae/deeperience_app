@@ -1,25 +1,16 @@
 'use strict'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as tripActions from '../../reducers/trip/tripActions'
+import * as mainActions from '../../reducers/main/mainActions'
 import { Map } from 'immutable'
 import React from 'react'
 import styles from './styles'
 import { View, Text, Image, ActivityIndicator } from 'react-native'
 import * as Animatable from 'react-native-animatable'
-import { Actions } from 'react-native-router-flux'
 
 const actions = [
-  tripActions,
+  mainActions,
 ]
-
-function mapStateToProps(state) {
-  return {
-    trip: {
-      isFetching: state.trip.main.isFetching,
-    },
-  }
-}
 
 function mapDispatchToProps(dispatch) {
   const creators = Map()
@@ -36,9 +27,7 @@ function mapDispatchToProps(dispatch) {
 class LoadingApp extends React.Component {
 
   componentDidMount() {
-    setTimeout(() => {
-      Actions.Introduction()
-    }, 4000)
+    this.props.actions.loadApp()
   }
 
   render() {
@@ -69,4 +58,4 @@ class LoadingApp extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoadingApp)
+export default connect(null, mapDispatchToProps)(LoadingApp)

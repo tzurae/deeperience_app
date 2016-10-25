@@ -36,6 +36,8 @@ const {
   TOGGLE_REGISTER_CHECKED,
   FB_LOGIN_START,
 
+  RESET_FORM,
+
 } = require('../../lib/constants').default
 
 export function initAuth() {
@@ -233,13 +235,15 @@ export function toggleRegisterChecked() {
   }
 }
 
-export function toggleRegisterCheckedWrapper() {
-  return dispatch => dispatch(toggleRegisterChecked())
-}
-
 export function facebookLogin(token: string) {
   return {
     type: FB_LOGIN_START,
     payload: token,
+  }
+}
+
+export function resetForm() {
+  return {
+    type: RESET_FORM,
   }
 }

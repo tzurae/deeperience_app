@@ -54,7 +54,7 @@ function mapDispatchToProps(dispatch) {
 class Main extends Component {
 
   onTripPress(key) {
-    this.props.actions.setTripKeyWrapper(key)
+    this.props.actions.setTripKey(key)
     Actions.TripContent()
   }
 

@@ -43,8 +43,8 @@ class TripContent extends React.Component {
         <Header
           headerText={I18n.t('Nav.tripContent')}
           onReturn={() => {
-            this.props.actions.closeDisplayInfoWrapper()
-            this.props.actions.deactivateSiteBtnWrapper()
+            this.props.actions.closeDisplayInfo()
+            this.props.actions.deactivateSiteBtn()
             Actions.pop()
           }}
         />

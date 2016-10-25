@@ -69,6 +69,7 @@ export default {
     "serviceText": "註冊即代表我同意 Deeperience 的服務條款、支付服務條款、隱私政策。",
   },
   "Custom": {
+    "custom": "客製化",
     "travelDay": "旅行天數",
     "hotelFee": "旅館預算 (NTD/日)",
     "travelFee": "旅程預算 (NTD/日)",

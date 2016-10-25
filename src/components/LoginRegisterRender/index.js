@@ -146,28 +146,26 @@ class LoginRegisterRender extends React.Component {
                 disabled={this.props.auth.form.isFetching}
                 checked={this.props.auth.checked}
                 onCheck={() => {
-                  this.props.actions.toggleRegisterCheckedWrapper()
+                  this.props.actions.toggleRegisterChecked()
                   this.props.actions.onAuthFormFieldChange('showPassword', true)
                 }}
                 onUncheck={() => {
-                  this.props.actions.toggleRegisterCheckedWrapper()
+                  this.props.actions.toggleRegisterChecked()
                   this.props.actions.onAuthFormFieldChange('showPassword', false)
                 }}
-              />) : null
-            }
-            {
-              this.props.formType === LOGIN ? (
+              />) : null}
+            {this.props.formType === LOGIN ? (
                 <View style={styles.forgotPasswordView}>
                   <Button
                     onPress={() => {
+                      this.props.actions.resetForm()
                       Actions.LoginRegister({ formType: FORGOT_PASSWORD })
                     }}
                     style={styles.forgotPassword}>
                     {I18n.t('LoginRenderRegister.forgotPassword')}
                   </Button>
                 </View>
-              ) : null
-            }
+              ) : null}
           </View>
           <FormButton
             isDisabled={!this.props.auth.form.isValid || this.props.auth.form.isFetching}

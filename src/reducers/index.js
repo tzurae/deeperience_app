@@ -7,6 +7,7 @@ import auth from './auth/authReducer'
 import device from './device/deviceReducer'
 import global from './global/globalReducer'
 import main from './main/mainReducer'
+import custom from './custom/customReducer'
 import trip from './trip/tripReducer'
 
 import { combineReducers } from 'redux'
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   global,
   main,
   trip,
+  custom,
 })
 
 export default rootReducer

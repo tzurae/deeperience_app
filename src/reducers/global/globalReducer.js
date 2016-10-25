@@ -20,7 +20,6 @@ const {
   GET_STATE,
   SET_STATE,
   SET_STORE,
-
 } = require('../../lib/constants').default
 
 /**
@@ -83,23 +82,16 @@ export default function globalReducer(state = initialState, action) {
         newState.global =  tmpState.global.set('currentState', null).set('store', null).toJS()
 
         return state.set('showState', action.payload)
-        .set('currentState', newState)
+                    .set('currentState', newState)
       } else {
         return state.set('showState', action.payload)
       }
 
-    /**
-     * ### Set the state
-     *
-     * This is in support of Hot Loading
-     *
-     */
     case SET_STATE:
       const global = JSON.parse(action.payload).global
-      const next = state.set('currentUser', global.currentUser)
+      return state.set('currentUser', global.currentUser)
           .set('showState', false)
           .set('currentState', null)
-      return next
 
   }
   return state

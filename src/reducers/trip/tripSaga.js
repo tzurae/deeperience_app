@@ -1,5 +1,5 @@
 import { call, fork, take, put } from 'redux-saga/effects'
-import * as tripActions from '../../reducers/trip/tripActions'
+import * as tripActions from './tripActions'
 import ApiFactory from '../../api/apiFactory'
 import I18n from '../../lib/i18n'
 import _ from 'underscore'

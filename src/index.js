@@ -19,6 +19,8 @@ import AuthInitialState from './reducers/auth/authInitialState'
 import DeviceInitialState from './reducers/device/deviceInitialState'
 import GlobalInitialState from './reducers/global/globalInitialState'
 import TripInitialState from './reducers/trip/tripInitialState'
+import CustomInitialState from './reducers/custom/customInitialState'
+import MainInitialState from './reducers/main/mainInitialState'
 import pack from '../package'
 import I18n from './lib/i18n'
 // Support fallbacks so en-US & en-BR both use en
@@ -33,13 +35,14 @@ const VERSION = pack.version
  * @returns {Object} object with 4 keys
  */
 function getInitialState() {
-  const initState = {
+  return {
     auth: new AuthInitialState(),
-    device: (new DeviceInitialState()).set('isMobile', true),
+    device: new DeviceInitialState(),
     global: new GlobalInitialState(),
     trip: new TripInitialState(),
+    custom: new CustomInitialState(),
+    main: new MainInitialState(),
   }
-  return initState
 }
 
 export default function native(platform) {
@@ -81,13 +84,13 @@ export default function native(platform) {
             >
               <Scene key="LoadingApp"
                      component={LoadingApp}
+                     initial={true}
               />
               <Scene key="Main"
                      component={Main}
               />
               <Scene key="Custom"
                      component={Custom}
-                     initial={true}
               />
               <Scene key="Introduction"
                      component={Introduction}

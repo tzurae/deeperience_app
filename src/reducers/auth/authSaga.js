@@ -1,5 +1,5 @@
 import { call, fork, take, put } from 'redux-saga/effects'
-import * as authActions from '../../reducers/auth/authActions'
+import * as authActions from './authActions'
 import ApiFactory from '../../api/apiFactory'
 import UserModel from '../../model/UserModel'
 import { Actions } from 'react-native-router-flux'

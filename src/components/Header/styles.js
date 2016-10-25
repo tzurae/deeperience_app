@@ -8,7 +8,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'stretch',
-    backgroundColor: MainStyle.color.main,
     flexDirection: 'column',
     ios: {
       padding: 10,

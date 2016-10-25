@@ -7,7 +7,6 @@
 'use strict'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as mainActions from '../../reducers/main/mainActions'
 import { Map } from 'immutable'
 import React from 'react'
 import { View, Image, Text } from 'react-native'
@@ -16,17 +15,11 @@ import styles from './styles'
 import AppIntro from '../../components/AppIntro'
 import { Actions } from 'react-native-router-flux'
 import Button from 'react-native-button'
+import * as customActions from '../../reducers/custom/customActions'
 
 const actions = [
-  mainActions,
+  customActions,
 ]
-
-function mapStateToProps(state) {
-  return {
-    device: state.device,
-    main: state.main,
-  }
-}
 
 function mapDispatchToProps(dispatch) {
   const creators = Map()
@@ -102,6 +95,7 @@ class Introduction extends React.Component {
             <View>
               <Button
                 onPress={() => {
+                  this.props.actions.resetCustom()
                   Actions.Custom()
                 }}
                 containerStyle={[styles.btnContainerStyle, { backgroundColor: '#12A5DB' }]}
@@ -113,7 +107,7 @@ class Introduction extends React.Component {
             <View>
               <Button
                 onPress={() => {
-                  Actions.LoginMain()
+                  Actions.LoginMain({ back: true })
                 }}
                 containerStyle={styles.btnContainerStyle}
                 style={styles.btnStyle}
@@ -128,4 +122,4 @@ class Introduction extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Introduction)
+export default connect(null, mapDispatchToProps)(Introduction)

@@ -56,7 +56,7 @@ class LoginMain extends React.Component {
       <View style={styles.container}>
         <Header
           headerText={I18n.t('LoginMain.loginMain')}
-          back={true}
+          back={this.props.back}
           onReturn={() => Actions.pop()}
         />
         <View style={styles.innerContainer}>
@@ -102,20 +102,30 @@ class LoginMain extends React.Component {
               )
             }
             <TouchableOpacity
-              onPress={() => Actions.LoginRegister({ formType: REGISTER })}
+              onPress={() => {
+                this.props.actions.resetForm()
+                Actions.LoginRegister({ formType: REGISTER })
+              }}
               style={[styles.btn, styles.normalBtn]}
               underlayColor="transparent"
               activeOpacity={0.7}
             >
-              <Text style={[styles.btnText, styles.normalBtnText]}>{I18n.t('LoginMain.register')}</Text>
+              <Text style={[styles.btnText, styles.normalBtnText]}>
+                {I18n.t('LoginMain.register')}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => Actions.LoginRegister({ formType: LOGIN })}
+              onPress={() => {
+                this.props.actions.resetForm()
+                Actions.LoginRegister({ formType: LOGIN })
+              }}
               style={[styles.btn, styles.normalBtn]}
               underlayColor="transparent"
               activeOpacity={0.7}
             >
-              <Text style={[styles.btnText, styles.normalBtnText]}>{I18n.t('LoginMain.login')}</Text>
+              <Text style={[styles.btnText, styles.normalBtnText]}>
+                {I18n.t('LoginMain.login')}
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={{ flex: 1,
