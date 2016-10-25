@@ -20,6 +20,8 @@ import ModalPicker from 'react-native-modal-picker'
 import { dayData, hotelType, tripLocation, tripElement } from './options'
 import ItemCheckbox from '../../components/ItemCheckbox'
 import Button from 'react-native-button'
+import { validSubmit } from '../../reducers/custom/customHelper'
+import SimpleAlert from 'react-native-simpledialog-android'
 
 const {
   RESIDENT_FEE,
@@ -175,7 +177,13 @@ class Custom extends React.Component {
                 containerStyle={styles.btnContainer}
                 activeOpacity={0.7}
                 style={styles.btn}
-                onPress={() => {}}
+                onPress={() => {
+                  if (validSubmit(this.props.custom)) {
+                    Actions.LoginMain()
+                  } else {
+                    SimpleAlert.alert(I18n.t('Custom.advice'), I18n.t('Custom.fillAll'))
+                  }
+                }}
               >{I18n.t('Custom.submit')}</Button>
             </View>
           </ScrollView>

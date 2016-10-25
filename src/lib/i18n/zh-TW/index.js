@@ -26,10 +26,10 @@ export default {
     "resetPasswordError": "重設密碼錯誤",
   },
   "FieldValidation": {
-    "valid_user_name": "6-15 字的英數字",
-    "valid_email": "請填寫正確的信箱",
-    "valid_password": "6-20 字的英數字，且英數字各至少一碼",
-    "valid_password_again": "密碼不相符",
+    "validUsername": "6-15 字的英數字",
+    "validEmail": "請填寫正確的信箱",
+    "validPassword": "6-20 字的英數字，且英數字各至少一碼",
+    "validPasswordAgain": "密碼不相符",
   },
   "MainChoose": {
     "custom": "客製化行程",
@@ -85,6 +85,8 @@ export default {
     "chooseTripLocation": "選擇旅遊地點",
     "cancel": "取消",
     "submit": "送出",
+    "advice": "貼心小提醒",
+    "fillAll": "記得填完所有資料喔！",
   },
   "Setting": {
     "logout": "登出",
