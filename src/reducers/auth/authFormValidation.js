@@ -12,7 +12,6 @@
  * the actions being addressed
  */
 const {
-  LOGOUT,
   REGISTER,
   LOGIN,
   FORGOT_PASSWORD,
@@ -24,11 +23,6 @@ const {
  */
 export default function formValidation(state) {
   switch (state.form.state) {
-    /**
-     * ### Logout has no fields, so always valid
-     */
-    case LOGOUT:
-      return state.setIn(['form', 'isValid'], true)
     /**
      * ### Registration has 4 fields
      */

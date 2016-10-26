@@ -1,5 +1,5 @@
 /**
- * # fieldValidation.js
+ * # authFieldValidation.js
  *
  * Define the validation rules for various fields such as email, username,
  * and passwords.  If the rules are not passed, the appropriate
@@ -71,7 +71,7 @@ export default function fieldValidation(state, action) {
       } else {
         return state.setIn(['form', 'fields', 'usernameHasError'], true)
         .setIn(['form', 'fields', 'usernameErrorMsg'],
-               I18n.t('FieldValidation.validUsername'))
+               I18n.t('AuthFieldValidation.validUsername'))
       }
 
     /**
@@ -86,7 +86,7 @@ export default function fieldValidation(state, action) {
       } else {
         return state.setIn(['form', 'fields', 'emailHasError'], true)
         .setIn(['form', 'fields', 'emailErrorMsg'],
-                 I18n.t('FieldValidation.validEmail'))
+                 I18n.t('AuthFieldValidation.validEmail'))
       }
 
     /**
@@ -104,7 +104,7 @@ export default function fieldValidation(state, action) {
       } else {
         return state.setIn(['form', 'fields', 'passwordHasError'], true)
         .setIn(['form', 'fields', 'passwordErrorMsg'],
-          I18n.t('FieldValidation.validPassword'))
+          I18n.t('AuthFieldValidation.validPassword'))
       }
 
     /**
@@ -122,7 +122,7 @@ export default function fieldValidation(state, action) {
         return state.setIn(['form', 'fields', 'passwordAgainHasError'],
                           true)
         .setIn(['form', 'fields', 'passwordAgainErrorMsg'],
-        I18n.t('FieldValidation.validPasswordAgain'))
+        I18n.t('AuthFieldValidation.validPasswordAgain'))
       }
 
     /**

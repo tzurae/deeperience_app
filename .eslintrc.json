@@ -4,7 +4,9 @@
   ],
   "installedESLint": true,
   "env": {
-    "browser": true
+    "browser": true,
+    "jest": true,
+    "mocha": true
   },
   "plugins": [
     "standard",

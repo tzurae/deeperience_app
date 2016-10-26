@@ -1,17 +1,10 @@
 /**
  * # globalReducer.js
  *
- *
  */
 'use strict'
 import InitialState from './globalInitialState'
 const initialState = new InitialState()
-/**
- * ## Imports
- * The InitialState for auth
- * fieldValidation for validating the fields
- * formValidation for setting the form's valid flag
- */
 const {
   SIGNUP_SUCCESS,
   LOGIN_SUCCESS,

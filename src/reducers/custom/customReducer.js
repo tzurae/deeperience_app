@@ -1,15 +1,9 @@
 /**
- * # authReducer.js
+ * # customReducer.js
  *
- * The reducer for all the actions from the various log states
+ * The reducer for set custom pages
  */
 'use strict'
-/**
- * ## Imports
- * The InitialState for auth
- * fieldValidation for validating the fields
- * formValidation for setting the form's valid flag
- */
 import InitialState from './customInitialState'
 
 const {

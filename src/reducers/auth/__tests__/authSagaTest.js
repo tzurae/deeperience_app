@@ -1,7 +1,7 @@
 import { put, call, take, fork } from 'redux-saga/effects'
 import { expect } from 'chai'
-import * as authActions from '../../../reducers/auth/authActions'
-import apiFactory from '../../../api/apiFactory'
+import * as authActions from '../authActions'
+import ApiFactory from '../../../api/apiFactory'
 import UserModel from '../../../model/UserModel'
 import {
   watchSignUp,
@@ -24,16 +24,13 @@ const {
   INIT_AUTH,
 } = require('../../../lib/constants').default
 
-
-const api = new apiFactory()
+const api = new ApiFactory()
 
 describe('SignUp', () => {
-
   it('watchSignUp should take the SIGN_UP action', () => {
     const gen = watchSignUp()
-    let next = gen.next().value
+    const next = gen.next().value
     expect(next).to.deep.equal(take(SIGNUP_START))
-
   })
 
   it('should signUp successufl', () => {
@@ -52,18 +49,18 @@ describe('SignUp', () => {
     const dbSignUpRequest = gen.next(fakeUser.email, fakeUser.password).value
     expect(dbSignUpRequest).to.deep.equal(call([api, api.signup], fakeUser.email, fakeUser.password))
 
-    const newUser = gen.next(fakeUser).value;
-    expect(newUser).to.deep.equal(new UserModel(fakeUser.uid,{
+    const newUser = gen.next(fakeUser).value
+    expect(newUser).to.deep.equal(new UserModel(fakeUser.uid, {
       email: fakeUser.email,
       displayName: fakeUser.displayName,
     }))
 
     const dbWriteDataRequest = gen.next(newUser).value
-    expect(dbWriteDataRequest).to.deep.equal(call([api, api.writeDataBase], fakeUser.getPath, {email:fakeUser.email,
-      displayName:fakeUser.displayName}))
+    expect(dbWriteDataRequest).to.deep.equal(call([api, api.writeDataBase], fakeUser.getPath, { email: fakeUser.email,
+      displayName: fakeUser.displayName }))
 
     const signUpSuccessRequest = gen.next().value
-    expect(signUpSuccessRequest).to.deep.equal(put(authActions.signupSuccess({uid:fakeUser.uid})))
+    expect(signUpSuccessRequest).to.deep.equal(put(authActions.signupSuccess({ uid: fakeUser.uid })))
 
     const logoutState = gen.next().value
     expect(logoutState).to.deep.equal(put(authActions.logoutState()))
@@ -71,7 +68,6 @@ describe('SignUp', () => {
 })
 
 describe('InitAuth', () => {
-
   it('watchInitAuth should take INIT_AUTH action', () => {
     const gen = watchInitAuth()
     let next = gen.next().value
@@ -108,11 +104,9 @@ describe('InitAuth', () => {
     next = gen.next(false).value
     expect(next).to.deep.equal(put(authActions.loginState()))
   })
-
 })
 
 describe('logout', () => {
-  
   it('watchLogout should take the LOGOUT action', () => {
     const gen = watchLogout()
     let next = gen.next().value
@@ -120,9 +114,9 @@ describe('logout', () => {
     next = gen.next().value
     expect(next).to.deep.equal(fork(logout))
   })
-  
+
   it('should logout successful', () => {
-    const gen = logout() 
+    const gen = logout()
     let next = gen.next().value
     expect(next).to.deep.equal(put(authActions.logoutRequest()))
     next = gen.next().value
@@ -132,11 +126,9 @@ describe('logout', () => {
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.logoutSuccess()))
   })
-  
 })
 
 describe('login', () => {
-
   it('watchLogin should take the LOGIN action', () => {
     const fakeUser = {
       name: 'fake',
@@ -153,7 +145,7 @@ describe('login', () => {
       uid: 1234,
       displayName: 'fakeYou',
       email: 'fake@gmai.com',
-      password: 'fake'
+      password: 'fake',
     }
     const gen = login(fakeUser)
     let next = gen.next().value
@@ -172,22 +164,21 @@ describe('login', () => {
 })
 
 describe('resetPassword', () => {
-  
   const fakeUser = {
     email: 'fake@gmail.com',
   }
-  
+
   it('watchResetPassword should take the RESET_PASSWORD action', () => {
     const gen = watchResetPassword()
-    next = gen.next().value
+    let next = gen.next().value
     expect(next).to.deep.equal(take(RESET_PASSWORD_START))
     next = gen.next(fakeUser).value
     expect(next).to.deep.equal(fork(resetPassword, fakeUser))
   })
-  
+
   it('should resetPassowrd successful', () => {
-    const gen = resetPassword(fakeUser) 
-    next = gen.next().value
+    const gen = resetPassword(fakeUser)
+    let next = gen.next().value
     expect(next).to.deep.equal(put(authActions.resetPasswordRequest()))
     next = gen.next().value
     expect(next).to.deep.equal(call([api, api.resetPassword], fakeUser.email))
@@ -196,5 +187,4 @@ describe('resetPassword', () => {
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.resetPasswordSuccess()))
   })
-
 })

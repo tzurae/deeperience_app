@@ -25,7 +25,7 @@ export default {
     "logoutError": "登出發生錯誤",
     "resetPasswordError": "重設密碼錯誤",
   },
-  "FieldValidation": {
+  "AuthFieldValidation": {
     "validUsername": "6-15 字的英數字",
     "validEmail": "請填寫正確的信箱",
     "validPassword": "6-20 字的英數字，且英數字各至少一碼",

@@ -11,7 +11,7 @@
  * formValidation for setting the form's valid flag
  */
 import InitialState from './authInitialState'
-import fieldValidation from './fieldValidation'
+import fieldValidation from './authFieldValidation'
 import formValidation from './authFormValidation'
 
 /**
