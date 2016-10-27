@@ -58,7 +58,7 @@ describe('authReducer', () => {
       const action = {
         type: LOGOUT_REQUEST,
       }
-      const next = authReducer(undefined, action);
+      const next = authReducer(undefined, action)
 
       expect(next.form.isFetching).toBe(true)
       expect(next.form.error).toBeNull()

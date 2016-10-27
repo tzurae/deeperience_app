@@ -40,7 +40,7 @@
     "jw": "./node_modules/.bin/jest --watch -o",
     "mocha": "node_modules/.bin/mocha --require testHelper.js --compilers js:babel-core/register src/reducers/auth/__tests__/authSagaTest.js",
     "flow": "flow",
-    "precommit": "npm run fix-lint && flow && npm run test",
+    "precommit": "npm run lint && flow && npm run test",
     "start": "react-native start",
     "lint": "./node_modules/.bin/eslint --config=./.eslintrc.json ./src",
     "fix-lint": "/usr/local/bin/eslint --fix ./src",
