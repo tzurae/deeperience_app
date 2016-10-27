@@ -74,5 +74,25 @@ describe('deviceReducer', () => {
       expect(next.version).toEqual(version)
     })
   })
-})// deviceReducer
+
+  describe('SET_STATE', () => {
+    let initialState = null
+
+    beforeEach(() => {
+      const action = {
+        type: 'dummy',
+      }
+      initialState = deviceReducer(undefined, action)
+    })
+    it('whould return state', () => {
+      const action = {
+        type: SET_STATE,
+        payload: 'asdasd',
+      }
+
+      const next = deviceReducer(initialState, action)
+      expect(next).toEqual(initialState)
+    })
+  })
+})
 

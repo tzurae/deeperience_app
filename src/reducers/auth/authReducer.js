@@ -41,7 +41,7 @@ const {
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
 
-  TOGGLE_REGISTER_CHECKED,
+  TOGGLE_ITEMBOX_CHECKED,
 
   RESET_FORM,
 
@@ -138,8 +138,8 @@ export default function authReducer(state = initialState, action) {
       return state.setIn(['form', 'isFetching'], false)
       .setIn(['form', 'error'], action.payload)
 
-    case TOGGLE_REGISTER_CHECKED:
-      return state.setIn(['registerChecked'], !state.getIn(['registerChecked']))
+    case TOGGLE_ITEMBOX_CHECKED:
+      return state.setIn(['itemboxChecked'], !state.getIn(['itemboxChecked']))
 
     case RESET_FORM:
       return initialState

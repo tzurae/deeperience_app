@@ -23,7 +23,7 @@ export function* signUp(payload) {
     // user is a promise backed from firebase
     const user = yield call([api, api.signup], payload)
     // newUser will be written in database
-    const newUser =  yield new UserModel(user.uid, {
+    const newUser = yield new UserModel(user.uid, {
       email: payload.email,
       username: payload.username,
     })

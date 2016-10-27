@@ -49,7 +49,7 @@ export default keyMirror({
   RESET_PASSWORD_SUCCESS: null,
   RESET_PASSWORD_FAILURE: null,
 
-  TOGGLE_REGISTER_CHECKED: null,
+  TOGGLE_ITEMBOX_CHECKED: null,
 
   RESET_FORM: null,
 

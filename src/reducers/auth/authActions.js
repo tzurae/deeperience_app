@@ -33,7 +33,7 @@ const {
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
 
-  TOGGLE_REGISTER_CHECKED,
+  TOGGLE_ITEMBOX_CHECKED,
   FB_LOGIN_START,
 
   RESET_FORM,
@@ -229,9 +229,9 @@ export function resetPassword(email:string) {
   }
 }
 
-export function toggleRegisterChecked() {
+export function toggleItemboxChecked() {
   return {
-    type: TOGGLE_REGISTER_CHECKED,
+    type: TOGGLE_ITEMBOX_CHECKED,
   }
 }
 

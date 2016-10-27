@@ -47,7 +47,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     auth: {
-      checked: state.auth.registerChecked,
+      checked: state.auth.itemboxChecked,
       form: state.auth.form,
     },
   }
@@ -146,11 +146,11 @@ class LoginRegisterRender extends React.Component {
                 disabled={this.props.auth.form.isFetching}
                 checked={this.props.auth.checked}
                 onCheck={() => {
-                  this.props.actions.toggleRegisterChecked()
+                  this.props.actions.toggleItemboxChecked()
                   this.props.actions.onAuthFormFieldChange('showPassword', true)
                 }}
                 onUncheck={() => {
-                  this.props.actions.toggleRegisterChecked()
+                  this.props.actions.toggleItemboxChecked()
                   this.props.actions.onAuthFormFieldChange('showPassword', false)
                 }}
               />) : null}

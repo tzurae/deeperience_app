@@ -1,7 +1,6 @@
 // @flow
 'use strict'
 import ModelInterface from './ModelInterface'
-// import R from 'reactotron-react-native'
 
 type idType = string
 type userDataType = {

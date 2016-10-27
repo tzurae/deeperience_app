@@ -37,7 +37,7 @@ const {
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
 
-  TOGGLE_REGISTER_CHECKED,
+  TOGGLE_ITEMBOX_CHECKED,
 
   RESET_FORM,
 
@@ -53,32 +53,17 @@ const {
  */
 
 describe('authReducer', () => {
-  describe('SIGNUP_REQUEST', () => {
-    it('Finish fetching with error', () => {
-      const action = {
-        type: SIGNUP_REQUEST,
-      }
-      const next = authReducer(undefined, action)
-
-      expect(next.form.isFetching).toBe(true)
-      expect(next.form.error).toBeNull()
-    })
-  })
-
-  describe('LOGOUT_REQUEST', () => {
-    it('Finish fetching with error', () => {
+  describe('REQUEST', () => {
+    it('Logout start fetching with no error', () => {
       const action = {
         type: LOGOUT_REQUEST,
       }
-      const next = authReducer(undefined, action)
+      const next = authReducer(undefined, action);
 
       expect(next.form.isFetching).toBe(true)
       expect(next.form.error).toBeNull()
     })
-  })
-
-  describe('LOGIN_REQUEST', () => {
-    it('Finish fetching with error', () => {
+    it('Login start fetching with no error', () => {
       const action = {
         type: LOGIN_REQUEST,
       }
@@ -87,10 +72,16 @@ describe('authReducer', () => {
       expect(next.form.isFetching).toBe(true)
       expect(next.form.error).toBeNull()
     })
-  })
+    it('Signup start fetching with no error', () => {
+      const action = {
+        type: SIGNUP_REQUEST,
+      }
+      const next = authReducer(undefined, action)
 
-  describe('RESET_PASSWORD_REQUEST', () => {
-    it('Finish fetching with error', () => {
+      expect(next.form.isFetching).toBe(true)
+      expect(next.form.error).toBeNull()
+    })
+    it('Reset password start fetching with no error', () => {
       const action = {
         type: RESET_PASSWORD_REQUEST,
       }
@@ -98,6 +89,92 @@ describe('authReducer', () => {
 
       expect(next.form.isFetching).toBe(true)
       expect(next.form.error).toBeNull()
+    })
+  })
+
+  describe('SUCCESS', () => {
+    it('Logout finish fetching with no error', () => {
+      const action = {
+        type: LOGOUT_SUCCESS,
+      }
+      const next = authReducer(undefined, action)
+
+      expect(next.form.isFetching).toBe(false)
+      expect(next.form.error).toBeNull()
+    })
+    it('Login finish fetching with no error', () => {
+      const action = {
+        type: LOGIN_SUCCESS,
+      }
+      const next = authReducer(undefined, action)
+
+      expect(next.form.isFetching).toBe(false)
+      expect(next.form.error).toBeNull()
+    })
+    it('Signup finish fetching with no error', () => {
+      const action = {
+        type: SIGNUP_SUCCESS,
+      }
+      const next = authReducer(undefined, action)
+
+      expect(next.form.isFetching).toBe(false)
+      expect(next.form.error).toBeNull()
+    })
+    it('Reset password finish fetching with no error', () => {
+      const action = {
+        type: RESET_PASSWORD_SUCCESS,
+      }
+      const next = authReducer(undefined, action)
+
+      expect(next.form.isFetching).toBe(false)
+      expect(next.form.error).toBeNull()
+    })
+  })
+
+  describe('FAILURE', () => {
+    it('Logout finish fetching with error', () => {
+      const action = {
+        type: LOGOUT_FAILURE,
+        payload: { error: 'error' },
+      }
+      const next = authReducer(undefined, action)
+
+      expect(next.form.isFetching).toBe(false)
+      expect(next.form.error).toBeDefined()
+      expect(next.form.error.error).toBe('error')
+    })
+    it('Login finish fetching with error', () => {
+      const action = {
+        type: LOGIN_FAILURE,
+        payload: { error: 'error' },
+      }
+      const next = authReducer(undefined, action)
+
+      expect(next.form.isFetching).toBe(false)
+      expect(next.form.error).toBeDefined()
+      expect(next.form.error.error).toBe('error')
+    })
+    it('Signup finish fetching with error', () => {
+      const action = {
+        type: SIGNUP_FAILURE,
+        payload: { error: 'error' },
+      }
+      const next = authReducer(undefined, action)
+
+      expect(next.form.isFetching).toBe(false)
+      expect(next.form.error).toBeDefined()
+      expect(next.form.error.error).toBe('error')
+    })
+    it('Reset password finish fetching with error', () => {
+      const action = {
+        type: RESET_PASSWORD_FAILURE,
+        payload: { error: 'error' },
+      }
+      const next = authReducer(undefined, action)
+
+      expect(next.form.isFetching).toBe(false)
+      expect(next.form.error).toBeDefined()
+      expect(next.form.error.error).toBe('error')
     })
   })
 
@@ -440,20 +517,10 @@ describe('authReducer', () => {
     })
   })
 
-  describe('SIGNUP_FAILURE', () => {
-    it('Finish fetching with error', () => {
-      const action = {
-        type: SIGNUP_FAILURE,
-        payload: { error: 'error' },
-      }
-      const next = authReducer(undefined, action)
-
-      expect(next.form.isFetching).toBe(false)
-      expect(next.form.error).toBeDefined()
-      expect(next.form.error.error).toBe('error')
-    })
-  })
-
+  /**
+   * ### Test the validity of each field in the form
+   *
+   */
   describe('test the validity of field', () => {
     let initialState = null
     beforeEach(() => {
@@ -551,6 +618,110 @@ describe('authReducer', () => {
         })
         expect(next.form.fields.emailHasError).toBe(false)
       })
+    })
+  })
+  /**
+   * ### Toggle register checked
+   *
+   */
+  describe('itembox checked', () => {
+    let initialState = null
+    beforeEach(() => {
+      const action = {
+        type: 'dummy',
+      }
+      initialState = authReducer(undefined, action)
+    })
+    it('TOGGLE_ITEMBOX_CHECKED', () => {
+      const action = {
+        type: TOGGLE_ITEMBOX_CHECKED,
+      }
+
+      let next = authReducer(initialState, action)
+      expect(next.itemboxChecked).toBe(true)
+      next = authReducer(next, action)
+      expect(next.itemboxChecked).toBe(false)
+    })
+  })
+  /**
+   * ### Set state
+   *
+   */
+  describe('Set State', () => {
+    let initialState = null
+    beforeEach(() => {
+      const action = {
+        type: 'dummy',
+      }
+      initialState = authReducer(undefined, action)
+    })
+    it('should set state', () => {
+      const action = {
+        type: SET_STATE,
+        payload: '{"auth":{"form":{"state":"REGISTER","disabled":true,"error":"adsaffg","isValid":false,' +
+        '"isFetching":true,"fields":{"username":"asdas","usernameHasError":true,' +
+        '"email":"123@g.com","emailHasError":false,"password":"13123fdddd",' +
+        '"passwordHasError":false,"passwordAgain":"312fff","passwordAgainHasError":true,' +
+        '"showPassword":false}}}}',
+      }
+      const lastState = initialState.mergeDeep({
+        form: {
+          state: REGISTER,
+          disabled: true,
+          error: 'adsaffg',
+          isValid: false,
+          isFetching: true,
+          fields: {
+            username: 'asdas',
+            usernameHasError: true,
+            usernameErrorMsg: '',
+            email: '123@g.com',
+            emailHasError: false,
+            emailErrorMsg: '',
+            password: '13123fdddd',
+            passwordHasError: false,
+            passwordErrorMsg: '',
+            passwordAgain: '312fff',
+            passwordAgainHasError: true,
+            passwordAgainErrorMsg: '',
+            showPassword: false,
+          },
+        },
+        itemboxChecked: false,
+      })
+      const next = authReducer(initialState, action)
+      expect(next).toEqual(lastState)
+    })
+  })
+  /**
+   * ### Toggle register checked
+   *
+   */
+  describe('itembox checked', () => {
+    let initialState = null
+    let lastState = null
+    beforeEach(() => {
+      const action = {
+        type: 'dummy',
+      }
+      initialState = authReducer(undefined, action)
+      const action2 = {
+        type: SET_STATE,
+        payload: '{"auth":{"form":{"state":"REGISTER","disabled":true,"error":"adsaffg","isValid":false,' +
+        '"isFetching":true,"fields":{"username":"asdas","usernameHasError":true,"usernameErrorMsg":"error",' +
+        '"email":"123@g.com","emailHasError":false,"emailErrorMsg":"","password":"13123fdddd",' +
+        '"passwordHasError":false,"passwordErrorMsg":"","passwordAgain":"312fff","passwordAgainHasError":true,' +
+        '"passwordAgainErrorMsg":"error","showPassword":false}}}}',
+      }
+      lastState = authReducer(initialState, action2)
+    })
+    it('RESET_FORM', () => {
+      const action = {
+        type: RESET_FORM,
+      }
+
+      const next = authReducer(lastState, action)
+      expect(next).toEqual(initialState)
     })
   })
 })
