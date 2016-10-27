@@ -14,6 +14,8 @@ class TabBar extends React.Component {
     tabStyle: View.propTypes.style,
     style: View.propTypes.style,
     textStyle: Text.propTypes.style,
+    onChangeTab: PropTypes.func,
+    initialPage: PropTypes.number,
   }
   static defaultProps = {
     tabBarPosition: 'top',
@@ -22,13 +24,15 @@ class TabBar extends React.Component {
     tabStyle: styles.tabStyle,
     style: styles.tabBar,
     textStyle: styles.text,
+    onChangeTab: () => {},
+    initialPage: 0,
   }
   render() {
     return (
       <ScrollableTabView
         tabBarPosition = {this.props.tabBarPosition}
         onChangeTab={this.props.onChangeTab}
-        initialPage={this.props.initialPage || 0}
+        initialPage={this.props.initialPage}
         renderTabBar={() =>
         <DefaultTabBar
           activeTextColor = {this.props.activeTextColor}

@@ -1,0 +1,348 @@
+exports[`<ThumbnailPlan /> should rendered correctly 1`] = `
+<View>
+  <View
+    accessibilityComponentType={undefined}
+    accessibilityLabel={undefined}
+    accessibilityTraits={undefined}
+    accessible={true}
+    hitSlop={undefined}
+    onLayout={undefined}
+    onResponderGrant={[Function bound touchableHandleResponderGrant]}
+    onResponderMove={[Function bound touchableHandleResponderMove]}
+    onResponderRelease={[Function bound touchableHandleResponderRelease]}
+    onResponderTerminate={[Function bound touchableHandleResponderTerminate]}
+    onResponderTerminationRequest={[Function bound touchableHandleResponderTerminationRequest]}
+    onStartShouldSetResponder={[Function bound touchableHandleStartShouldSetResponder]}
+    style={
+      Object {
+        "opacity": 1
+      }
+    }
+    testID={undefined}>
+    <View
+      style={
+        Object {
+          "backgroundColor": "rgba(247,139,109,0.5)",
+          "height": 200,
+          "paddingBottom": 5,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+          "paddingTop": 5
+        }
+      }>
+      <Image
+        source={
+          Object {
+            "uri": undefined
+          }
+        }
+        style={
+          Object {
+            "bottom": 0,
+            "flex": 1,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0
+          }
+        } />
+      <View
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,0.5)",
+            "left": 10,
+            "paddingBottom": 6,
+            "paddingLeft": 6,
+            "paddingRight": 6,
+            "paddingTop": 6,
+            "position": "absolute",
+            "top": 10,
+            "width": 188
+          }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          numberOfLines={2}>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "color": "white",
+                "fontSize": 19
+              }
+            }>
+            test
+          </Text>
+        </Text>
+      </View>
+      <Image
+        source={
+          Object {
+            "uri": undefined
+          }
+        }
+        style={
+          Object {
+            "borderColor": "white",
+            "borderRadius": 35,
+            "borderWidth": 2,
+            "height": 70,
+            "position": "absolute",
+            "right": 5,
+            "top": 5,
+            "width": 70
+          }
+        } />
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "backgroundColor": "#00A2FF",
+            "color": "white",
+            "fontSize": 16,
+            "left": 10,
+            "paddingBottom": 5,
+            "paddingLeft": 5,
+            "paddingRight": 5,
+            "paddingTop": 5,
+            "position": "absolute",
+            "textAlign": "center",
+            "top": 75
+          }
+        }>
+        two days one night
+      </Text>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "bottom": 20,
+            "flexDirection": "row",
+            "left": 10,
+            "position": "absolute"
+          }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#01C33B",
+              "color": "white",
+              "fontSize": 16,
+              "marginRight": 10,
+              "paddingBottom": 5,
+              "paddingLeft": 5,
+              "paddingRight": 5,
+              "paddingTop": 5,
+              "textAlign": "center"
+            }
+          }>
+          asd
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#01C33B",
+              "color": "white",
+              "fontSize": 16,
+              "marginRight": 10,
+              "paddingBottom": 5,
+              "paddingLeft": 5,
+              "paddingRight": 5,
+              "paddingTop": 5,
+              "textAlign": "center"
+            }
+          }>
+          das
+        </Text>
+      </View>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,0.5)",
+            "bottom": 20,
+            "color": "#FF8000",
+            "fontSize": 22,
+            "fontWeight": "600",
+            "paddingBottom": 5,
+            "paddingLeft": 10,
+            "paddingRight": 10,
+            "paddingTop": 5,
+            "position": "absolute",
+            "right": 0,
+            "textAlign": "center"
+          }
+        }>
+        NTD 7878
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderBottomWidth": 1,
+        "borderColor": "#ccc",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "paddingBottom": 15,
+        "paddingLeft": 15,
+        "paddingRight": 5,
+        "paddingTop": 15
+      }
+    }>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "black",
+          "fontSize": 20
+        }
+      }>
+      John
+    </Text>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between"
+        }
+      }>
+      <Text
+        accessible={true}
+        allowFontScaling={false}
+        ellipsizeMode="tail"
+        style={
+          Array [
+            Object {
+              "color": undefined,
+              "fontFamily": "FontAwesome",
+              "fontSize": 15,
+              "fontStyle": "normal",
+              "fontWeight": "normal"
+            },
+            Array [
+              Object {
+                "color": "black",
+                "marginRight": 5
+              },
+              Object {
+                "color": "#FFE600"
+              }
+            ]
+          ]
+        }>
+        
+      </Text>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "black",
+            "fontSize": 16,
+            "marginRight": 10
+          }
+        }>
+        0
+      </Text>
+      <Text
+        accessible={true}
+        allowFontScaling={false}
+        ellipsizeMode="tail"
+        style={
+          Array [
+            Object {
+              "color": undefined,
+              "fontFamily": "FontAwesome",
+              "fontSize": 15,
+              "fontStyle": "normal",
+              "fontWeight": "normal"
+            },
+            Array [
+              Object {
+                "color": "black",
+                "marginRight": 5
+              },
+              Object {
+                "color": "#FF00FF"
+              }
+            ]
+          ]
+        }>
+        
+      </Text>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "black",
+            "fontSize": 16,
+            "marginRight": 10
+          }
+        } />
+      <Text
+        accessible={true}
+        allowFontScaling={false}
+        ellipsizeMode="tail"
+        style={
+          Array [
+            Object {
+              "color": undefined,
+              "fontFamily": "FontAwesome",
+              "fontSize": 15,
+              "fontStyle": "normal",
+              "fontWeight": "normal"
+            },
+            Array [
+              Object {
+                "color": "black",
+                "marginRight": 5
+              },
+              Object {
+                "color": "#FF8000"
+              }
+            ]
+          ]
+        }>
+        
+      </Text>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "black",
+            "fontSize": 16,
+            "marginRight": 10
+          }
+        }>
+        8787
+      </Text>
+    </View>
+  </View>
+</View>
+`;

@@ -9,12 +9,19 @@
       "\\./datepicker$": "<rootDir>/node_modules/tcomb-form-native/lib/templates/bootstrap/datepicker.ios.js"
     },
     "preprocessorIgnorePatterns": [
-      "node_modules/(?!react-native|tcomb-form-native|apsl-react-native-button)"
+      "node_modules/(?!react-native|tcomb-form-native)"
     ],
     "collectCoverage": true,
     "testPathIgnorePatterns": [
       "/src/reducers/auth/(.*SagaTest.js)",
       "/node_modules/"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es6",
+      "ios.js",
+      "android.js"
     ]
   },
   "env": {
@@ -80,6 +87,7 @@
     "react-native-svg": "^4.3.1",
     "react-native-vector-icons": "2.0.3",
     "react-redux": "4.4.5",
+    "react-test-renderer": "^15.3.2",
     "react-timer-mixin": "^0.13.3",
     "redux": "3.5.2",
     "redux-logger": "^2.7.0",
@@ -136,7 +144,7 @@
     "pre-commit": "^1.1.3",
     "react-addons-test-utils": "15.0.2",
     "react-dom": "^15.3.1",
-    "react-native-mock": "^0.2.6",
+    "react-native-mock": "^0.2.7",
     "reactotron-react-native": "^1.1.2",
     "redux-mock-store": "1.1.2",
     "remote-redux-devtools": "^0.4.8",

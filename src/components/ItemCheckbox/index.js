@@ -15,8 +15,8 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 class ItemCheckbox extends React.Component {
   static propTypes = {
-    onCheck: PropTypes.func.isRequired,
-    onUncheck: PropTypes.func.isRequired,
+    onCheck: PropTypes.func,
+    onUncheck: PropTypes.func,
     iconCheck: PropTypes.string,
     backgroundColor: PropTypes.string,
     iconSize: PropTypes.number,
@@ -29,8 +29,8 @@ class ItemCheckbox extends React.Component {
     iconViewStyle: View.propTypes.style,
   }
   static defaultProps = {
-    onCheck: null,
-    onUncheck: null,
+    onCheck: () => {},
+    onUncheck: () => {},
     iconCheck: 'check',
     backgroundColor: 'transparent',
     iconSize: 14,
@@ -47,7 +47,11 @@ class ItemCheckbox extends React.Component {
     return (
       <View style={this.props.style}>
         <TouchableWithoutFeedback
-          onPress={this.props.disabled ? null : this.props.checked ? this.props.onUncheck : this.props.onCheck}
+          onPress={this.props.disabled ?
+                    null :
+                    this.props.checked ?
+                      this.props.onUncheck :
+                      this.props.onCheck}
         >
           <View style={{
             flexDirection: 'row',
@@ -65,7 +69,8 @@ class ItemCheckbox extends React.Component {
                   borderWidth: 1,
                   borderRadius: 2,
                 },
-                { borderColor: this.props.color, backgroundColor: this.props.backgroundColor },
+                { borderColor: this.props.color,
+                  backgroundColor: this.props.backgroundColor },
                 this.props.iconViewStyle,
               ]}>
               {this.props.checked ? (
@@ -77,9 +82,9 @@ class ItemCheckbox extends React.Component {
                 ) : null}
             </View>
             <Text
-              style={[{ color: this.props.color,
+              style={{ color: this.props.color,
                           marginLeft: 5,
-                          fontSize: this.props.iconSize + 1 }]}
+                          fontSize: this.props.iconSize + 1 }}
             >
               {this.props.text}
             </Text>
