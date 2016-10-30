@@ -42,22 +42,19 @@ describe('signup', () => {
     const password = 'fake2134'
     const uid = '1234'
     const payload = { username, email, password }
-    const user = { uid }
-    const newUser = new UserModel(uid, { email, username })
+    const user = { _id: uid, name: username, email: { value: email } }
 
     const gen = signUp(payload)
     let next = gen.next().value
     expect(next).to.deep.equal(put(authActions.signupRequest()))
+
     next = gen.next().value
     expect(next).to.deep.equal(call([api, api.signup], payload))
+
     next = gen.next(user).value
-    expect(next).to.deep.equal(newUser)
-    next = gen.next(newUser).value
     expect(next).to.deep.equal(
-      call([api, api.writeDataBase], newUser.getPath(), newUser.getData()))
-    next = gen.next().value
-    expect(next).to.deep.equal(
-      put(authActions.signupSuccess({ uid })))
+      put(authActions.signupSuccess({ uid, username, email })))
+
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.logoutState()))
   })
@@ -146,19 +143,65 @@ describe('login', () => {
     const password = 'fake2134'
     const uid = '1234'
     const avatar = 'https://www.facebook.com'
+    const token = 'asdasdasdasd'
     const payload = { email, password }
-    const user = { uid, displayName: username, email, photoURL: avatar }
+    const response = {
+      isAuth: true,
+      token,
+      user: {
+        _id: uid,
+        name: username,
+        email: {
+          value: email,
+        },
+        avatarURL: avatar,
+      },
+    }
 
     const gen = login(payload)
     let next = gen.next().value
     expect(next).to.deep.equal(put(authActions.loginRequest()))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequest()))
+
     next = gen.next().value
     expect(next).to.deep.equal(call([api, api.login], payload))
-    next = gen.next(user).value
+
+    next = gen.next(response).value
     expect(next).to.deep.equal(
       put(authActions.loginSuccess({ uid, username, email, avatar })))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequestSuccess(token)))
+
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.logoutState()))
+  })
+
+  it('should login fail', () => {
+    const email = 'fake@gmail.com'
+    const password = 'fake2134'
+    const payload = { email, password }
+    const response = {
+      isAuth: false,
+    }
+
+    const gen = login(payload)
+    let next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.loginRequest()))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequest()))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(call([api, api.login], payload))
+
+    next = gen.next(response).value
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequestFailure()))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.loginFailure('Auth Error')))
   })
 })
 

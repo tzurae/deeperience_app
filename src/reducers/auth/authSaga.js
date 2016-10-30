@@ -48,6 +48,7 @@ export function* signUp(payload) {
   }
 }
 
+// todo server not yet
 export function* initAuth() {
   try {
     const user = yield call([api, api.initAuth])
@@ -85,8 +86,8 @@ export function* logout() {
 export function* login(payload) {
   try {
     yield put(authActions.loginRequest())
+    yield put(authActions.sessionTokenRequest())
     const { isAuth, token, user } = yield call([api, api.login], payload)
-    console.log(token)
     if (isAuth && token) {
       yield put(authActions.loginSuccess({
         uid: user._id,
@@ -95,20 +96,15 @@ export function* login(payload) {
         avatar: user.avatarURL,
       }))
 
-      yield saveSessionToken(token)
+      saveSessionToken(token)
       yield put(authActions.sessionTokenRequestSuccess(token))
       yield put(authActions.logoutState())
       // must redirect
       Actions.pop()
     } else {
       SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.loginError'))
-
-      if (!token) {
-        yield put(authActions.sessionTokenRequestFailure())
-        yield put(authActions.loginFailure('No token'))
-      } else if (!isAuth) {
-        yield put(authActions.loginFailure('Not login'))
-      }
+      yield put(authActions.sessionTokenRequestFailure())
+      yield put(authActions.loginFailure('Auth Error'))
     }
   } catch (error) {
     SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.loginError'))
