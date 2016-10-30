@@ -1,6 +1,7 @@
 
 export const cloudServiceSetting = {
-  firebase: true,
+  firebase: false,
+  mongodb: true,
 }
 
 export const auth = process.env.NODE_ENV === 'production' ? {
@@ -10,12 +11,18 @@ export const auth = process.env.NODE_ENV === 'production' ? {
     databaseURL: 'https://deeperience-f0bca.firebaseio.com',
     storageBucket: 'deeperience-f0bca.appspot.com',
   },
+  mongodb: {
+    domain: 'http://localhost:3000',
+  },
 } : {
   firebase: {
     apiKey: 'AIzaSyDVgZwPGgSqUyVxRGR_XKTjrOnZ3FT-DvE',
     authDomain: 'deeperience.firebaseapp.com',
     databaseURL: 'https://deeperience.firebaseio.com',
     storageBucket: 'deeperience.appspot.com',
+  },
+  mongodb: {
+    domain: 'http://localhost:3000',
   },
 }
 

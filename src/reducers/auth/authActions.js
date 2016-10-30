@@ -119,6 +119,13 @@ export function signupRequest() {
     type: SIGNUP_REQUEST,
   }
 }
+/**
+ * ### signupSuccess payload
+ * uid: unique id
+ * username: name
+ * email:
+ * avatar:
+ */
 export function signupSuccess(user:any) {
   return {
     type: SIGNUP_SUCCESS,

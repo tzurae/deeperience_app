@@ -84,7 +84,6 @@ export default function native(platform) {
             >
               <Scene key="LoadingApp"
                      component={LoadingApp}
-                     initial={true}
               />
               <Scene key="Main"
                      component={Main}
@@ -97,6 +96,7 @@ export default function native(platform) {
               />
               <Scene key="LoginMain"
                      component={LoginMain}
+                     initial={true}
               />
               <Scene key="LoginRegister"
                      component={LoginRegister}

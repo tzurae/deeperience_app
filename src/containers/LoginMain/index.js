@@ -51,6 +51,27 @@ function mapDispatchToProps(dispatch) {
 
 class LoginMain extends React.Component {
 
+  // constructor(props) {
+  //   super(props)
+    // fetch('http://localhost:3000/api/users', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     name: 'asdasd' + Math.floor(Math.random()*10000),
+    //     email: Math.floor(Math.random()*10000) + '@a.com',
+    //     password: 'asdads1',
+    //   }),
+    // }).then(res => {
+    //   console.log(res)
+    //   return res.json()
+    // }).then(res => {
+    //   console.log(res)
+    // })
+  // }
+
   render() {
     return (
       <View style={styles.container}>

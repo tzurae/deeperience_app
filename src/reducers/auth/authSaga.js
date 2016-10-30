@@ -22,13 +22,12 @@ export function* signUp(payload) {
     yield put(authActions.signupRequest())
     // user is a promise backed from firebase
     const user = yield call([api, api.signup], payload)
-    // newUser will be written in database
-    const newUser = yield new UserModel(user.uid, {
-      email: payload.email,
-      username: payload.username,
-    })
-    yield call([api, api.writeDataBase], newUser.getPath(), newUser.getData())
-    yield put(authActions.signupSuccess({ uid: user.uid }))
+    console.log(user)
+    yield put(authActions.signupSuccess({
+      uid: user._id,
+      username: user.name,
+      email: user.email.value,
+    }))
     yield put(authActions.logoutState())
     Actions.pop()
   } catch (error) {
