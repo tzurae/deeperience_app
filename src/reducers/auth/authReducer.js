@@ -37,6 +37,10 @@ const {
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
 
+  SESSION_TOKEN_REQUEST,
+  SESSION_TOKEN_SUCCESS,
+  SESSION_TOKEN_FAILURE,
+
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
@@ -62,6 +66,7 @@ export default function authReducer(state = initialState, action) {
      * ### Requests start
      * set the form to fetching and clear any errors
      */
+    case SESSION_TOKEN_REQUEST:
     case SIGNUP_REQUEST:
     case LOGOUT_REQUEST:
     case LOGIN_REQUEST:
@@ -124,6 +129,7 @@ export default function authReducer(state = initialState, action) {
     case LOGIN_SUCCESS:
     case LOGOUT_SUCCESS:
     case RESET_PASSWORD_SUCCESS:
+    case SESSION_TOKEN_SUCCESS:
       return state.setIn(['form', 'isFetching'], false)
 
     /**
@@ -135,6 +141,7 @@ export default function authReducer(state = initialState, action) {
     case LOGOUT_FAILURE:
     case LOGIN_FAILURE:
     case RESET_PASSWORD_FAILURE:
+    case SESSION_TOKEN_FAILURE:
       return state.setIn(['form', 'isFetching'], false)
       .setIn(['form', 'error'], action.payload)
 

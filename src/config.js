@@ -14,6 +14,7 @@ export const auth = process.env.NODE_ENV === 'production' ? {
   mongodb: {
     domain: 'http://localhost:3000',
   },
+  sessionTokenKey: 'SESSION_TOKEN_KEY',
 } : {
   firebase: {
     apiKey: 'AIzaSyDVgZwPGgSqUyVxRGR_XKTjrOnZ3FT-DvE',
@@ -24,6 +25,7 @@ export const auth = process.env.NODE_ENV === 'production' ? {
   mongodb: {
     domain: 'http://localhost:3000',
   },
+  sessionTokenKey: 'SESSION_TOKEN_KEY',
 }
 
 export const storageKey = 'Deeperience_react-native-storage'

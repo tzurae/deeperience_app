@@ -5,6 +5,7 @@ import UserModel from '../../model/UserModel'
 import { Actions } from 'react-native-router-flux'
 import SimpleAlert from 'react-native-simpledialog-android'
 import I18n from '../../lib/i18n'
+import { appAuthToken } from './authToken'
 
 const {
   SIGNUP_START,
@@ -17,12 +18,19 @@ const {
 
 const api = new ApiFactory()
 
+function saveSessionToken(token) {
+  return appAuthToken.storeSessionToken(token)
+}
+
+// function getSessionToken() {
+//   return appAuthToken.getSessionToken()
+// }
+
 export function* signUp(payload) {
   try {
     yield put(authActions.signupRequest())
     // user is a promise backed from firebase
     const user = yield call([api, api.signup], payload)
-    console.log(user)
     yield put(authActions.signupSuccess({
       uid: user._id,
       username: user.name,
@@ -72,15 +80,31 @@ export function* logout() {
 export function* login(payload) {
   try {
     yield put(authActions.loginRequest())
-    const user = yield call([api, api.login], payload)
-    yield put(authActions.loginSuccess({
-      uid: user.uid,
-      username: user.displayName,
-      email: user.email,
-      avatar: user.photoURL,
-    }))
-    yield put(authActions.logoutState())
-    Actions.pop()
+    const { isAuth, token, user } = yield call([api, api.login], payload)
+    console.log(token)
+    if (isAuth && token) {
+      yield put(authActions.loginSuccess({
+        uid: user._id,
+        username: user.name,
+        email: user.email.value,
+        avatar: user.avatarURL,
+      }))
+
+      yield saveSessionToken(token)
+      yield put(authActions.sessionTokenRequestSuccess(token))
+      yield put(authActions.logoutState())
+      // must redirect
+      Actions.pop()
+    } else {
+      SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.loginError'))
+
+      if (!token) {
+        yield put(authActions.sessionTokenRequestFailure())
+        yield put(authActions.loginFailure('No token'))
+      } else if (!isAuth) {
+        yield put(authActions.loginFailure('Not login'))
+      }
+    }
   } catch (error) {
     SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.loginError'))
     yield put(authActions.loginFailure(error))

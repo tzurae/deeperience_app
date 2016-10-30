@@ -24,6 +24,7 @@ import { Record } from 'immutable'
  */
 const InitialState = Record({
   currentUser: null,
+  token: null, // auth token
   showState: false,
   currentState: null,
   store: null,

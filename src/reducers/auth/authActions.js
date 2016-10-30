@@ -28,6 +28,10 @@ const {
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
 
+  SESSION_TOKEN_REQUEST,
+  SESSION_TOKEN_SUCCESS,
+  SESSION_TOKEN_FAILURE,
+
   RESET_PASSWORD_START,
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
@@ -98,6 +102,27 @@ export function logoutFailure(error: any) {
 export function logout() {
   return {
     type: LOGOUT_START, //redux saga action
+  }
+}
+
+/**
+ * ## SessionToken actions
+ */
+export function sessionTokenRequest() {
+  return {
+    type: SESSION_TOKEN_REQUEST,
+  }
+}
+export function sessionTokenRequestSuccess(token) {
+  return {
+    type: SESSION_TOKEN_SUCCESS,
+    payload: token,
+  }
+}
+export function sessionTokenRequestFailure(error) {
+  return {
+    type: SESSION_TOKEN_FAILURE,
+    payload: error === undefined ? null : error,
   }
 }
 

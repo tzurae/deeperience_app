@@ -9,6 +9,7 @@ const {
   SIGNUP_SUCCESS,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
+  SESSION_TOKEN_SUCCESS,
 
   GET_STATE,
   SET_STATE,
@@ -40,6 +41,9 @@ export default function globalReducer(state = initialState, action) {
      */
     case LOGOUT_SUCCESS:
       return state.set('currentUser', null)
+
+    case SESSION_TOKEN_SUCCESS:
+      return state.set('token', action.payload)
 
     /**
      * ### sets the payload into the store

@@ -32,4 +32,7 @@ export default (key) => ({
 
     return createStorageEngine(key).save(state)
   },
+  delete() {
+    return createStorageEngine(key).save(null)
+  },
 })

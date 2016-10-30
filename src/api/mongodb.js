@@ -31,6 +31,16 @@ export default class Mongodb extends apiInterface {
   }
 
   login({ email, password }) {
+    return fetch(`${DOMAIN}/api/users/login`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email, password,
+      }),
+    }).then(res => res.json())
   }
 
   logout() {

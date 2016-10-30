@@ -22,6 +22,10 @@ export default keyMirror({
   SIGNUP_SUCCESS: null,
   SIGNUP_FAILURE: null,
 
+  SESSION_TOKEN_REQUEST: null,
+  SESSION_TOKEN_SUCCESS: null,
+  SESSION_TOKEN_FAILURE: null,
+
   // LOGOUT, REGISTER, LOGIN just status of view
   // for example , when you send LOGOUT action
   // the form's state that user input will be diminished.
