@@ -22,6 +22,10 @@ function saveSessionToken(token) {
   return appAuthToken.storeSessionToken(token)
 }
 
+function deleteSessionToken() {
+  return appAuthToken.deleteSessionToken()
+}
+
 // function getSessionToken() {
 //   return appAuthToken.getSessionToken()
 // }
@@ -70,6 +74,7 @@ export function* logout() {
     yield call([api, api.logout])
     yield put(authActions.loginState())
     yield put(authActions.logoutSuccess())
+    yield deleteSessionToken()
   } catch (error) {
     yield put(authActions.loginState())
     SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.logoutError'))
@@ -111,6 +116,7 @@ export function* login(payload) {
   }
 }
 
+// todo server not yet
 export function* resetPassword(email) {
   try {
     yield put(authActions.resetPasswordRequest())
@@ -124,6 +130,7 @@ export function* resetPassword(email) {
   }
 }
 
+// todo server not yet
 export function* facebookLogin(payload) {
   try {
     const user = yield call([api, api.fblogin], payload)

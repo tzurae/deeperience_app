@@ -44,18 +44,15 @@ export default class Mongodb extends apiInterface {
   }
 
   logout() {
+    return fetch(`${DOMAIN}/api/users/login`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
   }
 
-  // https://firebase.google.com/docs/hosting/custom-domain
   resetPassword(email) {
-  }
-
-  writeDataBase(path, value) {
-  }
-
-  updateDataBase(path, value) {
-  }
-
-  readDataBaseOnce(path) {
   }
 }
