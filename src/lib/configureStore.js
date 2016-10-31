@@ -2,7 +2,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import createLoggerMiddleware from 'redux-logger'
-import createStorageMiddleware from './configureStorage'
+// import createStorageMiddleware from './configureStorage'
 import devTools from 'remote-redux-devtools'
 import Immutable from 'immutable'
 import thunk from 'redux-thunk'
@@ -38,13 +38,13 @@ export default function configureStore(options: Options) {
     stateTransformer: state => JSON.parse(JSON.stringify(state)),
   })
 
-  const storage = createStorageMiddleware(platformDeps.createStorageEngine)
+  // const storage = createStorageMiddleware(platformDeps.createStorageEngine)
 
   let middlewares = [
     saga,
     thunk,
     injectMiddleware(platformDeps),
-    storage,
+    // storage,
   ]
 
   if (process.env.NODE_ENV !== 'production') {

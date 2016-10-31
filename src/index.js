@@ -90,13 +90,13 @@ export default function native(platform) {
               />
               <Scene key="Custom"
                      component={Custom}
+                     initial={true}
               />
               <Scene key="Introduction"
                      component={Introduction}
               />
               <Scene key="LoginMain"
                      component={LoginMain}
-                     initial={true}
               />
               <Scene key="LoginRegister"
                      component={LoginRegister}

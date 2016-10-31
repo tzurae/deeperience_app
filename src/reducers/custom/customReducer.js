@@ -9,17 +9,20 @@ import InitialState from './customInitialState'
 const {
   RESIDENT_FEE,
   TRIP_FEE,
+  FOOD_FEE,
 
   SET_STATE,
 
   SET_FEE,
   SET_DAY,
-  SET_HOTEL_TYPE,
   SET_TRIP_LOCATION,
   SET_TRIP_ELEMENT,
   TOGGLE_TRIP_ELEMENT,
+  TOGGLE_HOTEL_TYPE,
+  TOGGLE_FOOD_ELEMENT,
   SET_OTHER_DEMAND,
   RESET_CUSTOM,
+  TOGGLE_BOOK_HOTEL,
 } = require('../../lib/constants').default
 
 const initialState = new InitialState()
@@ -30,7 +33,9 @@ export default function authReducer(state = initialState, action) {
   const tripFee = state.getIn(['tripFee'])
   const residentFee = state.getIn(['residentFee'])
   const day = state.getIn(['day'])
-  const tripElement  = state.getIn(['tripElement'])
+  const tripElement = state.getIn(['tripElement'])
+  const hotelType = state.getIn(['hotelType'])
+  const foodElement = state.getIn(['foodElement'])
   switch (action.type) {
     case SET_FEE:
       if (action.payload.type === RESIDENT_FEE) {
@@ -41,6 +46,8 @@ export default function authReducer(state = initialState, action) {
         return state.setIn(['tripFee'], action.payload.fee)
                     .setIn(['allFee'], [(action.payload.fee[0] + residentFee[0]) * day,
                                         (action.payload.fee[1] + residentFee[1]) * day])
+      } else if (action.payload.type === FOOD_FEE) {
+        return state.setIn(['foodFee'], action.payload.fee)
       }
       return state
 
@@ -48,8 +55,6 @@ export default function authReducer(state = initialState, action) {
       return state.setIn(['day'], action.payload.day)
                   .setIn(['allFee'], [(tripFee[0] + residentFee[0]) * action.payload.day,
                                       (tripFee[1] + residentFee[1]) * action.payload.day])
-    case SET_HOTEL_TYPE:
-      return state.setIn(['hotelType'], action.payload.type)
 
     case SET_TRIP_LOCATION:
       return state.setIn(['tripLocation'], action.payload.tripLocation)
@@ -61,14 +66,29 @@ export default function authReducer(state = initialState, action) {
       return state.setIn(['tripElement'],
                           tripElement.map(
                             (element, index) =>
-                              index === action.payload.tripElementIndex ?
+                              index === action.payload ?
                               !element : element))
+    case TOGGLE_HOTEL_TYPE:
+      return state.setIn(['hotelType'],
+        hotelType.map(
+          (element, index) =>
+            index === action.payload ?
+              !element : element))
+    case TOGGLE_FOOD_ELEMENT:
+      return state.setIn(['foodElement'],
+        foodElement.map(
+          (element, index) =>
+            index === action.payload ?
+              !element : element))
 
     case SET_OTHER_DEMAND:
       return state.setIn(['otherDemand'], action.payload.otherDemand)
 
     case RESET_CUSTOM:
       return initialState
+
+    case TOGGLE_BOOK_HOTEL:
+      return state.setIn(['bookHotel'], !state.getIn(['bookHotel']))
 
     case SET_STATE:
       return state

@@ -4,12 +4,14 @@
 const {
   SET_FEE,
   SET_DAY,
-  SET_HOTEL_TYPE,
   SET_TRIP_LOCATION,
   SET_TRIP_ELEMENT,
   TOGGLE_TRIP_ELEMENT,
+  TOGGLE_HOTEL_TYPE,
+  TOGGLE_FOOD_ELEMENT,
   SET_OTHER_DEMAND,
   RESET_CUSTOM,
+  TOGGLE_BOOK_HOTEL,
 } = require('../../lib/constants').default
 
 export function setFee(type: string, fee: [number, number]) {
@@ -27,15 +29,6 @@ export function setDay(day: number) {
     type: SET_DAY,
     payload: {
       day,
-    },
-  }
-}
-
-export function setHotelType(type: number) {
-  return {
-    type: SET_HOTEL_TYPE,
-    payload: {
-      type,
     },
   }
 }
@@ -58,12 +51,10 @@ export function setTripElement(tripElement: any) {
   }
 }
 
-export function toggleTripElement(tripElementIndex: number) {
+export function toggleTripElement(index: number) {
   return {
     type: TOGGLE_TRIP_ELEMENT,
-    payload: {
-      tripElementIndex,
-    },
+    payload: index,
   }
 }
 
@@ -82,3 +73,22 @@ export function resetCustom() {
   }
 }
 
+export function toggleHotelType(index: number) {
+  return {
+    type: TOGGLE_HOTEL_TYPE,
+    payload: index,
+  }
+}
+
+export function toggleFoodElement(index: number) {
+  return {
+    type: TOGGLE_FOOD_ELEMENT,
+    payload: index,
+  }
+}
+
+export function toggleBookHotel() {
+  return {
+    type: TOGGLE_BOOK_HOTEL,
+  }
+}

@@ -125,6 +125,19 @@ export default StyleSheet.create({
     borderBottomWidth: 0.75,
     borderBottomColor: '#aaa',
   },
+  tripClassName: {
+    fontSize: MainStyle.font.medium + 2,
+    color: '#FF9C37',
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  tripClassView: {
+    paddingTop: 12,
+    paddingBottom: 12,
+    borderColor: 'white',
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+  },
   checkboxView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -144,7 +157,7 @@ export default StyleSheet.create({
   textInput: {
     flex: 1,
     fontSize: MainStyle.font.medium,
-    color: MainStyle.color.main,
+    color: '#FF9C37',
     fontWeight: 'bold',
   },
   btn: {
