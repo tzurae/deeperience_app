@@ -10,10 +10,10 @@ import { Record } from 'immutable'
 
 const InitialState = Record({
   people: 1,
-  residentFee: [2500, 5000],
-  tripFee: [2500, 5000],
+  residentFee: [2000, 5000],
+  tripFee: [2000, 5000],
   allFee: [0, 0],
-  foodFee: 500,
+  foodFee: 400,
   hotelType: Array(hotelType.length).fill(false), // -1 means null, 0 means no idea
   tripLocation: -1,
   tripElement: Array(tripElement.length).fill(false),
@@ -24,6 +24,7 @@ const InitialState = Record({
   startDate: null,
   endDate: null,
 
+  day: 0,
   isFetching: false,
   error: null,
 })

@@ -1,9 +1,8 @@
 export const hotelType = [
-  { key: 0, label: '嚮導推薦' },
+  { key: 0, label: '隨意' },
   { key: 1, label: '民宿' },
   { key: 2, label: '飯店' },
   { key: 3, label: '汽車旅館' },
-  { key: 4, label: '膠囊旅館' },
 ]
 
 export const tripLocation = [

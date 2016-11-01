@@ -83,12 +83,10 @@ class Custom extends React.Component {
         <View style={styles.container}>
           <ScrollView style={styles.customView}>
             <View style={styles.option}>
-              <View style={styles.optionTextView}>
-                <Text style={styles.optionText}>{I18n.t('Custom.tripDate')}</Text>
-                <Text style={styles.optionText}>
-                  {getFormatDate(this.props.custom.startDate, this.props.custom.endDate)}
-                </Text>
-              </View>
+              <TitleWrapper
+                title1={I18n.t('Custom.tripDate')}
+                title2={getFormatDate(this.props.custom.startDate, this.props.custom.endDate)}
+              />
               <View style={styles.weekdayView}>
                 {weekDays.map((dayName, i) => (
                   <View key={i} style={styles.weekdayTextView}>
@@ -126,108 +124,72 @@ class Custom extends React.Component {
                   </Text>
                 </Text>
               </View>
-              {getMultiSlider(
-                [1],
-                1,
-                10,
-                1,
-                valuesArray => this.props.actions.setPeople(valuesArray[0]))}
+              <MultiSliderWrapper
+                values={[1]}
+                min={1}
+                max={10}
+                step={1}
+                onValuesChange={valuesArray => this.props.actions.setPeople(valuesArray[0])}
+              />
             </View>
             <View style={styles.option}>
-              <View style={styles.optionTextView}>
-                <Text style={styles.optionText}>{I18n.t('Custom.hotelFee')}</Text>
-                <Text style={styles.optionText}>
-                  {`${this.props.custom.residentFee[0]} - ${this.props.custom.residentFee[1]}`}
-                </Text>
-              </View>
-              {getMultiSlider(
-                [2500, 5000],
-                0,
-                10000,
-                500,
-                valuesArray => this.props.actions.setFee(RESIDENT_FEE, valuesArray))}
+              <TitleWrapper
+                title1={I18n.t('Custom.hotelFee')}
+                title2={`${this.props.custom.residentFee[0]} - ${this.props.custom.residentFee[1]}`}
+              />
+              <MultiSliderWrapper
+                values={[2000, 5000]}
+                min={0}
+                max={20000}
+                step={1000}
+                onValuesChange={valuesArray => this.props.actions.setFee(RESIDENT_FEE, valuesArray)}
+              />
             </View>
             <View style={styles.option}>
-              <View style={styles.optionTextView}>
-                <Text style={styles.optionText}>{I18n.t('Custom.hotelType')}</Text>
-              </View>
+              <TitleWrapper
+                title1={I18n.t('Custom.hotelType')}
+              />
               <View style={styles.checkboxView}>
-                <ItemCheckbox
-                  style={{ marginRight: 10, height: 30 }}
+                <CheckboxWrapper
                   text={hotelType[0].label}
                   checked={this.props.custom.hotelType[0]}
-                  color="white"
-                  textStyle={{ fontWeight: 'bold' }}
-                  iconViewStyle={this.props.custom.hotelType[0] ?
-                                      { backgroundColor: MainStyle.color.weedGreen, borderWidth: 0 } :
-                                      null}
-                  onCheck={() => {
-                    this.props.actions.toggleHotelType(0)
-                  }}
-                  onUncheck={() => {
-                    this.props.actions.toggleHotelType(0)
-                  }}
+                  callback={() => this.props.actions.toggleHotelType(0)}
                 />
-                <ItemCheckbox
-                  style={{ marginRight: 10, height: 30 }}
+                <CheckboxWrapper
                   text={I18n.t('Custom.bookHotel')}
                   checked={this.props.custom.bookHotel}
-                  color="white"
-                  textStyle={{ fontWeight: 'bold' }}
-                  iconViewStyle={this.props.custom.bookHotel ?
-                                      { backgroundColor: MainStyle.color.weedGreen, borderWidth: 0 } :
-                                      null}
-                  onCheck={() => {
-                    this.props.actions.toggleBookHotel()
-                  }}
-                  onUncheck={() => {
-                    this.props.actions.toggleBookHotel()
-                  }}
+                  callback={() => this.props.actions.toggleBookHotel()}
                 />
               </View>
               {this.props.custom.hotelType[0] ? null : (
                 <View style={styles.checkboxView}>
                   {hotelType.map((element, index) => (
                     index !== 0 ?
-                      (<ItemCheckbox
-                        style={{ marginRight: 10, height: 30 }}
+                      (<CheckboxWrapper
                         text={element.label}
                         key={`hotelType_${element.key}`}
                         checked={this.props.custom.hotelType[index]}
-                        color="white"
-                        textStyle={{ fontWeight: 'bold' }}
-                        iconViewStyle={this.props.custom.hotelType[index] ?
-                                      { backgroundColor: MainStyle.color.weedGreen, borderWidth: 0 } :
-                                      null}
-                        onCheck={() => {
-                          this.props.actions.toggleHotelType(index)
-                        }}
-                        onUncheck={() => {
-                          this.props.actions.toggleHotelType(index)
-                        }}
-                      />) : null
-                  ))}
-                </View>
-              )}
+                        callback={() => this.props.actions.toggleHotelType(index)}
+                        />) : null))}
+                </View>)}
             </View>
             <View style={styles.option}>
-              <View style={styles.optionTextView}>
-                <Text style={styles.optionText}>{I18n.t('Custom.travelFee')}</Text>
-                <Text style={styles.optionText}>
-                  {`${this.props.custom.tripFee[0]} - ${this.props.custom.tripFee[1]}`}
-                </Text>
-              </View>
-              {getMultiSlider(
-                [2500, 5000],
-                0,
-                10000,
-                500,
-                valuesArray => this.props.actions.setFee(TRIP_FEE, valuesArray))}
+              <TitleWrapper
+                title1={I18n.t('Custom.travelFee')}
+                title2={`${this.props.custom.tripFee[0]} - ${this.props.custom.tripFee[1]}`}
+              />
+              <MultiSliderWrapper
+                values={[2000, 5000]}
+                min={0}
+                max={20000}
+                step={1000}
+                onValuesChange={valuesArray => this.props.actions.setFee(TRIP_FEE, valuesArray)}
+              />
             </View>
             <View style={styles.option}>
-              <View style={styles.optionTextView}>
-                <Text style={styles.optionText}>{I18n.t('Custom.travelAllFee')}</Text>
-              </View>
+              <TitleWrapper
+                title1={I18n.t('Custom.travelAllFee')}
+              />
               <View style={[styles.optionTextView, { justifyContent: 'center', marginTop: 5, marginBottom: -10 }]}>
                 <Text style={[styles.optionText, { fontSize: MainStyle.font.large }]}>
                   {`${this.props.custom.allFee[0]} - ${this.props.custom.allFee[1]}`}
@@ -235,150 +197,90 @@ class Custom extends React.Component {
               </View>
             </View>
             <View style={styles.option}>
-              <View style={styles.optionTextView}>
-                <Text style={styles.optionText}>{I18n.t('Custom.tripLocation')}</Text>
-              </View>
+              <TitleWrapper
+                title1={I18n.t('Custom.tripLocation')}
+              />
               {getModelPicker(
                 tripLocation,
                 I18n.t('Custom.chooseTripLocation'),
                 option => this.props.actions.setTripLocation(option.key))}
             </View>
             <View style={styles.option}>
-              <View style={styles.optionTextView}>
-                <Text style={styles.optionText}>{I18n.t('Custom.foodFee')}</Text>
-                <Text style={styles.optionText}>
-                  {this.props.custom.foodFee}
-                </Text>
-              </View>
-              {getMultiSlider(
-                [500],
-                100,
-                3000,
-                100,
-                valuesArray => this.props.actions.setFee(FOOD_FEE, valuesArray))}
+              <TitleWrapper
+                title1={I18n.t('Custom.foodFee')}
+                title2={this.props.custom.foodFee}
+              />
+              <MultiSliderWrapper
+                values={[500]}
+                min={400}
+                max={8000}
+                step={400}
+                onValuesChange={valuesArray => this.props.actions.setFee(FOOD_FEE, valuesArray)}
+              />
             </View>
             <View style={styles.option}>
-              <View style={styles.optionTextView}>
-                <Text style={styles.optionText}>{I18n.t('Custom.foodElement')}</Text>
-              </View>
+              <TitleWrapper
+                title1={I18n.t('Custom.foodElement')}
+              />
               <View style={styles.checkboxView}>
-                <ItemCheckbox
-                  style={{ marginRight: 10, height: 30 }}
+                <CheckboxWrapper
                   text={foodElement[0].label}
                   checked={this.props.custom.foodElement[0]}
-                  color="white"
-                  textStyle={{ fontWeight: 'bold' }}
-                  iconViewStyle={this.props.custom.foodElement[0] ?
-                                      { backgroundColor: MainStyle.color.weedGreen, borderWidth: 0 } :
-                                      null}
-                  onCheck={() => {
-                    this.props.actions.toggleFoodElement(0)
-                  }}
-                  onUncheck={() => {
-                    this.props.actions.toggleFoodElement(0)
-                  }}
+                  callback={() => this.props.actions.toggleFoodElement(0)}
                 />
-                <ItemCheckbox
-                  style={{ marginRight: 10, height: 30 }}
+                <CheckboxWrapper
                   text={I18n.t('Custom.bookRestaurant')}
                   checked={this.props.custom.bookRestaurant}
-                  color="white"
-                  textStyle={{ fontWeight: 'bold' }}
-                  iconViewStyle={this.props.custom.bookRestaurant ?
-                                      { backgroundColor: MainStyle.color.weedGreen, borderWidth: 0 } :
-                                      null}
-                  onCheck={() => {
-                    this.props.actions.toggleBookRestaurant()
-                  }}
-                  onUncheck={() => {
-                    this.props.actions.toggleBookRestaurant()
-                  }}
+                  callback={() => this.props.actions.toggleBookRestaurant()}
                 />
               </View>
               {this.props.custom.foodElement[0] ? null : (
                 <View style={styles.checkboxView}>
                   {foodElement.map((element, index) => (
                     index === 0 ? null :
-                      (<ItemCheckbox
-                        style={{ marginRight: 10, height: 30 }}
+                      (<CheckboxWrapper
                         text={element.label}
                         key={`hotelType_${element.key}`}
                         checked={this.props.custom.foodElement[index]}
-                        color="white"
-                        textStyle={{ fontWeight: 'bold' }}
-                        iconViewStyle={this.props.custom.foodElement[index] ?
-                                    { backgroundColor: MainStyle.color.weedGreen, borderWidth: 0 } :
-                                    null}
-                        onCheck={() => {
-                          this.props.actions.toggleFoodElement(index)
-                        }}
-                        onUncheck={() => {
-                          this.props.actions.toggleFoodElement(index)
-                        }}
-                      />)
-                  ))}
+                        callback={() => this.props.actions.toggleFoodElement(index)}
+                        />)))}
                 </View>)}
             </View>
             <View style={styles.option}>
-              <View style={styles.optionTextView}>
-                <Text style={styles.optionText}>{I18n.t('Custom.tripElement')}</Text>
-              </View>
-              <ItemCheckbox
-                style={{ marginRight: 10, height: 30, marginBottom: 10 }}
-                text={tripElement[0].label}
-                key={'tripElement_0'}
-                checked={this.props.custom.tripElement[0]}
-                color="white"
-                textStyle={{ fontWeight: 'bold' }}
-                iconViewStyle={this.props.custom.tripElement[0] ?
-                                      { backgroundColor: MainStyle.color.weedGreen, borderWidth: 0 } :
-                                      null}
-                onCheck={() => {
-                  this.props.actions.toggleTripElement(0)
-                }}
-                onUncheck={() => {
-                  this.props.actions.toggleTripElement(0)
-                }}
+              <TitleWrapper
+                title1={I18n.t('Custom.tripElement')}
               />
-              {
-                this.props.custom.tripElement[0] ? null : (
-                  tripAll.map((tripClass, tripClassIndex) => (
-                    <View
-                      style={styles.tripClassView}
-                      key={`tripClass_${tripClassIndex}`}
-                    >
-                      <Text style={styles.tripClassName}>{tripClass.name}</Text>
-                      <View style={styles.checkboxView}>
-                        {tripClass.element.map((element) => {
-                          const { key, label } = tripElement[element]
-                          return (
-                            <ItemCheckbox
-                              style={{ marginRight: 10, height: 30 }}
-                              text={label}
-                              key={`tripElement_${key}`}
-                              checked={this.props.custom.tripElement[key]}
-                              color="white"
-                              textStyle={{ fontWeight: 'bold' }}
-                              iconViewStyle={this.props.custom.tripElement[key] ?
-                          { backgroundColor: MainStyle.color.weedGreen, borderWidth: 0 } :
-                            null}
-                              onCheck={() => {
-                                this.props.actions.toggleTripElement(key)
-                              }}
-                              onUncheck={() => {
-                                this.props.actions.toggleTripElement(key)
-                              }}
-                            />)
-                        })}
-                      </View>
+              <CheckboxWrapper
+                style={{ marginBottom: 10 }}
+                text={tripElement[0].label}
+                checked={this.props.custom.tripElement[0]}
+                callback={() => this.props.actions.toggleTripElement(0)}
+              />
+              {this.props.custom.tripElement[0] ? null : (
+                tripAll.map((tripClass, tripClassIndex) => (
+                  <View
+                    style={styles.tripClassView}
+                    key={`tripClass_${tripClassIndex}`}
+                  >
+                    <Text style={styles.tripClassName}>{tripClass.name}</Text>
+                    <View style={styles.checkboxView}>
+                      {tripClass.element.map((element) => {
+                        const { key, label } = tripElement[element]
+                        return (
+                          <CheckboxWrapper
+                            text={label}
+                            key={`tripElement_${key}`}
+                            checked={this.props.custom.tripElement[key]}
+                            callback={() => this.props.actions.toggleTripElement(key)}
+                          />) })}
                     </View>
-                  )))
-              }
+                  </View>
+                )))}
             </View>
             <View style={styles.option}>
-              <View style={styles.optionTextView}>
-                <Text style={styles.optionText}>{I18n.t('Custom.otherDemand')}</Text>
-              </View>
+              <TitleWrapper
+                title1={I18n.t('Custom.otherDemand')}
+              />
               <View style={styles.textInputView}>
                 <TextInput
                   style={styles.textInput}
@@ -417,6 +319,62 @@ class Custom extends React.Component {
   }
 }
 
+class CheckboxWrapper extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.checked !== nextProps.checked
+  }
+  render() {
+    return (
+      <ItemCheckbox
+        style={[{ marginRight: 10, height: 30 }, this.props.style]}
+        text={this.props.text}
+        key={this.props.assignKey}
+        checked={this.props.checked}
+        color="white"
+        textStyle={{ fontWeight: 'bold' }}
+        iconViewStyle={this.props.checked ?
+                    { backgroundColor: MainStyle.color.weedGreen,
+                    borderWidth: 0 } :
+                  null}
+        onCheck={this.props.callback}
+        onUncheck={this.props.callback}
+      />
+    )
+  }
+}
+
+class MultiSliderWrapper extends React.Component {
+  render() {
+    return (
+      <MultiSlider
+        {...this.props}
+        sliderLength={Platform.OS === 'ios' ? width - 80 : width - 60}
+        trackStyle={styles.trackStyle}
+        selectedStyle={styles.selectedTrackStyle}
+        unselectedStyle={styles.unselectedTrackStyle}
+        markerStyle={styles.markerStyle}
+        pressedMarkerStyle={styles.pressedMarkerStyle}
+        style={styles.slider}
+      />
+    )
+  }
+}
+
+class TitleWrapper extends React.Component {
+  render() {
+    return (
+      <View style={styles.optionTextView}>
+        <Text style={styles.optionText}>
+          {this.props.title1}
+        </Text>
+        <Text style={styles.optionText}>
+          {this.props.title2}
+        </Text>
+      </View>
+    )
+  }
+}
+
 const getModelPicker = (data, initValue, onChange) => (
   <ModalPicker
     data={data}
@@ -432,23 +390,6 @@ const getModelPicker = (data, initValue, onChange) => (
     cancelText={I18n.t('Custom.cancel')}
     initValue={initValue}
     onChange={onChange} />
-)
-
-const getMultiSlider = (values, min, max, step, onValuesChange) => (
-  <MultiSlider
-    values={values}
-    min={min}
-    max={max}
-    step={step}
-    onValuesChange={onValuesChange}
-    sliderLength={Platform.OS === 'ios' ? width - 80 : width - 60}
-    trackStyle={styles.trackStyle}
-    selectedStyle={styles.selectedTrackStyle}
-    unselectedStyle={styles.unselectedTrackStyle}
-    markerStyle={styles.markerStyle}
-    pressedMarkerStyle={styles.pressedMarkerStyle}
-    style={styles.slider}
-  />
 )
 
 export default connect(mapStateToProps, mapDispatchToProps)(Custom)
