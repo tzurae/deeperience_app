@@ -12,7 +12,7 @@ import React from 'react'
 import { View, Image, Text } from 'react-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
-import AppIntro from '../../components/AppIntro'
+import AppIntro from '../AppIntro'
 import { Actions } from 'react-native-router-flux'
 import Button from 'react-native-button'
 import * as customActions from '../../reducers/custom/customActions'
@@ -96,7 +96,7 @@ class Introduction extends React.Component {
               <Button
                 onPress={() => {
                   this.props.actions.resetCustom()
-                  Actions.Custom()
+                  Actions.Custom({ fullMode: true })
                 }}
                 containerStyle={[styles.btnContainerStyle, { backgroundColor: '#12A5DB' }]}
                 style={styles.btnStyle}

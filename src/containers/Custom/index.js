@@ -69,11 +69,12 @@ class Custom extends React.Component {
           source={require('../../images/city.jpg')}
           style={styles.backgroundImg}
         />
-        <Header
-          headerText={I18n.t('Custom.custom')}
-          back={true}
-          onReturn={() => Actions.pop()}
-        />
+        {this.props.fullMode ? (
+          <Header
+            headerText={I18n.t('Custom.custom')}
+            back={true}
+            onReturn={() => Actions.pop()}
+          />) : null}
         <View style={styles.container}>
           <ScrollView style={styles.customView}>
             <View style={styles.option}>

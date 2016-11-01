@@ -43,6 +43,7 @@ export default function globalReducer(state = initialState, action) {
      */
     case LOGOUT_SUCCESS:
       return state.set('currentUser', null)
+                  .set('token', null)
 
     case SESSION_TOKEN_SUCCESS:
       appAuthToken.token = action.payload

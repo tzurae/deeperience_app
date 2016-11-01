@@ -7,6 +7,9 @@
 import InitialState from './customInitialState'
 
 const {
+
+  LOGOUT_SUCCESS,
+
   RESIDENT_FEE,
   TRIP_FEE,
   FOOD_FEE,
@@ -118,6 +121,7 @@ export default function authReducer(state = initialState, action) {
     case TOGGLE_NOT_SEND_YET:
       return state.set('notSendYet', !state.get('notSendYet'))
 
+    case LOGOUT_SUCCESS:
     case SET_STATE:
       return state
   }
