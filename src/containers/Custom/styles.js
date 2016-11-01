@@ -180,4 +180,20 @@ export default StyleSheet.create({
   calendarStyle: {
     backgroundColor: 'rgba(77,93,112,1)',
   },
+  weekdayView: {
+    paddingLeft: 8,
+    paddingRight: 8,
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    height: 40,
+    color: 'white',
+  },
+  weekdayTextView: {
+    flex: 1,
+    borderBottomWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'grey',
+  },
 })

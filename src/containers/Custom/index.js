@@ -59,6 +59,8 @@ class Custom extends React.Component {
     const start = new Date()
     start.setMonth(start.getMonth() + 23)
 
+    const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
     return (
       <View style={styles.outerContainer} >
         <Image
@@ -78,6 +80,13 @@ class Custom extends React.Component {
                 <Text style={styles.optionText}>
                   {getFormatDate(this.props.custom.startDate, this.props.custom.endDate)}
                 </Text>
+              </View>
+              <View style={styles.weekdayView}>
+                {weekDays.map((dayName, i) => (
+                  <View key={i} style={styles.weekdayTextView}>
+                    <Text style={{ color: 'white' }}>{dayName}</Text>
+                  </View>
+                ))}
               </View>
               <ScrollView style={styles.calendarView}>
                 <Calendar
