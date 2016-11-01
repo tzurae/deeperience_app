@@ -13,8 +13,9 @@ const {
 
   SET_STATE,
 
+  SET_PEOPLE,
   SET_FEE,
-  SET_DAY,
+  SET_TRIP_DATE,
   SET_TRIP_LOCATION,
   SET_TRIP_ELEMENT,
   TOGGLE_TRIP_ELEMENT,
@@ -23,6 +24,7 @@ const {
   SET_OTHER_DEMAND,
   RESET_CUSTOM,
   TOGGLE_BOOK_HOTEL,
+  TOGGLE_BOOK_RESTAURANT,
 } = require('../../lib/constants').default
 
 const initialState = new InitialState()
@@ -32,11 +34,13 @@ export default function authReducer(state = initialState, action) {
 
   const tripFee = state.getIn(['tripFee'])
   const residentFee = state.getIn(['residentFee'])
-  const day = state.getIn(['day'])
   const tripElement = state.getIn(['tripElement'])
   const hotelType = state.getIn(['hotelType'])
   const foodElement = state.getIn(['foodElement'])
   switch (action.type) {
+    case SET_PEOPLE:
+      return state.setIn(['people'], action.payload)
+
     case SET_FEE:
       if (action.payload.type === RESIDENT_FEE) {
         return state.setIn(['residentFee'], action.payload.fee)
@@ -47,14 +51,16 @@ export default function authReducer(state = initialState, action) {
                     .setIn(['allFee'], [(action.payload.fee[0] + residentFee[0]) * day,
                                         (action.payload.fee[1] + residentFee[1]) * day])
       } else if (action.payload.type === FOOD_FEE) {
-        return state.setIn(['foodFee'], action.payload.fee)
+        return state.setIn(['foodFee'], action.payload.fee[0])
       }
       return state
 
-    case SET_DAY:
-      return state.setIn(['day'], action.payload.day)
-                  .setIn(['allFee'], [(tripFee[0] + residentFee[0]) * action.payload.day,
-                                      (tripFee[1] + residentFee[1]) * action.payload.day])
+    case SET_TRIP_DATE:
+      const day = (action.payload.endDate - action.payload.startDate) / (24 * 3600 * 1000)
+      return state.setIn(['startDate'], action.payload.startDate)
+                  .setIn(['endDate'], action.payload.endDate)
+                  .setIn(['allFee'], [(tripFee[0] + residentFee[0]) * day,
+                                      (tripFee[1] + residentFee[1]) * day])
 
     case SET_TRIP_LOCATION:
       return state.setIn(['tripLocation'], action.payload.tripLocation)
@@ -89,6 +95,9 @@ export default function authReducer(state = initialState, action) {
 
     case TOGGLE_BOOK_HOTEL:
       return state.setIn(['bookHotel'], !state.getIn(['bookHotel']))
+
+    case TOGGLE_BOOK_RESTAURANT:
+      return state.setIn(['bookRestaurant'], !state.getIn(['bookRestaurant']))
 
     case SET_STATE:
       return state

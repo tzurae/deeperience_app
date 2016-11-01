@@ -17,11 +17,12 @@ import { width } from '../../lib/dimensions'
 import Header from '../../components/Header'
 import { Actions } from 'react-native-router-flux'
 import ModalPicker from 'react-native-modal-picker'
-import { dayData, hotelType, tripLocation, tripElement, tripAll, foodElement } from './options'
+import { hotelType, tripLocation, tripElement, tripAll, foodElement } from './options'
 import ItemCheckbox from '../../components/ItemCheckbox'
 import Button from 'react-native-button'
-import { validSubmit } from '../../reducers/custom/customHelper'
+import { validSubmit, getFormatDate } from '../../reducers/custom/customHelper'
 import SimpleAlert from 'react-native-simpledialog-android'
+import Calendar from '../../components/Calendar'
 
 const {
   RESIDENT_FEE,
@@ -55,6 +56,9 @@ function mapDispatchToProps(dispatch) {
 class Custom extends React.Component {
 
   render() {
+    const start = new Date()
+    start.setMonth(start.getMonth() + 23)
+
     return (
       <View style={styles.outerContainer} >
         <Image
@@ -70,12 +74,47 @@ class Custom extends React.Component {
           <ScrollView style={styles.customView}>
             <View style={styles.option}>
               <View style={styles.optionTextView}>
-                <Text style={styles.optionText}>{I18n.t('Custom.travelDay')}</Text>
+                <Text style={styles.optionText}>{I18n.t('Custom.tripDate')}</Text>
+                <Text style={styles.optionText}>
+                  {getFormatDate(this.props.custom.startDate, this.props.custom.endDate)}
+                </Text>
               </View>
-              {getModelPicker(
-                dayData,
-                I18n.t('Custom.chooseDay'),
-                option => this.props.actions.setDay(option.key))}
+              <ScrollView style={styles.calendarView}>
+                <Calendar
+                  monthsCount={24}
+                  startDate={start}
+                  onSelectionChange={(current, previous) => {
+                    if (current >= previous && this.props.custom.endDate === null) {
+                      this.props.actions.setTripDate(previous, current)
+                    } else {
+                      this.props.actions.setTripDate(null, null)
+                    }
+                  }}
+                />
+              </ScrollView>
+            </View>
+            <View style={styles.option}>
+              <View style={styles.optionTextView}>
+                <Text style={styles.optionText}>{I18n.t('Custom.tripPeople')}</Text>
+                <Text style={styles.optionText}>
+                  <Text style={styles.optionText}>
+                    {`${this.props.custom.people} `}
+                  </Text>
+                  <Text style={[styles.optionText,
+                                { fontSize: MainStyle.font.medium, fontWeight: 'bold' }]}
+                  >
+                    {this.props.custom.people === 1 ?
+                      `${I18n.t('Custom.person')}` :
+                      `${I18n.t('Custom.people')}`}
+                  </Text>
+                </Text>
+              </View>
+              {getMultiSlider(
+                [1],
+                1,
+                10,
+                1,
+                valuesArray => this.props.actions.setPeople(valuesArray[0]))}
             </View>
             <View style={styles.option}>
               <View style={styles.optionTextView}>
@@ -191,12 +230,12 @@ class Custom extends React.Component {
               <View style={styles.optionTextView}>
                 <Text style={styles.optionText}>{I18n.t('Custom.foodFee')}</Text>
                 <Text style={styles.optionText}>
-                  {`${this.props.custom.foodFee[0]}`}
+                  {this.props.custom.foodFee}
                 </Text>
               </View>
               {getMultiSlider(
                 [500],
-                0,
+                100,
                 3000,
                 100,
                 valuesArray => this.props.actions.setFee(FOOD_FEE, valuesArray))}
@@ -206,26 +245,62 @@ class Custom extends React.Component {
                 <Text style={styles.optionText}>{I18n.t('Custom.foodElement')}</Text>
               </View>
               <View style={styles.checkboxView}>
-                {foodElement.map((element, index) => (
-                  <ItemCheckbox
-                    style={{ marginRight: 10, height: 30 }}
-                    text={element.label}
-                    key={`hotelType_${element.key}`}
-                    checked={this.props.custom.foodElement[index]}
-                    color="white"
-                    textStyle={{ fontWeight: 'bold' }}
-                    iconViewStyle={this.props.custom.foodElement[index] ?
+                <ItemCheckbox
+                  style={{ marginRight: 10, height: 30 }}
+                  text={foodElement[0].label}
+                  checked={this.props.custom.foodElement[0]}
+                  color="white"
+                  textStyle={{ fontWeight: 'bold' }}
+                  iconViewStyle={this.props.custom.foodElement[0] ?
+                                      { backgroundColor: MainStyle.color.weedGreen, borderWidth: 0 } :
+                                      null}
+                  onCheck={() => {
+                    this.props.actions.toggleFoodElement(0)
+                  }}
+                  onUncheck={() => {
+                    this.props.actions.toggleFoodElement(0)
+                  }}
+                />
+                <ItemCheckbox
+                  style={{ marginRight: 10, height: 30 }}
+                  text={I18n.t('Custom.bookRestaurant')}
+                  checked={this.props.custom.bookRestaurant}
+                  color="white"
+                  textStyle={{ fontWeight: 'bold' }}
+                  iconViewStyle={this.props.custom.bookRestaurant ?
+                                      { backgroundColor: MainStyle.color.weedGreen, borderWidth: 0 } :
+                                      null}
+                  onCheck={() => {
+                    this.props.actions.toggleBookRestaurant()
+                  }}
+                  onUncheck={() => {
+                    this.props.actions.toggleBookRestaurant()
+                  }}
+                />
+              </View>
+              {this.props.custom.foodElement[0] ? null : (
+                <View style={styles.checkboxView}>
+                  {foodElement.map((element, index) => (
+                    index === 0 ? null :
+                      (<ItemCheckbox
+                        style={{ marginRight: 10, height: 30 }}
+                        text={element.label}
+                        key={`hotelType_${element.key}`}
+                        checked={this.props.custom.foodElement[index]}
+                        color="white"
+                        textStyle={{ fontWeight: 'bold' }}
+                        iconViewStyle={this.props.custom.foodElement[index] ?
                                     { backgroundColor: MainStyle.color.weedGreen, borderWidth: 0 } :
                                     null}
-                    onCheck={() => {
-                      this.props.actions.toggleFoodElement(index)
-                    }}
-                    onUncheck={() => {
-                      this.props.actions.toggleFoodElement(index)
-                    }}
-                  />
-                ))}
-              </View>
+                        onCheck={() => {
+                          this.props.actions.toggleFoodElement(index)
+                        }}
+                        onUncheck={() => {
+                          this.props.actions.toggleFoodElement(index)
+                        }}
+                      />)
+                  ))}
+                </View>)}
             </View>
             <View style={styles.option}>
               <View style={styles.optionTextView}>

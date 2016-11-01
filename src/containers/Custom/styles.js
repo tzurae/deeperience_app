@@ -173,4 +173,11 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  calendarView: {
+    flex: 1,
+    height: 250,
+  },
+  calendarStyle: {
+    backgroundColor: 'rgba(77,93,112,1)',
+  },
 })

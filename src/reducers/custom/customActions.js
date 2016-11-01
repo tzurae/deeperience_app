@@ -2,8 +2,9 @@
 'use strict'
 
 const {
+  SET_PEOPLE,
   SET_FEE,
-  SET_DAY,
+  SET_TRIP_DATE,
   SET_TRIP_LOCATION,
   SET_TRIP_ELEMENT,
   TOGGLE_TRIP_ELEMENT,
@@ -12,6 +13,7 @@ const {
   SET_OTHER_DEMAND,
   RESET_CUSTOM,
   TOGGLE_BOOK_HOTEL,
+  TOGGLE_BOOK_RESTAURANT,
 } = require('../../lib/constants').default
 
 export function setFee(type: string, fee: [number, number]) {
@@ -20,15 +22,6 @@ export function setFee(type: string, fee: [number, number]) {
     payload: {
       type,
       fee,
-    },
-  }
-}
-
-export function setDay(day: number) {
-  return {
-    type: SET_DAY,
-    payload: {
-      day,
     },
   }
 }
@@ -92,3 +85,26 @@ export function toggleBookHotel() {
     type: TOGGLE_BOOK_HOTEL,
   }
 }
+
+export function toggleBookRestaurant() {
+  return {
+    type: TOGGLE_BOOK_RESTAURANT,
+  }
+}
+
+export function setPeople(people: number) {
+  return {
+    type: SET_PEOPLE,
+    payload: people,
+  }
+}
+
+export function setTripDate(startDate: Date, endDate: Date) {
+  return {
+    type: SET_TRIP_DATE,
+    payload: {
+      startDate, endDate,
+    },
+  }
+}
+

@@ -116,8 +116,9 @@ export default keyMirror({
   SET_FIRST_TIME: null,
 
   // ----------custom---------
+  SET_PEOPLE: null,
   SET_FEE: null,
-  SET_DAY: null,
+  SET_TRIP_DATE: null,
   SET_TRIP_LOCATION: null,
   SET_TRIP_ELEMENT: null,
   TOGGLE_TRIP_ELEMENT: null,
@@ -126,6 +127,7 @@ export default keyMirror({
   SET_OTHER_DEMAND: null,
   RESET_CUSTOM: null,
   TOGGLE_BOOK_HOTEL: null,
+  TOGGLE_BOOK_RESTAURANT: null,
 
   RESIDENT_FEE: null,
   TRIP_FEE: null,

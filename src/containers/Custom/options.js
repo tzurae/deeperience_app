@@ -1,16 +1,3 @@
-export const dayData = [
-  { key: 1, label: '一天' },
-  { key: 2, label: '二天' },
-  { key: 3, label: '三天' },
-  { key: 4, label: '四天' },
-  { key: 5, label: '五天' },
-  { key: 6, label: '六天' },
-  { key: 7, label: '七天' },
-  { key: 8, label: '八天' },
-  { key: 9, label: '九天' },
-  { key: 10, label: '十天' },
-]
-
 export const hotelType = [
   { key: 0, label: '嚮導推薦' },
   { key: 1, label: '民宿' },
