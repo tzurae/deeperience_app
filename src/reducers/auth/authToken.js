@@ -13,9 +13,11 @@ import { auth as Config } from '../../config'
 export class AppAuthToken {
   constructor() {
     this.SESSION_TOKEN_KEY = Config.sessionTokenKey
+    this.token = null
   }
 
   storeSessionToken(sessionToken) {
+    this.token = sessionToken
     return localStorage(this.SESSION_TOKEN_KEY).save(sessionToken)
   }
   /**
@@ -32,7 +34,7 @@ export class AppAuthToken {
         .save(sessionToken)
         .then(() => localStorage(this.SESSION_TOKEN_KEY).load())
     }
-    return localStorage(this.SESSION_TOKEN_KEY).save(sessionToken)
+    return localStorage(this.SESSION_TOKEN_KEY).load(sessionToken)
   }
   /**
    * ### deleteSessionToken

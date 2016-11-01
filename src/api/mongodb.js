@@ -1,12 +1,12 @@
 'use strict'
 
 import apiInterface from './apiInterface'
-import { auth as Config } from '../config'
-
-const DOMAIN = Config.mongodb.domain
+import UniFetch from '../lib/uniFetch'
+import { appAuthToken } from '../reducers/auth/authToken'
 
 export default class Mongodb extends apiInterface {
   initAuth() {
+    return appAuthToken.getSessionToken()
   }
 
   getProvider(provider) {
@@ -16,40 +16,40 @@ export default class Mongodb extends apiInterface {
   }
 
   signup({ email, password, username }) {
-    return fetch(`${DOMAIN}/api/users`, {
+    return UniFetch({
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+      path: '/api/users',
+      body: {
         name: username,
         email, password,
-      }),
-    }).then(res => res.json())
-      .then(({ user }) => user)
+      },
+    }).then(({ user }) => user)
   }
 
   login({ email, password }) {
-    return fetch(`${DOMAIN}/api/users/login`, {
+    // return fetch('http://localhost:3000/api/users/login', {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     email, password,
+    //   }),
+    // }).then(res => res.json())
+    return UniFetch({
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+      path: '/api/users/login',
+      body: {
         email, password,
-      }),
-    }).then(res => res.json())
+      },
+    })
   }
 
   logout() {
-    return fetch(`${DOMAIN}/api/users/login`, {
+    return UniFetch({
       method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+      path: '/api/users/login',
     })
   }
 

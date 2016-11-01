@@ -18,8 +18,8 @@ const {
 
 const api = new ApiFactory()
 
-function saveSessionToken(token) {
-  return appAuthToken.storeSessionToken(token)
+function saveSessionToken(payload) {
+  return appAuthToken.storeSessionToken(payload)
 }
 
 function deleteSessionToken() {
@@ -35,11 +35,7 @@ export function* signUp(payload) {
     yield put(authActions.signupRequest())
     // user is a promise backed from firebase
     const user = yield call([api, api.signup], payload)
-    yield put(authActions.signupSuccess({
-      uid: user._id,
-      username: user.name,
-      email: user.email.value,
-    }))
+    yield put(authActions.signupSuccess(user))
     yield put(authActions.logoutState())
     Actions.pop()
   } catch (error) {
@@ -51,21 +47,21 @@ export function* signUp(payload) {
 // todo server not yet
 export function* initAuth() {
   try {
-    const user = yield call([api, api.initAuth])
-    if (user) {
-      yield put(authActions.loginSuccess({
-        uid: user.uid,
-        username: user.displayName,
-        email: user.email,
-        avatar: user.photoURL,
-      }))
+    yield put(authActions.sessionTokenRequest())
+    const { user, token } = yield call([api, api.initAuth])
+    if (user && token) {
+      yield put(authActions.loginSuccess(user))
+      yield put(authActions.sessionTokenRequestSuccess(token))
       yield put(authActions.logoutState())
     } else {
       yield put(authActions.loginState())
+      yield put(authActions.sessionTokenRequestFailure())
+      yield put(authActions.loginFailure('No token'))
     }
   } catch (error) {
     SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.loginError'))
     yield put(authActions.loginFailure(error))
+    yield put(authActions.sessionTokenRequestFailure())
   }
 }
 
@@ -89,12 +85,7 @@ export function* login(payload) {
     yield put(authActions.sessionTokenRequest())
     const { isAuth, token, user } = yield call([api, api.login], payload)
     if (isAuth && token) {
-      yield put(authActions.loginSuccess({
-        uid: user._id,
-        username: user.name,
-        email: user.email.value,
-        avatar: user.avatarURL,
-      }))
+      yield put(authActions.loginSuccess(user))
 
       saveSessionToken(token)
       yield put(authActions.sessionTokenRequestSuccess(token))

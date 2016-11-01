@@ -14,6 +14,10 @@ const {
   RESET_CUSTOM,
   TOGGLE_BOOK_HOTEL,
   TOGGLE_BOOK_RESTAURANT,
+  SEND_POST,
+  SEND_POST_REQUEST,
+  SEND_POST_SUCCESS,
+  SEND_POST_FAILURE,
 } = require('../../lib/constants').default
 
 export function setFee(type: string, fee: [number, number]) {
@@ -108,3 +112,30 @@ export function setTripDate(startDate: Date, endDate: Date) {
   }
 }
 
+export function sendPost(userId: String, body: any) {
+  return {
+    type: SEND_POST,
+    payload: {
+      userId, body,
+    },
+  }
+}
+
+export function sendPostRequest() {
+  return {
+    type: SEND_POST_REQUEST,
+  }
+}
+
+export function sendPostSuccess() {
+  return {
+    type: SEND_POST_SUCCESS,
+  }
+}
+
+export function sendPostFailure(error: any) {
+  return {
+    type: SEND_POST_FAILURE,
+    payload: error,
+  }
+}

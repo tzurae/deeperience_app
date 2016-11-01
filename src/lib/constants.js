@@ -129,6 +129,11 @@ export default keyMirror({
   TOGGLE_BOOK_HOTEL: null,
   TOGGLE_BOOK_RESTAURANT: null,
 
+  SEND_POST: null,
+  SEND_POST_REQUEST: null,
+  SEND_POST_SUCCESS: null,
+  SEND_POST_FAILURE: null,
+
   RESIDENT_FEE: null,
   TRIP_FEE: null,
   FOOD_FEE: null,

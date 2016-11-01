@@ -187,7 +187,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'stretch',
     height: 40,
-    color: 'white',
   },
   weekdayTextView: {
     flex: 1,

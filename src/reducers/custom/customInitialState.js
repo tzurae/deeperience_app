@@ -23,6 +23,9 @@ const InitialState = Record({
   bookRestaurant: true,
   startDate: null,
   endDate: null,
+
+  isFetching: false,
+  error: null,
 })
 export default InitialState
 

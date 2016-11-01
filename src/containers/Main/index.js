@@ -28,10 +28,7 @@ function mapStateToProps(state) {
         isFetching: state.auth.form.isFetching,
       },
     },
-    global: {
-      currentUser: state.global.currentUser,
-      showState: state.global.showState,
-    },
+    global: state.global,
     trip: {
       mainIsFetching: state.trip.main.isFetching,
       mainContent: state.trip.main.tripContent,

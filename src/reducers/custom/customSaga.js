@@ -9,12 +9,16 @@ const {
 
 export function* sendPost(payload) {
   try {
+    console.log(payload.userId)
+    console.log(payload.token)
     yield put(customActions.sendPostRequest())
     const res = yield UniFetch({
       method: 'POST',
-      path: `/api/posts/${payload.uid}`,
+      path: `/api/posts/${payload.userId}`,
       body: payload.body,
+      token: payload.token,
     })
+    console.log(res)
     if (res.finish && res.modify) {
       yield put(customActions.sendPostSuccess())
       // todo must change page

@@ -37,12 +37,12 @@ describe('signup', () => {
   })
 
   it('should signup successful', () => {
-    const username = 'fakeJohn'
+    const name = 'fakeJohn'
     const email = 'fake@gmail.com'
     const password = 'fake2134'
-    const uid = '1234'
-    const payload = { username, email, password }
-    const user = { _id: uid, name: username, email: { value: email } }
+    const _id = '1234'
+    const payload = { username: name, email, password }
+    const user = { _id, name, email: { value: email } }
 
     const gen = signUp(payload)
     let next = gen.next().value
@@ -53,7 +53,7 @@ describe('signup', () => {
 
     next = gen.next(user).value
     expect(next).to.deep.equal(
-      put(authActions.signupSuccess({ uid, username, email })))
+      put(authActions.signupSuccess(user)))
 
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.logoutState()))
@@ -70,34 +70,56 @@ describe('InitAuth', () => {
   })
 
   it('InitAuth with the user registered successful in our app ', () => {
-    const user = {
-      uid: 1234,
-      displayName: 'fakeYou',
-      email: 'fake@gmail.com',
-      photoURL: 'https://www.facebook.com',
+    const username = 'fakeJohn'
+    const email = 'fake@gmail.com'
+    const uid = '1234'
+    const avatar = 'https://www.facebook.com'
+    const token = 'asdasdasdasd'
+    const response = {
+      token,
+      user: {
+        _id: uid,
+        name: username,
+        email: {
+          value: email,
+        },
+        avatarURL: avatar,
+      },
     }
     const gen = initAuth()
     let next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequest()))
+
+    next = gen.next().value
     expect(next).to.deep.equal(call([api, api.initAuth]))
 
-    next = gen.next(user).value
-    expect(next).to.deep.equal(put(authActions.loginSuccess({
-      uid: user.uid,
-      username: user.displayName,
-      email: user.email,
-      avatar: user.photoURL,
-    })))
+    next = gen.next(response).value
+    expect(next).to.deep.equal(put(authActions.loginSuccess(response.user)))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequestSuccess(token)))
 
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.logoutState()))
   })
 
   it('InitAuth with the user unregistered', () => {
+    const response = {}
     const gen = initAuth()
     let next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequest()))
+
+    next = gen.next().value
     expect(next).to.deep.equal(call([api, api.initAuth]))
-    next = gen.next(false).value
+
+    next = gen.next(response).value
     expect(next).to.deep.equal(put(authActions.loginState()))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequestFailure()))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.loginFailure('No token')))
   })
 })
 
@@ -170,7 +192,7 @@ describe('login', () => {
 
     next = gen.next(response).value
     expect(next).to.deep.equal(
-      put(authActions.loginSuccess({ uid, username, email, avatar })))
+      put(authActions.loginSuccess(response.user)))
 
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.sessionTokenRequestSuccess(token)))

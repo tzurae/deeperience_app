@@ -4,6 +4,8 @@
  */
 'use strict'
 import InitialState from './globalInitialState'
+import { appAuthToken } from '../auth/authToken'
+
 const initialState = new InitialState()
 const {
   SIGNUP_SUCCESS,
@@ -43,8 +45,8 @@ export default function globalReducer(state = initialState, action) {
       return state.set('currentUser', null)
 
     case SESSION_TOKEN_SUCCESS:
+      appAuthToken.token = action.payload
       return state.set('token', action.payload)
-
     /**
      * ### sets the payload into the store
      *

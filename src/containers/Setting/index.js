@@ -21,9 +21,7 @@ const actions = [
 function mapStateToProps(state) {
   return {
     auth: state.auth,
-    global: {
-      currentUser: state.global.currentUser,
-    },
+    global: state.global,
   }
 }
 

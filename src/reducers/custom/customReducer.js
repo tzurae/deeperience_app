@@ -25,6 +25,10 @@ const {
   RESET_CUSTOM,
   TOGGLE_BOOK_HOTEL,
   TOGGLE_BOOK_RESTAURANT,
+
+  SEND_POST_REQUEST,
+  SEND_POST_SUCCESS,
+  SEND_POST_FAILURE,
 } = require('../../lib/constants').default
 
 const initialState = new InitialState()
@@ -99,6 +103,13 @@ export default function authReducer(state = initialState, action) {
     case TOGGLE_BOOK_RESTAURANT:
       return state.setIn(['bookRestaurant'], !state.getIn(['bookRestaurant']))
 
+    case SEND_POST_REQUEST:
+      return state.setIn(['isFetching'], true)
+    case SEND_POST_SUCCESS:
+      return state.setIn(['isFetching'], false)
+    case SEND_POST_FAILURE:
+      return state.setIn(['isFetching'], false)
+                  .setIn(['error'], action.payload)
     case SET_STATE:
       return state
   }

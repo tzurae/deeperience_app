@@ -6,6 +6,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as customActions from '../../reducers/custom/customActions'
+import * as authActions from '../../reducers/auth/authActions'
 import { Map } from 'immutable'
 import React from 'react'
 import { ScrollView, View, Text, Image, Platform, TextInput } from 'react-native'
@@ -32,12 +33,14 @@ const {
 
 const actions = [
   customActions,
+  authActions,
 ]
 
 function mapStateToProps(state) {
   return {
     device: state.device,
     custom: state.custom,
+    global: state.global,
   }
 }
 
@@ -54,6 +57,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 class Custom extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.props.actions.initAuth()
+  }
 
   render() {
     const start = new Date()
@@ -387,9 +395,18 @@ class Custom extends React.Component {
                 activeOpacity={0.7}
                 style={styles.btn}
                 onPress={() => {
-                  const valid = validSubmit(this.props.custom)
-                  if (valid === 0) Actions.LoginMain()
-                  else SimpleAlert.alert(I18n.t('Custom.advice'), valid)
+                  // const valid = validSubmit(this.props.custom)
+                  const valid = 0
+                  if (valid === 0) {
+                    if (this.props.global.currentUser) {
+                      this.props.actions.sendPost(
+                        this.props.global.currentUser._id,
+                        this.props.custom,
+                      )
+                    } else {
+                      Actions.LoginMain({ sendPost: true })
+                    }
+                  } else SimpleAlert.alert(I18n.t('Custom.advice'), valid)
                 }}
               >{I18n.t('Custom.submit')}</Button>
             </View>
