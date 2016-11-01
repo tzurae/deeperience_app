@@ -29,6 +29,8 @@ const {
   SEND_POST_REQUEST,
   SEND_POST_SUCCESS,
   SEND_POST_FAILURE,
+
+  TOGGLE_NOT_SEND_YET,
 } = require('../../lib/constants').default
 
 const initialState = new InitialState()
@@ -112,6 +114,10 @@ export default function authReducer(state = initialState, action) {
     case SEND_POST_FAILURE:
       return state.set('isFetching', false)
                   .set('error', action.payload)
+
+    case TOGGLE_NOT_SEND_YET:
+      return state.set('notSendYet', !state.get('notSendYet'))
+
     case SET_STATE:
       return state
   }

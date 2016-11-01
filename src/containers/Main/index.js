@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 import * as authActions from '../../reducers/auth/authActions'
 import * as globalActions from '../../reducers/global/globalActions'
 import * as tripActions from '../../reducers/trip/tripActions'
+import * as mainActions from '../../reducers/main/mainActions'
+import * as customActions from '../../reducers/custom/customActions'
+import { setFirstTimeStorage } from '../../reducers/main/mainStorage'
 import { Map } from 'immutable'
 import { Actions } from 'react-native-router-flux'
 import React, { Component } from 'react'
@@ -19,6 +22,8 @@ const actions = [
   authActions,
   globalActions,
   tripActions,
+  mainActions,
+  customActions,
 ]
 
 function mapStateToProps(state) {
@@ -33,6 +38,8 @@ function mapStateToProps(state) {
       mainIsFetching: state.trip.main.isFetching,
       mainContent: state.trip.main.tripContent,
     },
+    main: state.main,
+    custom: state.custom,
   }
 }
 
@@ -56,7 +63,13 @@ class Main extends Component {
   }
 
   componentWillMount() {
-    this.props.actions.initAuth()
+    if (this.props.main.firstTime) {
+      this.props.actions.setFirstTime()
+      setFirstTimeStorage()
+    }
+    if (this.props.custom.notSendYet) {
+      this.props.actions.sendPost(this.props.global.currentUser._id, this.props.custom)
+    }
   }
 
   render() {

@@ -27,16 +27,6 @@ export default class Mongodb extends apiInterface {
   }
 
   login({ email, password }) {
-    // return fetch('http://localhost:3000/api/users/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     email, password,
-    //   }),
-    // }).then(res => res.json())
     return UniFetch({
       method: 'POST',
       path: '/api/users/login',

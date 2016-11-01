@@ -27,6 +27,7 @@ const InitialState = Record({
   day: 0,
   isFetching: false,
   error: null,
+  notSendYet: false,
 })
 export default InitialState
 

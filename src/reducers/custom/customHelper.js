@@ -13,7 +13,7 @@ export function validSubmit(state) {
   } else if (state.startDate === null || state.endDate === null) {
     return I18n.t('Custom.noFillTripDate')
   } else {
-    return 0
+    return ''
   }
 }
 

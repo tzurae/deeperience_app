@@ -3,6 +3,7 @@ import { expect } from 'chai'
 import * as authActions from '../authActions'
 import ApiFactory from '../../../api/apiFactory'
 import UserModel from '../../../model/UserModel'
+import { appAuthToken } from '../authToken'
 import {
   watchSignUp,
   watchLogin,
@@ -43,6 +44,8 @@ describe('signup', () => {
     const _id = '1234'
     const payload = { username: name, email, password }
     const user = { _id, name, email: { value: email } }
+    const token = 'asdasda'
+    const response = { token }
 
     const gen = signUp(payload)
     let next = gen.next().value
@@ -52,8 +55,19 @@ describe('signup', () => {
     expect(next).to.deep.equal(call([api, api.signup], payload))
 
     next = gen.next(user).value
-    expect(next).to.deep.equal(
-      put(authActions.signupSuccess(user)))
+    expect(next).to.deep.equal(put(authActions.signupSuccess(user)))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequest()))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(call([api, api.login], payload))
+
+    next = gen.next(response).value
+    expect(next).to.deep.equal(appAuthToken.storeSessionToken({ user, token }))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequestSuccess(token)))
 
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.logoutState()))

@@ -58,15 +58,9 @@ function mapDispatchToProps(dispatch) {
 
 class Custom extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.props.actions.initAuth()
-  }
-
   render() {
     const start = new Date()
     start.setMonth(start.getMonth() + 23)
-
     const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
     return (
@@ -297,16 +291,15 @@ class Custom extends React.Component {
                 activeOpacity={0.7}
                 style={styles.btn}
                 onPress={() => {
-                  // const valid = validSubmit(this.props.custom)
-                  const valid = 0
-                  if (valid === 0) {
+                  const valid = validSubmit(this.props.custom)
+                  if (valid === '') {
                     if (this.props.global.currentUser) {
                       this.props.actions.sendPost(
                         this.props.global.currentUser._id,
                         this.props.custom,
                       )
                     } else {
-                      Actions.LoginMain({ sendPost: true })
+                      Actions.LoginMain()
                     }
                   } else SimpleAlert.alert(I18n.t('Custom.advice'), valid)
                 }}

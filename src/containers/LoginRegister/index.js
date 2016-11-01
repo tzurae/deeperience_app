@@ -8,6 +8,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as authActions from '../../reducers/auth/authActions'
+import * as customActions from '../../reducers/custom/customActions'
 import { Map } from 'immutable'
 import LoginRegisterRender from '../../components/LoginRegisterRender'
 import React from 'react'
@@ -21,6 +22,7 @@ const {
 
 const actions = [
   authActions,
+  customActions,
 ]
 
 function mapStateToProps(state) {
@@ -31,6 +33,10 @@ function mapStateToProps(state) {
       password: state.auth.form.fields.password,
     },
     global: state.global,
+    custom: {
+      startDate: state.custom.startDate,
+      endDate: state.custom.endDate,
+    },
   }
 }
 
@@ -60,6 +66,10 @@ class LoginRegister extends React.Component {
                 this.props.auth.username,
                 this.props.auth.email,
                 this.props.auth.password)
+              if (this.props.custom.startDate && this.props.custom.endDate) {
+                // means there exists post
+                this.props.actions.toggleNotSendYet()
+              }
             }}
           />
         )

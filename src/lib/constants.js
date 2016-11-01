@@ -137,4 +137,6 @@ export default keyMirror({
   RESIDENT_FEE: null,
   TRIP_FEE: null,
   FOOD_FEE: null,
+
+  TOGGLE_NOT_SEND_YET: null,
 })

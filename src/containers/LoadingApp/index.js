@@ -2,6 +2,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as mainActions from '../../reducers/main/mainActions'
+import * as authActions from '../../reducers/auth/authActions'
 import { Map } from 'immutable'
 import React from 'react'
 import styles from './styles'
@@ -10,6 +11,7 @@ import * as Animatable from 'react-native-animatable'
 
 const actions = [
   mainActions,
+  authActions,
 ]
 
 function mapDispatchToProps(dispatch) {
@@ -27,7 +29,7 @@ function mapDispatchToProps(dispatch) {
 class LoadingApp extends React.Component {
 
   componentDidMount() {
-    this.props.actions.loadApp()
+    this.props.actions.initAuth()
   }
 
   render() {

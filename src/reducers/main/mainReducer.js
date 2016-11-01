@@ -14,7 +14,7 @@ const {
 
 const initialState = new InitialState()
 
-export default function authReducer(state = initialState, action) {
+export default function mainReducer(state = initialState, action) {
   if (!(state instanceof InitialState)) return initialState.mergeDeep(state)
 
   switch (action.type) {

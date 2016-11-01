@@ -18,6 +18,7 @@ const {
   SEND_POST_REQUEST,
   SEND_POST_SUCCESS,
   SEND_POST_FAILURE,
+  TOGGLE_NOT_SEND_YET,
 } = require('../../lib/constants').default
 
 export function setFee(type: string, fee: [number, number]) {
@@ -137,5 +138,18 @@ export function sendPostFailure(error: any) {
   return {
     type: SEND_POST_FAILURE,
     payload: error,
+  }
+}
+/**
+ * ###
+ * if send post when enter the app first time and later signup
+ * we use this action to set notSendYet flag to true
+ * later when we finally enter the app in the main page,
+ *  we toggle again the flag and then send the post
+ */
+// if send when and later
+export function toggleNotSendYet() {
+  return {
+    type: TOGGLE_NOT_SEND_YET,
   }
 }

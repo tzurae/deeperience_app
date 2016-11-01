@@ -1,5 +1,7 @@
 import { call, fork, take, put } from 'redux-saga/effects'
 import * as authActions from './authActions'
+import * as mainActions from '../main/mainActions'
+import { getMainStorage } from '../main/mainStorage'
 import ApiFactory from '../../api/apiFactory'
 import UserModel from '../../model/UserModel'
 import { Actions } from 'react-native-router-flux'
@@ -26,42 +28,50 @@ function deleteSessionToken() {
   return appAuthToken.deleteSessionToken()
 }
 
-// function getSessionToken() {
-//   return appAuthToken.getSessionToken()
-// }
-
 export function* signUp(payload) {
   try {
     yield put(authActions.signupRequest())
-    // user is a promise backed from firebase
     const user = yield call([api, api.signup], payload)
     yield put(authActions.signupSuccess(user))
+
+    yield put(authActions.sessionTokenRequest())
+    const { token } = yield call([api, api.login], payload)
+    yield saveSessionToken({ user, token })
+    yield put(authActions.sessionTokenRequestSuccess(token))
+
     yield put(authActions.logoutState())
-    Actions.pop()
+    Actions.Main()
   } catch (error) {
     SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.signupError'))
     yield put(authActions.signupFailure(error))
   }
 }
 
-// todo server not yet
 export function* initAuth() {
-  try {
-    yield put(authActions.sessionTokenRequest())
-    const { user, token } = yield call([api, api.initAuth])
-    if (user && token) {
-      yield put(authActions.loginSuccess(user))
-      yield put(authActions.sessionTokenRequestSuccess(token))
-      yield put(authActions.logoutState())
-    } else {
-      yield put(authActions.loginState())
+  const { firstTime } =  yield getMainStorage()
+  if (firstTime === undefined || firstTime === true) {
+    setTimeout(() => Actions.Introduction(), 4000)
+  } else {
+    try {
+      yield put(mainActions.setFirstTime())
+      yield put(authActions.sessionTokenRequest())
+      const { user, token } = yield call([api, api.initAuth]) // hasn't deal with expiration problem
+      if (token) {
+        yield put(authActions.loginSuccess(user))
+        yield put(authActions.sessionTokenRequestSuccess(token))
+        yield put(authActions.logoutState())
+        setTimeout(() => Actions.Main(), 4000)
+      } else {
+        yield put(authActions.loginState())
+        yield put(authActions.sessionTokenRequestFailure())
+        yield put(authActions.loginFailure('No token'))
+        setTimeout(() => Actions.LoginMain({ back: false }), 4000)
+      }
+    } catch (error) {
+      SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.loginError'))
+      yield put(authActions.loginFailure(error))
       yield put(authActions.sessionTokenRequestFailure())
-      yield put(authActions.loginFailure('No token'))
     }
-  } catch (error) {
-    SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.loginError'))
-    yield put(authActions.loginFailure(error))
-    yield put(authActions.sessionTokenRequestFailure())
   }
 }
 
@@ -87,11 +97,10 @@ export function* login(payload) {
     if (isAuth && token) {
       yield put(authActions.loginSuccess(user))
 
-      saveSessionToken(token)
+      saveSessionToken({ user, token })
       yield put(authActions.sessionTokenRequestSuccess(token))
       yield put(authActions.logoutState())
-      // must redirect
-      Actions.pop()
+      Actions.Main()
     } else {
       SimpleAlert.alert(I18n.t('AuthMessage.error'), I18n.t('AuthMessage.loginError'))
       yield put(authActions.sessionTokenRequestFailure())
