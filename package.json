@@ -13,7 +13,7 @@
     ],
     "collectCoverage": true,
     "testPathIgnorePatterns": [
-      "/src/reducers/auth/(.*SagaTest.js)",
+      "/src/reducers/auth/(.*Saga-test.js)",
       "/node_modules/"
     ],
     "moduleFileExtensions": [
@@ -38,7 +38,7 @@
   "scripts": {
     "test": "jest && npm run mocha",
     "jw": "./node_modules/.bin/jest --watch -o",
-    "mocha": "node_modules/.bin/mocha --require testHelper.js --compilers js:babel-core/register src/reducers/auth/__tests__/authSagaTest.js",
+    "mocha": "node_modules/.bin/mocha --require testHelper.js --compilers js:babel-core/register src/reducers/*/__tests__/*Saga-test.js",
     "flow": "flow",
     "precommit": "npm run lint && flow && npm run test",
     "start": "react-native start",
