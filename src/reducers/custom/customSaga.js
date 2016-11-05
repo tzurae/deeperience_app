@@ -11,9 +11,10 @@ export function* sendPost(payload) {
     yield put(customActions.sendPostRequest())
     const res = yield UniFetch({
       method: 'POST',
-      path: `/api/posts/${payload.userId}`,
+      path: '/api/posts',
       body: payload.body,
     })
+    console.log(res)
     if (res.finish && res.modify) {
       yield put(customActions.sendPostSuccess())
     } else {

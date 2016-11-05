@@ -1,9 +1,11 @@
 import { put, call, take, fork } from 'redux-saga/effects'
 import { expect } from 'chai'
 import * as authActions from '../authActions'
+import * as mainActions from '../../main/mainActions'
 import ApiFactory from '../../../api/apiFactory'
 import UserModel from '../../../model/UserModel'
 import { appAuthToken } from '../authToken'
+import { getMainStorage } from '../../main/mainStorage'
 import {
   watchSignUp,
   watchLogin,
@@ -100,8 +102,15 @@ describe('InitAuth', () => {
         avatarURL: avatar,
       },
     }
+    const mainStorage = { firstTime: false }
     const gen = initAuth()
     let next = gen.next().value
+    expect(next).to.deep.equal(getMainStorage())
+
+    next = gen.next(mainStorage).value
+    expect(next).to.deep.equal(put(mainActions.setFirstTime()))
+
+    next = gen.next().value
     expect(next).to.deep.equal(put(authActions.sessionTokenRequest()))
 
     next = gen.next().value
@@ -119,8 +128,15 @@ describe('InitAuth', () => {
 
   it('InitAuth with the user unregistered', () => {
     const response = {}
+    const mainStorage = { firstTime: false }
     const gen = initAuth()
     let next = gen.next().value
+    expect(next).to.deep.equal(getMainStorage())
+
+    next = gen.next(mainStorage).value
+    expect(next).to.deep.equal(put(mainActions.setFirstTime()))
+
+    next = gen.next().value
     expect(next).to.deep.equal(put(authActions.sessionTokenRequest()))
 
     next = gen.next().value

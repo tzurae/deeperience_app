@@ -25,3 +25,27 @@ export function getFormatDate(start, end) {
     return `${startStr} - ${endStr}`
   }
 }
+
+export function formatSendData(props) {
+  // const allowedAttributes = [
+  //   'people', 'residentFee', 'tripFee', 'allFee',
+  //   'foodFee', 'hotelType', 'tripLocation', 'tripElement',
+  //   'foodElement', 'otherDemand', 'bookHotel', 'bookRestaurant',
+  //   'startDate', 'endDate',
+  // ]
+  const post = {}
+  Object
+    .keys(props)
+    .forEach((attr) => {
+      post[attr] = props[attr]
+    })
+  const attrChange = ['hotelType', 'tripElement', 'foodElement']
+  attrChange.forEach(attr => {
+    post[attr] = []
+    console.log(props[attr])
+    props[attr].forEach((value, index) => {
+      if (value) post[attr].push(index)
+    })
+  })
+  return post
+}

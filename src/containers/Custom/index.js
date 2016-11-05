@@ -21,7 +21,7 @@ import ModalPicker from 'react-native-modal-picker'
 import { hotelType, tripLocation, tripElement, tripAll, foodElement } from './options'
 import ItemCheckbox from '../../components/ItemCheckbox'
 import Button from 'react-native-button'
-import { validSubmit, getFormatDate } from '../../reducers/custom/customHelper'
+import { validSubmit, getFormatDate, formatSendData } from '../../reducers/custom/customHelper'
 import SimpleAlert from 'react-native-simpledialog-android'
 import Calendar from '../../components/Calendar'
 
@@ -297,7 +297,7 @@ class Custom extends React.Component {
                     if (this.props.global.currentUser) {
                       this.props.actions.sendPost(
                         this.props.global.currentUser._id,
-                        this.props.custom,
+                        formatSendData(this.props.custom),
                       )
                     } else {
                       Actions.LoginMain()
