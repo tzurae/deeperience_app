@@ -8,8 +8,8 @@ export default StyleSheet.create({
   },
   displayInfoCard: {
     flex: 1,
-    paddingLeft: 12,
-    paddingRight: 12,
+    paddingLeft: 15,
+    paddingRight: 15,
     ios: {
       paddingTop: 5,
       paddingBottom: 5,

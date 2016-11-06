@@ -5,6 +5,7 @@ import { View, ScrollView, Text } from 'react-native'
 import I18n from '../../../lib/i18n'
 import HTMLContent from '../../HTMLContent'
 import Loading from '../../../components/Loading'
+import { width } from '../../../lib/dimensions'
 
 class DisplayInfo extends React.PureComponent {
 
@@ -39,7 +40,10 @@ class DisplayInfo extends React.PureComponent {
                   <Text style={styles.displayInfoTitle}>
                     {this.props.title}
                   </Text>
-                  <HTMLContent value={this.props.introduction}/>
+                  <HTMLContent
+                    width={width - 30}
+                    value={this.props.introduction}
+                  />
                 </ScrollView>
               )
             case 1:

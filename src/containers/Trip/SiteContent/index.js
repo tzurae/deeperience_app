@@ -12,13 +12,10 @@ import { View, Text, ScrollView, BackAndroid } from 'react-native'
 import Header from '../../../components/Header'
 import styles from './styles'
 import { Actions } from 'react-native-router-flux'
-import { Player } from 'react-native-audio-toolkit'
 import TouchableIcon from '../../../components/TouchableIcon'
 import HTMLContent from '../../../components/HTMLContent'
-import AudioContainer from '../../../components/Trip/AudioContainer'
 import MapContainer from '../../../components/Trip/MapContainer'
-import Dimensions from 'Dimensions'
-const { width } = Dimensions.get('window')
+import { width } from '../../../lib/dimensions'
 
 const actions = [
   tripActions,
@@ -39,11 +36,8 @@ function mapStateToProps(state) {
       heading: state.trip.mapInfo.heading,
       markers: state.trip.mapInfo.markers,
       polyline: state.trip.mapInfo.polyline,
-      audioDuration: state.trip.mapInfo.audioDuration,
       distance: state.trip.mapInfo.distance,
       address: state.trip.mapInfo.address,
-      audioPosition: state.trip.mapInfo.audioPosition,
-      audioURL: state.trip.mapInfo.audioURL,
       mapDisplayMode: state.trip.mapInfo.mapDisplayMode,
       contentDisplayMode: state.trip.mapInfo.contentDisplayMode,
       displayDay: state.trip.displayInfo.displayDay,
@@ -68,24 +62,9 @@ class SiteContent extends React.Component {
 
   componentWillMount() {
     BackAndroid.removeEventListener('hardwareBackPress', () => this.onReturn())
-
-    const dispatchSite = this.props.trip.tripInfo[this.props.trip.displayDay].sites[this.props.trip.displayWhich]
-
-    return new Promise((resolve) => {
-      this.props.actions.setMapInfo(dispatchSite)
-      this.props.actions.setAudio({
-        audioURL: dispatchSite.content.audioURL,
-        audioPosition: 0,
-      })
-      resolve()
-    }).then(() => {
-      setTimeout(() => {
-        this.prepareAudio().then(res => {
-          this.props.actions.setAudio(res)
-        }).then(() => this.props.actions.setMapInfoSuccess())
-          .catch(err => this.props.actions.setMapInfoFailure(err))
-      }, 100) // because this action takes time to finish, so we must make it asynchronous
-    })
+    const dispatchSite = this.props.trip.tripInfo[this.props.trip.displayDay]
+      .sites[this.props.trip.displayWhich]
+    this.props.actions.setMapInfo(dispatchSite)
   }
 
   componentDidMount() {
@@ -93,33 +72,9 @@ class SiteContent extends React.Component {
   }
 
   onReturn() {
-    clearInterval(this.timerId)
     if (this.props.trip.contentDisplayMode === true) {
       this.props.actions.toggleContentMode()
     }
-    if (this.audioPlayer) {
-      this.audioPlayer.destroy((success) => {
-        this.props.actions.resetAudio()
-      })
-    }
-  }
-
-  prepareAudio() {
-    return new Promise((resolve, reject) => {
-      this.audioPlayer =
-        new Player(this.props.trip.audioURL,
-          { autoDestroy: false }
-        ).prepare(err => {
-          if (err === null) resolve({ audioDuration: this.audioPlayer.duration })
-          else reject(err)
-        })
-
-      this.timerId = null
-      this.audioPlayer.on('ended', () => {
-        clearInterval(this.timerId)
-        this.props.actions.setAudio({ audioPosition: 0 })
-      })
-    })
   }
 
   onMarkerPress({ name, introduction, position }) {
@@ -133,38 +88,6 @@ class SiteContent extends React.Component {
     }
   }
 
-  onPausePress() {
-    if (this.audioPlayer) {
-      this.audioPlayer.pause((success) => {
-        if (success === null) clearInterval(this.timerId)
-      })
-    }
-  }
-
-  onPlayPress() {
-    if (this.audioPlayer) {
-      this.audioPlayer.play((success) => {
-        clearInterval(this.timerId)
-        // for ios, since the duration equals -1 in the constructor,
-        // so we miust set the duration here for ios
-        this.props.actions.setAudio({
-          audioDuration: Math.floor(this.audioPlayer.duration),
-        })
-        this.timerId = setInterval(() => {
-          this.props.actions.setAudio({
-            audioPosition: this.audioPlayer.currentTime,
-          })
-        }, 250)
-      })
-    }
-  }
-
-  audioPlay(percent) {
-    this.audioPlayer.seek(percent * this.props.trip.audioDuration, () => {
-      this.onPlayPress()
-    })
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -175,15 +98,7 @@ class SiteContent extends React.Component {
             Actions.pop()
           }}
         />
-        <AudioContainer
-          title={this.props.trip.mainTitle}
-          position={this.props.trip.audioPosition}
-          duration={this.props.trip.audioDuration}
-          onPlayPress={() => this.onPlayPress()}
-          onPausePress={() => this.onPausePress()}
-          onSlidingStart={() => clearInterval(this.timerId)}
-          onSlidingComplete={(value) => this.audioPlay(value)}
-        />
+        <Button></Button>
         <MapContainer
           displayMode={this.props.trip.mapDisplayMode}
           lat={this.props.trip.pos.lat}
