@@ -1,73 +1,43 @@
-import { call, fork, take, put } from 'redux-saga/effects'
+import { fork, take, put } from 'redux-saga/effects'
 import * as tripActions from './tripActions'
-import ApiFactory from '../../api/apiFactory'
 import I18n from '../../lib/i18n'
-import _ from 'underscore'
 import { auth } from '../../config'
 import { calculateTripInfo, convertPolyline, setSiteStatusStorage } from './tripHelper'
 import storageEngine from '../../lib/localStorage'
+import UniFetch from '../../lib/uniFetch'
 
 const {
-  GET_ALL_TRIP,
-  GET_TRIP_CONTENT,
+  GET_BUY_TRIP,
+  SET_TRIP_CONTENT,
   GET_DISPLAY_INFO_DIRECTION_START,
   SET_MAP_DIRECTION,
 } = require('../../lib/constants').default
 
-const api = new ApiFactory()
-
-export function* getAllTrip(payload) {
+export function* getBuyTrip() {
   try {
-    const tempAllTrip = yield api.readDataBaseOnce('/trips/')
-      .then(res => {
-        const allTrip = []
-        _.each(res, (value, key) => {
-          allTrip.push({ ...value, tripKey: key })
-        })
-        return allTrip
-      })
-
-    const allTrip = []
-    const tripGuide = tempAllTrip.map((trip) => api.readDataBaseOnce(`/users/${trip.guideId}`))
-
-    const guide = yield Promise.all(tripGuide).then(guides => {
-      tempAllTrip.forEach((trip, index) => {
-        allTrip.push({
-          ...trip,
-          guideInfo: guides[index],
-        })
-      })
-      return allTrip
+    const tripData = yield UniFetch({
+      method: 'GET',
+      path: '/api/trips/buy',
     })
-
-    yield put(tripActions.getAllTripSuccess(guide))
+    yield put(tripActions.getBuyTripSuccess(tripData.buyTrip))
   } catch (err) {
-    yield put(tripActions.getAllTripFailure(err))
+    yield put(tripActions.getBuyTripFailure(err))
   }
 }
 
-export function* getTripContentById(payload) {
+export function* setTripContent(tripContent) {
   try {
-    const { tripId } = payload
-    const tripContent = yield call([api, api.readDataBaseOnce], `/trips/${tripId}`)
-    yield put(tripActions.getTripContentSuccess(tripContent))
-
-    const allSitesKey = tripContent.allSites
-    const { routes, startSites } = tripContent
-    const promiseAllSite = allSitesKey.map((key) => api.readDataBaseOnce(`/site/${key}`))
-
-    const allSites = yield Promise.all(promiseAllSite)
-      .then(sites => {
-        const allSites = {}
-        sites.forEach((site, index) => {
-          allSites[allSitesKey[index]] = site
-        })
-        return allSites
-      })
-
-    const tripInfo = calculateTripInfo(routes, startSites, allSites)
-    yield put(tripActions.setSiteContentSuccess(tripInfo))
-
+    const { routes, startSite, sites } = tripContent
+    const allSites = {}
+    sites.forEach(site => {
+      allSites[site._id] = site
+    })
+    const tripInfo = calculateTripInfo(routes, startSite, allSites)
+    yield put(tripActions.setTripContentSuccess({
+      tripContent,
+      tripInfo,
+    }))
+    const tripId = tripContent._id
     const loadData = yield storageEngine(tripId).load()
     if (!loadData.siteStatus) {
       yield setSiteStatusStorage(tripId, tripInfo.siteStatus)
@@ -75,8 +45,35 @@ export function* getTripContentById(payload) {
       yield put(tripActions.setSiteStatus(loadData.siteStatus))
       yield setSiteStatusStorage(tripId, loadData.siteStatus)
     }
+
+    // const tripContent = yield call([api, api.readDataBaseOnce], `/trips/${tripId}`)
+    // yield put(tripActions.getTripContentSuccess(tripContent))
+    //
+    // const allSitesKey = tripContent.allSites
+    // const { routes, startSites } = tripContent
+    // const promiseAllSite = allSitesKey.map((key) => api.readDataBaseOnce(`/site/${key}`))
+    //
+    // const allSites = yield Promise.all(promiseAllSite)
+    //   .then(sites => {
+    //     const allSites = {}
+    //     sites.forEach((site, index) => {
+    //       allSites[allSitesKey[index]] = site
+    //     })
+    //     return allSites
+    //   })
+    //
+    // const tripInfo = calculateTripInfo(routes, startSites, allSites)
+    // yield put(tripActions.setSiteContentSuccess(tripInfo))
+    //
+    // const loadData = yield storageEngine(tripId).load()
+    // if (!loadData.siteStatus) {
+    //   yield setSiteStatusStorage(tripId, tripInfo.siteStatus)
+    // } else {
+    //   yield put(tripActions.setSiteStatus(loadData.siteStatus))
+    //   yield setSiteStatusStorage(tripId, loadData.siteStatus)
+    // }
   } catch (err) {
-    yield put(tripActions.getTripContentFailure(err))
+    yield put(tripActions.setTripContentFailure(err))
   }
 }
 
@@ -187,17 +184,17 @@ export function* setMapDirection(payload) {
  * Watchers
  */
 
-export function* watchGetAllTrip() {
+export function* watchGetBuyTrip() {
   while (true) {
-    yield take(GET_ALL_TRIP)
-    yield fork(getAllTrip)
+    yield take(GET_BUY_TRIP)
+    yield fork(getBuyTrip)
   }
 }
 
-export function* watchGetTripContentById() {
+export function* watchSetTripContent() {
   while (true) {
-    const { payload } = yield take(GET_TRIP_CONTENT)
-    yield fork(getTripContentById, payload)
+    const { payload } = yield take(SET_TRIP_CONTENT)
+    yield fork(setTripContent, payload)
   }
 }
 
@@ -216,8 +213,8 @@ export function* watchSetMapDirection() {
 }
 
 export default [
-  fork(watchGetAllTrip),
-  fork(watchGetTripContentById),
+  fork(watchGetBuyTrip),
+  fork(watchSetTripContent),
   fork(watchGetDisplayInfoDirection),
   fork(watchSetMapDirection),
 ]

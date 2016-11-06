@@ -110,21 +110,19 @@ class LoginMain extends React.Component {
                 {I18n.t('LoginMain.register')}
               </Text>
             </TouchableOpacity>
-            { this.props.main.firstTime ? null :
-              (<TouchableOpacity
-                onPress={() => {
-                  this.props.actions.resetForm()
-                  Actions.LoginRegister({ formType: LOGIN })
-                }}
-                style={[styles.btn, styles.normalBtn]}
-                underlayColor="transparent"
-                activeOpacity={0.7}
-              >
-                <Text style={[styles.btnText, styles.normalBtnText]}>
-                  {I18n.t('LoginMain.login')}
-                </Text>
-              </TouchableOpacity>)
-            }
+            <TouchableOpacity
+              onPress={() => {
+                this.props.actions.resetForm()
+                Actions.LoginRegister({ formType: LOGIN })
+              }}
+              style={[styles.btn, styles.normalBtn]}
+              underlayColor="transparent"
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.btnText, styles.normalBtnText]}>
+                {I18n.t('LoginMain.login')}
+              </Text>
+            </TouchableOpacity>
           </View>
           <View style={{ flex: 1,
                         flexDirection: 'column',

@@ -2,16 +2,16 @@
 'use strict'
 
 const {
-  GET_ALL_TRIP,
-  GET_ALL_TRIP_SUCCESS,
-  GET_ALL_TRIP_FAILURE,
+  GET_BUY_TRIP,
+  GET_BUY_TRIP_SUCCESS,
+  GET_BUY_TRIP_FAILURE,
   GET_TRIP_BY_CLASS,
 
   SET_TRIP_KEY,
 
-  GET_TRIP_CONTENT,
-  GET_TRIP_CONTENT_SUCCESS,
-  GET_TRIP_CONTENT_FAILURE,
+  SET_TRIP_CONTENT,
+  SET_TRIP_CONTENT_SUCCESS,
+  SET_TRIP_CONTENT_FAILURE,
   SET_SITE_CONTENT_SUCCESS,
   SET_SITE_CONTENT_FAILURE,
 
@@ -48,22 +48,22 @@ const {
   PRESS_MARKER_FAILURE,
 } = require('../../lib/constants').default
 
-export function getAllTrip() {
+export function getBuyTrip() {
   return {
-    type: GET_ALL_TRIP,
+    type: GET_BUY_TRIP,
   }
 }
 
-export function getAllTripSuccess(res: any) {
+export function getBuyTripSuccess(res: any) {
   return {
-    type: GET_ALL_TRIP_SUCCESS,
+    type: GET_BUY_TRIP_SUCCESS,
     payload: res,
   }
 }
 
-export function getAllTripFailure(res: any) {
+export function getBuyTripFailure(res: any) {
   return {
-    type: GET_ALL_TRIP_FAILURE,
+    type: GET_BUY_TRIP_FAILURE,
     payload: res,
   }
 }
@@ -74,23 +74,23 @@ export function getTripByClass() {
   }
 }
 
-export function getTripContent(res: string) {
+export function setTripContent(tripContent :any) {
   return {
-    type: GET_TRIP_CONTENT,
-    payload: { tripId: res },
+    type: SET_TRIP_CONTENT,
+    payload: tripContent,
   }
 }
 
-export function getTripContentSuccess(res:any) {
+export function setTripContentSuccess(res:any) {
   return {
-    type: GET_TRIP_CONTENT_SUCCESS,
+    type: SET_TRIP_CONTENT_SUCCESS,
     payload: res,
   }
 }
 
-export function getTripContentFailure(res:any) {
+export function setTripContentFailure(res:any) {
   return {
-    type: GET_TRIP_CONTENT_FAILURE,
+    type: SET_TRIP_CONTENT_FAILURE,
     payload: res,
   }
 }

@@ -43,6 +43,7 @@ export default {
     "tripContent": "行程介紹",
     "theme": "找主題",
     "custom": "客製化",
+    "postList": "需求單",
   },
   "Introduction": {
     "text1": "你好！我們是 Deeperience ，致力於提供完善的客製化旅程服務。",
@@ -103,6 +104,12 @@ export default {
   "Setting": {
     "logout": "登出",
   },
+  "TripTab": {
+    "introduction": "簡介",
+    "route": "行程",
+    "comment": "評論",
+    "guide": "嚮導",
+  },
   "TripContent": {
     "fetchingData": "讀取詳細行程⋯⋯",
     "fetchingTransitData": "讀取資料中⋯⋯",
@@ -111,6 +118,9 @@ export default {
     "ride": "搭乘",
     "from": "從",
     "to": "到",
+  },
+  "TripList": {
+    "fetchingTripContent":"讀取購買資料⋯⋯",
   },
   "TripAction": {
     "noRoute": "-- m",

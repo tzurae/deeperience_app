@@ -5,6 +5,8 @@ import storageEngine from '../../lib/localStorage'
 export function calculateTripInfo(routes, startSites, allSites) {
   const allInfo = [] // array by day
   const siteStatus = [] // site active or not
+  console.log(startSites)
+  console.log(routes)
   startSites.forEach((startSite, dayIndex) => {  // can have many days
     // frontQueue: {depart: {hour,minute,day}, from, xpos, ypos}
     // dailyPosition: {depart: {hour,minute,day}, from, xpos, ypos}

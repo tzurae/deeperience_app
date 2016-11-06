@@ -7,16 +7,16 @@
 import InitialState from './tripInitialState'
 
 const {
-  GET_ALL_TRIP,
-  GET_ALL_TRIP_SUCCESS,
-  GET_ALL_TRIP_FAILURE,
+  GET_BUY_TRIP,
+  GET_BUY_TRIP_SUCCESS,
+  GET_BUY_TRIP_FAILURE,
   GET_TRIP_BY_CLASS,
 
   SET_TRIP_KEY,
 
-  GET_TRIP_CONTENT,
-  GET_TRIP_CONTENT_SUCCESS,
-  GET_TRIP_CONTENT_FAILURE,
+  SET_TRIP_CONTENT,
+  SET_TRIP_CONTENT_SUCCESS,
+  SET_TRIP_CONTENT_FAILURE,
   SET_SITE_CONTENT_SUCCESS,
   SET_SITE_CONTENT_FAILURE,
 
@@ -66,14 +66,14 @@ export default function tripReducer(state = initialState, action = {}) {
   const displayDay = state.getIn(['displayInfo', 'displayDay'])
   const displayWhich = state.getIn(['displayInfo', 'displayWhich'])
   switch (action.type) {
-    case GET_ALL_TRIP:
+    case GET_BUY_TRIP:
       return state.setIn(['main', 'isFetching'], true)
 
-    case GET_ALL_TRIP_SUCCESS:
+    case GET_BUY_TRIP_SUCCESS:
       return state.setIn(['main', 'isFetching'], false)
                   .setIn(['main', 'tripContent'], action.payload)
 
-    case GET_ALL_TRIP_FAILURE:
+    case GET_BUY_TRIP_FAILURE:
       return state.setIn(['main', 'isFetching'], false)
                   .setIn(['error'], action.payload)
 
@@ -83,17 +83,22 @@ export default function tripReducer(state = initialState, action = {}) {
     case SET_TRIP_KEY:
       return state.setIn(['tripContent', 'tripKey'], action.payload)
 
-    case GET_TRIP_CONTENT_SUCCESS:
-      const { guideId, name, startSites } = action.payload
+    case SET_TRIP_CONTENT_SUCCESS:
+      const { guideId, name, startSites } = action.payload.tripContent
+      const { allInfo } = action.payload.tripInfo
+      siteStatus = action.payload.tripInfo.siteStatus
       return state.setIn(['tripContent', 'guideId'], guideId)
                   .setIn(['tripContent', 'name'], name)
                   .setIn(['tripContent', 'startSites'], startSites)
+                  .setIn(['tripContent', 'tripInfo'], allInfo)
+                  .setIn(['tripContent', 'siteStatus'], siteStatus)
+                  .setIn(['tripContent', 'isFetching'], false)
 
-    case GET_TRIP_CONTENT_FAILURE:
+    case SET_TRIP_CONTENT_FAILURE:
       return state.setIn(['tripContent', 'isFetching'], false)
                   .setIn(['error'], action.payload)
 
-    case GET_TRIP_CONTENT:
+    case SET_TRIP_CONTENT:
       return state.setIn(['tripContent', 'isFetching'], true)
 
     case SET_SITE_CONTENT_SUCCESS:

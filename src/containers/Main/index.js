@@ -14,6 +14,7 @@ import Header from '../../components/Header'
 import TabBar from '../../components/TabBar'
 import Setting from '../Setting'
 import Custom from '../Custom'
+import TripList from '../Trip/TripList'
 import { View } from 'react-native'
 import I18n from '../../lib/i18n'
 import styles from './styles'
@@ -97,6 +98,12 @@ class Main extends Component {
           <View
             style={styles.innerView}
             tabLabel={I18n.t('Nav.purchased')}
+          >
+            <TripList />
+          </View>
+          <View
+            style={styles.innerView}
+            tabLabel={I18n.t('Nav.postList')}
           />
           <View
             style={styles.innerView}

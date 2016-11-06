@@ -32,6 +32,7 @@ function mapStateToProps(state) {
   return {
     device: state.device,
     trip: {
+      tripContent: state.trip.main.tripContent,
       tripKey: state.trip.tripContent.tripKey,
       name: state.trip.tripContent.name,
       guideId: state.trip.tripContent.guideId,
@@ -75,7 +76,10 @@ class TripContentRoute extends React.Component {
 
   componentWillMount() {
     BackAndroid.removeEventListener('hardwareBackPress', () => this.onReturn())
-    this.props.actions.getTripContent(this.props.trip.tripKey)
+    const tripContent =
+      this.props.trip.tripContent
+        .filter(trip => trip._id === this.props.trip.tripKey)[0]
+    this.props.actions.setTripContent(tripContent)
   }
 
   componentDidMount() {

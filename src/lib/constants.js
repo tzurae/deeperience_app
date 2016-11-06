@@ -60,16 +60,16 @@ export default keyMirror({
   FB_LOGIN_START: null,
 
   // ----------trip----------
-  GET_ALL_TRIP: null,
-  GET_ALL_TRIP_SUCCESS: null,
-  GET_ALL_TRIP_FAILURE: null,
+  GET_BUY_TRIP: null,
+  GET_BUY_TRIP_SUCCESS: null,
+  GET_BUY_TRIP_FAILURE: null,
   GET_TRIP_BY_CLASS: null,
 
   SET_TRIP_KEY: null,
 
-  GET_TRIP_CONTENT: null,
-  GET_TRIP_CONTENT_SUCCESS: null,
-  GET_TRIP_CONTENT_FAILURE: null,
+  SET_TRIP_CONTENT: null,
+  SET_TRIP_CONTENT_SUCCESS: null,
+  SET_TRIP_CONTENT_FAILURE: null,
 
   SET_SITE_CONTENT_SUCCESS: null,
   SET_SITE_CONTENT_FAILURE: null,
