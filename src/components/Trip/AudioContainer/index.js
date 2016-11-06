@@ -6,9 +6,7 @@ import TouchableIcon from '../../TouchableIcon'
 import { convertSecondToTime } from '../../../reducers/trip/tripHelper'
 import Slider from 'react-native-slider'
 import MainStyle from '../../../styles'
-
-import Dimensions from 'Dimensions'
-const { width } = Dimensions.get('window') // Screen dimensions in current orientation
+import { width } from '../../../lib/dimensions'
 
 class AudioContainer extends React.Component {
 

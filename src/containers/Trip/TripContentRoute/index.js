@@ -21,9 +21,7 @@ import BottomBar from '../../../components/Trip/BottomBar'
 import TouchableIcon from '../../../components/TouchableIcon'
 import DisplayInfo from '../../../components/Trip/DisplayInfo'
 import { SingleTrip } from '../../../reducers/trip/fakeTripData'
-import Dimensions from 'Dimensions'
-
-const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
+import { width, height } from '../../../lib/dimensions'
 
 const actions = [
   tripActions,

@@ -28,7 +28,6 @@ export function* getBuyTrip() {
 export function* setTripContent(tripContent) {
   try {
     const { routes, startSite, sites } = tripContent
-    console.log(sites)
     const allSites = {}
     sites.forEach(site => {
       allSites[site._id] = site

@@ -9,12 +9,16 @@
  *
  */
 'use strict'
+import Dimensions from 'Dimensions'
+const { height, width } = Dimensions.get('window')
 const { Record } = require('immutable')
 
 const InitialState = Record({
   isMobile: true,
   platform: '',
   version: null,
+  width,
+  height,
 })
 
 export default InitialState

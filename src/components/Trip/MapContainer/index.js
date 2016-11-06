@@ -5,9 +5,7 @@ import { View } from 'react-native'
 import TouchableIcon from '../../TouchableIcon'
 import MapView from 'react-native-maps'
 import Immutable from 'immutable'
-
-import Dimensions from 'Dimensions'
-const { width } = Dimensions.get('window') // Screen dimensions in current orientation
+import { width } from '../../../lib/dimensions'
 
 class AudioContainer extends React.Component {
 

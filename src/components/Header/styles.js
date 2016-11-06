@@ -1,7 +1,6 @@
 import MainStyle from '../../styles'
 import StyleSheet from '../../styles/StyleSheet'
-import Dimensions from 'Dimensions'
-const { width } = Dimensions.get('window') // Screen dimensions in current orientation
+import { width } from '../../lib/dimensions'
 
 export default StyleSheet.create({
   container: {

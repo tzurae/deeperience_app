@@ -6,7 +6,6 @@ import {
   Text,
   View,
   Animated,
-  Dimensions,
   Image,
   Platform,
 } from 'react-native'
@@ -14,9 +13,10 @@ import Swiper from 'react-native-swiper'
 import DoneButton from './components/DoneButton'
 import SkipButton from './components/SkipButton'
 import RenderDots from './components/Dots'
+import { width, height } from '../../lib/dimensions'
 
-const windowsWidth = Dimensions.get('window').width
-const windowsHeight = Dimensions.get('window').height
+const windowsWidth = width
+const windowsHeight = height
 
 const defaulStyles = {
   header: {

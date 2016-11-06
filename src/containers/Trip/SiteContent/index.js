@@ -98,7 +98,7 @@ class SiteContent extends React.Component {
             Actions.pop()
           }}
         />
-        <Button></Button>
+        <Button />
         <MapContainer
           displayMode={this.props.trip.mapDisplayMode}
           lat={this.props.trip.pos.lat}

@@ -15,9 +15,7 @@ import Header from '../../../components/Header'
 import TripContentRoute from '../TripContentRoute'
 import styles from './styles'
 import { Actions } from 'react-native-router-flux'
-
-import Dimensions from 'Dimensions'
-const { width } = Dimensions.get('window') // Screen dimensions in current orientation
+import { width } from '../../../lib/dimensions'
 
 const actions = [
   tripActions,

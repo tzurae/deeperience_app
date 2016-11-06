@@ -1,7 +1,6 @@
 import style from './origin'
 import { StyleSheet, Image } from 'react-native'
-import Dimensions from 'Dimensions'
-const { width } = Dimensions.get('window') // Screen dimensions in current orientation
+import { width } from '../lib/dimensions'
 
 export default {
   ...style,
