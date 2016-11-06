@@ -10,35 +10,21 @@ class MenuDrawer extends React.Component {
   static propTypes = {
     whichCard: PropTypes.number,
     status: PropTypes.number,
-    sidebarDisplayMode: PropTypes.bool,
-    displayInfoMode: PropTypes.bool,
   }
 
   static defaultProps = {
     whichCard: 0,
-    sidebarDisplayMode: false,
-    displayInfoMode: false,
   }
 
   shouldComponentUpdate(nextProps) {
-    return this.props.whichCard !== nextProps.whichCard ||
-            this.props.sidebarDisplayMode !== nextProps.sidebarDisplayMode ||
-            this.props.displayInfoMode !== nextProps.displayInfoMode
+    return this.props.whichCard !== nextProps.whichCard
   }
 
   render() {
     return (
       <View style={[
         styles.iconContainer,
-        this.props.sidebarDisplayMode ? { right: 0 } : { right: -175 },
-        this.props.displayInfoMode ?
-        { width: 60, justifyContent: 'center' } :
-        {},
       ]}>
-        <Icon
-          onPress={this.props.closeFunc}
-          name="angle-double-right"
-        >{I18n.t('IconSidebar.close')}</Icon>
         <Icon
           onPress={this.props.introductionFunc}
           name="info"
@@ -60,18 +46,6 @@ class MenuDrawer extends React.Component {
             onPress={this.props.doneFunc}
             name="check"
           >{I18n.t('IconSidebar.done')}</Icon>) : null}
-        {this.props.status === 6 ? (
-          <Icon
-            onPress={this.props.unlockFunc}
-            name="unlock"
-          >{I18n.t('IconSidebar.unlock')}</Icon>) : null}
-        <Icon
-          onPress={this.props.closeExpandFunc}
-          name={this.props.displayInfoMode ? 'angle-double-down' : 'angle-double-up'}
-        >
-          {this.props.displayInfoMode ?
-            I18n.t('IconSidebar.closeDown') :
-            I18n.t('IconSidebar.openUp')}</Icon>
       </View>
     )
   }
@@ -84,7 +58,7 @@ class Icon extends React.PureComponent {
       <TouchableIcon
         style={styles.sideIcon}
         textStyle={styles.sideIconText}
-        size={20}
+        size={16}
         color="white"
         activeColor="#FF8000"
         {...this.props}

@@ -28,6 +28,7 @@ export function* getBuyTrip() {
 export function* setTripContent(tripContent) {
   try {
     const { routes, startSite, sites } = tripContent
+    console.log(sites)
     const allSites = {}
     sites.forEach(site => {
       allSites[site._id] = site
@@ -45,33 +46,6 @@ export function* setTripContent(tripContent) {
       yield put(tripActions.setSiteStatus(loadData.siteStatus))
       yield setSiteStatusStorage(tripId, loadData.siteStatus)
     }
-
-    // const tripContent = yield call([api, api.readDataBaseOnce], `/trips/${tripId}`)
-    // yield put(tripActions.getTripContentSuccess(tripContent))
-    //
-    // const allSitesKey = tripContent.allSites
-    // const { routes, startSites } = tripContent
-    // const promiseAllSite = allSitesKey.map((key) => api.readDataBaseOnce(`/site/${key}`))
-    //
-    // const allSites = yield Promise.all(promiseAllSite)
-    //   .then(sites => {
-    //     const allSites = {}
-    //     sites.forEach((site, index) => {
-    //       allSites[allSitesKey[index]] = site
-    //     })
-    //     return allSites
-    //   })
-    //
-    // const tripInfo = calculateTripInfo(routes, startSites, allSites)
-    // yield put(tripActions.setSiteContentSuccess(tripInfo))
-    //
-    // const loadData = yield storageEngine(tripId).load()
-    // if (!loadData.siteStatus) {
-    //   yield setSiteStatusStorage(tripId, tripInfo.siteStatus)
-    // } else {
-    //   yield put(tripActions.setSiteStatus(loadData.siteStatus))
-    //   yield setSiteStatusStorage(tripId, loadData.siteStatus)
-    // }
   } catch (err) {
     yield put(tripActions.setTripContentFailure(err))
   }

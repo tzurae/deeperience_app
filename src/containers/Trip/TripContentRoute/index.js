@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { Map } from 'immutable'
 import React from 'react'
 import * as tripActions from '../../../reducers/trip/tripActions'
-import { View, ScrollView, Image, BackAndroid } from 'react-native'
+import { View, ScrollView, Image, BackAndroid, PanResponder } from 'react-native'
 import styles from './styles'
 import MainStyle from '../../../styles'
 import Svg, { Line, Rect } from 'react-native-svg'
@@ -18,10 +18,11 @@ import Loading from '../../../components/Loading'
 import I18n from '../../../lib/i18n'
 import { setSiteStatusStorage } from '../../../reducers/trip/tripHelper'
 import MenuDrawer from '../../../components/Trip/MenuDrawer'
-import IconSidebar from '../../../components/Trip/IconSidebar'
+import TouchableIcon from '../../../components/TouchableIcon'
 import DisplayInfo from '../../../components/Trip/DisplayInfo'
-
+import { SingleTrip } from '../../../reducers/trip/fakeTripData'
 import Dimensions from 'Dimensions'
+
 const { width, height } = Dimensions.get('window') // Screen dimensions in current orientation
 
 const actions = [
@@ -47,7 +48,6 @@ function mapStateToProps(state) {
       displayInfoTitle: state.trip.displayInfo.displayInfoTitle,
       displayInfoIntroduction: state.trip.displayInfo.displayInfoIntroduction,
       displayInfoMode: state.trip.displayInfo.displayMode,
-      sidebarDisplayMode: state.trip.displayInfo.sidebarDisplayMode,
       mapInfo: {
         isFetching: state.trip.mapInfo.isFetching,
       },
@@ -76,10 +76,55 @@ class TripContentRoute extends React.Component {
 
   componentWillMount() {
     BackAndroid.removeEventListener('hardwareBackPress', () => this.onReturn())
-    const tripContent =
-      this.props.trip.tripContent
-        .filter(trip => trip._id === this.props.trip.tripKey)[0]
+    // const tripContent =
+    //   this.props.trip.tripContent
+    //     .filter(trip => trip._id === this.props.trip.tripKey)[0]
+    const tripContent = SingleTrip
     this.props.actions.setTripContent(tripContent)
+
+    this.moveUp = false
+    this.moveDown = true
+
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onPanResponderGrant: (evt, gestureState) => {},
+      onPanResponderMove: (evt, gestureState) => {
+        if (!this.props.trip.displayInfoMode &&
+          this.props.trip.displayInfoOrNot &&
+          gestureState.dy < -60 &&
+          Math.abs(gestureState.dx) < 100 &&
+          gestureState.vy < -1.2 &&
+          !this.moveUp) {
+          this.props.actions.toggleDisplayInfo()
+          this.moveUp = true
+        } else if (this.props.trip.displayInfoMode &&
+          this.props.trip.displayInfoOrNot &&
+          gestureState.dy > 60 &&
+          Math.abs(gestureState.dx) < 100 &&
+          gestureState.vy > 1.2 &&
+          !this.moveDown) {
+          this.props.actions.toggleDisplayInfo()
+          this.moveDown = true
+        }
+      },
+      onPanResponderTerminationRequest: (evt, gestureState) => true,
+      onPanResponderRelease: (evt, gestureState) => {
+        if (this.moveUp && this.moveDown) {
+          if (this.props.trip.displayInfoMode) {
+            this.moveDown = false
+            this.moveUp = true
+          } else {
+            this.moveUp = false
+            this.moveDown = true
+          }
+        }
+      },
+      onPanResponderTerminate: (evt, gestureState) => {},
+      onShouldBlockNativeResponder: (evt, gestureState) => true,
+    })
   }
 
   componentDidMount() {
@@ -107,7 +152,7 @@ class TripContentRoute extends React.Component {
     }
   }
 
-  setFrontier() {
+  setFrontier() { // set frontier site of the tree
     const status = []
     const routes = this.props.trip.tripInfo[this.props.trip.displayDay].routes
     const sites = this.props.trip.tripInfo[this.props.trip.displayDay].sites
@@ -187,9 +232,12 @@ class TripContentRoute extends React.Component {
   render() {
     const { btnBigRadius } = MainStyle.TripSiteButton
     return (
-      <View style={[
-        styles.container,
-        { height: this.props.device.platform === 'ios' ? height - 80 : height - 105, width }]}>
+      <View
+        style={[
+          styles.container,
+          { height: this.props.device.platform === 'ios' ?
+                  height - 80 : height - 105, width }]}
+      >
         <Loading
           visible={this.props.trip.isFetching || this.props.trip.mapInfo.isFetching}
           text={I18n.t('TripContent.fetchingData')}
@@ -208,44 +256,44 @@ class TripContentRoute extends React.Component {
           }}
           resizeMode="cover"
         />
-        {this.props.trip.tripInfo.map((dailyTrip, dIndex) => (
-          <ScrollView
-            tabLabel={`DAY ${dIndex + 1}`}
-            horizontal={false}
-            key={`TripDay${dIndex}`}
-          >
-            <Svg
-              height={dailyTrip.ylayer.length * 100 + 250} // the extra 250 is to make the ScrollView even higher
-              width={width}
+          {this.props.trip.tripInfo.map((dailyTrip, dIndex) => (
+            <ScrollView
+              tabLabel={`DAY ${dIndex + 1}`}
+              horizontal={false}
+              key={`TripDay${dIndex}`}
             >
-              <Rect
-                x="20"
-                y="20"
-                height={dailyTrip.ylayer.length * 100 + 10}
-                width={width - 40}
-                fill="rgba(0,0,0,0.55)"
-              />
+              <Svg
+                height={dailyTrip.ylayer.length * 100 + 250} // the extra 250 is to make the ScrollView even higher
+                width={width}
+              >
+                <Rect
+                  x="15"
+                  y="15"
+                  height={dailyTrip.ylayer.length * 100 - 35}
+                  width={width - 30}
+                  fill="rgba(0,0,0,0.55)"
+                />
+                {
+                  dailyTrip.routes.map(route => (
+                    <Line
+                      x1={(route.posFrom.xpos + 1) / (dailyTrip.ylayer[route.posFrom.ypos] + 1) * width}
+                      y1={route.posFrom.ypos * 100 + 50 + btnBigRadius}
+                      x2={(route.posTo.xpos + 1) / (dailyTrip.ylayer[route.posTo.ypos] + 1) * width}
+                      y2={route.posTo.ypos * 100 + 50 + btnBigRadius}
+                      stroke="#999"
+                      strokeWidth="2"
+                      key = {`(${route.posFrom.xpos},${route.posFrom.ypos})-(${route.posTo.xpos},${route.posTo.ypos})`}
+                    />
+                  ))
+                }
+              </Svg>
               {
-                dailyTrip.routes.map(route => (
-                  <Line
-                    x1={(route.posFrom.xpos + 1) / (dailyTrip.ylayer[route.posFrom.ypos] + 1) * width}
-                    y1={route.posFrom.ypos * 100 + 50 + btnBigRadius}
-                    x2={(route.posTo.xpos + 1) / (dailyTrip.ylayer[route.posTo.ypos] + 1) * width}
-                    y2={route.posTo.ypos * 100 + 50 + btnBigRadius}
-                    stroke="#999"
-                    strokeWidth="2"
-                    key = {`(${route.posFrom.xpos},${route.posFrom.ypos})-(${route.posTo.xpos},${route.posTo.ypos})`}
-                  />
-                ))
-              }
-            </Svg>
-            {
-              dailyTrip.sites.map((site, siteOrder) => (
-                <SiteButton
-                  top = {site.pos.ypos * 100 + 50}
-                  left = {(site.pos.xpos + 1) / (dailyTrip.ylayer[site.pos.ypos] + 1) * width - btnBigRadius}
-                  status = {this.props.trip.siteStatus[dIndex][siteOrder]}
-                  onPress = {() =>
+                dailyTrip.sites.map((site, siteOrder) => (
+                  <SiteButton
+                    top = {site.pos.ypos * 100 + 50}
+                    left = {(site.pos.xpos + 1) / (dailyTrip.ylayer[site.pos.ypos] + 1) * width - btnBigRadius}
+                    status = {this.props.trip.siteStatus[dIndex][siteOrder]}
+                    onPress = {() =>
                     this.siteBtnClick(
                       this.props.trip.siteStatus[dIndex][siteOrder],
                       site.content.name,
@@ -253,17 +301,15 @@ class TripContentRoute extends React.Component {
                       dIndex,
                       siteOrder
                   )}
-                  key = {site.siteKey}
-                >
-                  {site.content.name}
-                </SiteButton>
-              ))
-            }
-          </ScrollView>
-        ))
-        }
-        {
-          this.props.trip.displayInfoOrNot ? (
+                    key = {site.siteKey}
+                  >
+                    {site.content.name}
+                  </SiteButton>
+                ))
+              }
+            </ScrollView>
+          ))}
+          {this.props.trip.displayInfoOrNot ? (
             <View style={[
               styles.container,
               styles.displayInfo,
@@ -271,8 +317,24 @@ class TripContentRoute extends React.Component {
               (this.props.device.platform === 'ios' ?
                 { height: height - 80, width } :
                 { height: height - 100, width }) :
-              { height: 200, width },
-            ]}>
+              { height: 260, width },
+            ]}
+            >
+              <View
+                style={styles.panResponderView}
+                {...this.panResponder.panHandlers}
+              />
+              <TouchableIcon
+                style={styles.closeIcon}
+                size={25}
+                color="#999"
+                onPress={() => {
+                  this.props.actions.closeDisplayInfo()
+                  this.props.actions.deactivateSiteBtn()
+                }}
+                name="close"
+                underlayColor="white"
+              />
               <DisplayInfo
                 isFetching={this.props.trip.transit.isFetching}
                 whichCard={this.props.trip.displayWhichCard}
@@ -280,21 +342,9 @@ class TripContentRoute extends React.Component {
                 introduction={this.props.trip.displayInfoIntroduction}
                 steps={this.props.trip.transit.steps}
               />
-              <IconSidebar
-                displayInfoMode={this.props.trip.displayInfoMode}
-                closeFunc={() => {
-                  this.props.actions.closeDisplayInfo()
-                  this.props.actions.deactivateSiteBtn()
-                }}
-                openMenuFunc={() => this.props.actions.toggleSidebar()}
-                closeExpandFunc={() => this.props.actions.toggleDisplayInfo()}
-              />
               <MenuDrawer
                 whichCard={this.props.trip.displayWhichCard}
                 status={this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich]}
-                sidebarDisplayMode={this.props.trip.sidebarDisplayMode}
-                displayInfoMode={this.props.trip.displayInfoMode}
-                closeFunc={() => this.props.actions.toggleSidebar()}
                 introductionFunc={() => {
                   this.switchDisplayInfoTab(0)
                   this.props.actions.toggleSidebar()
@@ -315,15 +365,9 @@ class TripContentRoute extends React.Component {
                   this.unlock()
                   this.props.actions.toggleSidebar()
                 }}
-                closeExpandFunc={() => {
-                  this.props.actions.toggleSidebar()
-                  this.props.actions.toggleDisplayInfo()
-                }}
               />
             </View>
-
-          ) : null
-        }
+          ) : null}
       </View>
     )
   }

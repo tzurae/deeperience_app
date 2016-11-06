@@ -71,9 +71,6 @@ export default keyMirror({
   SET_TRIP_CONTENT_SUCCESS: null,
   SET_TRIP_CONTENT_FAILURE: null,
 
-  SET_SITE_CONTENT_SUCCESS: null,
-  SET_SITE_CONTENT_FAILURE: null,
-
   SET_SITE_STATUS: null,
 
   SET_DISPLAY_INFO: null,
@@ -99,7 +96,6 @@ export default keyMirror({
   SET_DISPLAY_INFO_TRANSIT_SUCCESS: null,
   SET_DISPLAY_INFO_TRANSIT_FAILURE: null,
   TOGGLE_DISPLAY_INFO: null,
-  TOGGLE_SIDEBAR: null,
 
   TOGGLE_MAP_MODE: null,
   TOGGLE_CONTENT_MODE: null,

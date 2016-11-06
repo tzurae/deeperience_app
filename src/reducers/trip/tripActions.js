@@ -12,8 +12,6 @@ const {
   SET_TRIP_CONTENT,
   SET_TRIP_CONTENT_SUCCESS,
   SET_TRIP_CONTENT_FAILURE,
-  SET_SITE_CONTENT_SUCCESS,
-  SET_SITE_CONTENT_FAILURE,
 
   SET_SITE_STATUS,
 
@@ -39,7 +37,6 @@ const {
   SET_DISPLAY_INFO_TRANSIT_SUCCESS,
   SET_DISPLAY_INFO_TRANSIT_FAILURE,
   TOGGLE_DISPLAY_INFO,
-  TOGGLE_SIDEBAR,
 
   TOGGLE_MAP_MODE,
   TOGGLE_CONTENT_MODE,
@@ -98,20 +95,6 @@ export function setTripContentFailure(res:any) {
 export function setTripKey(res:any) {
   return {
     type: SET_TRIP_KEY,
-    payload: res,
-  }
-}
-
-export function setSiteContentSuccess(res:any) {
-  return {
-    type: SET_SITE_CONTENT_SUCCESS,
-    payload: res,
-  }
-}
-
-export function setSiteContentFailure(res:any) {
-  return {
-    type: SET_SITE_CONTENT_FAILURE,
     payload: res,
   }
 }
@@ -262,11 +245,5 @@ export function toggleMapMode() {
 export function toggleContentMode() {
   return {
     type: TOGGLE_CONTENT_MODE,
-  }
-}
-
-export function toggleSidebar() {
-  return {
-    type: TOGGLE_SIDEBAR,
   }
 }

@@ -1,5 +1,6 @@
 import MainStyle from '../../../styles'
 import StyleSheet from '../../../styles/StyleSheet'
+import { width } from '../../../lib/dimensions'
 
 const btnDiameter = 14
 const btnBigDiameter = 28
@@ -58,7 +59,7 @@ export default StyleSheet.create({
     backgroundColor: '#ffffff',
     borderColor: '#dddddd',
     borderTopWidth: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     overflow: 'hidden',
   },
   mapBtn: {
@@ -84,5 +85,20 @@ export default StyleSheet.create({
     android: {
       lineHeight: 25,
     },
+  },
+  closeIcon: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'white',
+    zIndex: 100,
+  },
+  panResponderView: {
+    height: 65,
+    width,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 10,
   },
 })

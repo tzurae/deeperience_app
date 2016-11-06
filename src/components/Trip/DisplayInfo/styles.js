@@ -4,12 +4,11 @@ import StyleSheet from '../../../styles/StyleSheet'
 export default StyleSheet.create({
   infoContainer: {
     flex: 1,
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingTop: 5,
   },
   displayInfoCard: {
     flex: 1,
-    paddingLeft: 15,
+    paddingLeft: 10,
     paddingRight: 10,
     ios: {
       paddingTop: 5,

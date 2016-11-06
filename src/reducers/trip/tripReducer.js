@@ -17,8 +17,6 @@ const {
   SET_TRIP_CONTENT,
   SET_TRIP_CONTENT_SUCCESS,
   SET_TRIP_CONTENT_FAILURE,
-  SET_SITE_CONTENT_SUCCESS,
-  SET_SITE_CONTENT_FAILURE,
 
   SET_SITE_STATUS,
 
@@ -45,7 +43,6 @@ const {
   SET_DISPLAY_INFO_TRANSIT_SUCCESS,
   SET_DISPLAY_INFO_TRANSIT_FAILURE,
   TOGGLE_DISPLAY_INFO,
-  TOGGLE_SIDEBAR,
 
   TOGGLE_MAP_MODE,
   TOGGLE_CONTENT_MODE,
@@ -100,15 +97,6 @@ export default function tripReducer(state = initialState, action = {}) {
 
     case SET_TRIP_CONTENT:
       return state.setIn(['tripContent', 'isFetching'], true)
-
-    case SET_SITE_CONTENT_SUCCESS:
-      return state.setIn(['tripContent', 'tripInfo'], action.payload.allInfo)
-                  .setIn(['tripContent', 'siteStatus'], action.payload.siteStatus)
-                  .setIn(['tripContent', 'isFetching'], false)
-
-    case SET_SITE_CONTENT_FAILURE:
-      return state.setIn(['tripContent', 'isFetching'], false)
-                  .setIn(['error'], action.payload)
 
     case SET_SITE_STATUS:
       return state.setIn(['tripContent', 'siteStatus'], action.payload)
@@ -211,10 +199,6 @@ export default function tripReducer(state = initialState, action = {}) {
     case TOGGLE_DISPLAY_INFO:
       nowState = state.getIn(['displayInfo', 'displayMode'])
       return state.setIn(['displayInfo', 'displayMode'], !nowState)
-
-    case TOGGLE_SIDEBAR:
-      nowState = state.getIn(['displayInfo', 'sidebarDisplayMode'])
-      return state.setIn(['displayInfo', 'sidebarDisplayMode'], !nowState)
 
     case TOGGLE_MAP_MODE:
       nowState = state.getIn(['mapInfo', 'mapDisplayMode'])
