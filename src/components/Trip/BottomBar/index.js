@@ -5,7 +5,7 @@ import I18n from '../../../lib/i18n'
 import { View } from 'react-native'
 import TouchableIcon from '../../TouchableIcon'
 
-class MenuDrawer extends React.Component {
+class BottomBar extends React.Component {
 
   static propTypes = {
     whichCard: PropTypes.number,
@@ -46,6 +46,11 @@ class MenuDrawer extends React.Component {
             onPress={this.props.doneFunc}
             name="check"
           >{I18n.t('IconSidebar.done')}</Icon>) : null}
+        {this.props.status === 6 ? (
+          <Icon
+            onPress={this.props.unlockFunc}
+            name="unlock"
+          >{I18n.t('IconSidebar.unlock')}</Icon>) : null}
       </View>
     )
   }
@@ -69,4 +74,4 @@ class Icon extends React.PureComponent {
   }
 }
 
-export default MenuDrawer
+export default BottomBar

@@ -17,7 +17,7 @@ import { Actions } from 'react-native-router-flux'
 import Loading from '../../../components/Loading'
 import I18n from '../../../lib/i18n'
 import { setSiteStatusStorage } from '../../../reducers/trip/tripHelper'
-import MenuDrawer from '../../../components/Trip/MenuDrawer'
+import BottomBar from '../../../components/Trip/BottomBar'
 import TouchableIcon from '../../../components/TouchableIcon'
 import DisplayInfo from '../../../components/Trip/DisplayInfo'
 import { SingleTrip } from '../../../reducers/trip/fakeTripData'
@@ -224,9 +224,6 @@ class TripContentRoute extends React.Component {
     this.props.actions.deactivateSiteBtn()
     this.props.actions.activateSiteBtn({ day, order })
     this.props.actions.switchDisplayInfoCard(0)
-    if (this.props.trip.sidebarDisplayMode) {
-      this.props.actions.toggleSidebar(0)
-    }
   }
 
   render() {
@@ -263,13 +260,13 @@ class TripContentRoute extends React.Component {
               key={`TripDay${dIndex}`}
             >
               <Svg
-                height={dailyTrip.ylayer.length * 100 + 250} // the extra 250 is to make the ScrollView even higher
+                height={dailyTrip.ylayer.length * 100 + 280} // the extra 250 is to make the ScrollView even higher
                 width={width}
               >
                 <Rect
                   x="15"
                   y="15"
-                  height={dailyTrip.ylayer.length * 100 - 35}
+                  height={dailyTrip.ylayer.length * 100 - 5}
                   width={width - 30}
                   fill="rgba(0,0,0,0.55)"
                 />
@@ -324,17 +321,18 @@ class TripContentRoute extends React.Component {
                 style={styles.panResponderView}
                 {...this.panResponder.panHandlers}
               />
-              <TouchableIcon
-                style={styles.closeIcon}
-                size={25}
-                color="#999"
-                onPress={() => {
-                  this.props.actions.closeDisplayInfo()
-                  this.props.actions.deactivateSiteBtn()
-                }}
-                name="close"
-                underlayColor="white"
-              />
+              <View style={styles.closeIcon}>
+                <TouchableIcon
+                  size={25}
+                  color="#999"
+                  onPress={() => {
+                    this.props.actions.closeDisplayInfo()
+                    this.props.actions.deactivateSiteBtn()
+                  }}
+                  name="close"
+                  underlayColor="white"
+                />
+              </View>
               <DisplayInfo
                 isFetching={this.props.trip.transit.isFetching}
                 whichCard={this.props.trip.displayWhichCard}
@@ -342,28 +340,23 @@ class TripContentRoute extends React.Component {
                 introduction={this.props.trip.displayInfoIntroduction}
                 steps={this.props.trip.transit.steps}
               />
-              <MenuDrawer
+              <BottomBar
                 whichCard={this.props.trip.displayWhichCard}
                 status={this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich]}
                 introductionFunc={() => {
                   this.switchDisplayInfoTab(0)
-                  this.props.actions.toggleSidebar()
                 }}
                 guideFunc={() => {
                   Actions.SiteContent()
-                  this.props.actions.toggleSidebar()
                 }}
                 transportationFunc={() => {
                   this.switchDisplayInfoTab(1)
-                  this.props.actions.toggleSidebar()
                 }}
                 doneFunc={() => {
                   this.setFrontier()
-                  this.props.actions.toggleSidebar()
                 }}
                 unlockFunc={() => {
                   this.unlock()
-                  this.props.actions.toggleSidebar()
                 }}
               />
             </View>
