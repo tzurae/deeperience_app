@@ -5,7 +5,7 @@ import { View } from 'react-native'
 import MapView from 'react-native-maps'
 import Immutable from 'immutable'
 
-class AudioContainer extends React.Component {
+class MapContainer extends React.Component {
 
   static propTypes = {
     displayMode: PropTypes.bool,
@@ -38,22 +38,26 @@ class AudioContainer extends React.Component {
   }
 
   componentDidMount() {
-    const markerArr = this.props.markers.map(marker => {
-      const { lat, lng } = marker.position
-      return {
-        latitude: lat,
-        longitude: lng,
+    setTimeout(() => { // let the map view fit all markers
+      if (this.props.markers && this.props.markers.length > 1) {
+        const markerArr = this.props.markers.map(marker => {
+          const { lat, lng } = marker.position
+          return {
+            latitude: lat,
+            longitude: lng,
+          }
+        })
+        this.map.fitToCoordinates(markerArr, {
+          edgePadding: {
+            top: 40,
+            right: 40,
+            bottom: 40,
+            left: 40,
+          },
+          animated: true,
+        })
       }
-    })
-    this.map.fitToCoordinates(markerArr,{
-      edgePadding:{
-        top: 40,
-        right: 40,
-        bottom: 40,
-        left: 40,
-      },
-      animated: true,
-    })
+    }, 1000)
   }
 
   render() {
@@ -113,4 +117,4 @@ class AudioContainer extends React.Component {
   }
 }
 
-export default AudioContainer
+export default MapContainer

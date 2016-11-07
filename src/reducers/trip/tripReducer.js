@@ -78,14 +78,13 @@ export default function tripReducer(state = initialState, action = {}) {
       return state.setIn(['tripContent', 'tripKey'], action.payload)
 
     case SET_TRIP_CONTENT_SUCCESS:
-      const { guideId, name, startSites } = action.payload.tripContent
-      const { allInfo } = action.payload.tripInfo
-      siteStatus = action.payload.tripInfo.siteStatus
-      return state.setIn(['tripContent', 'guideId'], guideId)
-                  .setIn(['tripContent', 'name'], name)
-                  .setIn(['tripContent', 'startSites'], startSites)
-                  .setIn(['tripContent', 'tripInfo'], allInfo)
-                  .setIn(['tripContent', 'siteStatus'], siteStatus)
+      return state.setIn(['tripContent', 'guideId'], action.payload.tripContent.guideId)
+                  .setIn(['tripContent', 'name'], action.payload.tripContent.name)
+                  .setIn(['tripContent', 'startSite'], action.payload.tripContent.startSite)
+                  .setIn(['tripContent', 'tripInfo'], action.payload.tripInfo.allInfo)
+                  .setIn(['tripContent', 'siteStatus'], action.payload.tripInfo.siteStatus)
+                  .setIn(['tripContent', 'dailyRemind'], action.payload.tripInfo.remind)
+                  .setIn(['tripContent', 'period'], action.payload.tripInfo.period)
                   .setIn(['tripContent', 'isFetching'], false)
 
     case SET_TRIP_CONTENT_FAILURE:
@@ -99,9 +98,9 @@ export default function tripReducer(state = initialState, action = {}) {
       return state.setIn(['tripContent', 'siteStatus'], action.payload)
 
     case SET_DISPLAY_INFO:
-      const { title, introduction } = action.payload
-      return state.setIn(['displayInfo', 'displayInfoTitle'], title)
-                  .setIn(['displayInfo', 'displayInfoIntroduction'], introduction)
+      return state.setIn(['displayInfo', 'info', 'name'], action.payload.name)
+                  .setIn(['displayInfo', 'info', 'introduction'], action.payload.introduction)
+                  // .setIn(['displayInfo', 'info', 'website'], action.payload.website)
                   .setIn(['displayInfo', 'display'], true)
 
     case CLOSE_DISPLAY_INFO:

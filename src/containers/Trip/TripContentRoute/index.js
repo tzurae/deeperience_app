@@ -35,7 +35,7 @@ function mapStateToProps(state) {
       tripKey: state.trip.tripContent.tripKey,
       name: state.trip.tripContent.name,
       guideId: state.trip.tripContent.guideId,
-      startSites: state.trip.tripContent.startSites,
+      startSite: state.trip.tripContent.startSite,
       tripInfo: state.trip.tripContent.tripInfo,
       siteStatus: state.trip.tripContent.siteStatus,
       isFetching: state.trip.tripContent.isFetching,
@@ -43,8 +43,7 @@ function mapStateToProps(state) {
       displayWhich: state.trip.displayInfo.displayWhich,
       displayWhichCard: state.trip.displayInfo.displayWhichCard,
       displayInfoOrNot: state.trip.displayInfo.display,
-      displayInfoTitle: state.trip.displayInfo.displayInfoTitle,
-      displayInfoIntroduction: state.trip.displayInfo.displayInfoIntroduction,
+      displayInfo: state.trip.displayInfo.info,
       displayInfoMode: state.trip.displayInfo.displayMode,
       mapInfo: {
         isFetching: state.trip.mapInfo.isFetching,
@@ -218,7 +217,7 @@ class TripContentRoute extends React.Component {
 
   siteBtnClick(status, name, introduction, day, order) {
     if (status === 0) return
-    this.props.actions.setDisplayInfo({ title: name, introduction })
+    this.props.actions.setDisplayInfo({ name, introduction })
     this.props.actions.deactivateSiteBtn()
     this.props.actions.activateSiteBtn({ day, order })
     this.props.actions.switchDisplayInfoCard(0)
@@ -334,8 +333,8 @@ class TripContentRoute extends React.Component {
               <DisplayInfo
                 isFetching={this.props.trip.transit.isFetching}
                 whichCard={this.props.trip.displayWhichCard}
-                title={this.props.trip.displayInfoTitle}
-                introduction={this.props.trip.displayInfoIntroduction}
+                title={this.props.trip.displayInfo.name}
+                introduction={this.props.trip.displayInfo.introduction}
                 steps={this.props.trip.transit.steps}
               />
               <BottomBar

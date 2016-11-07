@@ -119,10 +119,7 @@ export function deactivateSiteBtn() {
 export function setDisplayInfo(res: any) {
   return {
     type: SET_DISPLAY_INFO,
-    payload: {
-      title: res.title,
-      introduction: res.introduction,
-    },
+    payload: res,
   }
 }
 

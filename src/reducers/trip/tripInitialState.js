@@ -9,28 +9,36 @@
 import { Record } from 'immutable'
 
 const InitialState = Record({
-  main: new (Record({
+  main: new Record({
     tripContent: [],
     isFetching: false,
-  }))(),
-  tripContent: new (Record({
+  })(),
+  tripContent: new Record({
     tripKey: '',
     guideId: '',
     name: '',
-    startSites: [],
+    startSite: [],
     tripInfo: [],
     siteStatus: [],
     isFetching: false,
-  }))(),
-  displayInfo: new (Record({
+    dailyRemind: [],
+    period: [],
+  })(),
+  displayInfo: new Record({
     display: false,
     displayDay: 0,
     displayWhich: 0,
-    displayInfoTitle: '',
-    displayInfoIntroduction: '',
     displayWhichCard: 0,
     displayMode: false, // false: half, true: whole mode
-    transit: new (Record({
+    info: new Record({
+      name: '',
+      introduction: '',
+      tags: [],
+      fee: '',
+      recentActivity: [],
+      openPeriod: {},
+    })(),
+    transit: new Record({
       departureTime: '',
       arrivalTime: '',
       duration: '',
@@ -38,11 +46,11 @@ const InitialState = Record({
       fare: '',
       fetched: false,
       isFetching: false,
-    }))(),
-  }))(),
-  mapInfo: new (Record({
-    headerText: '123',
-    mainTitle: '123',
+    })(),
+  })(),
+  mapInfo: new Record({
+    headerText: '',
+    mainTitle: '',
     subTitle: '',
     content: '',
     pos: {
@@ -54,11 +62,16 @@ const InitialState = Record({
     polyline: [],
     distance: '0 m',
     address: '',
+    website: '',
+    fee: '',
+    remind: '',
+    phone: '',
+    openPeriod: {},
     audioDuration: 1,
     audioPosition: 0,
     audioURL: '',
     isFetching: false,
-  }))(),
+  })(),
   isFetching: false,
   error: null,
 })

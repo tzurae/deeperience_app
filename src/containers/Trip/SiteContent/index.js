@@ -12,7 +12,6 @@ import { View, Text, ScrollView, BackAndroid } from 'react-native'
 import Header from '../../../components/Header'
 import styles from './styles'
 import { Actions } from 'react-native-router-flux'
-import TouchableIcon from '../../../components/TouchableIcon'
 import HTMLContent from '../../../components/HTMLContent'
 import MapContainer from '../../../components/Trip/MapContainer'
 import { width } from '../../../lib/dimensions'
@@ -28,7 +27,6 @@ function mapStateToProps(state) {
     trip: {
       name: state.trip.tripContent.name,
       guideId: state.trip.tripContent.guideId,
-      startSites: state.trip.tripContent.startSites,
       tripInfo: state.trip.tripContent.tripInfo,
       headerText: state.trip.mapInfo.headerText,
       mainTitle: state.trip.mapInfo.mainTitle,
