@@ -67,4 +67,16 @@ export default StyleSheet.create({
   content: {
     fontSize: MainStyle.font.medium,
   },
+  mapBtnView: {
+    height: 50,
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+  },
+  mapBtn: {
+    color: 'white',
+    fontSize: MainStyle.font.medium + 2,
+    fontWeight: 'bold',
+  },
 })

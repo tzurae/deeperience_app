@@ -44,9 +44,6 @@ const {
   SET_DISPLAY_INFO_TRANSIT_FAILURE,
   TOGGLE_DISPLAY_INFO,
 
-  TOGGLE_MAP_MODE,
-  TOGGLE_CONTENT_MODE,
-
   SWITCH_DISPLAY_INFO_CARD,
 
   PRESS_MARKER_FAILURE,
@@ -199,14 +196,6 @@ export default function tripReducer(state = initialState, action = {}) {
     case TOGGLE_DISPLAY_INFO:
       nowState = state.getIn(['displayInfo', 'displayMode'])
       return state.setIn(['displayInfo', 'displayMode'], !nowState)
-
-    case TOGGLE_MAP_MODE:
-      nowState = state.getIn(['mapInfo', 'mapDisplayMode'])
-      return state.setIn(['mapInfo', 'mapDisplayMode'], !nowState)
-
-    case TOGGLE_CONTENT_MODE:
-      nowState = state.getIn(['mapInfo', 'contentDisplayMode'])
-      return state.setIn(['mapInfo', 'contentDisplayMode'], !nowState)
 
     case SWITCH_DISPLAY_INFO_CARD:
       return state.setIn(['displayInfo', 'displayWhichCard'], action.payload)

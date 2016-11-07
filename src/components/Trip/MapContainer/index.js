@@ -2,10 +2,8 @@
 import React, { PropTypes } from 'react'
 import styles from './styles'
 import { View } from 'react-native'
-import TouchableIcon from '../../TouchableIcon'
 import MapView from 'react-native-maps'
 import Immutable from 'immutable'
-import { width } from '../../../lib/dimensions'
 
 class AudioContainer extends React.Component {
 
@@ -34,27 +32,35 @@ class AudioContainer extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return this.props.displayMode !== nextProps.displayMode ||
-            this.props.lat !== nextProps.lat ||
+    return this.props.lat !== nextProps.lat ||
             this.props.lng !== nextProps.lng ||
             !Immutable.is(this.props.polyline, nextProps.polyline)
   }
 
+  componentDidMount() {
+    const markerArr = this.props.markers.map(marker => {
+      const { lat, lng } = marker.position
+      return {
+        latitude: lat,
+        longitude: lng,
+      }
+    })
+    this.map.fitToCoordinates(markerArr,{
+      edgePadding:{
+        top: 40,
+        right: 40,
+        bottom: 40,
+        left: 40,
+      },
+      animated: true,
+    })
+  }
+
   render() {
     return (
-      <View style={[
-        styles.mapContainer,
-        this.props.displayMode ?
-        styles.mapDisplayModeTrue : { height: 250, width },
-      ]}>
-        <TouchableIcon
-          style={styles.expandMapIcon}
-          onPress={this.props.toggleMap}
-          name={this.props.displayMode ? 'compress' : 'expand'}
-          size={18}
-          color={'black'}
-        />
+      <View style={styles.mapContainer}>
         <MapView
+          ref={ref => { this.map = ref }}
           provider="google"
           style={styles.map}
           initialRegion={{
@@ -76,7 +82,7 @@ class AudioContainer extends React.Component {
                 coordinate={{ latitude: lat, longitude: lng }}
                 onPress={() => {
                   this.props.onMarkerPress(marker)
-                  // hack, for toolbars to appear
+                  // hack code, for google toolbars to appear
                   this.setState({ markerPressed: !this.state.markerPressed })
                 }} // for Android
                 onSelect={() => this.props.onMarkerPress(marker)} // for IOS

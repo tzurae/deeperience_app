@@ -1,6 +1,6 @@
 /**
  * # SiteContent.js
- *  Display siteContent
+ *  Display siteContent and map
  */
 'use strict'
 import { bindActionCreators } from 'redux'
@@ -16,6 +16,8 @@ import TouchableIcon from '../../../components/TouchableIcon'
 import HTMLContent from '../../../components/HTMLContent'
 import MapContainer from '../../../components/Trip/MapContainer'
 import { width } from '../../../lib/dimensions'
+import I18n from '../../../lib/i18n'
+import TabBar from '../../../components/TabBar'
 
 const actions = [
   tripActions,
@@ -38,8 +40,6 @@ function mapStateToProps(state) {
       polyline: state.trip.mapInfo.polyline,
       distance: state.trip.mapInfo.distance,
       address: state.trip.mapInfo.address,
-      mapDisplayMode: state.trip.mapInfo.mapDisplayMode,
-      contentDisplayMode: state.trip.mapInfo.contentDisplayMode,
       displayDay: state.trip.displayInfo.displayDay,
       displayWhich: state.trip.displayInfo.displayWhich,
     },
@@ -72,16 +72,10 @@ class SiteContent extends React.Component {
   }
 
   onReturn() {
-    if (this.props.trip.contentDisplayMode === true) {
-      this.props.actions.toggleContentMode()
-    }
   }
 
   onMarkerPress({ name, introduction, position }) {
     try {
-      console.log(name)
-      console.log(introduction)
-      console.log(position)
       this.props.actions.setMapDirection({ name, introduction, position })
     } catch (err) {
       this.props.actions.pressMarkerFailure(err)
@@ -98,37 +92,34 @@ class SiteContent extends React.Component {
             Actions.pop()
           }}
         />
-        <Button />
-        <MapContainer
-          displayMode={this.props.trip.mapDisplayMode}
-          lat={this.props.trip.pos.lat}
-          lng={this.props.trip.pos.lng}
-          markers={this.props.trip.markers}
-          polyline={this.props.trip.polyline}
-          onMarkerPress={(marker) => this.onMarkerPress(marker)}
-          toggleMap={() => this.props.actions.toggleMapMode()}
-        />
-        <View style={[
-          styles.siteContentContainer,
-          this.props.trip.contentDisplayMode ?
-          styles.siteContentContainerExpand : {},
-        ]}>
-          <Text style={styles.subTitle}>{this.props.trip.subTitle}</Text>
-          <Text style={styles.distance}>{this.props.trip.distance}</Text>
-          <TouchableIcon
-            style={styles.expandContentIcon}
-            onPress={() => this.props.actions.toggleContentMode()}
-            name={this.props.trip.contentDisplayMode ? 'compress' : 'expand'}
-            size={18}
-            color={'black'}
-          />
-          <ScrollView>
-            <HTMLContent
-              value={this.props.trip.content}
-              width={width - 30}
+        <TabBar>
+          <View
+            horizontal={false}
+            width={width}
+            tabLabel={I18n.t('SiteContent.mapBtn')}
+          >
+            <MapContainer
+              lat={this.props.trip.pos.lat}
+              lng={this.props.trip.pos.lng}
+              markers={this.props.trip.markers}
+              polyline={this.props.trip.polyline}
+              onMarkerPress={(marker) => this.onMarkerPress(marker)}
             />
-          </ScrollView>
-        </View>
+          </View>
+          <View style={styles.siteContentContainer}
+                width={width}
+                tabLabel={I18n.t('TripTab.route')}
+          >
+            <Text style={styles.subTitle}>{this.props.trip.subTitle}</Text>
+            <Text style={styles.distance}>{this.props.trip.distance}</Text>
+            <ScrollView>
+              <HTMLContent
+                value={this.props.trip.content}
+                width={width - 30}
+              />
+            </ScrollView>
+          </View>
+        </TabBar>
       </View>
     )
   }

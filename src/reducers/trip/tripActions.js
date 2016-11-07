@@ -38,9 +38,6 @@ const {
   SET_DISPLAY_INFO_TRANSIT_FAILURE,
   TOGGLE_DISPLAY_INFO,
 
-  TOGGLE_MAP_MODE,
-  TOGGLE_CONTENT_MODE,
-
   SWITCH_DISPLAY_INFO_CARD,
   PRESS_MARKER_FAILURE,
 } = require('../../lib/constants').default
@@ -233,17 +230,5 @@ export function pressMarkerFailure(res: any) {
 export function toggleDisplayInfo() {
   return {
     type: TOGGLE_DISPLAY_INFO,
-  }
-}
-
-export function toggleMapMode() {
-  return {
-    type: TOGGLE_MAP_MODE,
-  }
-}
-
-export function toggleContentMode() {
-  return {
-    type: TOGGLE_CONTENT_MODE,
   }
 }

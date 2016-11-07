@@ -119,6 +119,9 @@ export default {
     "from": "從",
     "to": "到",
   },
+  "SiteContent": {
+    "mapBtn": "導覽地圖",
+  },
   "TripList": {
     "fetchingTripContent":"讀取購買資料⋯⋯",
   },

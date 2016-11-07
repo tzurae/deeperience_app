@@ -48,7 +48,6 @@ class TripContent extends React.Component {
         />
         <TabBar>
           <View
-            horizontal={false}
             width={width}
             tabLabel={I18n.t('TripTab.introduction')}
           >
