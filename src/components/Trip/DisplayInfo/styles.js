@@ -22,9 +22,6 @@ export default StyleSheet.create({
     fontSize: MainStyle.font.big,
     color: 'black',
     fontWeight: 'bold',
-    ios: {
-      marginBottom: 10,
-    },
   },
   transitInstruction: {
     fontSize: MainStyle.font.medium,
@@ -118,13 +115,11 @@ export default StyleSheet.create({
   displayInfoSubtitle: {
     fontSize: MainStyle.font.medium + 2,
     color: 'black',
-    ios: {
-      marginBottom: 10,
-    },
+    marginTop: 20,
+    marginBottom: 5,
   },
   content: {
     fontSize: MainStyle.font.medium + 1,
-    marginBottom: 5,
   },
   indicator: {
     fontSize: MainStyle.font.big,

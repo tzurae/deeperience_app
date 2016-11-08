@@ -31,6 +31,16 @@ class DisplayInfo extends React.PureComponent {
   }
 
   render() {
+    const WEEKDAY = [
+      I18n.t('TripContent.Sunday'),
+      I18n.t('TripContent.Monday'),
+      I18n.t('TripContent.Tuesday'),
+      I18n.t('TripContent.Wednesday'),
+      I18n.t('TripContent.Thursday'),
+      I18n.t('TripContent.Friday'),
+      I18n.t('TripContent.Saturday'),
+    ]
+
     return (
       <View style={styles.infoContainer}>
         <Loading
@@ -185,7 +195,7 @@ class DisplayInfo extends React.PureComponent {
             case 2:
               return (
                 <ScrollView style={styles.displayInfoCard}>
-                  <Text style={styles.displayInfoSubtitle}>{I18n.t('TripContent.fee')}</Text>
+                  <Text style={[styles.displayInfoSubtitle, { marginTop: 10 }]}>{I18n.t('TripContent.fee')}</Text>
                   <Text style={styles.content}>{this.props.fee}</Text>
                   <Text style={styles.displayInfoSubtitle}>{I18n.t('TripContent.recentActivity')}</Text>
                   {this.props.recentActivity.map((activity, index) => (
@@ -194,15 +204,18 @@ class DisplayInfo extends React.PureComponent {
                         name="circle"
                         size={9}
                         color="#777"
-                        style={{ position: 'relative', top: -2 }}
                       />
                       <Text style={styles.content}>
-                        {`        ${activity.date} :        ${activity.content}`}
+                        {`   ${activity.date} :    ${activity.content}`}
                       </Text>
                     </View>
                   ))}
                   <Text style={styles.displayInfoSubtitle}>{I18n.t('TripContent.openPeriod')}</Text>
-                  <Text style={styles.content}>{this.props.openPeriod}</Text>
+                  {this.props.openPeriod.map((period, index) => (
+                    <Text style={styles.content}>
+                      {`${WEEKDAY[index]}:    ${formatTime(period.open.time)}  ~  ${formatTime(period.close.time)}`}
+                    </Text>
+                  ))}
 
                 </ScrollView>
               )
@@ -213,6 +226,8 @@ class DisplayInfo extends React.PureComponent {
   }
 }
 
-// <Text style={styles.displayInfoSubtitle}>{I18n.t('TripContent.openPeriod')}</Text>
-// <Text style={styles.content}>{this.props.openPeriod}</Text>
+const formatTime = (time) => {
+  return `${time[0]}${time[1]}:${time[2]}${time[3]}`
+}
+
 export default DisplayInfo

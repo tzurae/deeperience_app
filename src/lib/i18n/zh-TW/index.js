@@ -121,6 +121,13 @@ export default {
     "fee": "費用",
     "recentActivity": "近期活動",
     "openPeriod": "開放時間",
+    "Sunday": "星期日",
+    "Monday": "星期一",
+    "Tuesday": "星期二",
+    "Wednesday": "星期三",
+    "Thursday": "星期四",
+    "Friday": "星期五",
+    "Saturday": "星期六",
   },
   "SiteContent": {
     "mapBtn": "導覽地圖",
