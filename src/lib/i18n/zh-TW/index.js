@@ -118,6 +118,9 @@ export default {
     "ride": "搭乘",
     "from": "從",
     "to": "到",
+    "fee": "費用",
+    "recentActivity": "近期活動",
+    "openPeriod": "開放時間",
   },
   "SiteContent": {
     "mapBtn": "導覽地圖",
@@ -137,6 +140,7 @@ export default {
     "transportation": "路線",
     "done": "完成",
     "unlock": "解鎖",
+    "remind": "小提醒",
   },
   "Toast": {
     "pressAgainExit": "再按一次離開 Deeperience",

@@ -100,7 +100,10 @@ export default function tripReducer(state = initialState, action = {}) {
     case SET_DISPLAY_INFO:
       return state.setIn(['displayInfo', 'info', 'name'], action.payload.name)
                   .setIn(['displayInfo', 'info', 'introduction'], action.payload.introduction)
-                  // .setIn(['displayInfo', 'info', 'website'], action.payload.website)
+                  .setIn(['displayInfo', 'info', 'tags'], action.payload.tags)
+                  .setIn(['displayInfo', 'info', 'fee'], action.payload.fee)
+                  .setIn(['displayInfo', 'info', 'recentActivity'], action.payload.recentActivity)
+                  .setIn(['displayInfo', 'info', 'openPeriod'], action.payload.openPeriod)
                   .setIn(['displayInfo', 'display'], true)
 
     case CLOSE_DISPLAY_INFO:

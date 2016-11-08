@@ -4,16 +4,19 @@ import StyleSheet from '../../../styles/StyleSheet'
 export default StyleSheet.create({
   infoContainer: {
     flex: 1,
-    paddingTop: 5,
-  },
-  displayInfoCard: {
-    flex: 1,
     paddingLeft: 15,
     paddingRight: 15,
+    android: {
+      paddingTop: 2,
+      paddingBottom: 5,
+    },
     ios: {
       paddingTop: 5,
       paddingBottom: 5,
     },
+  },
+  displayInfoCard: {
+    flex: 1,
   },
   displayInfoTitle: {
     fontSize: MainStyle.font.big,
@@ -22,10 +25,6 @@ export default StyleSheet.create({
     ios: {
       marginBottom: 10,
     },
-  },
-  displayInfoIntroduction: {
-    fontSize: MainStyle.font.medium,
-    color: '#111111',
   },
   transitInstruction: {
     fontSize: MainStyle.font.medium,
@@ -86,5 +85,49 @@ export default StyleSheet.create({
     paddingRight: 10,
     paddingLeft: 15,
     backgroundColor: 'white',
+  },
+  closeIcon: {
+    height: 25,
+    width: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    zIndex: 100,
+  },
+  displayInfoTitleView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    paddingTop: 2,
+    paddingBottom: 2,
+  },
+  tagView: {
+    flexDirection: 'row',
+  },
+  tag: {
+    backgroundColor: MainStyle.color.main,
+    marginLeft: 5,
+    marginRight: 5,
+    color: 'white',
+    paddingTop: 3,
+    paddingBottom: 3,
+    paddingRight: 6,
+    paddingLeft: 6,
+  },
+  displayInfoSubtitle: {
+    fontSize: MainStyle.font.medium + 2,
+    color: 'black',
+    ios: {
+      marginBottom: 10,
+    },
+  },
+  content: {
+    fontSize: MainStyle.font.medium + 1,
+    marginBottom: 5,
+  },
+  indicator: {
+    fontSize: MainStyle.font.big,
+    color: 'black',
   },
 })

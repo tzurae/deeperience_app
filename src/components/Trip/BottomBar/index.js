@@ -51,6 +51,11 @@ class BottomBar extends React.Component {
             onPress={this.props.unlockFunc}
             name="unlock"
           >{I18n.t('IconSidebar.unlock')}</Icon>) : null}
+        <Icon
+          onPress={this.props.remindFunc}
+          name="info"
+          active={this.props.whichCard === 2}
+        >{I18n.t('IconSidebar.remind')}</Icon>
       </View>
     )
   }

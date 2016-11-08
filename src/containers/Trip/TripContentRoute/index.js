@@ -18,7 +18,6 @@ import Loading from '../../../components/Loading'
 import I18n from '../../../lib/i18n'
 import { setSiteStatusStorage } from '../../../reducers/trip/tripHelper'
 import BottomBar from '../../../components/Trip/BottomBar'
-import TouchableIcon from '../../../components/TouchableIcon'
 import DisplayInfo from '../../../components/Trip/DisplayInfo'
 import { SingleTrip } from '../../../reducers/trip/fakeTripData'
 import { width, height } from '../../../lib/dimensions'
@@ -146,6 +145,8 @@ class TripContentRoute extends React.Component {
             .content.mapSite[0].position,
         })
       }
+    } else if (tab === 2) {
+      this.props.actions.switchDisplayInfoCard(2)
     }
   }
 
@@ -215,9 +216,10 @@ class TripContentRoute extends React.Component {
     })
   }
 
-  siteBtnClick(status, name, introduction, day, order) {
+  siteBtnClick(status, content, day, order) {
     if (status === 0) return
-    this.props.actions.setDisplayInfo({ name, introduction })
+    console.log(content)
+    this.props.actions.setDisplayInfo(content)
     this.props.actions.deactivateSiteBtn()
     this.props.actions.activateSiteBtn({ day, order })
     this.props.actions.switchDisplayInfoCard(0)
@@ -290,8 +292,7 @@ class TripContentRoute extends React.Component {
                     onPress = {() =>
                     this.siteBtnClick(
                       this.props.trip.siteStatus[dIndex][siteOrder],
-                      site.content.name,
-                      site.content.introduction,
+                      site.content,
                       dIndex,
                       siteOrder
                   )}
@@ -318,43 +319,30 @@ class TripContentRoute extends React.Component {
                 style={styles.panResponderView}
                 {...this.panResponder.panHandlers}
               />
-              <View style={styles.closeIcon}>
-                <TouchableIcon
-                  size={25}
-                  color="#999"
-                  onPress={() => {
-                    this.props.actions.closeDisplayInfo()
-                    this.props.actions.deactivateSiteBtn()
-                  }}
-                  name="close"
-                  underlayColor="white"
-                />
-              </View>
               <DisplayInfo
                 isFetching={this.props.trip.transit.isFetching}
                 whichCard={this.props.trip.displayWhichCard}
                 title={this.props.trip.displayInfo.name}
                 introduction={this.props.trip.displayInfo.introduction}
+                tags={this.props.trip.displayInfo.tags}
                 steps={this.props.trip.transit.steps}
+                closeFunc={() => {
+                  this.props.actions.closeDisplayInfo()
+                  this.props.actions.deactivateSiteBtn()
+                }}
+                fee={this.props.trip.displayInfo.fee}
+                recentActivity={this.props.trip.displayInfo.recentActivity}
+                openPeriod={this.props.trip.displayInfo.openPeriod}
               />
               <BottomBar
                 whichCard={this.props.trip.displayWhichCard}
                 status={this.props.trip.siteStatus[this.props.trip.displayDay][this.props.trip.displayWhich]}
-                introductionFunc={() => {
-                  this.switchDisplayInfoTab(0)
-                }}
-                guideFunc={() => {
-                  Actions.SiteContent()
-                }}
-                transportationFunc={() => {
-                  this.switchDisplayInfoTab(1)
-                }}
-                doneFunc={() => {
-                  this.setFrontier()
-                }}
-                unlockFunc={() => {
-                  this.unlock()
-                }}
+                introductionFunc={() => this.switchDisplayInfoTab(0)}
+                guideFunc={() => Actions.SiteContent()}
+                transportationFunc={() => this.switchDisplayInfoTab(1)}
+                remindFunc={() => this.switchDisplayInfoTab(2)}
+                doneFunc={() => this.setFrontier()}
+                unlockFunc={() => this.unlock()}
               />
             </View>
           ) : null}

@@ -86,17 +86,6 @@ export default StyleSheet.create({
       lineHeight: 25,
     },
   },
-  closeIcon: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    height: 25,
-    width: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    zIndex: 100,
-  },
   panResponderView: {
     height: 65,
     width,
