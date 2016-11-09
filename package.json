@@ -59,10 +59,12 @@
   "dependencies": {
     "babel-core": "^6.17.0",
     "babel-plugin-transform-remove-console": "^6.8.0",
+    "es6-promise": "^4.0.5",
     "eslint": "^3.7.1",
     "firebase": "^3.3.0",
     "immutable": "3.8.1",
     "invariant": "^2.2.1",
+    "isomorphic-fetch": "^2.2.1",
     "jest-cli": "^15.1.1",
     "key-mirror": "1.0.1",
     "react": "15.3.2",

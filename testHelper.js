@@ -9,7 +9,6 @@ import mockery from 'mockery'
 // Ignore all node_modules except these
 const modulesToCompile = [
   'react-native',
-  'apsl-react-native-button',
   'react-native-router-flux',
   // 'react-native-tabs',
   'react-native-vector-icons',
@@ -38,6 +37,7 @@ chai.use(chaiEnzyme())
 
 // Setup mocks
 require('react-native-mock/mock')
+require('isomorphic-fetch')
 mockery.enable()
 mockery.warnOnUnregistered(false)
 mockery.registerMock('react-native-router-flux', 1)

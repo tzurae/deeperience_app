@@ -97,6 +97,7 @@ class SiteContent extends React.Component {
             tabLabel={I18n.t('SiteContent.mapBtn')}
           >
             <MapContainer
+              style={styles.mapContainer}
               lat={this.props.trip.pos.lat}
               lng={this.props.trip.pos.lng}
               markers={this.props.trip.markers}

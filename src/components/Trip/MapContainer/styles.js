@@ -1,18 +1,6 @@
 import StyleSheet from '../../../styles/StyleSheet'
-import { width, height } from '../../../lib/dimensions'
 
 export default StyleSheet.create({
-  mapContainer: {
-    alignItems: 'center',
-    backgroundColor: 'black',
-    width,
-    android: {
-      height: height - 105,
-    },
-    ios: {
-      height: height - 80,
-    },
-  },
   map: {
     flex: 1,
     position: 'absolute',

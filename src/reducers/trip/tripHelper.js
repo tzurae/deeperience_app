@@ -67,8 +67,6 @@ export function calculateTripInfo(routes, startSites, allSites) {
     siteStatus.push(status)
     allInfo.push({ ylayer, sites, routes: dailyRoutes })
   })
-  console.log(allInfo)
-  console.log(siteStatus)
   return { allInfo, siteStatus }
 }
 function getDestId(dest) {

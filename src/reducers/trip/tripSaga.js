@@ -52,72 +52,47 @@ export function* setTripContent(tripContent) {
 
 export function* getDisplayInfoDirection(payload) {
   const { mode, position } = payload
-  let modeStr = 'transit'
-  let startCallback = tripActions.setDisplayInfoTransit
-  let successCallback = tripActions.setDisplayInfoTransitSuccess
-  let errorCallback = tripActions.setDisplayInfoTransitFailure
-  switch (mode) {
-    case 0:
-      modeStr = 'transit'
-      startCallback = tripActions.setDisplayInfoTransit
-      successCallback = tripActions.setDisplayInfoTransitSuccess
-      errorCallback = tripActions.setDisplayInfoTransitFailure
-      break
-    case 1:
-      modeStr = 'driving'
-      break
-    case 2:
-      modeStr = 'walking'
-      break
-    case 3:
-      modeStr = 'bicycling'
-      break
-  }
   try {
-    yield put(startCallback())
-
-    const directions = yield getNowPosition().then(({ lat, lng }) => {
-      return fetch('https://maps.googleapis.com/maps/api/directions/json?' +
+    const { lat, lng } = yield getNowPosition()
+    yield put(tripActions.setNavigation({
+      from: {
+        lat,
+        lng,
+      },
+      to: {
+        lat: position.lat,
+        lng: position.lng,
+      },
+      polyline: [],
+    }))
+    yield put(tripActions.switchDisplayInfoCard(1))
+    const directions = yield fetch(
+      'https://maps.googleapis.com/maps/api/directions/json?' +
         `origin=${lat},${lng}` +
         `&destination=${position.lat},${position.lng}` +
         '&region=tw' +
-        `&mode=${modeStr}` +
         '&language=zh-TW' +
-        `&key=${auth.firebase.apiKey}`)
-    }).then(res => res.json())
+        `&key=${auth.firebase.apiKey}`).then(res => res.json())
 
-    if (mode === 0) {
-      let departureTime = ''
-      let arrivalTime = ''
-      let durationText = ''
-      let stepsArr = []
-      let fare = ''
+    yield put(tripActions.setNavigation({
+      from: {
+        lat,
+        lng,
+      },
+      to: {
+        lat: position.lat,
+        lng: position.lng,
+      },
+      polyline: convertPolyline(directions.routes[0].overview_polyline.points),
+    }))
 
-      if (directions.routes.length !== 0) { // has route
-        const { departure_time, arrival_time, duration, steps } = directions.routes[0].legs[0]
-        if (departure_time) departureTime = departure_time.text
-        if (arrival_time) arrivalTime = arrival_time.text
-        if (duration) durationText = duration.text
-        stepsArr = steps
-        if (directions.routes[0].fare) fare = directions.routes[0].fare.text
-        else fare = I18n.t('TripContent.noFareData')
-      }
-
-      yield put(successCallback({
-        departureTime,
-        arrivalTime,
-        duration: durationText,
-        steps: stepsArr,
-        fare,
-      }))
-    }
+    // yield put(tripActions.switchDisplayInfoCard(1))
   } catch (err) {
-    yield put(errorCallback(err))
+    console.log(err)
   }
 }
 
 export function* setMapDirection(payload) {
-  console.log(payload)
   const destLat = payload.position.lat
   const destLng = payload.position.lng
   const { name, introduction } = payload

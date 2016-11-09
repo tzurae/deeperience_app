@@ -44,8 +44,19 @@ const InitialState = Record({
       duration: '',
       steps: [],
       fare: '',
-      fetched: false,
+      fetched: false, // if true, means have fetched before
       isFetching: false,
+    })(),
+    navigation: new Record({
+      from: {
+        lat: 0,
+        lng: 0,
+      },
+      to: {
+        lat: 0,
+        lng: 0,
+      },
+      polyline: [],
     })(),
   })(),
   mapInfo: new Record({

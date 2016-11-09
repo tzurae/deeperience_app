@@ -40,6 +40,8 @@ const {
 
   SWITCH_DISPLAY_INFO_CARD,
   PRESS_MARKER_FAILURE,
+
+  SET_NAVIGATION,
 } = require('../../lib/constants').default
 
 export function getBuyTrip() {
@@ -68,7 +70,7 @@ export function getTripByClass() {
   }
 }
 
-export function setTripContent(tripContent :any) {
+export function setTripContent(tripContent: any) {
   return {
     type: SET_TRIP_CONTENT,
     payload: tripContent,
@@ -227,5 +229,12 @@ export function pressMarkerFailure(res: any) {
 export function toggleDisplayInfo() {
   return {
     type: TOGGLE_DISPLAY_INFO,
+  }
+}
+
+export function setNavigation(res: any) {
+  return {
+    type: SET_NAVIGATION,
+    payload: res,
   }
 }

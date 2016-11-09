@@ -52,6 +52,7 @@ function mapStateToProps(state) {
         fetched: state.trip.displayInfo.transit.fetched,
         isFetching: state.trip.displayInfo.transit.isFetching,
       },
+      navigation: state.trip.displayInfo.navigation,
     },
   }
 }
@@ -136,14 +137,16 @@ class TripContentRoute extends React.Component {
     if (tab === 0) {
       this.props.actions.switchDisplayInfoCard(0)
     } else if (tab === 1) { // public transportation
-      this.props.actions.switchDisplayInfoCard(1)
-      if (this.props.trip.transit.fetched === false) {
+      if (!this.props.displayInfoMode) this.props.actions.toggleDisplayInfo()
+      if (!this.props.trip.transit.fetched) {
         this.props.actions.getDisplayInfoDirectionStart({
           mode: 0, // transit
           position: this.props.trip.tripInfo[this.props.trip.displayDay]
             .sites[this.props.trip.displayWhich]
             .content.mapSite[0].position,
         })
+      } else {
+        this.props.actions.switchDisplayInfoCard(1)
       }
     } else if (tab === 2) {
       this.props.actions.switchDisplayInfoCard(2)
@@ -333,6 +336,16 @@ class TripContentRoute extends React.Component {
                 fee={this.props.trip.displayInfo.fee}
                 recentActivity={this.props.trip.displayInfo.recentActivity}
                 openPeriod={this.props.trip.displayInfo.openPeriod}
+                polyline={this.props.trip.navigation.polyline}
+                from={this.props.trip.navigation.from}
+                to={this.props.trip.navigation.to}
+                onMarkerPress={() => {
+                      this.props.actions.setNavigation({
+                        from: this.props.trip.navigation.from,
+                        to: this.props.trip.navigation.to,
+                        polyline: [],
+                      })
+                    }}
               />
               <BottomBar
                 whichCard={this.props.trip.displayWhichCard}

@@ -1,5 +1,6 @@
 import MainStyle from '../../../styles'
 import StyleSheet from '../../../styles/StyleSheet'
+import { width, height } from '../../../lib/dimensions'
 
 export default StyleSheet.create({
   infoContainer: {
@@ -121,8 +122,8 @@ export default StyleSheet.create({
   content: {
     fontSize: MainStyle.font.medium + 1,
   },
-  indicator: {
-    fontSize: MainStyle.font.big,
-    color: 'black',
+  mapStyle: {
+    width: width - 30,
+    height: height - 200,
   },
 })

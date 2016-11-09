@@ -1,5 +1,6 @@
 import MainStyle from '../../../styles'
 import StyleSheet from '../../../styles/StyleSheet'
+import { width, height } from '../../../lib/dimensions'
 
 export default StyleSheet.create({
   container: MainStyle.container,
@@ -78,5 +79,14 @@ export default StyleSheet.create({
     color: 'white',
     fontSize: MainStyle.font.medium + 2,
     fontWeight: 'bold',
+  },
+  mapContainer: {
+    width,
+    android: {
+      height: height - 105,
+    },
+    ios: {
+      height: height - 80,
+    },
   },
 })

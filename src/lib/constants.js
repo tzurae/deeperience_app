@@ -103,6 +103,8 @@ export default keyMirror({
 
   CLEAR_TRIP_LOCAL_STORAGE: null,
 
+  SET_NAVIGATION: null,
+
   // ----------main---------
   LOAD_APP: null,
 

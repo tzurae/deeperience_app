@@ -48,6 +48,7 @@ const {
 
   PRESS_MARKER_FAILURE,
 
+  SET_NAVIGATION,
 } = require('../../lib/constants').default
 
 const initialState = new InitialState()
@@ -205,6 +206,11 @@ export default function tripReducer(state = initialState, action = {}) {
     case PRESS_MARKER_FAILURE:
       return state.setIn(['error'], action.payload)
 
+    case SET_NAVIGATION:
+      return state.setIn(['displayInfo', 'navigation', 'from'], action.payload.from)
+                  .setIn(['displayInfo', 'navigation', 'to'], action.payload.to)
+                  .setIn(['displayInfo', 'navigation', 'polyline'], action.payload.polyline)
+                  .setIn(['displayInfo', 'transit', 'isFetching'], false)
     case SET_STATE:
       return state
   }

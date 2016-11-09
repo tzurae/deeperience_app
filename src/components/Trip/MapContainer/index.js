@@ -13,6 +13,9 @@ class MapContainer extends React.Component {
     lng: PropTypes.number,
     markers: PropTypes.array,
     polyline: PropTypes.array,
+    onMarkerPress: PropTypes.func,
+    style: View.propTypes.style,
+    fitMarkers: PropTypes.array,
   }
 
   static defaultProps = {
@@ -21,6 +24,9 @@ class MapContainer extends React.Component {
     lng: 0,
     markers: [],
     polyline: [],
+    onMarkerPress: () => {},
+    style: {},
+    fitMarkers: [],
   }
 
   constructor(props) {
@@ -39,30 +45,36 @@ class MapContainer extends React.Component {
 
   componentDidMount() {
     setTimeout(() => { // let the map view fit all markers
-      if (this.props.markers && this.props.markers.length > 1) {
-        const markerArr = this.props.markers.map(marker => {
-          const { lat, lng } = marker.position
-          return {
-            latitude: lat,
-            longitude: lng,
-          }
-        })
-        this.map.fitToCoordinates(markerArr, {
-          edgePadding: {
-            top: 40,
-            right: 40,
-            bottom: 40,
-            left: 40,
-          },
-          animated: true,
-        })
-      }
+      let markerArr
+      if (this.props.fitMarkers && this.props.fitMarkers.length > 1) {
+        markerArr = this.props.fitMarkers
+      } else if (this.props.markers && this.props.markers.length > 1) {
+        markerArr = this.props.markers
+      } else return
+
+      markerArr = markerArr.map(marker => {
+        const { lat, lng } = marker.position
+        return {
+          latitude: lat,
+          longitude: lng,
+        }
+      })
+
+      this.map.fitToCoordinates(markerArr, {
+        edgePadding: {
+          top: 60,
+          right: 60,
+          bottom: 60,
+          left: 60,
+        },
+        animated: true,
+      })
     }, 1000)
   }
 
   render() {
     return (
-      <View style={styles.mapContainer}>
+      <View style={this.props.style}>
         <MapView
           ref={ref => { this.map = ref }}
           provider="google"
@@ -79,7 +91,7 @@ class MapContainer extends React.Component {
           toolbarEnabled={true}
           pitchEnabled={false}
         >
-          {this.props.markers.map(marker => {
+          {this.props.markers.map((marker, index) => {
             const { lat, lng } = marker.position
             return (
               <MapView.Marker
@@ -88,10 +100,11 @@ class MapContainer extends React.Component {
                   this.props.onMarkerPress(marker)
                   // hack code, for google toolbars to appear
                   this.setState({ markerPressed: !this.state.markerPressed })
+                  console.log(this.state.markerPressed)
                 }} // for Android
                 onSelect={() => this.props.onMarkerPress(marker)} // for IOS
                 title={marker.name}
-                key={marker.name}
+                key={`marker${index}`}
               />
             )
           })}
