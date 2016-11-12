@@ -30,7 +30,7 @@ const {
   LOGIN,
   REGISTER,
   FORGOT_PASSWORD,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 function mapDispatchToProps(dispatch) {
   const creators = Map()

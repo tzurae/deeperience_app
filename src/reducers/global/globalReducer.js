@@ -16,7 +16,7 @@ const {
   GET_STATE,
   SET_STATE,
   SET_STORE,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 /**
  * ## globalReducer function
@@ -46,8 +46,13 @@ export default function globalReducer(state = initialState, action) {
                   .set('token', null)
 
     case SESSION_TOKEN_SUCCESS:
-      appAuthToken.token = action.payload
-      return state.set('token', action.payload)
+      if (action.payload.token) {
+        appAuthToken.token = action.payload.token
+        return state.set('token', action.payload)
+      } else if (action.payload.fbToken) {
+        appAuthToken.fbToken = action.payload.fbToken
+        return state.set('fbToken', action.payload.fbToken)
+      } else return state
     /**
      * ### sets the payload into the store
      *

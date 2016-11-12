@@ -24,7 +24,7 @@ class FBLogin extends React.Component {
   }
 
   handleLogin() {
-    FBLoginManager.login((error, data) => {
+    FBLoginManager.loginWithPermissions(this.props.permissions, (error, data) => {
       if (!error) this.props.onLogin && this.props.onLogin(data)
       else console.log(error, data)
     })
@@ -50,6 +50,7 @@ class FBLogin extends React.Component {
       <TouchableOpacity
         activeOpacity={0.7}
         style={[styles.btn, styles.fbBtn]}
+        disabled={this.props.isDisabled}
         onPress={() => this.onPress()}
       >
         <View style={styles.fbBtnInnerView}>

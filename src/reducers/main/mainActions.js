@@ -9,7 +9,7 @@
 const {
   LOAD_APP,
   SET_FIRST_TIME,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 export function loadApp() {
   return {

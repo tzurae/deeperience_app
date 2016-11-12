@@ -20,10 +20,14 @@ export default {
   },
   "AuthMessage": {
     "error": "錯誤",
+    "info": "通知",
+    "emailExisted": "信箱已存在",
     "signupError": "註冊錯誤",
     "loginError": "帳號密碼錯誤",
     "logoutError": "登出發生錯誤",
     "resetPasswordError": "重設密碼錯誤",
+    "verificationEmailSend": "驗證信已送出，快點查看信箱喔！",
+    "resetEmailSend": "重設密碼信已送出，快點查看信箱喔！",
   },
   "AuthFieldValidation": {
     "validUsername": "6-15 字的英數字",
@@ -67,6 +71,7 @@ export default {
     "facebookLogin": "使用Facebook帳號登入",
     "register": "建立帳號",
     "login": "一般登入",
+    "loginRightNow": "登入中⋯⋯",
     "serviceText": "註冊即代表我同意 Deeperience 的服務條款、支付服務條款、隱私政策。",
   },
   "Custom": {

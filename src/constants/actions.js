@@ -57,7 +57,7 @@ export default keyMirror({
 
   RESET_FORM: null,
 
-  FB_LOGIN_START: null,
+  FB_LOGIN: null,
 
   // ----------trip----------
   GET_BUY_TRIP: null,

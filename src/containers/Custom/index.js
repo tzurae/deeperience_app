@@ -29,7 +29,7 @@ const {
   RESIDENT_FEE,
   TRIP_FEE,
   FOOD_FEE,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 const actions = [
   customActions,

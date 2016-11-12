@@ -19,7 +19,7 @@ const {
   SEND_POST_SUCCESS,
   SEND_POST_FAILURE,
   TOGGLE_NOT_SEND_YET,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 export function setFee(type: string, fee: [number, number]) {
   return {

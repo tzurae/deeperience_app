@@ -12,7 +12,7 @@
 const {
   SET_PLATFORM,
   SET_VERSION,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 /**
  * ## Set the platformState

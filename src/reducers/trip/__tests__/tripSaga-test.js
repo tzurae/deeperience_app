@@ -23,7 +23,7 @@ const {
   SET_TRIP_CONTENT,
   GET_DISPLAY_INFO_DIRECTION_START,
   SET_MAP_DIRECTION,
-} = require('../../../lib/constants').default
+} = require('../../../constants/actions').default
 
 describe('getBuyTrip', () => {
   it('watchGetBuyTrip() should take the GET_BUY_TRIP action', () => {

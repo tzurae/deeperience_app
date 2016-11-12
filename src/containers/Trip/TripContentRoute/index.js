@@ -340,12 +340,12 @@ class TripContentRoute extends React.Component {
                 from={this.props.trip.navigation.from}
                 to={this.props.trip.navigation.to}
                 onMarkerPress={() => {
-                      this.props.actions.setNavigation({
-                        from: this.props.trip.navigation.from,
-                        to: this.props.trip.navigation.to,
-                        polyline: [],
-                      })
-                    }}
+                  this.props.actions.setNavigation({
+                    from: this.props.trip.navigation.from,
+                    to: this.props.trip.navigation.to,
+                    polyline: [],
+                  })
+                }}
               />
               <BottomBar
                 whichCard={this.props.trip.displayWhichCard}

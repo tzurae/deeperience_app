@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "EF6CE7FB2535BEA76F6CAC8728DAEEF804706B1B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "731CC60464DB8C6D633A6A7E69118A565B4EA7CC" : 9223372036854775807,
+    "EF6CE7FB2535BEA76F6CAC8728DAEEF804706B1B" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "FE019C8F-04A6-4527-822F-E9C0E009456E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "731CC60464DB8C6D633A6A7E69118A565B4EA7CC" : "react-native-maps\/",
+    "EF6CE7FB2535BEA76F6CAC8728DAEEF804706B1B" : "deperience-app\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "deeperience",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ios\/deeperience.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/airbnb\/react-native-maps.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "731CC60464DB8C6D633A6A7E69118A565B4EA7CC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/gitlab.com\/deeperience\/deperience-app.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "EF6CE7FB2535BEA76F6CAC8728DAEEF804706B1B"
+    }
+  ]
+}

@@ -42,7 +42,7 @@ const {
   RESET_FORM,
 
   SET_STATE,
-} = require('../../../lib/constants').default
+} = require('../../../constants/actions').default
 
 /**
  * ## Class under test

@@ -11,7 +11,7 @@ const {
   SET_TRIP_CONTENT,
   GET_DISPLAY_INFO_DIRECTION_START,
   SET_MAP_DIRECTION,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 export function* getBuyTrip() {
   try {
@@ -51,7 +51,7 @@ export function* setTripContent(tripContent) {
 }
 
 export function* getDisplayInfoDirection(payload) {
-  const { mode, position } = payload
+  const { position } = payload
   try {
     const { lat, lng } = yield getNowPosition()
     yield put(tripActions.setNavigation({

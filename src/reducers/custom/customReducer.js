@@ -34,7 +34,7 @@ const {
   SEND_POST_FAILURE,
 
   TOGGLE_NOT_SEND_YET,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 const initialState = new InitialState()
 

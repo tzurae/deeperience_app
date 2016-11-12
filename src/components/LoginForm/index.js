@@ -18,7 +18,7 @@ const {
   REGISTER,
   LOGIN,
   FORGOT_PASSWORD,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 class LoginForm extends React.Component {
   /**

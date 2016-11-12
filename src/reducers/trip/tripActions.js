@@ -42,7 +42,7 @@ const {
   PRESS_MARKER_FAILURE,
 
   SET_NAVIGATION,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 export function getBuyTrip() {
   return {

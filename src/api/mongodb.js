@@ -12,7 +12,12 @@ export default class Mongodb extends apiInterface {
   getProvider(provider) {
   }
 
-  fblogin(token) {
+  fblogin(data) {
+    return UniFetch({
+      method: 'POST',
+      path: '/auth/facebook/phone',
+      body: data,
+    })
   }
 
   signup({ email, password, username }) {

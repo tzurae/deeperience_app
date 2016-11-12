@@ -10,7 +10,7 @@ const {
   SET_STATE,
 
   SET_FIRST_TIME,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 const initialState = new InitialState()
 

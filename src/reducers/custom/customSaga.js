@@ -4,7 +4,7 @@ import * as customActions from './customActions'
 
 const {
   SEND_POST,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 export function* sendPost(payload) {
   try {

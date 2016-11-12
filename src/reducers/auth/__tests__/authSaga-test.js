@@ -3,9 +3,9 @@ import { expect } from 'chai'
 import * as authActions from '../authActions'
 import * as mainActions from '../../main/mainActions'
 import ApiFactory from '../../../api/apiFactory'
-import UserModel from '../../../model/UserModel'
 import { appAuthToken } from '../authToken'
 import { getMainStorage } from '../../main/mainStorage'
+import UniFetch from '../../../lib/uniFetch'
 import {
   watchSignUp,
   watchLogin,
@@ -20,6 +20,11 @@ import {
   resetPassword,
   facebookLogin,
 } from '../authSaga'
+import { likesRes, friendsRes, fbDataRes } from './fakeAuthData'
+
+const {
+  USER_FORGET_PASSWORD,
+} = require('../../../constants/FormNames').default
 
 const {
   SIGNUP_START,
@@ -27,8 +32,8 @@ const {
   LOGIN_START,
   RESET_PASSWORD_START,
   INIT_AUTH,
-  FB_LOGIN_START,
-} = require('../../../lib/constants').default
+  FB_LOGIN,
+} = require('../../../constants/actions').default
 
 const api = new ApiFactory()
 
@@ -69,7 +74,7 @@ describe('signup', () => {
     expect(next).to.deep.equal(appAuthToken.storeSessionToken({ user, token }))
 
     next = gen.next().value
-    expect(next).to.deep.equal(put(authActions.sessionTokenRequestSuccess(token)))
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequestSuccess({ token })))
 
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.logoutState()))
@@ -120,7 +125,7 @@ describe('InitAuth', () => {
     expect(next).to.deep.equal(put(authActions.loginSuccess(response.user)))
 
     next = gen.next().value
-    expect(next).to.deep.equal(put(authActions.sessionTokenRequestSuccess(token)))
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequestSuccess({ token })))
 
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.logoutState()))
@@ -150,6 +155,47 @@ describe('InitAuth', () => {
 
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.loginFailure('No token')))
+  })
+
+  it('InitAuth with the user registered with fb', () => {
+    const username = 'fakeJohn'
+    const email = 'fake@gmail.com'
+    const uid = '1234'
+    const avatar = 'https://www.facebook.com'
+    const fbToken = 'asdasdasdasd'
+    const response = {
+      fbToken,
+      user: {
+        _id: uid,
+        name: username,
+        email: {
+          value: email,
+        },
+        avatarURL: avatar,
+      },
+    }
+    const mainStorage = { firstTime: false }
+    const gen = initAuth()
+    let next = gen.next().value
+    expect(next).to.deep.equal(getMainStorage())
+
+    next = gen.next(mainStorage).value
+    expect(next).to.deep.equal(put(mainActions.setFirstTime()))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequest()))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(call([api, api.initAuth]))
+
+    next = gen.next(response).value
+    expect(next).to.deep.equal(put(authActions.loginSuccess(response.user)))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequestSuccess({ fbToken })))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.logoutState()))
   })
 })
 
@@ -225,7 +271,7 @@ describe('login', () => {
       put(authActions.loginSuccess(response.user)))
 
     next = gen.next().value
-    expect(next).to.deep.equal(put(authActions.sessionTokenRequestSuccess(token)))
+    expect(next).to.deep.equal(put(authActions.sessionTokenRequestSuccess({ token })))
 
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.logoutState()))
@@ -272,15 +318,57 @@ describe('resetPassword', () => {
 
   it('should resetPassowrd successful', () => {
     const email = 'fake@gmail.com'
+    const passed = {
+      isPassed: true,
+    }
+
     const gen = resetPassword(email)
     let next = gen.next().value
     expect(next).to.deep.equal(put(authActions.resetPasswordRequest()))
+
     next = gen.next().value
-    expect(next).to.deep.equal(call([api, api.resetPassword], email))
+    expect(next).to.deep.equal(UniFetch({
+      method: 'POST',
+      path: `/api/forms/${USER_FORGET_PASSWORD}/fields/email/validation`,
+      body: {
+        value: email,
+      },
+    }))
+
+    next = gen.next(passed).value
+    expect(next).to.deep.equal(UniFetch({
+      method: 'POST',
+      path: '/api/users/password/request-reset',
+    }))
+
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.loginState()))
     next = gen.next().value
     expect(next).to.deep.equal(put(authActions.resetPasswordSuccess()))
+  })
+
+  it('should resetPassowrd failed', () => {
+    const email = 'fake@gmail.com'
+    const passed = {
+      isPassed: false,
+      message: 'error',
+    }
+
+    const gen = resetPassword(email)
+    let next = gen.next().value
+    expect(next).to.deep.equal(put(authActions.resetPasswordRequest()))
+
+    next = gen.next().value
+    expect(next).to.deep.equal(UniFetch({
+      method: 'POST',
+      path: `/api/forms/${USER_FORGET_PASSWORD}/fields/email/validation`,
+      body: {
+        value: email,
+      },
+    }))
+
+    next = gen.next(passed).value
+    expect(next).to.deep.equal(put(authActions.resetPasswordFailure(passed.message)))
   })
 })
 
@@ -292,33 +380,119 @@ describe('facebookLogin', () => {
 
     const gen = watchFacebookLogin()
     let next = gen.next().value
-    expect(next).to.deep.equal(take(FB_LOGIN_START))
+    expect(next).to.deep.equal(take(FB_LOGIN))
     next = gen.next(action).value
     expect(next).to.deep.equal(fork(facebookLogin, action.payload))
   })
+  describe('should login facebook', () => {
+    const token = 'aasdadsasd'
 
-  it('should login facebook successful', () => {
-    const username = 'fakeJohn'
-    const email = 'fake@gmail.com'
-    const token = 'asdafsfdgsahsadfsdf'
-    const uid = '1234'
-    const avatar = 'https://www.facebook.com'
-    const payload = token
-    const user = { uid, displayName: username, email, photoURL: avatar }
-    const newUser = new UserModel(uid, { email, username, avatar })
+    const {
+      email,
+      name,
+      id,
+      picture,
+    } = fbDataRes
+    let birthday = fbDataRes.birthday
+    birthday = {
+      year: Number(birthday.substr(6, 4)),
+      month: Number(birthday.substr(3, 2)),
+      day: Number(birthday.substr(0, 2)),
+    }
+    const sendData = {
+      friends: friendsRes.data,
+      likes: likesRes.data,
+      birthday,
+      email,
+      name,
+      id,
+      picture,
+    }
 
-    const gen = facebookLogin(payload)
-    let next = gen.next().value
-    expect(next).to.deep.equal(call([api, api.fblogin], payload))
-    next = gen.next(user).value
-    expect(next).to.deep.equal(newUser)
-    next = gen.next(newUser).value
-    expect(next).to.deep.equal(
-      call([api, api.updateDataBase], newUser.getPath(), newUser.getData()))
-    next = gen.next().value
-    expect(next).to.deep.equal(put(authActions.loginSuccess({
-      uid: user.uid,
-      ...newUser.getData(),
-    })))
+    const user = {
+      _id: 'asdasdasd',
+      name: 'asdasdasdas',
+      email: {
+        value: 'asdasdas@y.com',
+      },
+      avatarURL: 'asdadasd',
+    }
+
+    it('success', () => {
+      const gen = facebookLogin(token)
+      let next = gen.next().value
+      expect(next).to.deep.equal(put(authActions.loginRequest()))
+
+      next = gen.next().value
+      expect(next).to.deep.equal(UniFetch({
+        method: 'GET',
+        domain: `https://graph.facebook.com/v2.8/me/likes?limit=100&access_token=${token}`,
+      }))
+
+      next = gen.next(likesRes).value
+      expect(next).to.deep.equal(likesRes.data)
+
+      next = gen.next(likesRes.data).value
+      expect(next).to.deep.equal(UniFetch({
+        method: 'GET',
+        domain: `https://graph.facebook.com/v2.8/me/friends?limit=100&access_token=${token}`,
+      }))
+
+      next = gen.next(friendsRes).value
+      expect(next).to.deep.equal(friendsRes.data)
+
+      next = gen.next(friendsRes.data).value
+      expect(next).to.deep.equal(UniFetch({
+        method: 'GET',
+        domain: `https://graph.facebook.com/v2.8/me?fields=email,name,picture,friends,permissions,birthday,likes&access_token=${token}`,
+      }))
+
+      next = gen.next(fbDataRes).value
+      expect(next).to.deep.equal(call([api, api.fblogin], sendData))
+
+      next = gen.next({ user }).value
+      expect(next).to.deep.equal(appAuthToken.storeSessionToken({ user, fbToken: token }))
+
+      next = gen.next().value
+      expect(next).to.deep.equal(put(authActions.sessionTokenRequestSuccess({ fbToken: token })))
+
+      next = gen.next().value
+      expect(next).to.deep.equal(put(authActions.loginSuccess(user)))
+    })
+    it('failure', () => {
+      const gen = facebookLogin(token)
+      let next = gen.next().value
+      expect(next).to.deep.equal(put(authActions.loginRequest()))
+
+      next = gen.next().value
+      expect(next).to.deep.equal(UniFetch({
+        method: 'GET',
+        domain: `https://graph.facebook.com/v2.8/me/likes?limit=100&access_token=${token}`,
+      }))
+
+      next = gen.next(likesRes).value
+      expect(next).to.deep.equal(likesRes.data)
+
+      next = gen.next(likesRes.data).value
+      expect(next).to.deep.equal(UniFetch({
+        method: 'GET',
+        domain: `https://graph.facebook.com/v2.8/me/friends?limit=100&access_token=${token}`,
+      }))
+
+      next = gen.next(friendsRes).value
+      expect(next).to.deep.equal(friendsRes.data)
+
+      next = gen.next(friendsRes.data).value
+      expect(next).to.deep.equal(UniFetch({
+        method: 'GET',
+        domain: `https://graph.facebook.com/v2.8/me?fields=email,name,picture,friends,permissions,birthday,likes&access_token=${token}`,
+      }))
+
+      next = gen.next(fbDataRes).value
+      expect(next).to.deep.equal(call([api, api.fblogin], sendData))
+
+      next = gen.next({}).value
+      expect(next).to.deep.equal(put(authActions.loginFailure('login failed')))
+    })
   })
 })

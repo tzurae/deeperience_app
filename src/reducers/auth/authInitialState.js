@@ -15,7 +15,7 @@
 import { Record } from 'immutable'
 const {
   REGISTER,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 /**
  * ## Form

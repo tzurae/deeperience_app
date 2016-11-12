@@ -17,7 +17,7 @@ const {
   SET_PLATFORM,
   SET_VERSION,
   SET_STATE,
-} = require('../../../lib/constants').default
+} = require('../../../constants/actions').default
 
 const  deviceReducer = require('../deviceReducer').default
 

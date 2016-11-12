@@ -2,8 +2,8 @@ import { auth as Config } from '../config'
 import { appAuthToken } from '../reducers/auth/authToken'
 const DOMAIN = Config.mongodb.domain
 
-export default ({ path, method, body, token }) =>
-  fetch(`${DOMAIN}${path}`, {
+export default ({ domain, path, method, body, token }) =>
+  fetch(domain || `${DOMAIN}${path}`, {
     method,
     headers: {
       Accept: 'application/json',

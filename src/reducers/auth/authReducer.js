@@ -49,8 +49,10 @@ const {
 
   RESET_FORM,
 
+  FB_LOGIN,
+
   SET_STATE,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 const initialState = new InitialState()
 /**
@@ -150,6 +152,9 @@ export default function authReducer(state = initialState, action) {
 
     case RESET_FORM:
       return initialState
+
+    case FB_LOGIN:
+      return state.setIn(['form', 'isFetching'], true)
 
     case SET_STATE:
       const form = JSON.parse(action.payload).auth.form

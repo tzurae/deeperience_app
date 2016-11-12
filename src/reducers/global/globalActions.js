@@ -10,7 +10,7 @@ const {
   SET_STORE,
   SET_STATE,
   GET_STATE,
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 /**
  * ## set the store

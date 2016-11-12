@@ -125,6 +125,7 @@ class FBLogin extends Component {
     return (
       <TouchableOpacity
         activeOpacity={0.7}
+        disabled={this.props.isDisabled}
         onPress={this.onFacebookPress} >
         <View style={[styles.btn, styles.fbBtn]}>
           <View style={styles.fbBtnInnerView}>

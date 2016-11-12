@@ -38,11 +38,11 @@ const {
   RESET_PASSWORD_FAILURE,
 
   TOGGLE_ITEMBOX_CHECKED,
-  FB_LOGIN_START,
+  FB_LOGIN,
 
   RESET_FORM,
 
-} = require('../../lib/constants').default
+} = require('../../constants/actions').default
 
 export function initAuth() {
   return {
@@ -269,7 +269,7 @@ export function toggleItemboxChecked() {
 
 export function facebookLogin(token: string) {
   return {
-    type: FB_LOGIN_START,
+    type: FB_LOGIN,
     payload: token,
   }
 }

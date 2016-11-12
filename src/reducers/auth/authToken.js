@@ -14,10 +14,12 @@ export class AppAuthToken {
   constructor() {
     this.SESSION_TOKEN_KEY = Config.sessionTokenKey
     this.token = null
+    this.fbToken = null
   }
 
   storeSessionToken(sessionToken) {
-    this.token = sessionToken
+    if (sessionToken.token) this.token = sessionToken.token
+    else if (sessionToken.fbToken) this.fbToken = sessionToken.fbToken
     return localStorage(this.SESSION_TOKEN_KEY).save(sessionToken)
   }
   /**
